@@ -1,0 +1,31 @@
+@media only screen and  (max-width: 1820px) {
+    .box.card-box {
+        flex-wrap: wrap;
+    }
+     .box.card-box .icon-box {
+        width: 47%;
+        margin: 15px 10px;
+        padding-bottom: 15px;
+    }
+    .project .box.card-box .icon-box {
+        width: 45%;
+    }
+    .box.card-box .icon-box:nth-child(1) {
+        margin-left: 10px;
+    }
+    .box.card-box .icon-box:nth-child(4) {
+        margin-right: 10px;
+    }
+    .list-action {
+        margin-top: 20px;
+    }
+    .action {
+        flex-wrap: wrap;
+    }
+    .action a {
+        margin-bottom: 10px;
+    }
+    .project .box-body {
+        flex-wrap: wrap;
+    }
+}
