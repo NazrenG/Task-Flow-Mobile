@@ -7,6 +7,7 @@ module.exports = {
     extend: {
       colors: {
         customYellow: "rgb(255,188,3, 0.3)",
+        background: "#f9fafe",
       },
       fontFamily: {
         sans: ["Inter", "sans-serif"],
