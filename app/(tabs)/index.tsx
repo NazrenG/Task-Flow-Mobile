@@ -1,5 +1,6 @@
 import { FontAwesome6, MaterialCommunityIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+
 import { Text, View } from "react-native";
 
 export default function HomeScreen() {
@@ -12,7 +13,7 @@ export default function HomeScreen() {
       <View
         className={
           "flex-1 flex-row  items-center justify-between bg-white px-3 py-5 rounded-lg shadow-lg gap-2"
-        } 
+        }
       >
         <View
           className={
@@ -34,7 +35,7 @@ export default function HomeScreen() {
                 alignItems: "center",
               }}
             >
-              <FontAwesome6 name="comment" size={15} color="white" />
+              <FontAwesome6 name="bell" size={15} color="white" />
             </LinearGradient>
             <Text className="color-white font-extrabold text-xl">9</Text>
           </View>

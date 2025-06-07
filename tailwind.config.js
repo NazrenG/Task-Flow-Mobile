@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+import { Colors } from "./constants/Colors";
 module.exports = {
   // NOTE: Update this to include the paths to all of your component files.
   content: ["./app/**/*.{js,jsx,ts,tsx}"],
@@ -8,7 +9,9 @@ module.exports = {
       colors: {
         customYellow: "rgb(255,188,3, 0.3)",
         background: "#f9fafe",
+        navyBlue: `${Colors.primary.navyBlue}`,
       },
+
       fontFamily: {
         sans: ["Inter", "sans-serif"],
         serif: ["Merriweather", "serif"],
