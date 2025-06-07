@@ -10,6 +10,8 @@ module.exports = {
         customYellow: "rgb(255,188,3, 0.3)",
         background: "#f9fafe",
         navyBlue: `${Colors.primary.navyBlue}`,
+        green: `${Colors.primary.green}`,
+        darkPurple: `${Colors.primary.darkPurple}`,
       },
 
       fontFamily: {
