@@ -99,7 +99,7 @@ export default function Quiz() {
             <View
               key={i}
               className={`h-2 w-2 rounded-full mx-2 ${
-                index === i ? "bg-[#403955]" : "bg-gray-300"
+                index === i ? "bg-dark_violet" : "bg-gray-300"
               }`}
             />
           ))}

@@ -1,10 +1,10 @@
-import { FontAwesome5 } from "@expo/vector-icons";
+import { Colors } from "@/constants/Colors";
+import { FontAwesome5,AntDesign } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import React from "react";
-import * as Animatable from "react-native-animatable";
 import { View } from "react-native";
+import * as Animatable from "react-native-animatable";
 import "../../global.css";
-import { Colors } from "@/constants/Colors";
 
 const AnimatedIcon = ({ name, color, focused }: any) => {
   return (
@@ -27,9 +27,9 @@ const AnimatedIcon = ({ name, color, focused }: any) => {
       <Animatable.View
         animation={focused ? "zoomIn" : undefined}
         duration={500}
-        style={{ transform: [{ scale: focused ? 1.2 : 1 }],marginBottom:-10 }}
+        style={{ transform: [{ scale: focused ? 1.2 : 1 }], marginBottom: -10 }}
       >
-        <FontAwesome5 name={name==="calendar"?"calendar-alt":name} size={22} color={color}  />
+        <FontAwesome5 name={name} size={22} color={color} />
       </Animatable.View>
     </View>
   );
@@ -57,7 +57,7 @@ const FloatingButtonIcon = ({ focused }: any) => {
         borderColor: "#fff",
       }}
     >
-      <FontAwesome5 name="plus" size={28} color={Colors.secondary.violet}/>
+      <AntDesign name="home" size={33} color={Colors.primary.darkViolet} />
     </Animatable.View>
   );
 };
@@ -75,19 +75,11 @@ export default function TabLayout() {
           height: 80,
           position: "absolute",
         },
-        tabBarActiveTintColor: Colors.secondary.violet,
+        tabBarActiveTintColor: Colors.primary.darkViolet,
         tabBarInactiveTintColor: "#777",
       }}
     >
-      <Tabs.Screen
-        name="dashboard"
-        options={{
-          tabBarIcon: ({ color, focused }) => (
-            <AnimatedIcon name="home" color={color} focused={focused} />
-          ),
-        }}
-      />
-      <Tabs.Screen
+       <Tabs.Screen
         name="friends"
         options={{
           tabBarIcon: ({ color, focused }) => (
@@ -96,11 +88,20 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="create-task"
+        name="message"
+        options={{
+          tabBarIcon: ({ color, focused }) => (
+            <AnimatedIcon name="comments" color={color} focused={focused} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="dashboard"
         options={{
           tabBarIcon: ({ focused }) => <FloatingButtonIcon focused={focused} />,
         }}
       />
+     
       <Tabs.Screen
         name="notification"
         options={{
@@ -113,7 +114,7 @@ export default function TabLayout() {
         name="calendar"
         options={{
           tabBarIcon: ({ color, focused }) => (
-            <AnimatedIcon name="calendar" color={color} focused={focused} />
+            <AnimatedIcon name="calendar-alt" color={color} focused={focused} />
           ),
         }}
       />

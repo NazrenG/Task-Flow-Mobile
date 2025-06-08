@@ -28,6 +28,7 @@ export const Colors = {
   primary: {
     darkPurple: "rgb(93, 69, 251)",
     navyBlue: "#3c21f7",
+    darkViolet:"#403955",
     seafoamGreen: "rgb(0, 236, 204)",
     yellow: "rgb(255, 184, 0)",
     green: "rgb(0, 188, 139)",
