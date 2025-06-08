@@ -10,7 +10,7 @@ export default function HomeScreen() {
     describe: "Organize your tasks, boost your productivity.",
     icon: (
       <LottieView
-        source={require("../assets/animations/start_animation.json")}
+        source={require("../assets/animations/start_2_animation.json")}
         autoPlay
         loop
         style={{ width: 300, height: 300 }}
@@ -40,7 +40,7 @@ export default function HomeScreen() {
         onPress={() => {
           router.push("/quiz");
         }}
-        className="  bg-[#403955] justify-center items-center rounded-full   p-4"
+        className="  bg-dark_violet justify-center items-center rounded-full   p-4"
         style={{ width: width - 40, marginBottom: 40 }}
       >
         <Text className="text-white text-lg font-bold">Get Started</Text>
