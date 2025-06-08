@@ -12,10 +12,9 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack>
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="quiz/index" />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="quiz/index" options={{ headerShown: false }} />
-      <Stack.Screen name="+not-found" />
     </Stack>
   );
 }
