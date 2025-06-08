@@ -15,6 +15,7 @@ module.exports = {
         bg_violet: Colors.secondary.bg_violet, 
         bg_green: Colors.secondary.bg_green,
         bg_yellow: Colors.secondary.bg_yellow,
+        light_violet:Colors.secondary.lightViolet
       },
 
       fontFamily: {

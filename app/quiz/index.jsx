@@ -1,30 +1,25 @@
-import { FontAwesome5 } from "@expo/vector-icons";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import LottieView from "lottie-react-native";
 import { useState } from "react";
-import {
-  Dimensions,
-  ImageBackground,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Dimensions, Text, TouchableOpacity, View } from "react-native";
 
 export default function Quiz() {
   const width = Dimensions.get("window").width;
   const height = Dimensions.get("window").height;
-
+  const router = useRouter();
   const [index, setIndex] = useState(1);
   const files = [
     {
       id: "1",
-      title: "Watch on any device",
-      describe:
-        "Stream on your phone, tablet, laptop and TV without playing more",
+      title: "What field do you want to work in?",
       answers: [
-        { id: "1", text: "Yes, I can watch on any device" },
-        { id: "2", text: "No, I can only watch on my phone" },
-        { id: "3", text: "I don't know" },
+        { id: "1", text: "IT(Programming,System)" },
+        { id: "2", text: "Design(UI/UX Graphics)" },
+        { id: "3", text: "Human Resources" },
+        { id: "4", text: "Software Developer" },
+        { id: "5", text: "Backend Developer" },
+        { id: "6", text: "Frontend Developer" },
+        { id: "7", text: "Other" },
       ],
       icon: (
         <LottieView
@@ -37,12 +32,13 @@ export default function Quiz() {
     },
     {
       id: "2",
-      title: "3, 2, 1,... download!",
-      describe: "Always have something to Watch offline.",
+      title: "Which field are you currently working in?",
       answers: [
-        { id: "1", text: "Yes, I can watch on any device" },
-        { id: "2", text: "No, I can only watch on my phone" },
-        { id: "3", text: "I don't know" },
+        { id: "1", text: "Programming" },
+        { id: "2", text: "Marketing" },
+        { id: "3", text: "Accounting" },
+        { id: "4", text: "Education" },
+        { id: "5", text: "Other" },
       ],
       icon: (
         <LottieView
@@ -53,43 +49,14 @@ export default function Quiz() {
         />
       ),
     },
-    {
-      id: "3",
-      title: "No pesky contracts.",
-      describe: "cancel anytime",
-      answers: [
-        { id: "1", text: "Yes, I can watch on any device" },
-        { id: "2", text: "No, I can only watch on my phone" },
-        { id: "3", text: "I don't know" },
-      ],
-      icon: (
-        <LottieView
-          source={require("../../assets/animations/quiz_third.json")}
-          autoPlay
-          loop
-          style={{ width: 200, height: 200 }}
-        />
-      ),
-    },
-    {
-      id: "4",
-      title: "How do I watch?",
-      describe: "Members that subscribe to Netflix can watch here in the app",
-      answers: [
-        { id: "1", text: "Yes, I can watch on any device" },
-        { id: "2", text: "No, I can only watch on my phone" },
-        { id: "3", text: "I don't know" },
-      ],
-      icon: null,
-    },
   ];
 
   const selectItem = files.find((item) => item.id == index);
 
   function increaseIndex() {
     setIndex((prev) => {
-      if (prev === 4) {
-        router.push("/login");
+      if (prev === 2) {
+        router.replace("/(tabs)/dashboard");
         return prev;
       }
       return prev + 1;
@@ -97,63 +64,47 @@ export default function Quiz() {
   }
 
   return (
-    <ImageBackground
-      source={
-        index === 4
-          ? "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/PNG_transparency_demonstration_1.png/640px-PNG_transparency_demonstration_1.png"
-          : null
-      }
-      className="flex-1 items-center justify-between  bg-background p-5 w-[]"
+    <View
+      className="flex-1 items-center justify-between  bg-background p-5  "
       style={{ width, height, paddingTop: 80 }}
-      resizeMode="cover"
     >
-      <View>
-        <FontAwesome5 name="question-circle" size={24} color="black" />
-      </View>
       <View
         style={{ width: width }}
-        className="p-4  rounded-lg w-52 items-center"
+        className="p-4  rounded-lg w-52 items-center mt-10"
       >
         {selectItem.icon}
 
-        <Text className="text-3xl font-bold text-white mt-2">
+        <Text className="text-2xl text-center font-bold text-black mt-2">
           {selectItem.title}
-        </Text>
-        <Text className="text-xl text-center text-gray-400">
-          {selectItem.describe}
         </Text>
         {selectItem.answers.map((answer) => (
           <TouchableOpacity
             key={answer.id}
-            className="w-full h-12 bg-gray-800 justify-center items-center rounded-md mt-5"
+            className="w-full h-12 bg-[#403955] justify-center items-center rounded-lg mt-5"
             onPress={() => {
-              if (index === 4) {
-                router.push("/login");
+              if (index === 2) {
+                router.replace("/(tabs)/dashboard");
               } else {
                 increaseIndex();
               }
             }}
           >
-            <Text className="text-white text-lg font-bold">
-              {answer.text}
-            </Text>
+            <Text className="text-white text-lg font-bold">{answer.text}</Text>
           </TouchableOpacity>
         ))}
       </View>
       <View className=" items-center">
         <View className="flex-row justify-bottom my-5">
-          {[1, 2, 3, 4].map((i) => (
+          {[1, 2].map((i) => (
             <View
               key={i}
               className={`h-2 w-2 rounded-full mx-2 ${
-                index === i ? "bg-red-700" : "bg-gray-300"
+                index === i ? "bg-[#403955]" : "bg-gray-300"
               }`}
             />
           ))}
         </View>
-
-        
       </View>
-    </ImageBackground>
+    </View>
   );
 }
