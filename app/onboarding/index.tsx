@@ -7,7 +7,8 @@ export default function Onboarding() {
           <GifImage source={require("@/assets/gif/welcome.gif")} // öz yoluna görə dəyiş
         style={{ width: 200, height: 200 }}/>
       
-   
+      <GifImage source={require("@/assets/gif/welcome.gif")} // öz yoluna görə dəyiş
+        style={{ width: 200, height: 200 }}/>
       </>
   );
 }
