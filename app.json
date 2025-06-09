@@ -33,14 +33,15 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-localization"
     ],
     "experiments": {
       "typedRoutes": true
     },
-    "expo":{
-      "web":{
-        "bundler":"metro"
+    "expo": {
+      "web": {
+        "bundler": "metro"
       }
     }
   }
