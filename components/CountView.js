@@ -6,6 +6,9 @@ export default function CountView() {
   const width = Dimensions.get("window").width;
 
   return (
+    <>
+      {/* <Onboarding />
+    */}
     <View
       className={
         "flex-1 w-full flex-row items-start justify-between bg-background p-4"
@@ -60,7 +63,7 @@ export default function CountView() {
             >
               <FontAwesome5 name="tasks" size={15} color="white" />
             </LinearGradient>
-            <Text className="color-white font-extrabold  text-xl">9</Text>
+            <Text className="color-white font-extrabold  text-xl">8</Text>
           </View>
 
           <Text className="text-black font-bold">Tasks</Text>
@@ -90,6 +93,8 @@ export default function CountView() {
           <Text className="text-black font-bold">Kanban</Text>
         </View>
       </View>
-    </View>
+      </View>
+      
+      </>
   );
 }

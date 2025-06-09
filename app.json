@@ -4,7 +4,7 @@
     "slug": "Task-Flow-Mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/gif/loading.gif",
     "scheme": "taskflowmobile",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,8 +13,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/gif/loading.gif",
+        "backgroundColor": "#4287f5"
       },
       "edgeToEdgeEnabled": true
     },
@@ -23,7 +23,7 @@
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": [
+    "plugins": [ 
       "expo-router",
       [
         "expo-splash-screen",
@@ -36,6 +36,7 @@
       ],
       "expo-localization"
     ],
+
     "experiments": {
       "typedRoutes": true
     },
