@@ -2,6 +2,7 @@ import { router } from "expo-router";
 import LottieView from "lottie-react-native";
 import { Dimensions, Text, TouchableOpacity, View } from "react-native";
 import Button from "../components/Button/Button";
+import Title from "../components/Title/Title";
 export default function HomeScreen() {
   const width = Dimensions.get("window").width;
   const height = Dimensions.get("window").height;
@@ -30,16 +31,18 @@ export default function HomeScreen() {
       >
         {selectItem.icon}
 
-        <Text className="text-4xl font-bold text-blac text-center mt-2">
+        <Title>
+
           {selectItem.title}
-        </Text>
+        </Title>
+    
         <Text className="text-xl text-center text-gray-400 mt-12">
           {selectItem.describe}
         </Text>
       </View>
       <TouchableOpacity
         onPress={() => {
-          router.push("/quiz");
+          router.push("/auth/login");
         }}
         className="  bg-dark_violet justify-center items-center rounded-full   p-4"
         style={{ width: width - 40, marginBottom: 40 }}
