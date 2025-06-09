@@ -1,9 +1,18 @@
-import { View } from "react-native";
-
+import { View, Text } from "react-native";
+import Header from "../../components/Header";
+import { useTranslation } from "react-i18next";
+import { useState } from "react";
 export default function Friends() {
+  const { t } = useTranslation();
+  const [searchText, setSearchText] = useState("");
+
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <View className="bg-red size-4"></View>
+      <Header onSearch={setSearchText} />
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <Text style={{ fontSize: 24 }}>{t("language")}</Text>
+        <Text style={{ color: "black" }}>Friend Screen</Text>
+      </View>
     </View>
   );
 }
