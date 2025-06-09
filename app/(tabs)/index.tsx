@@ -1,10 +1,14 @@
 import { FontAwesome6, MaterialCommunityIcons } from "@expo/vector-icons";
+
 import { LinearGradient } from "expo-linear-gradient";
 
 import { Text, View } from "react-native";
 
 export default function HomeScreen() {
   return (
+    <>
+      {/* <Onboarding />
+    */}
     <View
       className={
         "flex-1 w-full flex-row items-start justify-between bg-background p-4"
@@ -64,7 +68,7 @@ export default function HomeScreen() {
             >
               <MaterialCommunityIcons name="bell" size={15} color="white" />
             </LinearGradient>
-            <Text className="color-white font-extrabold  text-xl">9</Text>
+            <Text className="color-white font-extrabold  text-xl">8</Text>
           </View>
 
           <Text className="text-black font-bold">Notification</Text>
@@ -97,6 +101,8 @@ export default function HomeScreen() {
           <Text className="text-black font-bold">Calendar</Text>
         </View>
       </View>
-    </View>
+      </View>
+      
+      </>
   );
 }
