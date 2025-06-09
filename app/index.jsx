@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import LottieView from "lottie-react-native";
 import { Dimensions, Text, TouchableOpacity, View } from "react-native";
+import Button from "../components/Button/Button";
 export default function HomeScreen() {
   const width = Dimensions.get("window").width;
   const height = Dimensions.get("window").height;
@@ -43,7 +44,7 @@ export default function HomeScreen() {
         className="  bg-dark_violet justify-center items-center rounded-full   p-4"
         style={{ width: width - 40, marginBottom: 40 }}
       >
-        <Text className="text-white text-lg font-bold">Get Started</Text>
+        <Button text="Get Started" />
       </TouchableOpacity>
     </View>
   );
