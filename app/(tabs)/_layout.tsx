@@ -1,5 +1,6 @@
 import { Colors } from "@/constants/Colors";
-import { FontAwesome5,AntDesign } from "@expo/vector-icons";
+import { FontAwesome5, AntDesign } from "@expo/vector-icons";
+
 import { Tabs } from "expo-router";
 import React from "react";
 import { View } from "react-native";
@@ -79,7 +80,7 @@ export default function TabLayout() {
         tabBarInactiveTintColor: "#777",
       }}
     >
-       <Tabs.Screen
+      <Tabs.Screen
         name="friends"
         options={{
           tabBarIcon: ({ color, focused }) => (
@@ -101,7 +102,7 @@ export default function TabLayout() {
           tabBarIcon: ({ focused }) => <FloatingButtonIcon focused={focused} />,
         }}
       />
-     
+
       <Tabs.Screen
         name="notification"
         options={{
