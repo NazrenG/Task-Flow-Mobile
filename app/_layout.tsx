@@ -15,6 +15,7 @@ export default function RootLayout() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="quiz/index" />
       <Stack.Screen name="chat/chatDetails" />
+      <Stack.Screen name="index" />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
     </Stack>
   );
