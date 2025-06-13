@@ -12,7 +12,7 @@ export default function Friends() {
            <Header onSearch={setSearchText} />
        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
           <Text style={{ fontSize: 24 }}>{t("language")}</Text> 
-                <Text style={{ color: "black" }}>Friend Screen</Text>
+                <Text  className="text-6xl">Friend Screen</Text>
         </View>
       </View>
   );
