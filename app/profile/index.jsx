@@ -24,6 +24,7 @@ export default function ProfileScreen() {
   const navigation = useNavigation();
 
 
+
   return (
     <>
       <Header onSearch={setSearchText} />
@@ -31,7 +32,7 @@ export default function ProfileScreen() {
           <View className="relative">
 <TouchableOpacity
   className="absolute top-6 left-5 z-10"
-  onPress={() => navigation.navigate('(tabs)')    }
+  onPress={() => navigation.navigate('(tabs)')}
 >
   <ChevronLeftIcon  size={28} color="black" />
 </TouchableOpacity>
@@ -65,7 +66,7 @@ export default function ProfileScreen() {
       </View>
 
       <View className="mt-20 items-center">
-        <Text className="text-xl font-bold text-black">{selectItem.username}</Text>
+        <Text className="text-xl font-bold text-black" >{selectItem.username}</Text>
         <Text className="text-base text-gray-600">{selectItem.email}</Text>
       </View>
 
@@ -95,6 +96,8 @@ export default function ProfileScreen() {
         </Text>
           </View>
           
+      
+      {/* <TabLayout mainColor={mainColor} searchText={searchText} /> */}
     </>
   );
 }

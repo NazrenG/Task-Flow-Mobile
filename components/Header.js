@@ -3,7 +3,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
 import React from "react";
 import { Image, TextInput, TouchableOpacity, View } from "react-native";
-import CalendarDropdown from "./DropDown";
+import CalendarDropdown from "../hooks/DropDown";
 
 
 
@@ -34,7 +34,7 @@ export default function Header({ onSearch }) {
   };
 
   return (
-    <View className="px-4 pt-10 bg-[#f8f8f8] flex-row items-center justify-between">
+    <View className="px-4 pt-14 bg-[#f8f8f8] flex-row items-center justify-between">
           {/* Profile */}
       <TouchableOpacity  className="w-9 h-9 rounded-3xl mr-3 overflow-hidden" onPress={() => navigation.navigate("profile/index")}> 
         <Image
