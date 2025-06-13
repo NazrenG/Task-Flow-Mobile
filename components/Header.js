@@ -11,10 +11,22 @@ export default function Header({ onSearch }) {
 
   const navigation = useNavigation();
   const languages = [
-    { label: "EN", value: "en" },
-    { label: "AZ", value: "az" },
-    { label: "TR", value: "tr" },
-    { label: "RU", value: "ru" },
+    {
+      label: "EN",
+      value: "en",
+      icon: require("@/assets/images/flags/united-kingdom.png"),
+    },
+    {
+      label: "AZ",
+      value: "az",
+      icon: require("@/assets/images/flags/azerbaijan.png"),
+    },
+
+    {
+      label: "RU",
+      value: "ru",
+      icon: require("@/assets/images/flags/russia.png"),
+    },
   ];
 
   const handleLanguageChange = (item) => {
@@ -26,7 +38,7 @@ export default function Header({ onSearch }) {
           {/* Profile */}
       <TouchableOpacity  className="w-9 h-9 rounded-3xl mr-3 overflow-hidden" onPress={() => navigation.navigate("profile/index")}> 
         <Image
-          source={require("../assets/images/default-user.png") }
+          source={require("../assets/images/default-user.png")}
           className="w-full h-full"
         />
       </TouchableOpacity>
@@ -34,7 +46,7 @@ export default function Header({ onSearch }) {
       <View className="flex-1 flex-row bg-[#e0e0e0] rounded-xl items-center px-3 mr-2">
         <Ionicons name="search" size={20} color="#555" />
         <TextInput
-         className="flex-1 p-2 color-black"
+          className="flex-1 p-2 color-black"
           placeholder="Search..."
           placeholderTextColor="#aaa"
           onChangeText={onSearch}
@@ -49,9 +61,6 @@ export default function Header({ onSearch }) {
           onChange={handleLanguageChange}
         />
       </View>
-
-    
     </View>
   );
 }
- 
