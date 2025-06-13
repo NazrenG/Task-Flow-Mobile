@@ -3,9 +3,13 @@ import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import CalendarDropdown from "./DropDown" 
 import i18n from "@/i18n/i18n";
+import { useNavigation } from '@react-navigation/native';
+
 
 
 export default function Header({ onSearch }) {
+
+  const navigation = useNavigation();
   const languages = [
     { label: "EN", value: "en" },
     { label: "AZ", value: "az" },
@@ -20,7 +24,7 @@ export default function Header({ onSearch }) {
   return (
     <View className="px-4 pt-10 bg-[#f8f8f8] flex-row items-center justify-between">
           {/* Profile */}
-      <TouchableOpacity  className="w-9 h-9 rounded-3xl mr-3 overflow-hidden">
+      <TouchableOpacity  className="w-9 h-9 rounded-3xl mr-3 overflow-hidden" onPress={() => navigation.navigate("profile/index")}> 
         <Image
           source={require("../assets/images/default-user.png") }
           className="w-full h-full"
