@@ -1,9 +1,9 @@
-import React from "react";
-import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import CalendarDropdown from "./DropDown" 
 import i18n from "@/i18n/i18n";
+import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
+import React from "react";
+import { Image, TextInput, TouchableOpacity, View } from "react-native";
+import CalendarDropdown from "./DropDown";
 
 
 
