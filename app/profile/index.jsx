@@ -1,10 +1,8 @@
+import { Feather, Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { Image, ImageBackground, Text, TouchableOpacity, View } from 'react-native';
-//import { CameraIcon, Cog6ToothIcon ,ChevronLeftIcon     } from 'react-native-heroicons/outline';
 import Header from "../../components/Header";
-import TabLayout from "../(tabs)/_layout";
-import { useNavigation } from '@react-navigation/native';
-
 
 const selectItem = {
   avatar: require('../../assets/images/default-user.png'),
@@ -23,30 +21,29 @@ export default function ProfileScreen() {
   const [backgroundImage, setBackgroundImage] = useState(require('../../assets/images/page.jpg'));
   const navigation = useNavigation();
 
-
-
   return (
     <>
-      {/* <Header onSearch={setSearchText} />
+      <Header onSearch={setSearchText} />
 
-          <View className="relative">
-<TouchableOpacity
-  className="absolute top-6 left-5 z-10"
-  onPress={() => navigation.navigate('(tabs)')}
->
-  <ChevronLeftIcon  size={28} color="black" />
-</TouchableOpacity>
+      <View className="relative">
+        <TouchableOpacity
+          className="absolute top-6 left-5 z-10"
+          onPress={() => navigation.navigate('(tabs)')}
+        >
+          <Ionicons name="chevron-back" size={28} color="black" />
+        </TouchableOpacity>
+
         <ImageBackground
           source={backgroundImage}
-          className="w-full h-60 justify-end items-center h-50 "
+          className="w-full h-60 justify-end items-center"
           resizeMode="cover"
         >
           <TouchableOpacity className="absolute top-6 right-5 z-10">
-            <Cog6ToothIcon size={28} color="white" />
+            <Feather name="settings" size={24} color="white" />
           </TouchableOpacity>
 
-          <TouchableOpacity className="absolute bottom-4 right-5  p-2 rounded-full shadow z-10">
-            <CameraIcon    size={24} color="black" />
+          <TouchableOpacity className="absolute bottom-4 right-5 p-2 rounded-full shadow z-10">
+            <Feather name="camera" size={20} color="black" />
           </TouchableOpacity>
         </ImageBackground>
 
@@ -60,13 +57,13 @@ export default function ProfileScreen() {
           </View>
 
           <TouchableOpacity className="absolute bottom-0 right-0 bg-white p-1 rounded-full shadow">
-            <CameraIcon size={25} color="#000" />
+            <Feather name="camera" size={20} color="#000" />
           </TouchableOpacity>
         </View>
       </View>
 
       <View className="mt-20 items-center">
-        <Text className="text-xl font-bold text-black" >{selectItem.username}</Text>
+        <Text className="text-xl font-bold text-black">{selectItem.username}</Text>
         <Text className="text-base text-gray-600">{selectItem.email}</Text>
       </View>
 
@@ -94,10 +91,7 @@ export default function ProfileScreen() {
         <Text className="text-base text-gray-500 mb-1">
           <Text className="font-bold text-black">Birthday: </Text>{selectItem.birthday || '—'}
         </Text>
-          </View>
-           */}
-      
-      {/* <TabLayout mainColor={mainColor} searchText={searchText} /> */}
+      </View>
     </>
   );
 }
