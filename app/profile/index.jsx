@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Image, ImageBackground, Text, TouchableOpacity, View } from 'react-native';
-import { CameraIcon, Cog6ToothIcon ,ChevronLeftIcon     } from 'react-native-heroicons/outline';
+//import { CameraIcon, Cog6ToothIcon ,ChevronLeftIcon     } from 'react-native-heroicons/outline';
 import Header from "../../components/Header";
 import TabLayout from "../(tabs)/_layout";
 import { useNavigation } from '@react-navigation/native';
@@ -27,7 +27,7 @@ export default function ProfileScreen() {
 
   return (
     <>
-      <Header onSearch={setSearchText} />
+      {/* <Header onSearch={setSearchText} />
 
           <View className="relative">
 <TouchableOpacity
@@ -95,7 +95,7 @@ export default function ProfileScreen() {
           <Text className="font-bold text-black">Birthday: </Text>{selectItem.birthday || '—'}
         </Text>
           </View>
-          
+           */}
       
       {/* <TabLayout mainColor={mainColor} searchText={searchText} /> */}
     </>

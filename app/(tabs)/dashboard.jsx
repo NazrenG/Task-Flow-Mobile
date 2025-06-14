@@ -3,7 +3,6 @@ import Header from "@/components/Header";
 import { FontAwesome6 } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import DonutChart from "@/components/charts/DonutChart"
 import {
   Dimensions,
   ImageBackground,
@@ -101,15 +100,14 @@ export default function Dashboard() {
 
           <View
             className={`flex bg-darkPurple w-[39%] items-center justify-center p-3 m-2 rounded-xl shadow-md `}
-          > 
-              <Text className="text-white font-extrabold text-xl">
-                Create task
-              </Text>
-              <FontAwesome6 name="plus" size={15} width={15} color="white" />
-            
+          >
+            <Text className="text-white font-extrabold text-xl">
+              Create task
+            </Text>
+            <FontAwesome6 name="plus" size={15} width={15} color="white" />
           </View>
         </View>
-       {/*   <Text style={{ fontSize: 24 }}>{t("welcome")}</Text>
+        {/*   <Text style={{ fontSize: 24 }}>{t("welcome")}</Text>
         <Text className="text-9xl mb-10">Dashboard Screen</Text>
 
        
@@ -121,6 +119,12 @@ export default function Dashboard() {
 
         <DonutChart/> */}
 
+        <View
+          className="flex-1 flex-row  items-center justify-between bg-white px-4 py-5 rounded-lg shadow-lg gap-2"
+          style={{ width: screenWidth }}
+        >
+          <Text>Participant Occupation</Text>
+        </View>
       </ScrollView>
     </View>
   );
