@@ -1,4 +1,6 @@
+import DonutChart from "@/components/charts/DonutChart";
 import CountView from "@/components/CountView";
+import DailyTasks from "@/components/dashboard/DailyTask";
 import Header from "@/components/Header";
 import { FontAwesome6 } from "@expo/vector-icons";
 import React, { useState } from "react";
@@ -38,9 +40,9 @@ export default function Dashboard() {
     <View className="flex-1 bg-background p-1 items-center justify-center">
       <Header onSearch={setSearchText} />
 
-      <ScrollView
-        contentContainerStyle={{ padding: 0 }}
+      <ScrollView 
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 80 }}
       >
         {/* project ,task, kanban Count */}
         <View
@@ -54,7 +56,7 @@ export default function Dashboard() {
         <ImageBackground
           source={require("@/assets/images/bg-manage.png")}
           resizeMode="cover"
-          className="flex-1 bg-cover bg-navyBlue items-center justify-between rounded-lg mx-3 my-1 p-4 "
+          className="flex-1 bg-cover bg-navyBlue items-center justify-between rounded-lg mx-4 my-1 p-4 "
         >
           <View className="flex-row justify-between items-center flex-1">
             <View className="flex-1">
@@ -76,8 +78,8 @@ export default function Dashboard() {
 
         {/* Info Cards */}
         <View
-          className="flex-row  justify-between"
-          style={{ width: screenWidth - 40 }}
+          className=" flex-row mx-6 items-center justify-center"
+          style={{ width: screenWidth - 50 }}
         >
           {cardData.map((card, index) => (
             <View
@@ -99,7 +101,7 @@ export default function Dashboard() {
           ))}
 
           <View
-            className={`flex bg-darkPurple w-[39%] items-center justify-center p-3 m-2 rounded-xl shadow-md `}
+            className={`flex bg-navyBlue w-[38%] items-center justify-center p-3 m-2 rounded-xl shadow-md `}
           >
             <Text className="text-white font-extrabold text-xl">
               Create task
@@ -107,23 +109,30 @@ export default function Dashboard() {
             <FontAwesome6 name="plus" size={15} width={15} color="white" />
           </View>
         </View>
-        {/*   <Text style={{ fontSize: 24 }}>{t("welcome")}</Text>
-        <Text className="text-9xl mb-10">Dashboard Screen</Text>
 
-       
-        {[...Array(20)].map((_, index) => (
-          <Text key={index} className="text-base mb-2">
-            {t("welcome")} - {index + 1}
-          </Text>
-        ))}
+        {/* Participant Occupation */}
+        <View className="flex-1 bg-cover bg-white  mx-[14px] my-1  justify-between rounded-lg shadow-black shadow-md ">
+          <View className="justify-between   flex-1 ">
+            <Text className="text-lg font-semibold text-black px-2 pt-3">
+              Participant Occupation Profile
+            </Text>
+            <Text className="text-sm text-gray-400 mt-2 px-2">
+              Statistics according to occupational profile of all participants
+            </Text>
 
-        <DonutChart/> */}
+            <DonutChart />
+          </View>
+        </View>
 
-        <View
-          className="flex-1 flex-row  items-center justify-between bg-white px-4 py-5 rounded-lg shadow-lg gap-2"
-          style={{ width: screenWidth }}
-        >
-          <Text>Participant Occupation</Text>
+        {/* Daily Task */}
+        <DailyTasks />
+
+        {/* Current Project */}
+        <View className="flex-1 bg-cover bg-white  mx-[14px] my-1  justify-between rounded-lg shadow-black shadow-md ">
+           <Text className="text-xl font-semibold text-black px-2 pt-3">
+             Current Projects
+            </Text>
+           
         </View>
       </ScrollView>
     </View>
