@@ -9,7 +9,7 @@ const TaskCard = ({ title, time }) => (
 
 export default function DailyTasks() {
   return (
-    <View className="bg-white mx-4 my-3 rounded-lg shadow-md p-4">
+    <View className="bg-white mt-4 rounded-lg shadow-md p-3">
       <Text className="text-xl font-semibold text-black mb-4">
         Daily Tasks
       </Text>

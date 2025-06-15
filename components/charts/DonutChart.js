@@ -3,9 +3,9 @@ import { View, Text, StyleSheet } from "react-native";
 import Svg, { G, Path, Circle } from "react-native-svg";
 
 const DonutSlice = ({ startAngle, endAngle, color }) => {
-  const radius = 100;
+  const radius = 80;
   const cx = 120;
-  const cy = 120;
+  const cy = 90;
 
   const largeArcFlag = endAngle - startAngle > 180 ? 1 : 0;
 
@@ -40,7 +40,7 @@ export default function  DonutChart() {
     <View style={styles.container}>
       {/* Chart */}
       <View>
-        <Svg width={240} height={240}>
+        <Svg width={190} height={240}>
           <G rotation="-90" origin="120, 120">
             {data.map((slice, index) => {
               const angle = (slice.value / total) * 360;
@@ -59,7 +59,7 @@ export default function  DonutChart() {
             })}
           </G>
           {/* İç boşluq */}
-          <Circle cx="120" cy="120" r="50" fill="white" />
+          <Circle cx="90" cy="120" r="40" fill="white" />
         </Svg> 
       </View>
 

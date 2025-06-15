@@ -4,17 +4,7 @@ import { ScrollView } from "react-native";
 import Header from "../../components/Header";
 import KanbanColumn from "./KanbanColumn";
 
-const selectItem = {
-  avatar: require("../../assets/images/default-user.png"),
-  username: "sevgi",
-  email: "sevgi.elesgerova@gmail.com",
-  fullName: "Sevgi Alasgarova",
-  phone: "0559717465",
-  department: "Other (please specify)",
-  country: "Azerbaijan",
-  gender: "",
-  birthday: "",
-};
+
 
 export default function ProfileScreen() {
   const [searchText, setSearchText] = useState("");

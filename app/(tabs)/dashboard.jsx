@@ -6,11 +6,12 @@ import { FontAwesome6 } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  Dimensions,
   ImageBackground,
   ScrollView,
   Text,
   View,
+  SafeAreaView,
+  Platform,
 } from "react-native";
 
 import { Colors } from "@/constants/Colors";
@@ -18,58 +19,49 @@ import { Colors } from "@/constants/Colors";
 export default function Dashboard() {
   const { t } = useTranslation();
   const [searchText, setSearchText] = useState("");
-  const screenWidth = Dimensions.get("window").width;
+
   const cardData = [
     {
       label: "Total Clients",
       value: "3",
       icon: "people-group",
-      bg: "bg-white",
-      w: "w-[30%]",
     },
     {
       label: "Messages",
       value: "1",
       icon: "message",
-      bg: "bg-white",
-      w: "w-[30%]",
     },
   ];
 
   return (
-    <View className="flex-1 bg-background p-1 items-center justify-center">
+    <SafeAreaView className="flex-1 bg-background">
       <Header onSearch={setSearchText} />
 
-      <ScrollView 
+      <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 80 }}
+        contentContainerStyle={{ paddingBottom: 100 }}
+        className="px-4"
       >
-        {/* project ,task, kanban Count */}
-        <View
-          className="flex-1 w-full flex-row items-start justify-between  p-4"
-          style={{ width: screenWidth }}
-        >
-          <CountView />
-        </View>
+        {/* Count View */} 
+          <CountView /> 
 
-        {/* Create project */}
+        {/* Create Project */}
         <ImageBackground
-          source={require("@/assets/images/bg-manage.png")}
+          source={require("../../assets/images/bg-manage.png")}
           resizeMode="cover"
-          className="flex-1 bg-cover bg-navyBlue items-center justify-between rounded-lg mx-4 my-1 p-4 "
+          className="rounded-lg overflow-hidden my-2 p-4 bg-navyBlue"
         >
-          <View className="flex-row justify-between items-center flex-1">
-            <View className="flex-1">
+          <View className="flex-row justify-between items-center">
+            <View className="flex-1 pr-3">
               <Text className="text-2xl font-semibold text-white">
                 Manage your project in one touch
               </Text>
-              <Text className="text-lg text-bg_violet mt-2">
+              <Text className="text-sm text-bg_violet mt-2">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
               </Text>
             </View>
-
-            <View className="bg-white rounded-lg shadow-lg p-2 my-4 justify-center items-center self-center">
-              <Text className="text-navyBlue font-medium">
+            <View className="bg-white rounded-lg shadow-lg px-3 py-2 ml-2">
+              <Text className="text-navyBlue font-medium text-sm">
                 Try For Free Now
               </Text>
             </View>
@@ -77,16 +69,13 @@ export default function Dashboard() {
         </ImageBackground>
 
         {/* Info Cards */}
-        <View
-          className=" flex-row mx-6 items-center justify-center"
-          style={{ width: screenWidth - 50 }}
-        >
+        <View className="flex-row flex-wrap justify-between gap-3 mt-3">
           {cardData.map((card, index) => (
             <View
               key={index}
-              className={`${card.bg} ${card.w} p-3 m-2 rounded-xl shadow-md `}
+              className="bg-white flex-[0.48] p-3 rounded-xl shadow-md"
             >
-              <View className="flex-row justify-between items-center gap-6">
+              <View className="flex-row justify-between items-center mb-1">
                 <Text className="text-black font-extrabold text-xl">
                   {card.value}
                 </Text>
@@ -96,45 +85,39 @@ export default function Dashboard() {
                   color={Colors.primary.darkViolet}
                 />
               </View>
-              <Text className="text-black font-bold mt-1">{card.label}</Text>
+              <Text className="text-black font-bold">{card.label}</Text>
             </View>
           ))}
 
-          <View
-            className={`flex bg-navyBlue w-[38%] items-center justify-center p-3 m-2 rounded-xl shadow-md `}
-          >
-            <Text className="text-white font-extrabold text-xl">
+          <View className="bg-navyBlue flex-[0.48] items-center justify-center p-3 rounded-xl shadow-md">
+            <Text className="text-white font-extrabold text-xl mb-1">
               Create task
             </Text>
-            <FontAwesome6 name="plus" size={15} width={15} color="white" />
+            <FontAwesome6 name="plus" size={15} color="white" />
           </View>
         </View>
 
         {/* Participant Occupation */}
-        <View className="flex-1 bg-cover bg-white  mx-[14px] my-1  justify-between rounded-lg shadow-black shadow-md ">
-          <View className="justify-between   flex-1 ">
-            <Text className="text-lg font-semibold text-black px-2 pt-3">
-              Participant Occupation Profile
-            </Text>
-            <Text className="text-sm text-gray-400 mt-2 px-2">
-              Statistics according to occupational profile of all participants
-            </Text>
-
-            <DonutChart />
-          </View>
+        <View className="bg-white mt-4 rounded-lg shadow-md p-3">
+          <Text className="text-lg font-semibold text-black">
+            Participant Occupation Profile
+          </Text>
+          <Text className="text-sm text-gray-400 mt-2">
+            Statistics according to occupational profile of all participants
+          </Text>
+          <DonutChart />
         </View>
 
-        {/* Daily Task */}
+        {/* Daily Tasks */}
         <DailyTasks />
 
         {/* Current Project */}
-        <View className="flex-1 bg-cover bg-white  mx-[14px] my-1  justify-between rounded-lg shadow-black shadow-md ">
-           <Text className="text-xl font-semibold text-black px-2 pt-3">
-             Current Projects
-            </Text>
-           
+        <View className="bg-white mt-4 rounded-lg shadow-md p-3">
+          <Text className="text-xl font-semibold text-black">
+            Current Projects
+          </Text>
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }

@@ -49,7 +49,7 @@ const CountCard = ({ icon, iconLib, count, label, bgColor, gradient }) => {
 
 export default function CountView() {
   return (
-    <View className="flex-1 flex-row items-center justify-between bg-white px-3 py-5 rounded-lg shadow-lg gap-2">
+    <View className="flex-1 flex-row items-center justify-between bg-white p-3 mt-4 rounded-lg shadow-lg gap-2">
       <CountCard
         icon="project-diagram"
         iconLib="FontAwesome5"
