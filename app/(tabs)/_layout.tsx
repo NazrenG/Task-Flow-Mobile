@@ -74,7 +74,7 @@ export default function TabLayout() {
           borderTopWidth: 0,
           elevation: 0,
           height: 80,
-          position: "absolute",
+          position: "absolute"
         },
         tabBarActiveTintColor: Colors.primary.darkViolet,
         tabBarInactiveTintColor: "#777",
@@ -119,6 +119,7 @@ export default function TabLayout() {
           ),
         }}
       />
+    
     </Tabs>
   );
 }

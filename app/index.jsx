@@ -3,6 +3,7 @@ import LottieView from "lottie-react-native";
 import { Dimensions, Text, TouchableOpacity, View } from "react-native";
 import Button from "../components/Button/Button";
 import Title from "../components/Title/Title";
+// import i18n from "../i18n/i18n";
 export default function HomeScreen() {
   const width = Dimensions.get("window").width;
   const height = Dimensions.get("window").height;

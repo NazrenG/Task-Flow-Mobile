@@ -1,5 +1,6 @@
 import { Text } from "react-native";
 import { useFonts } from "expo-font";
+import { Colors } from "../../constants/Colors";
 
 export default function Title({ children }) {
  
@@ -7,7 +8,7 @@ export default function Title({ children }) {
     <Text
       style={{
         fontSize: 35,
-              color: "#5D45FB",
+              color: Colors.primary.darkViolet,
         fontWeight: "bold",
         textAlign: "center",
       }}
