@@ -48,7 +48,7 @@ const CardPagination = () => {
   return (
     <View style={styles.container}>
       <View className="flex flex-row items-center justify-between my-2">
-        <Text className="text-lg font-semibold my-2 ml-2">
+        <Text className="text-base font-semibold my-2 ml-2">
           Recent Project Updates
         </Text>
         <View className="flex flex-row gap-1">
@@ -88,7 +88,7 @@ const CardPagination = () => {
               </View>
               <View className="px-6 py-4">
                 <Text style={styles.cardContent}>Owned by you</Text>
-                <Text className="text-[#6C757D] text-lg font-light mt-2">
+                <Text className="text-[#6C757D] text-sm font-light mt-2">
                   Deadline: yyyy-mm-dd
                 </Text>
               </View>
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     // paddingVertical: 20,
   },
   card: {
-    width: SCREEN_WIDTH / 2,
+    width: SCREEN_WIDTH / 2 - 40,
     marginHorizontal: 10,
     backgroundColor: "white",
     borderRadius: 12,
@@ -136,13 +136,13 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   cardTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "bold",
     marginBottom: 8,
     color: "#333",
   },
   cardContent: {
-    fontSize: 16,
+    fontSize: 14,
     color: "#6C757D",
     fontWeight: "bold",
   },

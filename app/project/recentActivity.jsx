@@ -43,7 +43,15 @@ const RecentAvtivity = () => {
 
   return (
     <View
-      style={{ width: width - 40, maxHeight: 300 }}
+      style={{
+        width: width - 40,
+        maxHeight: 300,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 6,
+        elevation: 3,
+      }}
       className="p-2 bg-white my-4 mb-[10vh] rounded-xl p-4"
     >
       <Text className="text-lg font-semibold mb-3">Recent Activity</Text>

@@ -1,8 +1,8 @@
 import { Colors } from "@/constants/Colors";
 import { FontAwesome5, Octicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
-import { useNavigation } from '@react-navigation/native';
-import { Text, View, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
 const CountCard = ({ icon, iconLib, count, label, bgColor, gradient }) => {
   const navigation = useNavigation();
@@ -14,7 +14,7 @@ const CountCard = ({ icon, iconLib, count, label, bgColor, gradient }) => {
         navigation.navigate("kanban/KanbanScreen");
         break;
       case "Projects":
-        navigation.navigate("kanban/KanbanScreen");
+        navigation.navigate("project/projectPage");
         break;
       case "Tasks":
         navigation.navigate("kanban/KanbanScreen");
@@ -26,7 +26,10 @@ const CountCard = ({ icon, iconLib, count, label, bgColor, gradient }) => {
   };
 
   return (
-    <TouchableOpacity onPress={handlePress} className={`flex-1 gap-2 justify-between ${bgColor} p-2 rounded-lg shadow-sm`}>
+    <TouchableOpacity
+      onPress={handlePress}
+      className={`flex-1 gap-2 justify-between ${bgColor} p-2 rounded-lg shadow-sm`}
+    >
       <View className="flex-row items-center gap-2">
         <LinearGradient
           colors={gradient}

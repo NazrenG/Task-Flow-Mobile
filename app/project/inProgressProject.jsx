@@ -16,7 +16,15 @@ const InProgressProject = () => {
 
   return (
     <View
-      style={{ width: width - 40, maxHeight: 300 }}
+      style={{
+        width: width - 40,
+        maxHeight: 300,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 6,
+        elevation: 3,
+      }}
       className="p-4 bg-white rounded-lg m-3"
     >
       <Text className="text-lg font-semibold mb-3">In Progress Project</Text>
