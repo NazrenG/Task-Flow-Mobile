@@ -1,17 +1,12 @@
 import { router } from "expo-router";
 import LottieView from "lottie-react-native";
-import { useTranslation } from "react-i18next";
 import { Dimensions, Text, TouchableOpacity, View } from "react-native";
-<<<<<<< HEAD
 import Button from "../components/Button/Button";
 import Title from "../components/Title/Title";
-=======
-import i18n from "../i18n/i18n";
->>>>>>> 4460fe2c91271780dce008b7102d199ad9396d44
 export default function HomeScreen() {
   const width = Dimensions.get("window").width;
   const height = Dimensions.get("window").height;
-  
+
   const selectItem = {
     title: "Welcome TaskFlow",
     describe: "Organize your tasks, boost your productivity.",
@@ -36,11 +31,8 @@ export default function HomeScreen() {
       >
         {selectItem.icon}
 
-        <Title>
+        <Title>{selectItem.title}</Title>
 
-          {selectItem.title}
-        </Title>
-    
         <Text className="text-xl text-center text-gray-400 mt-12">
           {selectItem.describe}
         </Text>
@@ -54,7 +46,6 @@ export default function HomeScreen() {
       >
         <Button text="Get Started" />
       </TouchableOpacity>
-  
     </View>
   );
 }
