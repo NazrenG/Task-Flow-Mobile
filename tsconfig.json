@@ -3,9 +3,7 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"]
     }
   },
   "include": [
@@ -13,8 +11,11 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
-    "nativewind-env.d.ts"
-, "components/Button/Button.jsx", "components/Image/Image.jsx"  
+    "nativewind-env.d.ts",
+    "components/Button/Button.jsx",
+    "components/Image/Image.jsx",
 
-, "app/(tabs)/dashboard.jsx"  ]
+    "app/(tabs)/dashboard.jsx",
+    "constants/TextShortener.js"
+  ]
 }
