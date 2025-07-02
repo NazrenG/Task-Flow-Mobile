@@ -1,8 +1,6 @@
-import { Feather, Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { router } from "expo-router"; // üst tərəfə əlavə et
+import { Feather, MaterialIcons } from '@expo/vector-icons';
+import { router } from "expo-router";
 import { useState } from 'react';
-
 import {
   Dimensions,
   Image,
@@ -10,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  StyleSheet,
 } from 'react-native';
 import Header from "../../components/Header";
 
@@ -29,118 +28,74 @@ const selectItem = {
 
 export default function ProfileScreen() {
   const [searchText, setSearchText] = useState("");
-  const [backgroundImage, setBackgroundImage] = useState(require('../../assets/images/page.jpg'));
-  const navigation = useNavigation();
+  const [backgroundImage] = useState(require('../../assets/images/page.jpg'));
 
   return (
     <>
       <Header onSearch={setSearchText} />
 
+      {/* Back button - absolute on top layer */}
+      <TouchableOpacity
+  style={{
+    position: "absolute",
+    top: 100, // əvvəl 60 idi, indi daha aşağı
+    left: 20,
+    zIndex: 1,
+    color: "black",
+    borderRadius: 999,
+    padding: 6,
+  }}
+  onPress={() => router.back()}
+>
+  <MaterialIcons name="arrow-back-ios" size={25} color="black" />
+</TouchableOpacity>
+
       <View style={{ position: "relative" }}>
-
-        <TouchableOpacity
-          style={{ position: "absolute", top: 24, left: 20, zIndex: 10 }}
-          onPress={() => navigation.navigate('(tabs)')}
-        >
-          <Ionicons name="chevron-back" size={28} color="black" />
-        </TouchableOpacity>
-
         <ImageBackground
           source={backgroundImage}
-          style={{
-            width: width,
-            height: height * 0.3,
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
+          style={styles.backgroundImage}
           resizeMode="cover"
         >
-          <TouchableOpacity style={{ position: "absolute", top: 24, right: 20, zIndex: 10 }}
-            onPress={() => router.push("/settings")}>
+          {/* Settings icon */}
+          <TouchableOpacity
+            style={styles.settingsIcon}
+            onPress={() => router.push("/settings")}
+          >
             <Feather name="settings" size={24} color="white" />
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={{
-              position: "absolute",
-              bottom: 16,
-              right: 20,
-              padding: 10,
-              borderRadius: 50,
-              backgroundColor: "white",
-              zIndex: 10,
-            }}
-          >
+          {/* Header camera icon */}
+          <TouchableOpacity style={styles.headerCamera}>
             <Feather name="camera" size={20} color="black" />
           </TouchableOpacity>
         </ImageBackground>
 
-        <View
-          style={{
-            position: "absolute",
-            bottom: -64,
-            left: width / 2 - 64,
-            zIndex: 20,
-          }}
-        >
-          <View
-            style={{
-              width: 128,
-              height: 128,
-              borderRadius: 64,
-              backgroundColor: "white",
-              justifyContent: "center",
-              alignItems: "center",
-              overflow: "hidden",
-              elevation: 6,
-            }}
-          >
+        {/* Profile image */}
+        <View style={styles.profileImageContainer}>
+          <View style={styles.profileImageWrapper}>
             <Image
               source={selectItem.avatar}
-              style={{
-                width: 112,
-                height: 112,
-                borderRadius: 56,
-              }}
+              style={styles.profileImage}
               resizeMode="cover"
             />
           </View>
 
-          <TouchableOpacity
-            style={{
-              position: "absolute",
-              bottom: 0,
-              right: 0,
-              backgroundColor: "white",
-              padding: 6,
-              borderRadius: 999,
-              elevation: 3,
-            }}
-          >
+          {/* Profile camera */}
+          <TouchableOpacity style={styles.profileCamera}>
             <Feather name="camera" size={20} color="#000" />
           </TouchableOpacity>
         </View>
       </View>
 
-      <View style={{ marginTop: 80, alignItems: "center" }}>
-        <Text style={{ fontSize: 20, fontWeight: "bold", color: "#000" }}>{selectItem.username}</Text>
-        <Text style={{ fontSize: 16, color: "#555" }}>{selectItem.email}</Text>
+      {/* Username and email */}
+      <View style={styles.nameSection}>
+        <Text style={styles.username}>{selectItem.username}</Text>
+        <Text style={styles.email}>{selectItem.email}</Text>
       </View>
 
-      <View
-        style={{
-          backgroundColor: "white",
-          borderRadius: 20,
-          padding: 20,
-          marginHorizontal: 16,
-          marginTop: 24,
-          elevation: 3,
-        }}
-      >
-        <Text style={{ fontSize: 18, fontWeight: "bold", color: "#000", marginBottom: 10 }}>
-          Personal Info
-        </Text>
-
+      {/* Personal Info */}
+      <View style={styles.infoCard}>
+        <Text style={styles.infoTitle}>Personal Info</Text>
         {[
           ["Full Name", selectItem.fullName],
           ["Email", selectItem.email],
@@ -150,8 +105,8 @@ export default function ProfileScreen() {
           ["Gender", selectItem.gender || "—"],
           ["Birthday", selectItem.birthday || "—"],
         ].map(([label, value], index) => (
-          <Text key={index} style={{ fontSize: 16, color: "#555", marginBottom: 6 }}>
-            <Text style={{ fontWeight: "bold", color: "#000" }}>{label}: </Text>
+          <Text key={index} style={styles.infoItem}>
+            <Text style={styles.infoLabel}>{label}: </Text>
             {value}
           </Text>
         ))}
@@ -159,3 +114,102 @@ export default function ProfileScreen() {
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  backButton: {
+    position: "absolute",
+    top: 60, // status bar hündürlüyünə uyğun
+    left: 20,
+    zIndex: 999,
+    backgroundColor: "#ffffffcc",
+    borderRadius: 999,
+    padding: 4,
+  },
+  backgroundImage: {
+    width: width,
+    height: height * 0.3,
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  settingsIcon: {
+    position: "absolute",
+    top: 24,
+    right: 20,
+    zIndex: 10,
+  },
+  headerCamera: {
+    position: "absolute",
+    bottom: 16,
+    right: 20,
+    padding: 10,
+    borderRadius: 50,
+    backgroundColor: "white",
+    zIndex: 10,
+  },
+  profileImageContainer: {
+    position: "absolute",
+    bottom: -64,
+    left: width / 2 - 64,
+    zIndex: 20,
+  },
+  profileImageWrapper: {
+    width: 128,
+    height: 128,
+    borderRadius: 64,
+    backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+    elevation: 6,
+  },
+  profileImage: {
+    width: 112,
+    height: 112,
+    borderRadius: 56,
+  },
+  profileCamera: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    backgroundColor: "white",
+    padding: 6,
+    borderRadius: 999,
+    elevation: 3,
+  },
+  nameSection: {
+    marginTop: 80,
+    alignItems: "center",
+  },
+  username: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#000",
+  },
+  email: {
+    fontSize: 16,
+    color: "#555",
+  },
+  infoCard: {
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 20,
+    marginHorizontal: 16,
+    marginTop: 24,
+    elevation: 3,
+  },
+  infoTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#000",
+    marginBottom: 10,
+  },
+  infoItem: {
+    fontSize: 16,
+    color: "#555",
+    marginBottom: 6,
+  },
+  infoLabel: {
+    fontWeight: "bold",
+    color: "#000",
+  },
+});

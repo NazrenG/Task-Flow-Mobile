@@ -9,7 +9,7 @@ import {
   Dimensions,
   PixelRatio,
 } from "react-native";
-import { Ionicons, Feather } from "@expo/vector-icons";
+import { Ionicons, Feather ,MaterialIcons} from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 const { width } = Dimensions.get("window");
@@ -52,9 +52,10 @@ export default function SettingsScreen() {
       <View className="flex-row items-center justify-between mb-6">
         <TouchableOpacity
           onPress={() => navigation.goBack()}
-          className="rounded-full bg-gray-100 p-1"
+          className="rounded-full  p-1"
         >
-          <Ionicons name="chevron-back" size={normalize(26)} color="black" />
+            <MaterialIcons name="arrow-back-ios" size={25} color="black" />
+
         </TouchableOpacity>
         <Text className="text-lg font-semibold text-gray-900">Settings</Text>
         <View style={{ width: normalize(26) }} />

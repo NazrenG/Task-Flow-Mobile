@@ -10,7 +10,7 @@ import {
   Text,
   TouchableOpacity
 } from "react-native";
-import CodeVerification from "../../components/Auth/codeVerification";
+import CodeVerification from "../../components/codeverification/codeVerification";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 
@@ -45,24 +45,20 @@ const ForgetPasswordScreen = () => {
     >
       <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
       <LottieView
-  source={require("../../assets/animations/Animation - 1751226345030.json")}
-  autoPlay
-  loop
-  style={{
-    width: width * 0.9, // daha böyük
-    height: width * 0.9,
-    marginBottom: 10,
-  }}
-/>
+                source={require("../../assets/animations/Animation - 1751226345030.json")}
+                autoPlay
+                loop
+                style={styles.animation}
+              />
 
 
+
+        {!showCodeInputs ? (
+          <>
         <Text style={styles.title}>Reset Your Password</Text>
         <Text style={styles.subtitle}>
           Enter the email associated with your account and we’ll send you reset instructions.
         </Text>
-
-        {!showCodeInputs ? (
-          <>
             <Text style={styles.label}>Your Email</Text>
             <Input
               placeholder="Enter your Email"
@@ -87,7 +83,7 @@ const ForgetPasswordScreen = () => {
           <>
            <CodeVerification code={code}
     setCode={setCode}
-    onNext={() => router.push("/change-password")}/>
+    onNext={() => router.push("auth/changePassword")}/>
           </>
         )}
 
@@ -115,6 +111,11 @@ const styles = StyleSheet.create({
     color: "#2d1e5f",
     textAlign: "center",
     marginBottom: 10,
+  },
+  animation: {
+    width: 350,
+    height: 350,
+    marginBottom: 20,
   },
   subtitle: {
     fontSize: 16,

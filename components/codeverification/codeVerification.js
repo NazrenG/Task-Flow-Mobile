@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { View, TextInput, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
+import { View, TextInput, StyleSheet, TouchableOpacity, Dimensions,Text } from "react-native";
 import Button from "../Button/Button";
 
 const { width } = Dimensions.get("window");
@@ -19,6 +19,11 @@ const CodeVerification = ({ code, setCode, onNext }) => {
 
   return (
     <>
+         <Text style={styles.title}>Verify Your Email</Text>
+        <Text style={styles.subtitle}>
+        We've sent a 4-digit code to your email. Enter it below to continue.
+
+        </Text>
       <View style={styles.codeInputs}>
         {code.map((digit, index) => (
           <TextInput
@@ -35,12 +40,12 @@ const CodeVerification = ({ code, setCode, onNext }) => {
 
       <View style={styles.changeChatBox}>
         <TouchableOpacity
-          onPress={onNext} // 👈 düzəldilmiş hissə
+          onPress={onNext} 
           className="bg-dark_violet justify-center items-center rounded-full p-4"
 
           style={{
             width: width * 0.9,
-            maxWidth: 400,
+            maxWidth: 500,
             marginBottom: 20,
           }}
         >
@@ -70,9 +75,21 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#2d1e5f",
   },
+  title: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#2d1e5f",
+    textAlign: "center",
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: "#6e6e80",
+    textAlign: "center",
+    marginBottom: 30,
+  },
   changeChatBox: {
-    marginTop: 30,
-    backgroundColor: "#f3f3fc",
+    marginTop: 60,
     padding: 15,
     borderRadius: 12,
     width: "90%",

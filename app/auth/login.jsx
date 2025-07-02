@@ -60,7 +60,7 @@ const Login = () => {
           />
 
 <TouchableOpacity
-            onPress={() => router.push("/forgot-password")}
+            onPress={() => router.push("auth/forgotPassword")}
             style={{
               alignSelf: "flex-start",
               color: "#777",
