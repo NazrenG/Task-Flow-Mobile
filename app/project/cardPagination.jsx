@@ -54,17 +54,17 @@ const CardPagination = () => {
         <View className="flex flex-row gap-1">
           <RoundedButton
             data="Pending"
-            style="bg-light_navy"
+            styleData="bg-light_navy"
             textStyle="text-sm"
           ></RoundedButton>
           <RoundedButton
             data="On Going"
-            style="bg-bg_yellow"
+            styleData="bg-bg_yellow"
             textStyle="text-sm"
           ></RoundedButton>
           <RoundedButton
             data="Completed"
-            style="bg-light_green"
+            styleData="bg-light_green"
             textStyle="text-sm"
           ></RoundedButton>
         </View>
