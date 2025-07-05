@@ -2,15 +2,17 @@ import { Feather, MaterialIcons } from '@expo/vector-icons';
 import { router } from "expo-router";
 import { useState } from 'react';
 import {
+  Alert,
   Dimensions,
   Image,
   ImageBackground,
+  StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  StyleSheet,
 } from 'react-native';
 import Header from "../../components/Header";
+import * as ImagePicker from "expo-image-picker";
 
 const { width, height } = Dimensions.get("window");
 
@@ -29,26 +31,47 @@ const selectItem = {
 export default function ProfileScreen() {
   const [searchText, setSearchText] = useState("");
   const [backgroundImage] = useState(require('../../assets/images/page.jpg'));
+  const [avatar, setAvatar] = useState(selectItem.avatar);
+
+  const pickImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert("Permission denied", "We need permission to access your gallery.");
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      const selectedUri = result.assets[0].uri;
+      setAvatar({ uri: selectedUri }); 
+      console.log("Selected image URI:", selectedUri);
+    }
+  };
 
   return (
     <>
       <Header onSearch={setSearchText} />
 
-      {/* Back button - absolute on top layer */}
+      {/* Back button */}
       <TouchableOpacity
-  style={{
-    position: "absolute",
-    top: 100, // əvvəl 60 idi, indi daha aşağı
-    left: 20,
-    zIndex: 1,
-    color: "black",
-    borderRadius: 999,
-    padding: 6,
-  }}
-  onPress={() => router.back()}
->
-  <MaterialIcons name="arrow-back-ios" size={25} color="black" />
-</TouchableOpacity>
+        style={{
+          position: "absolute",
+          top: 100,
+          left: 20,
+          zIndex: 1,
+          borderRadius: 999,
+          padding: 6,
+        }}
+        onPress={() => router.back()}
+      >
+        <MaterialIcons name="arrow-back-ios" size={25} color="black" />
+      </TouchableOpacity>
 
       <View style={{ position: "relative" }}>
         <ImageBackground
@@ -65,7 +88,7 @@ export default function ProfileScreen() {
           </TouchableOpacity>
 
           {/* Header camera icon */}
-          <TouchableOpacity style={styles.headerCamera}>
+          <TouchableOpacity style={styles.headerCamera} onPress={pickImage}>
             <Feather name="camera" size={20} color="black" />
           </TouchableOpacity>
         </ImageBackground>
@@ -74,14 +97,14 @@ export default function ProfileScreen() {
         <View style={styles.profileImageContainer}>
           <View style={styles.profileImageWrapper}>
             <Image
-              source={selectItem.avatar}
+              source={avatar}
               style={styles.profileImage}
               resizeMode="cover"
             />
           </View>
 
           {/* Profile camera */}
-          <TouchableOpacity style={styles.profileCamera}>
+          <TouchableOpacity style={styles.profileCamera} onPress={pickImage}>
             <Feather name="camera" size={20} color="#000" />
           </TouchableOpacity>
         </View>
@@ -116,15 +139,6 @@ export default function ProfileScreen() {
 }
 
 const styles = StyleSheet.create({
-  backButton: {
-    position: "absolute",
-    top: 60, // status bar hündürlüyünə uyğun
-    left: 20,
-    zIndex: 999,
-    backgroundColor: "#ffffffcc",
-    borderRadius: 999,
-    padding: 4,
-  },
   backgroundImage: {
     width: width,
     height: height * 0.3,

@@ -9,11 +9,11 @@ import {
   Dimensions,
   PixelRatio,
 } from "react-native";
-import { Ionicons, Feather ,MaterialIcons} from "@expo/vector-icons";
+import { Ionicons, Feather, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 const { width } = Dimensions.get("window");
-const scale = width / 375; // 375 = iPhone 11 bazası
+const scale = width / 375;
 
 function normalize(size) {
   const newSize = size * scale;
@@ -31,7 +31,7 @@ export default function SettingsScreen() {
 
   const settingsList = [
     { icon: "edit", label: "Edit Profile" },
-    { icon: "key", label: "Change Password" },
+    { icon: "key", label: "Change Password" }, // bu düyməyə klik edəndə səhifəyə yönləndiriləcək
     { icon: "bell", label: "Notifications" },
     { icon: "activity", label: "Activity Log" },
   ];
@@ -43,7 +43,11 @@ export default function SettingsScreen() {
   ];
 
   const handlePress = (label) => {
-    console.log("Pressed:", label);
+    if (label === "Change Password") {
+      navigation.navigate("auth/changePassword"); // bu route Stack.Navigator-da olmalıdır
+    } else {
+      console.log("Pressed:", label);
+    }
   };
 
   return (
@@ -52,10 +56,9 @@ export default function SettingsScreen() {
       <View className="flex-row items-center justify-between mb-6">
         <TouchableOpacity
           onPress={() => navigation.goBack()}
-          className="rounded-full  p-1"
+          className="rounded-full p-1"
         >
-            <MaterialIcons name="arrow-back-ios" size={25} color="black" />
-
+          <MaterialIcons name="arrow-back-ios" size={25} color="black" />
         </TouchableOpacity>
         <Text className="text-lg font-semibold text-gray-900">Settings</Text>
         <View style={{ width: normalize(26) }} />

@@ -3,6 +3,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
+import { router } from "expo-router";
+
 import {
   Dimensions,
   Image,
@@ -61,6 +63,34 @@ export default function UserDetail() {
     },
   ];
 
+  const getPriorityStyle = (priority) => {
+    switch (priority.toLowerCase()) {
+      case "high":
+        return { color: "#d73a49", fontWeight: "bold" };
+      case "medium":
+        return { color: "#dbab09", fontWeight: "bold" };
+      case "low":
+        return { color: "#28a745", fontWeight: "bold" };
+      default:
+        return {};
+    }
+  };
+  
+  const getStatusStyle = (status) => {
+    switch (status.toLowerCase()) {
+      case "done":
+      case "completed":
+        return { color: "#28a745", fontWeight: "bold" };
+      case "in progress":
+        return { color: "#dbab09", fontWeight: "bold" };
+      case "not started":
+      case "pending":
+        return { color: "#d73a49", fontWeight: "bold" };
+      default:
+        return {};
+    }
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#F9FAFB" }}>
       <Header onSearch={setSearchText} />
@@ -113,11 +143,11 @@ export default function UserDetail() {
               <Entypo name="mail" size={16} color="white" />
             </Pressable>
             <Pressable
-              onPress={() => navigation.navigate("@/app/chat/chatDetails")}
-              style={styles.mailButton}
-            >
-              <MaterialIcons name="chat" size={16} color="white" />
-            </Pressable>
+  onPress={() => router.push("/chat/chatDetails")}
+  style={styles.mailButton}
+>
+  <MaterialIcons name="chat" size={16} color="white" />
+</Pressable>
             <Pressable style={styles.mailButton}>
               <MaterialIcons name="notifications" size={16} color="white" />
             </Pressable>
@@ -148,57 +178,59 @@ export default function UserDetail() {
             }
           />
         </View>
-        <View style={styles.taskTableContainer}>
-  <View style={styles.tableHeader}>
+        {/* <View style={styles.taskTableContainer}>
+                <View style={styles.tableHeader}>
     <Text style={styles.tableHeaderText}>No</Text>
     <Text style={styles.tableHeaderText}>Task</Text>
     <Text style={styles.tableHeaderText}>Priority</Text>
     <Text style={styles.tableHeaderText}>Progress</Text>
-  </View>
+            </View>
 
-  {/* If you have task data */}
-  {[1, 2].map((item, index) => (
-    <View style={styles.tableRow} key={index}>
-      <Text style={styles.tableCell}>{index + 1}</Text>
-      <Text style={styles.tableCell}>Design Home Page</Text>
-      <Text style={styles.tableCell}>High</Text>
-      <Text style={styles.tableCell}>70%</Text>
+ 
+            {[1, 2].map((item, index) => (
+              <View style={styles.tableRow} key={index}>
+                <Text style={styles.tableCell}>{index + 1}</Text>
+                <Text style={styles.tableCell}>Design Home Page</Text>
+                <Text style={styles.tableCell}>High</Text>
+                <Text style={styles.tableCell}>70%</Text>
+              </View>
+            ))}
+            </View> */}
+        {/* Task Cards */}
+        <View style={styles.taskCardList}>
+  <Text style={styles.infoHeader}>🗂️ Task Overview</Text>
+  {taskData.map((task, index) => (
+    <View key={task.id} style={styles.taskCard}>
+      <Text style={styles.taskCardTitle}>#{index + 1} • {task.task}</Text>
+
+      <View style={styles.metaInfo}>
+        <Text style={styles.label}>📌 Priority:</Text>
+        <Text style={[styles.value, getPriorityStyle(task.priority)]}>{task.priority}</Text>
+      </View>
+
+      <View style={styles.metaInfo}>
+        <Text style={styles.label}>🕒 Start:</Text>
+        <Text style={styles.value}>{task.startDate}</Text>
+      </View>
+
+      <View style={styles.metaInfo}>
+        <Text style={styles.label}>📅 Deadline:</Text>
+        <Text style={styles.value}>{task.deadline}</Text>
+      </View>
+
+      <View style={styles.metaInfo}>
+        <Text style={styles.label}>📈 Progress:</Text>
+        <Text style={styles.value}>{task.progress}</Text>
+      </View>
+
+      <View style={styles.metaInfo}>
+        <Text style={styles.label}>✅ Status:</Text>
+        <Text style={[styles.value, getStatusStyle(task.status)]}>{task.status}</Text>
+      </View>
     </View>
   ))}
 </View>
-        {/* Task Cards
-        <View style={styles.taskCardList}>
-          <Text style={styles.infoHeader}>Task Overview</Text>
-          {taskData.map((task, index) => (
-            <View key={task.id} style={styles.taskCard}>
-              <Text style={styles.taskCardTitle}>Task #{index + 1}</Text>
-              <View style={styles.taskRow}>
-                <Text style={styles.taskLabel}>Task:</Text>
-                <Text style={styles.taskValue}>{task.task}</Text>
-              </View>
-              <View style={styles.taskRow}>
-                <Text style={styles.taskLabel}>Priority:</Text>
-                <Text style={styles.taskValue}>{task.priority}</Text>
-              </View>
-              <View style={styles.taskRow}>
-                <Text style={styles.taskLabel}>Start Date:</Text>
-                <Text style={styles.taskValue}>{task.startDate}</Text>
-              </View>
-              <View style={styles.taskRow}>
-                <Text style={styles.taskLabel}>Deadline:</Text>
-                <Text style={styles.taskValue}>{task.deadline}</Text>
-              </View>
-              <View style={styles.taskRow}>
-                <Text style={styles.taskLabel}>Progress:</Text>
-                <Text style={styles.taskValue}>{task.progress}</Text>
-              </View>
-              <View style={styles.taskRow}>
-                <Text style={styles.taskLabel}>Status:</Text>
-                <Text style={styles.taskValue}>{task.status}</Text>
-              </View>
-            </View>
-          ))}
-        </View> */}
+
       </ScrollView>
     </SafeAreaView>
   );
@@ -385,7 +417,7 @@ const styles = StyleSheet.create({
   ////////////////////////
   taskTableContainer: {
     marginTop: 10,
-    backgroundColor: "#ffffff",
+    backgroundColor: "red",
     borderRadius: 12,
     paddingVertical: 12,
     paddingHorizontal: 8,
@@ -422,5 +454,48 @@ const styles = StyleSheet.create({
     fontSize: 12,
     textAlign: "center",
     color: "#1F2937",
+  }
+,
+  ////////////////
+
+  taskCardList: {
+    padding: 16,
+    backgroundColor: "#f5f5f5",
+  },
+  infoHeader: {
+    fontSize: 22,
+    fontWeight: "bold",
+    marginBottom: 16,
+    color: "#333",
+  },
+  taskCard: {
+    backgroundColor: "#ffffff",
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 4,
+  },
+  taskCardTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#24292e",
+    marginBottom: 12,
+  },
+  metaInfo: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 8,
+  },
+  label: {
+    fontWeight: "600",
+    color: "#57606a",
+  },
+  value: {
+    fontWeight: "400",
+    color: "#24292e",
   }
 });
