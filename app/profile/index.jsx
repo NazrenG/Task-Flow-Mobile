@@ -1,8 +1,21 @@
-import { Feather, Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { Feather, MaterialIcons } from '@expo/vector-icons';
+import { router } from "expo-router";
 import { useState } from 'react';
-import { Image, ImageBackground, SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Alert,
+  Dimensions,
+  Image,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  SafeAreaView
+} from 'react-native';
 import Header from "../../components/Header";
+import * as ImagePicker from "expo-image-picker";
+
+const { width, height } = Dimensions.get("window");
 
 const selectItem = {
   avatar: require('../../assets/images/default-user.png'),
@@ -18,80 +31,200 @@ const selectItem = {
 
 export default function ProfileScreen() {
   const [searchText, setSearchText] = useState("");
-  const [backgroundImage, setBackgroundImage] = useState(require('../../assets/images/page.jpg'));
-  const navigation = useNavigation();
+  const [backgroundImage] = useState(require('../../assets/images/page.jpg'));
+  const [avatar, setAvatar] = useState(selectItem.avatar);
+
+  const pickImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert("Permission denied", "We need permission to access your gallery.");
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      const selectedUri = result.assets[0].uri;
+      setAvatar({ uri: selectedUri }); 
+      console.log("Selected image URI:", selectedUri);
+    }
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-white">
       <Header onSearch={setSearchText} />
 
-      <View className="relative">
-        <TouchableOpacity
-          className="absolute top-6 left-5 z-10"
-          onPress={() => navigation.navigate('(tabs)')}
-        >
-          <Ionicons name="chevron-back" size={28} color="black" />
-        </TouchableOpacity>
+      {/* Back button */}
+      <TouchableOpacity
+        style={{
+          position: "absolute",
+          top: 100,
+          left: 20,
+          zIndex: 1,
+          borderRadius: 999,
+          padding: 6,
+        }}
+        onPress={() => router.back()}
+      >
+        <MaterialIcons name="arrow-back-ios" size={25} color="black" />
+      </TouchableOpacity>
 
+      <View style={{ position: "relative" }}>
         <ImageBackground
           source={backgroundImage}
-          className="w-full h-60 justify-end items-center"
+          style={styles.backgroundImage}
           resizeMode="cover"
         >
-          <TouchableOpacity className="absolute top-6 right-5 z-10">
+          {/* Settings icon */}
+          <TouchableOpacity
+            style={styles.settingsIcon}
+            onPress={() => router.push("/settings")}
+          >
             <Feather name="settings" size={24} color="white" />
           </TouchableOpacity>
 
-          <TouchableOpacity className="absolute bottom-4 right-5 p-2 rounded-full shadow z-10">
+          {/* Header camera icon */}
+          <TouchableOpacity style={styles.headerCamera} onPress={pickImage}>
             <Feather name="camera" size={20} color="black" />
           </TouchableOpacity>
         </ImageBackground>
 
-        <View className="absolute -bottom-16 left-1/2 -translate-x-1/2 z-20">
-          <View className="w-32 h-32 rounded-full bg-white justify-center items-center overflow-hidden shadow-xl">
+        {/* Profile image */}
+        <View style={styles.profileImageContainer}>
+          <View style={styles.profileImageWrapper}>
             <Image
-              source={selectItem.avatar}
-              className="w-28 h-28"
+              source={avatar}
+              style={styles.profileImage}
               resizeMode="cover"
             />
           </View>
 
-          <TouchableOpacity className="absolute bottom-0 right-0 bg-white p-1 rounded-full shadow">
+          {/* Profile camera */}
+          <TouchableOpacity style={styles.profileCamera} onPress={pickImage}>
             <Feather name="camera" size={20} color="#000" />
           </TouchableOpacity>
         </View>
       </View>
 
-      <View className="mt-20 items-center">
-        <Text className="text-xl font-bold text-black">{selectItem.username}</Text>
-        <Text className="text-base text-gray-600">{selectItem.email}</Text>
+      {/* Username and email */}
+      <View style={styles.nameSection}>
+        <Text style={styles.username}>{selectItem.username}</Text>
+        <Text style={styles.email}>{selectItem.email}</Text>
       </View>
 
-      <View className="bg-white rounded-2xl shadow p-6 mx-4 mt-6 z-10">
-        <Text className="text-lg font-bold text-black mb-4">Personal Info</Text>
-
-        <Text className="text-base text-gray-500 mb-1">
-          <Text className="font-bold text-black">Full Name: </Text>{selectItem.fullName}
-        </Text>
-        <Text className="text-base text-gray-500 mb-1">
-          <Text className="font-bold text-black">Email: </Text>{selectItem.email}
-        </Text>
-        <Text className="text-base text-gray-500 mb-1">
-          <Text className="font-bold text-black">Phone Number: </Text>{selectItem.phone}
-        </Text>
-        <Text className="text-base text-gray-500 mb-1">
-          <Text className="font-bold text-black">Department: </Text>{selectItem.department}
-        </Text>
-        <Text className="text-base text-gray-500 mb-1">
-          <Text className="font-bold text-black">Country: </Text>{selectItem.country}
-        </Text>
-        <Text className="text-base text-gray-500 mb-1">
-          <Text className="font-bold text-black">Gender: </Text>{selectItem.gender || '—'}
-        </Text>
-        <Text className="text-base text-gray-500 mb-1">
-          <Text className="font-bold text-black">Birthday: </Text>{selectItem.birthday || '—'}
-        </Text>
+      {/* Personal Info */}
+      <View style={styles.infoCard}>
+        <Text style={styles.infoTitle}>Personal Info</Text>
+        {[
+          ["Full Name", selectItem.fullName],
+          ["Email", selectItem.email],
+          ["Phone Number", selectItem.phone],
+          ["Department", selectItem.department],
+          ["Country", selectItem.country],
+          ["Gender", selectItem.gender || "—"],
+          ["Birthday", selectItem.birthday || "—"],
+        ].map(([label, value], index) => (
+          <Text key={index} style={styles.infoItem}>
+            <Text style={styles.infoLabel}>{label}: </Text>
+            {value}
+          </Text>
+        ))}
       </View>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  backgroundImage: {
+    width: width,
+    height: height * 0.3,
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  settingsIcon: {
+    position: "absolute",
+    top: 24,
+    right: 20,
+    zIndex: 10,
+  },
+  headerCamera: {
+    position: "absolute",
+    bottom: 16,
+    right: 20,
+    padding: 10,
+    borderRadius: 50,
+    backgroundColor: "white",
+    zIndex: 10,
+  },
+  profileImageContainer: {
+    position: "absolute",
+    bottom: -64,
+    left: width / 2 - 64,
+    zIndex: 20,
+  },
+  profileImageWrapper: {
+    width: 128,
+    height: 128,
+    borderRadius: 64,
+    backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+    elevation: 6,
+  },
+  profileImage: {
+    width: 112,
+    height: 112,
+    borderRadius: 56,
+  },
+  profileCamera: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    backgroundColor: "white",
+    padding: 6,
+    borderRadius: 999,
+    elevation: 3,
+  },
+  nameSection: {
+    marginTop: 80,
+    alignItems: "center",
+  },
+  username: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#000",
+  },
+  email: {
+    fontSize: 16,
+    color: "#555",
+  },
+  infoCard: {
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 20,
+    marginHorizontal: 16,
+    marginTop: 24,
+    elevation: 3,
+  },
+  infoTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#000",
+    marginBottom: 10,
+  },
+  infoItem: {
+    fontSize: 16,
+    color: "#555",
+    marginBottom: 6,
+  },
+  infoLabel: {
+    fontWeight: "bold",
+    color: "#000",
+  },
+});

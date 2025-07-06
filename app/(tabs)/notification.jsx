@@ -1,4 +1,4 @@
-import { View, Text,SafeAreaView } from "react-native";
+import { View, Text } from "react-native";
 import Header from "../../components/Header";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
@@ -14,6 +14,6 @@ export default function Notification() {
           <Text style={{ fontSize: 24 }}>{t("language")}</Text> 
                 <Text style={{ color: "black" }}>Notification Screen</Text>
         </View>
-      </SafeAreaView>
+      </View>
   );
 }
