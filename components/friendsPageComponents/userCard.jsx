@@ -117,7 +117,7 @@ export default UserCard;
 const styles = StyleSheet.create({
   cardContainer: {
     backgroundColor: "white",
-    padding: 20, // Adjust this value as needed
+    padding: 10, // Adjust this value as needed
     borderRadius: 10,
     borderWidth: 1,
     borderColor: "#e5e7eb",

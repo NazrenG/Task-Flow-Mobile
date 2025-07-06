@@ -155,10 +155,11 @@ import {
   Text,
   TouchableOpacity,
   View,
+  SafeAreaView
 } from "react-native";
 import FriendCard from "../../components/friendsPageComponents/friendCard";
 import UserCard from "../../components/friendsPageComponents/userCard";
-import Header from "../../components/Header";
+import Header from "../../components/Header"; 
 const width = Dimensions.get("window").width;
 
 export default function Friends() {
@@ -176,9 +177,9 @@ export default function Friends() {
   };
 
   return (
-    <View className="flex-1 items-center">
+    <SafeAreaView className="flex-1 items-center">
       <Header onSearch={setSearchText} />
-      <View className="flex-1 w-[calc(100%-60px)] rounded-xl mx-[30px] my-[30px] bg-white">
+      <View className="  mt-4  rounded-xl p-3 mx-3 bg-white">
         <View className="flex-row w-full border-b border-gray-300">
           <TouchableOpacity
             className="flex-1 items-center py-3"
@@ -207,9 +208,9 @@ export default function Friends() {
         </View>
 
         <Animated.View
-          className="h-[3px] bg-purple-800 absolute top-10 left-0"
+          className="h-[3px] bg-purple-800 absolute top-10  "
           style={{
-            width: width / 2 - 60,
+            width: width / 2 - 20,
             transform: [{ translateX }],
           }}
         />
@@ -226,6 +227,6 @@ export default function Friends() {
           )}
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

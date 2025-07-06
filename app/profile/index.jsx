@@ -1,7 +1,7 @@
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
-import { Image, ImageBackground, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ImageBackground, SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
 import Header from "../../components/Header";
 
 const selectItem = {
@@ -22,7 +22,7 @@ export default function ProfileScreen() {
   const navigation = useNavigation();
 
   return (
-    <>
+    <SafeAreaView className="flex-1 bg-white">
       <Header onSearch={setSearchText} />
 
       <View className="relative">
@@ -92,6 +92,6 @@ export default function ProfileScreen() {
           <Text className="font-bold text-black">Birthday: </Text>{selectItem.birthday || '—'}
         </Text>
       </View>
-    </>
+    </SafeAreaView>
   );
 }

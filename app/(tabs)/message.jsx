@@ -12,6 +12,7 @@ import {
   Pressable,
   Text,
   View,
+  SafeAreaView
 } from "react-native";
 import Header from "../../components/Header";
 
@@ -26,7 +27,7 @@ export default function Message() {
   };
 
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <SafeAreaView style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Header onSearch={setSearchText} />
       <View
         style={{ flex: 1, width: width - 40, height: "auto", borderRadius: 11 }}
@@ -40,7 +41,7 @@ export default function Message() {
             marginBottom: 15,
           }}
         >
-          <Text className="text-4xl">Messages</Text>
+          <Text className="text-2xl font-semibold text-black">Messages</Text>
         </View>
 
         {/* space */}
@@ -135,6 +136,6 @@ export default function Message() {
           </Pressable>
         </Pressable>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 }

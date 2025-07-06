@@ -34,7 +34,7 @@ export default function Header({ onSearch }) {
   };
 
   return (
-    <View className="px-4 pt-14 bg-[#f8f8f8] flex-row items-center justify-between">
+    <View className="px-4   bg-[#f8f8f8] flex-row items-center justify-between">
           {/* Profile */}
       <TouchableOpacity  className="w-9 h-9 rounded-3xl mr-3 overflow-hidden" onPress={() => navigation.navigate("profile/index")}> 
         <Image
