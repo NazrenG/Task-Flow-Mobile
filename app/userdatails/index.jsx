@@ -4,6 +4,8 @@ import Entypo from "@expo/vector-icons/Entypo";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { router } from "expo-router";
+import { useTranslation } from "react-i18next";
+import Card from "@/components/Card/Card"; 
 
 import {
   Dimensions,
@@ -18,11 +20,13 @@ import {
   View,
 } from "react-native";
 
+
 const { width } = Dimensions.get("window");
 
 export default function UserDetail() {
   const [searchText, setSearchText] = useState("");
   const navigation = useNavigation();
+  const { t } = useTranslation();
 
   // Profile Info Data
   const profileInfo = {
@@ -97,6 +101,7 @@ export default function UserDetail() {
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         {/* Task Summary */}
         <View style={styles.taskGrid}>
+          
           <Card
             title="Total Task"
             count="0"
@@ -162,7 +167,7 @@ export default function UserDetail() {
 
         {/* Basic Info */}
         <View style={styles.infoCard}>
-          <Text style={styles.infoHeader}>Basic Info</Text>
+          <Text style={styles.infoHeader}>{t("info")}</Text>
           <InfoItem label="Country" value={basicInfo.country} />
           <InfoItem label="Occupation" value={basicInfo.occupation} />
           <InfoItem label="Gender" value={basicInfo.gender} />
@@ -236,18 +241,8 @@ export default function UserDetail() {
   );
 }
 
-// Card Component
-const Card = ({ title, count, color, icon }) => (
-  <TouchableOpacity style={[styles.card, { backgroundColor: color }]} activeOpacity={0.8}>
-    <View style={styles.cardContent}>
-      <View style={styles.iconContainer}>{icon}</View>
-      <View style={styles.textContainer}>
-        <Text style={styles.cardTitle}>{title}</Text>
-        <Text style={styles.cardCount}>{count}</Text>
-      </View>
-    </View>
-  </TouchableOpacity>
-);
+
+
 
 // InfoItem Component
 const InfoItem = ({ label, value }) => (
@@ -268,37 +263,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 24,
     gap: 12,
-  },
-  card: {
-    width: width / 2 - 22,
-    padding: 12,
-    borderRadius: 12,
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-  },
-  cardContent: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  iconContainer: {
-    marginRight: 12,
-  },
-  textContainer: {
-    flex: 1,
-  },
-  cardTitle: {
-    fontSize: 14,
-    fontWeight: "500",
-    color: "#4B5563",
-  },
-  cardCount: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#1F2937",
-    marginTop: 4,
   },
   profileCard: {
     backgroundColor: "#fff",
@@ -345,13 +309,10 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   infoHeader: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#1F2937",
+    fontSize: 22,
+    fontWeight: "bold",
     marginBottom: 16,
-    paddingLeft: 8,
-    borderLeftWidth: 4,
-    borderLeftColor: "#3B82F6",
+    color: "#333",
   },
   infoItem: {
     flexDirection: "row",
@@ -382,91 +343,9 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   taskCardList: {
-    marginTop: 12,
-    marginBottom: 24,
-  },
-  taskCard: {
-    backgroundColor: "#fff",
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
-    elevation: 2,
-  },
-  taskCardTitle: {
-    fontSize: 16,
-    fontWeight: "600",
-    marginBottom: 12,
-    color: "#4B5563",
-  },
-  taskRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 8,
-  },
-  taskLabel: {
-    fontSize: 14,
-    color: "#6B7280",
-    fontWeight: "500",
-  },
-  taskValue: {
-    fontSize: 14,
-    color: "#1F2937",
-    fontWeight: "500",
-  },
-
-  ////////////////////////
-  taskTableContainer: {
-    marginTop: 10,
-    backgroundColor: "red",
-    borderRadius: 12,
-    paddingVertical: 12,
-    paddingHorizontal: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  tableHeader: {
-    flexDirection: "row",
-    backgroundColor: "#c3bae8",
-    borderRadius: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 4,
-    justifyContent: "space-between",
-    marginBottom: 6,
-  },
-  tableHeaderText: {
-    fontWeight: "600",
-    fontSize: 12,
-    flex: 1,
-    textAlign: "center",
-    color: "#4B5563",
-  },
-  tableRow: {
-    flexDirection: "row",
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#E5E7EB",
-  },
-  tableCell: {
-    flex: 1,
-    fontSize: 12,
-    textAlign: "center",
-    color: "#1F2937",
-  }
-,
-  ////////////////
-
-  taskCardList: {
     padding: 16,
     backgroundColor: "#f5f5f5",
-  },
-  infoHeader: {
-    fontSize: 22,
-    fontWeight: "bold",
-    marginBottom: 16,
-    color: "#333",
+    marginBottom: 24,
   },
   taskCard: {
     backgroundColor: "#ffffff",
@@ -497,5 +376,5 @@ const styles = StyleSheet.create({
   value: {
     fontWeight: "400",
     color: "#24292e",
-  }
+  },
 });
