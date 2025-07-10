@@ -1,5 +1,47 @@
 {
-  "welcome": "зкшмуе",
-  "language": "ывислы",
-  "info": "Основная информация"
+  "welcome": "добро пожаловать",
+  "language": "язык",
+
+ 
+  "userDetail":{
+  "info": "Основная информация",
+  "totalTasks": "Общие задачи",
+  "completedTasks": "Завершенные задачи",
+  "runningTasks": "Выполняемые задачи",
+  "holdTasks": "Задачи на удержании",
+  "country": "Страна",
+  "occupation": "Професс",
+  "gender": "Пол",
+  "birthDate": "Дата рождения",
+  "phone": "Телефон",
+  "status": "Статус",
+  "overview": "Обзор задачи",
+  "priority": "Приоритет",
+  "start": "Начало",
+  "deadline": "Срок выполнения",
+  "progress": "Прогресс",
+  "Status": "Статус"
+  },
+
+  "profile":{
+    "info": "Информация профиля",
+    "fullname": "Полное имя",
+    "email": "е-мейл",
+    "phone": "Номер телефона",
+    "country": "Страна",
+    "department": "Отдел",
+    "gender": "Пол",
+    "birthDate": "Дата рождения"
+  },
+  "settings":{
+    "name": "Настройки",
+    "editprofile": "Редактировать профиль",
+    "changePassword": "Изменить пароль",
+    "notifications": "Уведомления",
+    "activityLog": "Журнал активности",
+    "dangerZone": "Опасная зона",
+    "deleteAccount": "Удалить аккаунт",
+    "cleanHistory": "Очистить историю",
+    "logout": "Выйти"
+  }
 }

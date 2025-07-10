@@ -1,5 +1,48 @@
 {
   "welcome": "Xoş gəldiniz",
   "language": "Dil",
-  "info":"Əsas məlumat"
-}
+
+   
+  "userDetail":{
+
+  "info":"Əsas məlumat",
+  "totalTasks": "Ümumi Tapşırıqlar",
+  "completedTasks": "Tamamlanmış vəzifələr",
+  "runningTasks": "İcra olunan vəzifələr",
+  "holdTasks": "Saxlanılan vəzifələr",
+  "country": "Ölkə",
+  "occupation": "Peşə",
+  "gender":"Cins",
+  "birthDate": "Doğum tarixi",
+  "phone":"Telefon",
+  "status": "Status",
+  "overview": "Tapşırıqlara Baxış",
+  "priority": "Prioritet",
+  "start": "Başlama",
+  "deadline": "Son tarix",
+  "progress": "İrəliləyiş",
+  "Status": "Status"
+  },
+
+  "profile": {
+    "info": "Profil Məlumatı",
+    "fullname": "Tam Ad",
+    "email": "E-poçt",
+    "phone": "Telefon Nömrəsi",
+    "country": "Ölkə",
+    "department": "Departament",
+    "gender": "Cins",
+    "birthDate": "Doğum tarixi"
+  },
+  "settings": {
+    "name": "Ayarlar",
+    "editprofile": "Profili Redaktə Et",
+    "changePassword": "Şifrəni Dəyiş",
+    "notifications": "Bildirişlər",
+    "activityLog": "Fəaliyyət Jurnalı",
+    "dangerZone": "Təhlükəli Zona",
+    "deleteAccount": "Hesabı Sil",
+    "cleanHistory": "Tarixi Təmizlə",
+    "logout": "Çıxış"
+  }
+} 

@@ -1,6 +1,6 @@
 import Header from "@/components/Header"; // öz Header komponentindir
-import { MaterialIcons } from "@expo/vector-icons";
-import Entypo from "@expo/vector-icons/Entypo";
+import { Entypo, MaterialCommunityIcons , MaterialIcons ,Feather, FontAwesome5} from "@expo/vector-icons";
+
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { router } from "expo-router";
@@ -103,25 +103,25 @@ export default function UserDetail() {
         <View style={styles.taskGrid}>
           
           <Card
-            title="Total Task"
+            title={t("userDetail.totalTasks")}
             count="0"
             color="#FEF3C7"
             icon={<MaterialIcons name="assignment" size={20} color="#D97706" />}
           />
           <Card
-            title="Running Task"
+            title={t("userDetail.runningTasks")}
             count="2"
             color="#D1FAE5"
             icon={<MaterialIcons name="play-circle-outline" size={20} color="#059669" />}
           />
           <Card
-            title="On Hold Task"
+            title={t("userDetail.holdTasks")}
             count="0"
             color="#EDE9FE"
             icon={<MaterialIcons name="pause-circle-outline" size={20} color="#7C3AED" />}
           />
           <Card
-            title="Complete Task"
+            title={t("userDetail.completedTasks")}
             count="0"
             color="#CFFAFE"
             icon={<MaterialIcons name="check-circle-outline" size={20} color="#0E7490" />}
@@ -167,14 +167,14 @@ export default function UserDetail() {
 
         {/* Basic Info */}
         <View style={styles.infoCard}>
-          <Text style={styles.infoHeader}>{t("info")}</Text>
-          <InfoItem label="Country" value={basicInfo.country} />
-          <InfoItem label="Occupation" value={basicInfo.occupation} />
-          <InfoItem label="Gender" value={basicInfo.gender} />
-          <InfoItem label="BirthDay" value={basicInfo.birthday} />
-          <InfoItem label="Phone" value={basicInfo.phone} />
+          <Text style={styles.infoHeader}>{t("userDetail.info")}</Text>
+          <InfoItem label={t("userDetail.country")} value={basicInfo.country} />
+          <InfoItem label={t("userDetail.occupation")} value={basicInfo.occupation} />
+          <InfoItem label={t("userDetail.gender")} value={basicInfo.gender} />
+          <InfoItem label={t("userDetail.birthDate")} value={basicInfo.birthday} />
+          <InfoItem label={t("userDetail.phone")} value={basicInfo.phone} />
           <InfoItem
-            label="Status"
+            label={t("userDetail.status")}
             value={
               <View style={styles.statusContainer}>
                 <MaterialIcons name="circle" size={12} color="#DC2626" />
@@ -195,7 +195,7 @@ export default function UserDetail() {
             {[1, 2].map((item, index) => (
               <View style={styles.tableRow} key={index}>
                 <Text style={styles.tableCell}>{index + 1}</Text>
-                <Text style={styles.tableCell}>Design Home Page</Text>
+                <Text style={styles.tableCell}>Design Home Page</Text> 
                 <Text style={styles.tableCell}>High</Text>
                 <Text style={styles.tableCell}>70%</Text>
               </View>
@@ -203,33 +203,48 @@ export default function UserDetail() {
             </View> */}
         {/* Task Cards */}
         <View style={styles.taskCardList}>
-  <Text style={styles.infoHeader}>🗂️ Task Overview</Text>
+          <Text style={styles.infoHeader}>🗂️{t("userDetail.overview")}</Text>
   {taskData.map((task, index) => (
     <View key={task.id} style={styles.taskCard}>
       <Text style={styles.taskCardTitle}>#{index + 1} • {task.task}</Text>
 
       <View style={styles.metaInfo}>
-        <Text style={styles.label}>📌 Priority:</Text>
+        <View style={styles.iconLabel}>
+          <MaterialCommunityIcons name="flag-outline" size={18} color="#715ad1" />
+          <Text style={styles.label}>{t("userDetail.priority")}</Text>
+        </View>
         <Text style={[styles.value, getPriorityStyle(task.priority)]}>{task.priority}</Text>
       </View>
 
       <View style={styles.metaInfo}>
-        <Text style={styles.label}>🕒 Start:</Text>
+        <View style={styles.iconLabel}>
+          <MaterialCommunityIcons name="clock-time-four-outline" size={18} color="#715ad1" />
+          <Text style={styles.label}>{t("userDetail.start")}</Text>
+        </View>
         <Text style={styles.value}>{task.startDate}</Text>
       </View>
 
       <View style={styles.metaInfo}>
-        <Text style={styles.label}>📅 Deadline:</Text>
+        <View style={styles.iconLabel}>
+          <MaterialCommunityIcons name="calendar-check-outline" size={18} color="#715ad1" />
+          <Text style={styles.label}>{t("userDetail.deadline")}</Text>
+        </View>
         <Text style={styles.value}>{task.deadline}</Text>
       </View>
 
       <View style={styles.metaInfo}>
-        <Text style={styles.label}>📈 Progress:</Text>
+        <View style={styles.iconLabel}>
+          <MaterialCommunityIcons name="progress-clock" size={18} color="#715ad1" />
+          <Text style={styles.label}>{t("userDetail.progress")}</Text>
+        </View>
         <Text style={styles.value}>{task.progress}</Text>
       </View>
 
       <View style={styles.metaInfo}>
-        <Text style={styles.label}>✅ Status:</Text>
+        <View style={styles.iconLabel}>
+          <MaterialCommunityIcons name="checkbox-marked-circle-outline" size={18} color="#715ad1" />
+          <Text style={styles.label}>{t("userDetail.status")}</Text>
+        </View>
         <Text style={[styles.value, getStatusStyle(task.status)]}>{task.status}</Text>
       </View>
     </View>
@@ -253,6 +268,11 @@ const InfoItem = ({ label, value }) => (
 );
 
 const styles = StyleSheet.create({
+  iconLabel: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+  },
   container: {
     flex: 1,
     padding: 16,

@@ -13,6 +13,8 @@ import {
 } from 'react-native';
 import Header from "../../components/Header";
 import * as ImagePicker from "expo-image-picker";
+import { useTranslation } from "react-i18next";
+
 
 const { width, height } = Dimensions.get("window");
 
@@ -32,6 +34,8 @@ export default function ProfileScreen() {
   const [searchText, setSearchText] = useState("");
   const [backgroundImage] = useState(require('../../assets/images/page.jpg'));
   const [avatar, setAvatar] = useState(selectItem.avatar);
+    const { t } = useTranslation();
+  
 
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -118,15 +122,15 @@ export default function ProfileScreen() {
 
       {/* Personal Info */}
       <View style={styles.infoCard}>
-        <Text style={styles.infoTitle}>Personal Info</Text>
+        <Text style={styles.infoTitle}>{t("profile.info")}</Text>
         {[
-          ["Full Name", selectItem.fullName],
-          ["Email", selectItem.email],
-          ["Phone Number", selectItem.phone],
-          ["Department", selectItem.department],
-          ["Country", selectItem.country],
-          ["Gender", selectItem.gender || "—"],
-          ["Birthday", selectItem.birthday || "—"],
+          [t("profile.fullname"), selectItem.fullName],
+          [t("profile.email"), selectItem.email],
+          [t("profile.phone"), selectItem.phone],
+          [t("profile.department"), selectItem.department],
+          [t("profile.country"), selectItem.country],
+          [t("profile.gender"), selectItem.gender || "—"],
+          [t("profile.birthDate"), selectItem.birthday || "—"],
         ].map(([label, value], index) => (
           <Text key={index} style={styles.infoItem}>
             <Text style={styles.infoLabel}>{label}: </Text>
