@@ -15,7 +15,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../components/Header";
 import CalendarDropdown from "../../hooks/DropDown";
 import { useTranslation } from "react-i18next";
-
 import i18n from "@/i18n/i18n";
 
 const { width } = Dimensions.get("window");
@@ -50,9 +49,8 @@ const handleLanguageChange = (item) => {
 
 export default function SettingsScreen() {
   const navigation = useNavigation();
+  const { t } = useTranslation();
   const [searchText, setSearchText] = useState("");
-    const { t } = useTranslation();
-  
 
   const profile = {
     name: "Sevgi Elesgerova",
@@ -61,10 +59,10 @@ export default function SettingsScreen() {
   };
 
   const settingsList = [
-    { icon: "edit", label: t("settings.editprofile") },
-    { icon: "key", label: t("settings.changePassword") },
-    { icon: "bell", label:  t("settings.notifications")  },
-    { icon: "activity", label:  t("settings.activityLog")  },
+    { key: "editProfile", icon: "edit", label: t("settings.editprofile") },
+    { key: "changePassword", icon: "key", label: t("settings.changePassword") },
+    { key: "notifications", icon: "bell", label: t("settings.notifications") },
+    { key: "activityLog", icon: "activity", label: t("settings.activityLog") },
   ];
 
   const dangerList = [
@@ -73,11 +71,13 @@ export default function SettingsScreen() {
     { icon: "log-out", label: t("settings.logout") },
   ];
 
-  const handlePress = (label) => {
-    if (label === "Change Password") {
+  const handlePress = (key) => {
+    if (key === "changePassword") {
       navigation.navigate("auth/changePassword");
+    } else if (key === "editProfile") {
+      navigation.navigate("settings/editprofile");
     } else {
-      console.log("Pressed:", label);
+      console.log("Pressed:", key);
     }
   };
 
@@ -95,7 +95,9 @@ export default function SettingsScreen() {
           >
             <MaterialIcons name="arrow-back-ios" size={25} color="black" />
           </TouchableOpacity>
-          <Text className="text-lg font-semibold text-gray-900">{t("settings.name")}</Text>
+          <Text className="text-lg font-semibold text-gray-900">
+            {t("settings.name")}
+          </Text>
           <View className="mr-3 w-20">
             <CalendarDropdown
               data={languages}
@@ -126,7 +128,7 @@ export default function SettingsScreen() {
             <TouchableOpacity
               key={index}
               className="flex-row justify-between items-center bg-white p-4 rounded-xl shadow-sm"
-              onPress={() => handlePress(item.label)}
+              onPress={() => handlePress(item.key)}
             >
               <View className="flex-row items-center">
                 <Feather name={item.icon} size={normalize(20)} color="#444" />
@@ -152,7 +154,7 @@ export default function SettingsScreen() {
             <TouchableOpacity
               key={index}
               className="flex-row justify-between items-center bg-red-50 p-4 rounded-xl border border-red-200"
-              onPress={() => handlePress(item.label)}
+              onPress={() => console.log("Pressed:", item.label)}
             >
               <View className="flex-row items-center">
                 <Feather

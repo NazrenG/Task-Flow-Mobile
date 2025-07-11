@@ -42,6 +42,7 @@
     "dangerZone": "Опасная зона",
     "deleteAccount": "Удалить аккаунт",
     "cleanHistory": "Очистить историю",
-    "logout": "Выйти"
+    "logout": "Выйти",
+    "save": "Обновлять"
   }
 }

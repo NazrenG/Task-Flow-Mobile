@@ -105,19 +105,19 @@ export default function UserDetail() {
           <Card
             title={t("userDetail.totalTasks")}
             count="0"
-            color="#FEF3C7"
+            color="#f8ebc5"
             icon={<MaterialIcons name="assignment" size={20} color="#D97706" />}
           />
           <Card
             title={t("userDetail.runningTasks")}
             count="2"
-            color="#D1FAE5"
+            color="#caf8e7"
             icon={<MaterialIcons name="play-circle-outline" size={20} color="#059669" />}
           />
           <Card
             title={t("userDetail.holdTasks")}
             count="0"
-            color="#EDE9FE"
+            color="#c2b8ff"
             icon={<MaterialIcons name="pause-circle-outline" size={20} color="#7C3AED" />}
           />
           <Card
@@ -126,6 +126,11 @@ export default function UserDetail() {
             color="#CFFAFE"
             icon={<MaterialIcons name="check-circle-outline" size={20} color="#0E7490" />}
           />
+
+
+
+
+    
         </View>
 
         {/* Profile Info */}

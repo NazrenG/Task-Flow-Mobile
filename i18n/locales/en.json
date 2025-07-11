@@ -40,7 +40,8 @@
     "dangerZone": "Danger Zone",
     "deleteAccount": "Delete Account",
     "cleanHistory": "Clean History",
-    "logout": "Log Out"
+    "logout": "Log Out",
+    "save":"Update"
   }
 
   
