@@ -2,6 +2,7 @@ import { Link, router } from "expo-router";
 import LottieView from "lottie-react-native";
 import React from "react";
 import {
+  Dimensions,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
