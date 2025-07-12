@@ -107,25 +107,29 @@ export default function UserDetail() {
             count="0"
             color="#FEF3C7"
             icon={<MaterialIcons name="assignment" size={20} color="#D97706" />}
+            gradient={["#FDE68A", "#FCD34D"]} // Gradient colors for the card
           />
           <Card
             title="Running Task"
             count="2"
             color="#D1FAE5"
             icon={<MaterialIcons name="play-circle-outline" size={20} color="#059669" />}
-          />
+         gradient={["#A7F3D0", "#6EE7B7"]} // Gradient colors for the card
+         />
           <Card
             title="On Hold Task"
             count="0"
             color="#EDE9FE"
             icon={<MaterialIcons name="pause-circle-outline" size={20} color="#7C3AED" />}
-          />
+         gradient={["#DDD6FE", "#C4B5FD"]} // Gradient colors for the card
+         />
           <Card
             title="Complete Task"
             count="0"
             color="#CFFAFE"
             icon={<MaterialIcons name="check-circle-outline" size={20} color="#0E7490" />}
-          />
+      gradient={["#A5F3FC", "#22D3EE"]} // Gradient colors for the card
+      />
         </View>
 
         {/* Profile Info */}

@@ -15,6 +15,7 @@ module.exports = {
         background: "#f9fafe",
         navyBlue: `${Colors.primary.navyBlue}`,
         green: `${Colors.primary.green}`,
+        yellow: `${Colors.secondary.yellow}`,
         darkPurple: `${Colors.primary.darkPurple}`,
         bg_violet: Colors.secondary.bg_violet,
         bg_green: Colors.secondary.bg_green,
@@ -24,6 +25,7 @@ module.exports = {
         light_green: Colors.secondary.bg_green,
         light_red: "#FEE9ED",
         light_navy: "#EAEFFF",
+        bg_blue: "#D6E9FF",
       },
 
       fontFamily: {

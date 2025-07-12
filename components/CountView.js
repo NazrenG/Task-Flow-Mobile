@@ -1,26 +1,26 @@
 import { Colors } from "@/constants/Colors";
 import { FontAwesome5, Octicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
 
 const CountCard = ({ icon, iconLib, count, label, bgColor, gradient }) => {
-  const navigation = useNavigation();
+  const router = useRouter();
   const IconComponent = iconLib === "Octicons" ? Octicons : FontAwesome5;
 
   const handlePress = () => {
     switch (label) {
       case "Kanban":
-        navigation.navigate("kanban/KanbanScreen");
+        router.push("/kanban/KanbanScreen");
         break;
       case "Projects":
-        navigation.navigate("project/projectPage");
+        router.push("/project/projectPage");
         break;
       case "Tasks":
-        navigation.navigate("kanban/KanbanScreen");
+        router.push("/tasks/TaskScreen");
         break;
       default:
-        navigation.navigate("(tabs)");
+        router.push("/(tabs)");
         break;
     }
   };
