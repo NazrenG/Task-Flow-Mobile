@@ -2,13 +2,12 @@ import { Link, router } from "expo-router";
 import LottieView from "lottie-react-native";
 import React from "react";
 import {
-  Dimensions,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
@@ -30,8 +29,7 @@ const Login = () => {
         keyboardShouldPersistTaps="handled"
       >
         <View className="flex-1 justify-center items-center bg-white px-4 py-6">
-        <View style={{ marginBottom: 50, width: "100%" }} />
-
+          <View style={{ marginBottom: 50, width: "100%" }} />
 
           <Title>Welcome back!</Title>
 
@@ -40,9 +38,9 @@ const Login = () => {
             autoPlay
             loop
             style={{
-              width: width * 0.7, 
+              width: width * 0.7,
               height: width * 0.7,
-              marginBottom: 20
+              marginBottom: 20,
             }}
           />
 
@@ -59,7 +57,7 @@ const Login = () => {
             secureTextEntry={true}
           />
 
-<TouchableOpacity
+          <TouchableOpacity
             onPress={() => router.push("auth/forgotPassword")}
             style={{
               alignSelf: "flex-start",
@@ -68,11 +66,7 @@ const Login = () => {
               marginBottom: 15,
             }}
           >
-
-          <Text
-          >
-            Forgot password?
-          </Text>
+            <Text>Forgot password?</Text>
           </TouchableOpacity>
 
           <View style={{ marginBottom: 50, width: "100%" }} />
@@ -90,7 +84,7 @@ const Login = () => {
           </TouchableOpacity>
 
           <View className="flex-row items-center justify-center mt-2">
-            <Text style={{ color: "#FF9332" }}>Don't have an account? </Text>
+            <Text style={{ color: "#FF9332" }}>Don`t have an account? </Text>
             <Link
               href="auth/register"
               style={{ color: "#654A98", fontWeight: "600" }}

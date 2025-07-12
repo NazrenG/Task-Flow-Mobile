@@ -1,8 +1,9 @@
+import { useTranslation } from "react-i18next";
 import { Dimensions, Image, ScrollView, Text, View } from "react-native";
-
 const width = Dimensions.get("window").width;
 
 const RecentAvtivity = () => {
+  const { t } = useTranslation();
   const recentAct = [
     {
       user: "you",
@@ -54,7 +55,9 @@ const RecentAvtivity = () => {
       }}
       className="p-2 bg-white my-4 mb-[10vh] rounded-xl p-4"
     >
-      <Text className="text-lg font-semibold mb-3">Recent Activity</Text>
+      <Text className="text-lg font-semibold mb-3">
+        {t("project.recentActivity")}
+      </Text>
       <ScrollView nestedScrollEnabled={true}>
         {recentAct.map((item, index) => (
           <View key={index} className="mb-3 flex flex-row gap-6 p-1">

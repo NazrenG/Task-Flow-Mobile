@@ -1,4 +1,3 @@
-import Entypo from "@expo/vector-icons/Entypo";
 import { useRef, useState } from "react";
 import {
   Dimensions,
@@ -11,9 +10,14 @@ import {
 import RoundedButton from "../../components/Button/RoundedButton";
 import { Colors } from "../../constants/Colors";
 
+import { useTranslation } from "react-i18next";
+import ProjectActionsDropdown from "../../components/dropdown/projectActionsDropdown";
+
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 const CardPagination = () => {
+  const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
+  const { t } = useTranslation();
   const scrollRef = useRef(null);
   const cardsData = [
     {
@@ -49,22 +53,22 @@ const CardPagination = () => {
     <View style={styles.container}>
       <View className="flex flex-row items-center justify-between my-2">
         <Text className="text-base font-semibold my-2 ml-2">
-          Recent Project Updates
+          {t("project.recentProjectUpdates")}
         </Text>
         <View className="flex flex-row gap-1">
           <RoundedButton
-            data="Pending"
-            style="bg-light_navy"
+            data={t("project.pending")}
+            styleData="bg-light_navy"
             textStyle="text-sm"
           ></RoundedButton>
           <RoundedButton
-            data="On Going"
-            style="bg-bg_yellow"
+            data={t("project.onGoing")}
+            styleData="bg-bg_yellow"
             textStyle="text-sm"
           ></RoundedButton>
           <RoundedButton
-            data="Completed"
-            style="bg-light_green"
+            data={t("project.complated")}
+            styleData="bg-light_green"
             textStyle="text-sm"
           ></RoundedButton>
         </View>
@@ -89,12 +93,20 @@ const CardPagination = () => {
               <View className="px-6 py-4">
                 <Text style={styles.cardContent}>Owned by you</Text>
                 <Text className="text-[#6C757D] text-sm font-light mt-2">
-                  Deadline: yyyy-mm-dd
+                  {t("project.deadline")}: yyyy-mm-dd
                 </Text>
               </View>
-              <View className="flex flex-row justify-between mx-9 mb-4">
+              <View className="flex flex-row justify-between mx-9 mb-4 relative">
                 <Text className="text-2xl items-center">-</Text>
-                <Entypo name="dots-three-horizontal" size={24} color="black" />
+                <ProjectActionsDropdown
+                  isOpen={openDropdownIndex === index}
+                  onToggle={() =>
+                    setOpenDropdownIndex(
+                      openDropdownIndex === index ? null : index
+                    )
+                  }
+                ></ProjectActionsDropdown>
+                {/* <Entypo name="dots-three-horizontal" size={24} color="black" /> */}
               </View>
             </View>
           ))}
@@ -134,6 +146,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 6,
     elevation: 3,
+    // position: "relative",
   },
   cardTitle: {
     fontSize: 16,

@@ -1,5 +1,6 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Dimensions,
   Pressable,
@@ -8,7 +9,9 @@ import {
   Text,
   View,
 } from "react-native";
+import Toast from "react-native-toast-message";
 import Header from "../../components/Header";
+import CreateProjectModal from "../../components/projectPageComponents/createProjectModal";
 import CardPagination from "./cardPagination";
 import InProgressProject from "./inProgressProject";
 import RecentAvtivity from "./recentActivity";
@@ -31,15 +34,9 @@ const cardsData = [
 ];
 
 const ProjectPage = () => {
-  const handleTest = async () => {
-    console.log("in handletest");
-    try {
-      const response = await fetch("https://127.0.0.1:7157/api/Auth/test");
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { t } = useTranslation();
+  const [modalVisible, setModalVisible] = useState(false);
+
   const [value, setValue] = useState(50);
 
   return (
@@ -48,29 +45,31 @@ const ProjectPage = () => {
       <ScrollView contentContainerStyle={{ alignItems: "center", padding: 10 }}>
         <View style={styles.grid}>
           <View style={styles.gridItem} className="bg-light_navy">
-            <Text>Total Projects</Text>
+            <Text>{t("project.totalProjects")}</Text>
             <Text>10</Text>
           </View>
           <View style={styles.gridItem} className="bg-light_red">
-            <Text>Complete Projects</Text>
+            <Text>{t("project.complateProjects")}</Text>
             <Text>6</Text>
           </View>
           <View style={styles.gridItem} className="bg-light_green">
-            <Text>On Going Projects</Text>
+            <Text>{t("project.onGoingProjects")}</Text>
             <Text>2</Text>
           </View>
           <View style={styles.gridItem} className="bg-bg_yellow">
-            <Text>Pending Projects</Text>
+            <Text>{t("project.pendingProjects")}</Text>
             <Text>2</Text>
           </View>
         </View>
         <Pressable
           style={{ width: width / 2 - 40, height: width / 6 }}
           className="bg-navyBlue my-5 rounded-xl justify-center items-center flex flex-row gap-3"
-          onPress={handleTest}
+          onPress={() => setModalVisible(true)}
         >
           <FontAwesome name="plus" size={20} color="white" />
-          <Text className="text-white font-bold text-lg">Create Project</Text>
+          <Text className="text-white font-bold text-lg">
+            {t("project.createProject")}
+          </Text>
         </Pressable>
         <View className="h-[30vh]">
           <CardPagination></CardPagination>
@@ -82,6 +81,10 @@ const ProjectPage = () => {
         <RecentAvtivity></RecentAvtivity>
         {/* </View> */}
       </ScrollView>
+      <CreateProjectModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
     </View>
   );
 };

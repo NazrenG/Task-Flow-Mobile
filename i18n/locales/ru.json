@@ -1,5 +1,88 @@
 {
+  "project": {
+    "totalProjects": "Всего Проектов",
+    "complateProjects": "Завершенные Проекты",
+    "onGoingProjects": "Текущие проекты",
+    "pendingProjects": "Ожидаемые проекты",
+    "createProject": "Создать проект",
+    "recentProjectUpdates": "Последние обновления проекта",
+    "pending": "В ожидании",
+    "onGoing": "Непрерывный",
+    "complated": "Завершенный",
+    "deadline": "Крайний срок",
+    "inProcessProject": "Проект в процессе",
+    "recentActivity": "Недавняя активность",
+    "projectName": "Название проекта",
+    "enterProjectName": "Введите название проекта",
+    "daysLeft": "осталось дней",
+    "projectState": "Состояние проекта",
+    "selectProjectState": "Выберите состояние проекта",
+    "startDate": "Дата начала",
+    "endDate": "Дата окончания срока",
+    "description": "Описание проекта",
+    "colorPicker": "Выберите цвет",
+    "descriptionData": "Введите текст (максимум 400 символов)",
+    "characters": "символ",
+    "edit": "Редактировать",
+    "selectUsers": "Выберите участника",
+    "selectedUsers": "Избранные участники",
+    "delete": "Удалить",
+    "toast": {
+      "success": {
+        "deleteProject": "Project deleted successfully!",
+        "editProject": "Project edited successfully!",
+        "userListUpdated": "User List Updated Successfully!"
+      },
+      "fail": {
+        "deleteProject": "Failed to delete project!",
+        "editProject": "Failed to edit project!",
+        "userListUpdated": "Failed To Update User List!"
+      }
+    }
+  },
+
+  "userDetail": {
+    "info": "Основная информация",
+    "totalTasks": "Общие задачи",
+    "completedTasks": "Завершенные задачи",
+    "runningTasks": "Выполняемые задачи",
+    "holdTasks": "Задачи на удержании",
+    "country": "Страна",
+    "occupation": "Професс",
+    "gender": "Пол",
+    "birthDate": "Дата рождения",
+    "phone": "Телефон",
+    "status": "Статус",
+    "overview": "Обзор задачи",
+    "priority": "Приоритет",
+    "start": "Начало",
+    "deadline": "Срок выполнения",
+    "progress": "Прогресс",
+    "Status": "Статус"
+  },
+
+  "profile": {
+    "info": "Информация профиля",
+    "fullname": "Полное имя",
+    "email": "е-мейл",
+    "phone": "Номер телефона",
+    "country": "Страна",
+    "department": "Отдел",
+    "gender": "Пол",
+    "birthDate": "Дата рождения"
+  },
+  "settings": {
+    "name": "Настройки",
+    "editprofile": "Редактировать профиль",
+    "changePassword": "Изменить пароль",
+    "notifications": "Уведомления",
+    "activityLog": "Журнал активности",
+    "dangerZone": "Опасная зона",
+    "deleteAccount": "Удалить аккаунт",
+    "cleanHistory": "Очистить историю",
+    "logout": "Выйти",
+    "save": "Обновлять"
+  },
   "welcome": "зкшмуе",
-  "language": "ывислы",
-  "info": "Основная информация"
+  "language": "ывислы"
 }
