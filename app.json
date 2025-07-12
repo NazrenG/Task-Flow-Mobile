@@ -12,9 +12,6 @@
       "supportsTablet": true,
       "foregroundImage": "./assets/gif/loading.gif",
       "backgroundColor": "#ffffff"
-
-
-
     },
     "android": {
       "adaptiveIcon": {
@@ -29,7 +26,7 @@
       "output": "static",
       "favicon": "./assets/gif/loading.gif"
     },
-    "plugins": [ 
+    "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
@@ -39,9 +36,10 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      "expo-localization"
+      "expo-localization",
+      "expo-font",
+      "expo-web-browser"
     ],
-
     "experiments": {
       "typedRoutes": true
     },
@@ -50,6 +48,5 @@
         "bundler": "metro"
       }
     }
-   
- }
+  }
 }

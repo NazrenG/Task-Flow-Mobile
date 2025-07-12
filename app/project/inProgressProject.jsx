@@ -1,9 +1,12 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { useTranslation } from "react-i18next";
 import { Dimensions, ScrollView, Text, View } from "react-native";
 import * as Progress from "react-native-progress";
 
 const width = Dimensions.get("window").width;
 const InProgressProject = () => {
+  const { t } = useTranslation();
+
   const projects = [
     { name: "test 90", daysLeft: -95 },
     { name: "test 5", daysLeft: -62 },
@@ -27,7 +30,9 @@ const InProgressProject = () => {
       }}
       className="p-4 bg-white rounded-lg m-3"
     >
-      <Text className="text-lg font-semibold mb-3">In Progress Project</Text>
+      <Text className="text-lg font-semibold mb-3">
+        {t("project.inProcessProject")}
+      </Text>
       <ScrollView nestedScrollEnabled={true}>
         {projects.map((project, index) => (
           <View key={index} className="mb-3 flex flex-row gap-5">
@@ -52,7 +57,7 @@ const InProgressProject = () => {
                 <View className="flex-row items-center gap-1 mt-1">
                   <MaterialIcons name="watch-later" size={15} color="gray" />
                   <Text className="text-sm text-gray-600">
-                    Deadline :{project.daysLeft} days left
+                    {t("project.deadline")}:{project.daysLeft} days left
                   </Text>
                 </View>
               )}

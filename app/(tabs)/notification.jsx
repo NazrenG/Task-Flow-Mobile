@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import {
   SafeAreaView,
@@ -128,6 +129,7 @@ export default function NotificationScreen() {
           </View>
         )}
       </ScrollView>
+
     </SafeAreaView>
   );
 }
