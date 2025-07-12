@@ -2,7 +2,6 @@ import { Link, router } from "expo-router";
 import LottieView from "lottie-react-native";
 import React from "react";
 import {
-  Dimensions,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -28,7 +27,6 @@ const Login = () => {
         keyboardShouldPersistTaps="handled"
       >
         <View className="flex-1 justify-center items-center bg-white px-4 py-6">
-
           <Title>Welcome back!</Title>
 
           <LottieView
@@ -76,7 +74,7 @@ const Login = () => {
           </TouchableOpacity>
 
           <View className="flex-row items-center justify-center mt-2">
-            <Text style={{ color: "#FF9332" }}>Don't have an account? </Text>
+            <Text style={{ color: "#FF9332" }}>Don`t have an account? </Text>
             <Link
               href="auth/register"
               style={{ color: "#654A98", fontWeight: "600" }}

@@ -1,4 +1,45 @@
 {
+  "project": {
+    "totalProjects": "Всего Проектов",
+    "complateProjects": "Завершенные Проекты",
+    "onGoingProjects": "Текущие проекты",
+    "pendingProjects": "Ожидаемые проекты",
+    "createProject": "Создать проект",
+    "recentProjectUpdates": "Последние обновления проекта",
+    "pending": "В ожидании",
+    "onGoing": "Непрерывный",
+    "complated": "Завершенный",
+    "deadline": "Крайний срок",
+    "inProcessProject": "Проект в процессе",
+    "recentActivity": "Недавняя активность",
+    "projectName": "Название проекта",
+    "enterProjectName": "Введите название проекта",
+    "daysLeft": "осталось дней",
+    "projectState": "Состояние проекта",
+    "selectProjectState": "Выберите состояние проекта",
+    "startDate": "Дата начала",
+    "endDate": "Дата окончания срока",
+    "description": "Описание проекта",
+    "colorPicker": "Выберите цвет",
+    "descriptionData": "Введите текст (максимум 400 символов)",
+    "characters": "символ",
+    "edit": "Редактировать",
+    "selectUsers": "Выберите участника",
+    "selectedUsers": "Избранные участники",
+    "delete": "Удалить",
+    "toast": {
+      "success": {
+        "deleteProject": "Project deleted successfully!",
+        "editProject": "Project edited successfully!",
+        "userListUpdated": "User List Updated Successfully!"
+      },
+      "fail": {
+        "deleteProject": "Failed to delete project!",
+        "editProject": "Failed to edit project!",
+        "userListUpdated": "Failed To Update User List!"
+      }
+    }
+  },
   "welcome": "зкшмуе",
   "language": "ывислы"
 }

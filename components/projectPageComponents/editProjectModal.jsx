@@ -14,7 +14,7 @@ import ColorPicker from "./colorPicker";
 
 const width = Dimensions.get("window").width;
 
-const CreateProjectModal = ({ modalVisible, setModalVisible }) => {
+const EditProjectModal = ({ modalVisible, setModalVisible }) => {
   const { t } = useTranslation();
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -45,7 +45,7 @@ const CreateProjectModal = ({ modalVisible, setModalVisible }) => {
           className="bg-white p-6 rounded-xl items-center gap-6"
           style={{ width: width - 30 }}
         >
-          <Text className="text-2xl">{t("project.createProject")}</Text>
+          <Text className="text-2xl">{t("project.editProject")}</Text>
           <View className="flex flex-row gap-3">
             <View className="flex-1">
               <Text className="mb-2">{t("project.projectName")}:</Text>
@@ -124,4 +124,4 @@ const CreateProjectModal = ({ modalVisible, setModalVisible }) => {
   );
 };
 
-export default CreateProjectModal;
+export default EditProjectModal;

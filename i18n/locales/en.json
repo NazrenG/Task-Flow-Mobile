@@ -1,4 +1,46 @@
 {
+  "project": {
+    "totalProjects": "Total Projects",
+    "complateProjects": "Completed  Projects",
+    "onGoingProjects": "On Going Projects",
+    "pendingProjects": "Pending Projects",
+    "createProject": "Create Project",
+    "recentProjectUpdates": "Recent Project Updates",
+    "pending": "Pending",
+    "onGoing": "On Going",
+    "complated": "Completed",
+    "deadline": "Deadline",
+    "inProcessProject": "In Process Project",
+    "recentActivity": "Recent Activity",
+    "projectName": "Project Name",
+    "enterProjectName": "Enter project name",
+    "daysLeft": "days left",
+    "projectState": "Project State",
+    "selectProjectState": "Select Project State",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "description": "Description",
+    "colorPicker": "Color Picker",
+    "descriptionData": "Enter your message (max 400 characters)",
+    "characters": "characters",
+    "edit": "Edit",
+    "selectUsers": "Select Members",
+    "selectedUsers": "Selected Members",
+    "delete": "Delete",
+    "editProject": "edit Project",
+    "toast": {
+      "success": {
+        "deleteProject": "Project deleted successfully!",
+        "editProject": "Project edited successfully!",
+        "userListUpdated": "User List Updated Successfully!"
+      },
+      "fail": {
+        "deleteProject": "Failed to delete project!",
+        "editProject": "Failed to edit project!",
+        "userListUpdated": "Failed To Update User List!"
+      }
+    }
+  },
   "welcome": "Welcome",
   "language": "Language"
 }

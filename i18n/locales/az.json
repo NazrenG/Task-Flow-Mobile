@@ -1,4 +1,45 @@
 {
+  "project": {
+    "totalProjects": "Ümumi Layihələr",
+    "complateProjects": "Tamamlanmış Layihələr",
+    "onGoingProjects": "Davam edən Layihələr",
+    "pendingProjects": "Gözlənilən Layihələr",
+    "createProject": "Layihə Yarat",
+    "recentProjectUpdates": "Son Layihə Yeniləmələri",
+    "pending": "Gözlənilən",
+    "onGoing": "Davam edən",
+    "complated": "Tamamlanmış",
+    "deadline": "Son Tarix",
+    "inProcessProject": "Prosesdə Olan Layihə",
+    "recentActivity": "Ən Son Yeniliklər",
+    "projectName": "Layihənin Adı",
+    "enterProjectName": "Ad daxil edin",
+    "daysLeft": "gün qalıb",
+    "projectState": "Layihənin vəziyyəti",
+    "selectProjectState": "Layihənin statusunu seçin",
+    "startDate": "Başlanğıc Tarixi",
+    "endDate": "Bitmə Tarixi",
+    "description": "Layihənin açıqlaması",
+    "colorPicker": "Rəng seçin",
+    "descriptionData": "Yazı daxil edin (max 400 simvol)",
+    "characters": "simvol",
+    "edit": "Redaktə et",
+    "selectUsers": "Üzv seç",
+    "selectedUsers": "Seçilmiş üzvlər",
+    "delete": "Sil",
+    "toast": {
+      "success": {
+        "deleteProject": "Project deleted successfully!",
+        "editProject": "Project edited successfully!",
+        "userListUpdated": "User List Updated Successfully!"
+      },
+      "fail": {
+        "deleteProject": "Failed to delete project!",
+        "editProject": "Failed to edit project!",
+        "userListUpdated": "Failed To Update User List!"
+      }
+    }
+  },
   "welcome": "Xoş gəldiniz",
   "language": "Dil"
 }
