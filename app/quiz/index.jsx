@@ -42,7 +42,7 @@ export default function Quiz() {
       ],
       icon: (
         <LottieView
-          source={require("../../assets/animations/quiz_second.json")}
+          source={require("../../assets/animations/quiz_third.json")}
           autoPlay
           loop
           style={{ width: 200, height: 200 }}

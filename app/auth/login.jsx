@@ -13,6 +13,8 @@ import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import Title from "../../components/Title/Title";
 
+const { width } = Dimensions.get("window");
+
 const Login = () => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -27,13 +29,19 @@ const Login = () => {
         keyboardShouldPersistTaps="handled"
       >
         <View className="flex-1 justify-center items-center bg-white px-4 py-6">
+          <View style={{ marginBottom: 50, width: "100%" }} />
+
           <Title>Welcome back!</Title>
 
           <LottieView
-            source={require("../../assets/animations/loginAnimation.json")}
+            source={require("../../assets/animations/quiz_second.json")}
             autoPlay
             loop
-            style={{ width: 300, height: 300, marginBottom: 20 }}
+            style={{
+              width: width * 0.7,
+              height: width * 0.7,
+              marginBottom: 20,
+            }}
           />
 
           <Input
@@ -49,23 +57,25 @@ const Login = () => {
             secureTextEntry={true}
           />
 
-          <Text
+          <TouchableOpacity
+            onPress={() => router.push("auth/forgotPassword")}
             style={{
               alignSelf: "flex-start",
               color: "#777",
-              marginTop: 10,
-              marginBottom: 30,
+              marginTop: 5,
+              marginBottom: 15,
             }}
           >
-            Forgot password?
-          </Text>
+            <Text>Forgot password?</Text>
+          </TouchableOpacity>
 
-          <View className="mb-10 w-full" />
+          <View style={{ marginBottom: 50, width: "100%" }} />
+
           <TouchableOpacity
             onPress={() => router.push("/quiz")}
             className="bg-dark_violet justify-center items-center rounded-full p-4"
             style={{
-              width: "100%",
+              width: width * 0.9, // ekranın 90%-i
               maxWidth: 400,
               marginBottom: 20,
             }}

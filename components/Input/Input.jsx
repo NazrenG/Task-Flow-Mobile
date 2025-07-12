@@ -1,42 +1,30 @@
-// import { TextInput, View } from "react-native";
+import { TextInput, View, Dimensions } from "react-native";
 
-// const Input = ({ placeholder, keyboardType = "default", ...rest }) => {
-//     return (
-//       <>
-      
-      
-//             <View className="bg-gray-200  px-6 py-4 w-[90%] self-center mb-4">
-//       <TextInput
-//         placeholder={placeholder}
-//         placeholderTextColor="#555"
-//         className="text-base text-black font-center"
-     
-//         {...rest}
-//       />
-           
-           
-           
-//     </View>
-            
-        
- 
-//       </>
-//   );
-// };
-
-// export default Input;
-
-import { TextInput, View } from "react-native";
+const { width } = Dimensions.get("window");
 
 const Input = ({ placeholder, keyboardType = "default", style, ...rest }) => {
   return (
-    <View className="bg-gray-200 rounded-full px-6 py-1 w-[90%] self-center mb-4">
+    <View
+      style={{
+        backgroundColor: "#e5e7eb", 
+        paddingHorizontal: 24,      
+        paddingVertical: 4,        
+        width: width * 0.9,         
+        alignSelf: "center",
+        marginBottom: 16,          
+        borderRadius: 8,            
+        ...style,
+      }}
+    >
       <TextInput
         placeholder={placeholder}
         placeholderTextColor="#555"
-        className="text-base text-black"
         keyboardType={keyboardType}
-        style={{ textAlign: "left" }}
+        style={{
+          fontSize: 16,
+          color: "#000",
+          textAlign: "left",
+        }}
         {...rest}
       />
     </View>

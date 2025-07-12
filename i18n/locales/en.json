@@ -42,5 +42,49 @@
     }
   },
   "welcome": "Welcome",
-  "language": "Language"
+  "language": "Language",
+  
+  "userDetail":{
+    "info": "Basic Info",
+    "totalTasks": "Total Tasks",
+    "completedTasks": "Completed Tasks",
+    "runningTasks": "Running Tasks",
+    "holdTasks": "Hold Tasks",
+    "country": "Country",
+    "occupation": "Occupation",
+    "gender":"Gender",
+    "birthDate": "Birth Date",
+    "phone":"Phone",
+    "status": "Status",
+    "overview": "Task Overview",
+    "priority": "Priority",
+    "start": "Start",
+    "deadline": "Deadline",
+    "progress": "Progress"
+  
+  },
+  "profile":{
+    "info": "Profile Info",
+    "fullname": "Full Name",
+    "email": "Email",
+    "phone": "Phone Number",
+    "country": "Country",
+    "department": "Department",
+    "gender":"Gender",
+    "birthDate": "Birth Date"
+  },
+  "settings":{
+    "name": "Settings",
+    "editprofile": "Edit Profile",
+    "changePassword": "Change Password",
+    "notifications": "Notifications",
+    "activityLog": "Activity Log",
+    "dangerZone": "Danger Zone",
+    "deleteAccount": "Delete Account",
+    "cleanHistory": "Clean History",
+    "logout": "Log Out",
+    "save":"Update"
+  }
+
+  
 }
