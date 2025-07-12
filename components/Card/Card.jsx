@@ -1,14 +1,35 @@
 // components/TaskCard.js
-import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
-
+import { LinearGradient } from "expo-linear-gradient";
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 const { width } = Dimensions.get("window");
 
-export default function Card({ title, count, color, icon }) {
+export default function Card({ title, count, color, icon, gradient }) {
   return (
-    <TouchableOpacity style={[styles.card, { backgroundColor: color }]} activeOpacity={0.8}>
+    <TouchableOpacity
+      style={[styles.card, { backgroundColor: color }]}
+      activeOpacity={0.8}
+    >
       <View style={styles.cardContent}>
-        <View style={styles.iconContainer}>{icon}</View>
+        <View style={styles.iconContainer}>
+          <LinearGradient
+            colors={gradient}
+            style={{
+              width: 30,
+              height: 30,
+              borderRadius: 9999,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {icon}
+          </LinearGradient>
+        </View>
         <View style={styles.textContainer}>
           <Text style={styles.cardTitle}>{title}</Text>
           <Text style={styles.cardCount}>{count}</Text>
@@ -20,7 +41,7 @@ export default function Card({ title, count, color, icon }) {
 
 const styles = StyleSheet.create({
   card: {
-    width: width / 2 - 22,
+    width: width / 2 - 32,
     padding: 12,
     borderRadius: 12,
     elevation: 2,
