@@ -1,4 +1,6 @@
 {
+  "welcome": "зкшмуе",
+  "language": "ывислы",
   "project": {
     "totalProjects": "Всего Проектов",
     "complateProjects": "Завершенные Проекты",
@@ -71,6 +73,7 @@
     "gender": "Пол",
     "birthDate": "Дата рождения"
   },
+
   "settings": {
     "name": "Настройки",
     "editprofile": "Редактировать профиль",
@@ -83,6 +86,52 @@
     "logout": "Выйти",
     "save": "Обновлять"
   },
-  "welcome": "зкшмуе",
-  "language": "ывислы"
+
+  "dashboard": {
+      "projects": "Проекты",
+  "tasks": "Задачи",
+  "kanban": "Канбан",
+  "managarProjects": "Управление проектом легко",
+  "organizeTasks": "Легко организуйте задачи, команды и сроки",
+  "tryNow": "Попробовать бесплатно",
+  "totalClients": "Всего клиентов",
+  "message": "Сообщение",
+  "createtask": "Добавить задачу",
+  "participantprofile": "Профиль участников по профессиям",
+  "statisticsAccording": "Статистика по профилям всех участников",
+  "dailyTasks": "Ежедневные задачи",
+  "noTask": "На этот час задач нет",
+  "currentTasks": "Текущие задачи"
+
+  },
+
+  "chat":{
+    "message": "Сообщение",
+    "send": "Отправить",
+    "typeMessage": "Введите ваше сообщение здесь...",
+    "online": "онлайн",
+    "offline": "офлайн"
+  },
+
+  "task":{
+     "totalTasks": "Всего задач",
+    "completedTasks": "Выполненные задачи",
+    "runningTasks": "Запуск задач",
+    "holdTasks": "Удержание задач",
+    "tasks":"Задачи",
+    "todo":"to do",
+    "inprogress":"in progress",
+    "completed":"completed",
+    "all":"All",
+    "priority":"Приоритет",
+    "deadline":"Крайний срок",
+    "project":"Проект"
+  },
+  "kanban":{
+    "name":"Название проекта",
+    "back":"назад",
+    "next":"следующий",
+    "kanban":"Канбан",
+    "table":"Таблица"
+  }
 }

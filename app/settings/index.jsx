@@ -1,6 +1,8 @@
+import i18n from "@/i18n/i18n";
 import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router"; // ✅ expo-router yönləndirmə
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Dimensions,
   Image,
@@ -12,10 +14,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Header from "../../components/Header";
 import CalendarDropdown from "../../hooks/DropDown";
-import { useTranslation } from "react-i18next";
-import i18n from "@/i18n/i18n";
 
 const { width } = Dimensions.get("window");
 const scale = width / 375;
@@ -48,7 +47,7 @@ const handleLanguageChange = (item) => {
 };
 
 export default function SettingsScreen() {
-  const navigation = useNavigation();
+  const router = useRouter(); // ✅ expo-router yönləndirmə hook-u
   const { t } = useTranslation();
   const [searchText, setSearchText] = useState("");
 
@@ -61,7 +60,7 @@ export default function SettingsScreen() {
   const settingsList = [
     { key: "editProfile", icon: "edit", label: t("settings.editprofile") },
     { key: "changePassword", icon: "key", label: t("settings.changePassword") },
-    { key: "notifications", icon: "bell", label: t("settings.notifications") },
+    { key: "notification", icon: "bell", label: t("settings.notifications") },
     { key: "activityLog", icon: "activity", label: t("settings.activityLog") },
   ];
 
@@ -73,9 +72,11 @@ export default function SettingsScreen() {
 
   const handlePress = (key) => {
     if (key === "changePassword") {
-      navigation.navigate("auth/changePassword");
+      router.push("/changePassword");
     } else if (key === "editProfile") {
-      navigation.navigate("settings/editprofile");
+      router.push("/settings/editprofile");
+    } else if (key === "notification") {
+      router.push("/notification");
     } else {
       console.log("Pressed:", key);
     }
@@ -90,7 +91,7 @@ export default function SettingsScreen() {
         {/* Header */}
         <View className="flex-row items-center justify-between mb-6">
           <TouchableOpacity
-            onPress={() => navigation.goBack()}
+            onPress={() => router.back()}
             className="rounded-full p-1"
           >
             <MaterialIcons name="arrow-back-ios" size={25} color="black" />

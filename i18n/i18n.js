@@ -7,8 +7,8 @@ import ru from './locales/ru.json';
 
 i18n.use(initReactI18next).init({
   compatibilityJSON: 'v3',
-  lng: 'az', // default dil
-  fallbackLng: 'az',
+  lng: 'en', // default dil
+  fallbackLng: 'en',
   resources: {
     en: { translation: en },
     az: { translation: az },

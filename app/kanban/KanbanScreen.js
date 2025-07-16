@@ -12,6 +12,8 @@ import {
 } from "react-native";
 import Header from "../../components/Header";
 import TableView from "./TableView";
+import { useTranslation } from "react-i18next";
+
 
 const initialColumns = {
   todo: [
@@ -71,6 +73,8 @@ export default function App() {
   const [activeView, setActiveView] = useState("kanban");
   const [searchText, setSearchText] = useState("");
   const [activeTab, setActiveTab] = useState("kanban");
+    const { t } = useTranslation();  
+
 
   const moveItem = (from, to, id) => {
     setColumns((prev) => {
@@ -106,7 +110,7 @@ export default function App() {
                   : tabColors["kanban"].bg
               }`}
             >
-              <Text className="text-white font-semibold">Kanban</Text>
+              <Text className="text-white font-semibold">{t("kanban.kanban")}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -120,7 +124,7 @@ export default function App() {
                   : tabColors["table"].bg
               }`}
             >
-              <Text className="text-white font-semibold">Table</Text>
+              <Text className="text-white font-semibold">{t("kanban.table")}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -255,7 +259,7 @@ export default function App() {
                         }}
                       >
                         <Text className="text-gray-700 text-xs font-semibold">
-                          back
+                          {t("kanban.back")}
                         </Text>
                       </TouchableOpacity>
                       <TouchableOpacity
@@ -268,7 +272,7 @@ export default function App() {
                         }}
                       >
                         <Text className="text-black text-xs font-semibold">
-                          next
+                          {t("kanban.next")}
                         </Text>
                       </TouchableOpacity>
                     </View>

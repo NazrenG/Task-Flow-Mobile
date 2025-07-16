@@ -1,7 +1,10 @@
 {
+  "welcome": "Welcome",
+  "language": "Language",
+
   "project": {
     "totalProjects": "Total Projects",
-    "complateProjects": "Completed  Projects",
+    "complateProjects": "Complete Projects",
     "onGoingProjects": "On Going Projects",
     "pendingProjects": "Pending Projects",
     "createProject": "Create Project",
@@ -41,15 +44,13 @@
       }
     }
   },
-  "welcome": "Welcome",
-  "language": "Language",
   
   "userDetail":{
     "info": "Basic Info",
-    "totalTasks": "Total Tasks",
-    "completedTasks": "Completed Tasks",
-    "runningTasks": "Running Tasks",
-    "holdTasks": "Hold Tasks",
+    "totalTasks": "Total Task",
+    "completedTasks": "Complete Task",
+    "runningTasks": "Running Task",
+    "holdTasks": "Hold Task",
     "country": "Country",
     "occupation": "Occupation",
     "gender":"Gender",
@@ -63,6 +64,7 @@
     "progress": "Progress"
   
   },
+
   "profile":{
     "info": "Profile Info",
     "fullname": "Full Name",
@@ -73,6 +75,7 @@
     "gender":"Gender",
     "birthDate": "Birth Date"
   },
+
   "settings":{
     "name": "Settings",
     "editprofile": "Edit Profile",
@@ -84,6 +87,54 @@
     "cleanHistory": "Clean History",
     "logout": "Log Out",
     "save":"Update"
+  },
+
+  "dashboard": {
+
+    "projects": "Projects",
+    "tasks": "Tasks",
+    "kanban": "Kanban",
+    "managarProjects": "Manage your project in one touch",
+    "organizeTasks": "Organize tasks, teams, and deadlines with ease.",
+    "tryNow": "Try For Free Now",
+    "totalClients": "Total Clients",
+    "message": "Message",
+    "createtask": "Create Task",
+    "participantprofile":"Participant Ocuupation Profile",
+    "statisticsAccording":"Statistics according to occupational profile of all participants",
+    "dailyTasks": "Daily Tasks",
+    "noTask":"No Task For An Hour",
+    "currentTasks": "Current Tasks"
+  },
+
+  "chat":{
+    "message": "Message",
+    "send": "Send",
+    "typeMessage": "Type your message here...",
+    "online" : "online",
+    "offline" : "offline"
+  },
+
+  "task":{
+    "totalTasks": "Total Task",
+    "completeTasks": "Complete Task",
+    "runningTasks": "Running Task",
+    "holdTasks": "Hold Task",
+    "tasks":"Tasks",
+    "todo":"to do",
+    "inprogress":"in progress",
+    "completed":"completed",
+    "all":"All",
+    "priority":"Priority",
+    "deadline":"Deadline",
+    "project":"Project"
+  },
+  "kanban":{
+    "name":"Project Name",
+    "back":"back",
+    "next":"next",
+    "kanban":"Kanban",
+    "table":"Table"
   }
 
   

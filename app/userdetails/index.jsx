@@ -102,30 +102,34 @@ export default function UserDetail() {
         {/* Task Summary */}
         <View style={styles.taskGrid}>
           
-          <Card
-            title={t("userDetail.totalTasks")}
-            count="0"
-            color="#f8ebc5"
-            icon={<MaterialIcons name="assignment" size={20} color="#D97706" />}
-          />
-          <Card
-            title={t("userDetail.runningTasks")}
-            count="2"
-            color="#caf8e7"
-            icon={<MaterialIcons name="play-circle-outline" size={20} color="#059669" />}
-          />
-          <Card
-            title={t("userDetail.holdTasks")}
-            count="0"
-            color="#c2b8ff"
-            icon={<MaterialIcons name="pause-circle-outline" size={20} color="#7C3AED" />}
-          />
-          <Card
-            title={t("userDetail.completedTasks")}
-            count="0"
-            color="#CFFAFE"
-            icon={<MaterialIcons name="check-circle-outline" size={20} color="#0E7490" />}
-          />
+        <Card
+  title={t("userDetail.totalTasks", "Total Tasks")}
+  count="0"
+  color="#f8ebc5"
+  icon={<MaterialIcons name="assignment" size={20} color="#D97706" />}
+  gradient={["#fcd34d", "#fde68a"]}
+/>
+<Card
+  title={t("userDetail.runningTasks", "Running Tasks")}
+  count="2"
+  color="#caf8e7"
+  icon={<MaterialIcons name="play-circle-outline" size={20} color="#059669" />}
+  gradient={["#34d399", "#6ee7b7"]}
+/>
+<Card
+  title={t("userDetail.holdTasks", "On Hold")}
+  count="0"
+  color="#c2b8ff"
+  icon={<MaterialIcons name="pause-circle-outline" size={20} color="#7C3AED" />}
+  gradient={["#a78bfa", "#ddd6fe"]}
+/>
+<Card
+  title={t("userDetail.completedTasks", "Completed")}
+  count="0"
+  color="#CFFAFE"
+  icon={<MaterialIcons name="check-circle-outline" size={20} color="#0E7490" />}
+  gradient={["#67e8f9", "#a5f3fc"]}
+/>
 
 
 

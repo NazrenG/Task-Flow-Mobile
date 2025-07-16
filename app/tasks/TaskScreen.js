@@ -12,6 +12,8 @@ import {
 import Header from "../../components/Header";
 import { Colors } from "../../constants/Colors";
 import TaskModal from "./TaskModal";
+import { useTranslation } from "react-i18next";
+
 
 const mockData = [
   {
@@ -67,6 +69,7 @@ export default function TaskListMobile() {
   const [searchText, setSearchText] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
   const [isModalVisible, setModalVisible] = useState(false);
+  const { t } = useTranslation();  
 
   const filteredData =
     filter === "All"
@@ -169,14 +172,14 @@ export default function TaskListMobile() {
         {/* Stats Cards */}
         <View className="flex-row flex-wrap justify-between items-center mx-4 p-4 mt-2 gap-2 rounded-lg bg-white shadow-sm">
           <Card
-            title="Total Task"
+            title={t("task.totalTasks")}
             count="0"
             color={Colors.secondary.bg_yellow}
             icon={<MaterialIcons name="assignment" size={20} color="#D97706" />}
             gradient={[Colors.secondary.yellow, Colors.secondary.lightYellow]}
           />
           <Card
-            title="Running Task"
+            title={t("task.runningTasks")}
             count="2"
             color={Colors.secondary.bg_green}
             icon={
@@ -189,7 +192,7 @@ export default function TaskListMobile() {
             gradient={[Colors.secondary.green, Colors.secondary.lightGreen]}
           />
           <Card
-            title="On Hold Task"
+            title={t("task.runningTasks")}
             count="0"
             color={Colors.secondary.bg_violet}
             icon={
@@ -202,7 +205,7 @@ export default function TaskListMobile() {
             gradient={[Colors.secondary.violet, Colors.secondary.lightViolet]} // Gradient colors for the card
           />
           <Card
-            title="Complete Task"
+            title={t("task.completeTasks")}
             count="0"
             color={Colors.secondary.bg_blue}
             icon={
@@ -219,7 +222,7 @@ export default function TaskListMobile() {
         {/* Filter */}
         <View className="px-4">
           <View className="flex-row items-center justify-between mt-4 mb-2">
-            <Text className="text-lg font-bold">Tasks</Text>
+            <Text className="text-lg font-bold">{t("task.tasks")}</Text>
             <TouchableOpacity
               className="px-3 py-1 rounded-md bg-green-500"
               onPress={() => router.push("/tasks/create")}
