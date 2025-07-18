@@ -17,6 +17,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  SafeAreaView
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import Header from "../../components/Header";
@@ -88,7 +89,8 @@ export default function EditProfileScreen() {
   const [calendarVisible, setCalendarVisible] = useState(false);
 
   return (
-    <>
+    <SafeAreaView style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      
       <Header />
       <TouchableOpacity
         style={styles.backButton}
@@ -200,7 +202,7 @@ export default function EditProfileScreen() {
           </TouchableOpacity>
         </View>
       </Modal>
-    </>
+    </SafeAreaView>
   );
 }
 
