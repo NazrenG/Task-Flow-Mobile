@@ -26,43 +26,85 @@
     "colorPicker": "Rəng seçin",
     "descriptionData": "Yazı daxil edin (max 400 simvol)",
     "characters": "simvol",
+    "viewDetails": "Ətraflı Məlumat",
     "edit": "Redaktə et",
     "selectUsers": "Üzv seç",
     "selectedUsers": "Seçilmiş üzvlər",
     "delete": "Sil",
+    "submit": "Təsdiq et",
+    "cancel": "Ləğv et",
     "toast": {
       "success": {
-        "deleteProject": "Project deleted successfully!",
-        "editProject": "Project edited successfully!",
-        "userListUpdated": "User List Updated Successfully!"
+        "deleteProject": "Layihə silindi!",
+        "editProject": "Dəyişikliklər qeydə alındı!",
+        "userListUpdated": "Üzvlər siyahısı yeniləndi!"
       },
       "fail": {
-        "deleteProject": "Failed to delete project!",
-        "editProject": "Failed to edit project!",
-        "userListUpdated": "Failed To Update User List!"
+        "deleteProject": "Layihəni silmək mümkün olmadı!",
+        "editProject": "Dəyişikliklər qeydə alınmadı!",
+        "userListUpdated": "Üzvlər siyahısı yenilənə bilmədi!"
       }
     }
   },
-  
-  "userDetail":{
+  "projectDetails": {
+    "country": "Ölkə",
+    "occupation": "İş",
+    "gender": "Cinsiyyət",
+    "birthday": "Ad günü",
+    "phone": "Telefon Nömrəsi",
+    "status": "Status",
+    "priority": "Prioritet",
+    "projectOverview": "Layihənin icmalı"
+  },
 
-  "info":"Əsas məlumat",
-  "totalTasks": "Ümumi Tapşırıqlar",
-  "completedTasks": "Tamamlanmış vəzifələr",
-  "runningTasks": "İcra olunan vəzifələr",
-  "holdTasks": "Saxlanılan vəzifələr",
-  "country": "Ölkə",
-  "occupation": "Peşə",
-  "gender":"Cins",
-  "birthDate": "Doğum tarixi",
-  "phone":"Telefon",
-  "status": "Status",
-  "overview": "Tapşırıqlara Baxış",
-  "priority": "Prioritet",
-  "start": "Başlama",
-  "deadline": "Son tarix",
-  "progress": "İrəliləyiş",
-  "Status": "Status"
+
+  "notification": {
+    "requests": "Istəklər",
+    "reminders": "Xatırlatmalar",
+    "others": "Başqa",
+    "toast": {
+      "success": {
+        "requestAccepted": "İstək qəbul olundu!",
+        "requestDecline": "İstək silindi!",
+        "reminderDeleted": "Xatırlatma silindi!",
+        "notificationDeleted": "Bildiriş silindi!"
+      },
+      "fail": {
+        "requestAccepted": "İstəyi qəbul etmək mümkün olmadı!",
+        "requestDecline": "İstıyi silmək mümkün olmadı!",
+        "reminderDeleted": "Xatırlatmanı silmək mümkün olmadı!",
+        "notificationDeleted": "Bildirişi silmək mümkün olmadı!"
+      }
+    }
+  },
+
+  "friend": {
+    "yourFriends": "Dostlarınız",
+    "allUsers": "Bütün istifadəçilər",
+    "message": "Mesaj",
+    "unfollow": "Unfollow",
+    "follow": "İzlə",
+    "viewProfile": "Profilə Bax"
+  },
+
+  "userDetail": {
+    "info": "Əsas məlumat",
+    "totalTasks": "Ümumi Tapşırıqlar",
+    "completedTasks": "Tamamlanmış vəzifələr",
+    "runningTasks": "İcra olunan vəzifələr",
+    "holdTasks": "Saxlanılan vəzifələr",
+    "country": "Ölkə",
+    "occupation": "Peşə",
+    "gender": "Cins",
+    "birthDate": "Doğum tarixi",
+    "phone": "Telefon",
+    "status": "Status",
+    "overview": "Tapşırıqlara Baxış",
+    "priority": "Prioritet",
+    "start": "Başlama",
+    "deadline": "Son tarix",
+    "progress": "İrəliləyiş",
+    "Status": "Status"
   },
 
   "profile": {
@@ -134,6 +176,4 @@
     "kanban":"Kanban",
     "table":"Cədvəl"
   }
- 
-
-} 
+}

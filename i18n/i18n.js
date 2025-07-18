@@ -1,22 +1,28 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
 
-import en from './locales/en.json';
-import az from './locales/az.json';
-import ru from './locales/ru.json';
+import az from "./locales/az.json";
+import en from "./locales/en.json";
+import ru from "./locales/ru.json";
 
 i18n.use(initReactI18next).init({
-  compatibilityJSON: 'v3',
-  lng: 'en', // default dil
-  fallbackLng: 'en',
+  compatibilityJSON: "v3",
+  lng: "en",
+  fallbackLng: "en",
   resources: {
     en: { translation: en },
     az: { translation: az },
     ru: { translation: ru },
   },
   interpolation: {
-    escapeValue: false, // React üçün lazım deyil
+    escapeValue: false,
+  },
+  dedection: {
+    order: ["asyncStorage", "cookie", "localStorage", "navigator", "device"],
+    caches: ["asyncStorage"],
   },
 });
 
 export default i18n;
+
+

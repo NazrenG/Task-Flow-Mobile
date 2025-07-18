@@ -1,311 +1,197 @@
-import { AntDesign, MaterialIcons } from "@expo/vector-icons";
-import { useRef, useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
+import { addDays, addMonths, format, startOfWeek, subMonths } from "date-fns";
+import { useState } from "react";
 import {
-  Animated,
-  Dimensions,
-  PanResponder,
   SafeAreaView,
-  StyleSheet,
+  ScrollView,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import EditTaskDateModal from "../../components/calendarPage/editTaskDateModal";
 import Header from "../../components/Header";
 
-import { router } from "expo-router";
+// Saat blokları
+const HOURS = Array.from({ length: 12 }, (_, i) => 8 + i);
 
-const { width } = Dimensions.get("window");
-const numColumns = 7;
-const cellSize = width / numColumns;
-
-function startOfMonth(date) {
-  return new Date(date.getFullYear(), date.getMonth(), 1);
-}
-
-function endOfMonth(date) {
-  return new Date(date.getFullYear(), date.getMonth() + 1, 0);
-}
-
-function getTaskVisibleRange(task, baseDate) {
-  const startMonth = startOfMonth(baseDate);
-  const endMonth = endOfMonth(baseDate);
-
-  if (task.endDate < startMonth || task.startDate > endMonth) {
-    return null;
-  }
-
-  const visibleStart =
-    task.startDate > startMonth ? task.startDate : startMonth;
-  const visibleEnd = task.endDate < endMonth ? task.endDate : endMonth;
-
-  const startDay = visibleStart.getDate();
-  const endDay = visibleEnd.getDate();
-
-  return { startDay, endDay };
-}
-
-export default function App() {
-  const [monthOffset, setMonthOffset] = useState(0);
+export default function CalendarScreen() {
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedTask, setSelectedTask] = useState("");
   const [searchText, setSearchText] = useState("");
-  const today = new Date();
-  const baseDate = new Date(
-    today.getFullYear(),
-    today.getMonth() + monthOffset,
-    1
-  );
-  const numDays = endOfMonth(baseDate).getDate();
 
-  const days = Array.from({ length: numDays }, (_, i) => i + 1);
+  const tasks = [
+    {
+      id: 1,
+      title: "Marketing team meeting",
+      start: 8,
+      end: 8.66,
+      color: "#FDE68A",
+    },
+    {
+      id: 2,
+      title: "Make plans to create new products",
+      start: 9,
+      end: 10,
+      color: "#C4B5FD",
+    },
+    {
+      id: 3,
+      title: "Coffee breaks and snacks",
+      start: 10,
+      end: 10.5,
+      color: "#A5F3FC",
+    },
+    {
+      id: 4,
+      title: "Company policy meeting",
+      start: 10.66,
+      end: 12.25,
+      color: "#FBCFE8",
+    },
+    {
+      id: 5,
+      title: "Have lunch",
+      start: 12.5,
+      end: 13.5,
+      color: "#FDE68A",
+    },
+  ];
 
-  const [tasks, setTasks] = useState([
-    {
-      id: "1",
-      title: "Login UI düzəlt",
-      color: "#4f46e5",
-      startDate: new Date(today.getFullYear(), today.getMonth(), 28),
-      endDate: new Date(today.getFullYear(), today.getMonth() + 1, 3),
-    },
-    {
-      id: "2",
-      title: "Auth əlavə et",
-      color: "#10b981",
-      startDate: new Date(today.getFullYear(), today.getMonth(), 5),
-      endDate: new Date(today.getFullYear(), today.getMonth(), 8),
-    },
-    {
-      id: "3",
-      title: "Test yaz",
-      color: "#f59e0b",
-      startDate: new Date(today.getFullYear(), today.getMonth(), 5),
-      endDate: new Date(today.getFullYear(), today.getMonth(), 8),
-    },
-    {
-      id: "4",
-      title: "Bildirişlər",
-      color: "#ec4899",
-      startDate: new Date(today.getFullYear(), today.getMonth() + 1, 2),
-      endDate: new Date(today.getFullYear(), today.getMonth() + 1, 5),
-    },
-  ]);
+  // Seçilen haftanın başlangıcı
+  const startOfSelectedWeek = startOfWeek(selectedDate, { weekStartsOn: 1 });
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
-      <Header onSearch={setSearchText} />
+  <SafeAreaView className="flex-1 bg-gray-50">
+          <Header onSearch={setSearchText} />
+      {/* Header */}
+      <View className="flex-row justify-between items-center p-4">
+        <TouchableOpacity
+          onPress={() => setCurrentDate(subMonths(currentDate, 1))}
+          className="p-2"
+        >
+          <Ionicons name="chevron-back" size={24} color="gray" />
+        </TouchableOpacity>
+        <Text className="text-xl font-bold text-purple-600">
+          {format(currentDate, "MMMM yyyy")}
+        </Text>
+        <TouchableOpacity
+          onPress={() => setCurrentDate(addMonths(currentDate, 1))}
+          className="p-2"
+        >
+          <Ionicons name="chevron-forward" size={24} color="gray" />
+        </TouchableOpacity>
+      </View>
 
-      {/* Back button */}
+      {/* Week Selector */}
+      <View className="flex-row justify-between px-2 mb-2">
+        <TouchableOpacity
+          onPress={() => setSelectedDate(addDays(startOfSelectedWeek, -7))}
+          className="p-2"
+        >
+          <Ionicons name="chevron-back" size={20} color="gray" />
+        </TouchableOpacity>
 
-      <View
-        style={{ flex: 1, paddingTop: 20, backgroundColor: "bg-background" }}
-      >
-        <View style={styles.header}>
-          <TouchableOpacity
-            style={{
-              padding: 6,
-            }}
-            onPress={() => router.back()}
-          >
-            <MaterialIcons name="arrow-back-ios" size={25} color="black" />
-          </TouchableOpacity>
-          <Text style={styles.monthTitle}>
-            {baseDate.toLocaleString("default", { month: "long" })}
-            {baseDate.getFullYear()}
-          </Text>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-            <TouchableOpacity
-              onPress={() => setMonthOffset(monthOffset - 1)}
-              className="m-2 rounded-full bg-navyBlue p-2"
-            >
-              <AntDesign name="left" color="white"></AntDesign>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => setMonthOffset(monthOffset + 1)}
-              className="m-2 rounded-full bg-navyBlue p-2"
-            >
-              <AntDesign name="right" color="white"></AntDesign>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Takvim grid */}
-        <View style={styles.grid}>
-          {days.map((day) => (
-            <View key={day} style={styles.cell}>
-              <Text style={styles.dayText}>{day}</Text>
-            </View>
-          ))}
-
-          {/* Görevleri renderla */}
-          {tasks.map((task) => {
-            const visibleRange = getTaskVisibleRange(task, baseDate);
-            if (!visibleRange) return null; // Bu ayda görünmesin
+        <View className="flex-row space-x-2 flex-1 justify-around">
+          {Array.from({ length: 7 }).map((_, i) => {
+            const day = addDays(startOfSelectedWeek, i);
+            const isToday =
+              format(day, "yyyy-MM-dd") === format(new Date(), "yyyy-MM-dd");
+            const isSelected =
+              format(day, "yyyy-MM-dd") === format(selectedDate, "yyyy-MM-dd");
             return (
-              <DraggableTask
-                key={task.id}
-                task={task}
-                baseDate={baseDate}
-                visibleRange={visibleRange}
-                setTasks={setTasks}
-                tasks={tasks}
-              />
+              <TouchableOpacity
+                key={i}
+                onPress={() => setSelectedDate(day)}
+                className="items-center"
+              >
+                <Text className="text-xs text-gray-500">
+                  {format(day, "EEE")}
+                </Text>
+                <View
+                  className={`w-8 h-8 rounded-full justify-center items-center ${
+                    isSelected
+                      ? "bg-purple-600"
+                      : isToday
+                      ? "bg-purple-200"
+                      : ""
+                  }`}
+                >
+                  <Text
+                    className={`text-sm ${
+                      isSelected ? "text-white font-bold" : "text-gray-700"
+                    }`}
+                  >
+                    {format(day, "d")}
+                  </Text>
+                </View>
+              </TouchableOpacity>
             );
           })}
         </View>
+
+        <TouchableOpacity
+          onPress={() => setSelectedDate(addDays(startOfSelectedWeek, 7))}
+          className="p-2"
+        >
+          <Ionicons name="chevron-forward" size={20} color="gray" />
+        </TouchableOpacity>
       </View>
+
+      {/* Divider */}
+      <View className="h-px bg-gray-200 mb-2" />
+
+      {/* Daily Schedule */}
+      <ScrollView>
+        {HOURS.map((hour) => (
+          <View key={hour} className="flex-row border-b border-gray-100 h-20">
+            {/* Hour label */}
+            <View className="w-14 items-end pr-2 pt-2">
+              <Text className="text-xs text-gray-500">
+                {hour.toString().padStart(2, "0")}:00
+              </Text>
+            </View>
+
+            {/* Tasks */}
+            <View className="flex-1 relative">
+              {tasks
+                .filter((t) => t.start >= hour && t.start < hour + 1)
+                .map((task) => {
+                  const topOffset = (task.start - hour) * 80;
+                  const height = (task.end - task.start) * 80;
+                  return (
+                    <TouchableOpacity
+                      onPress={() => {
+                        setSelectedTask(task.title);
+                        setModalVisible(true);
+                      }}
+                      key={task.id}
+                      className="absolute left-0 right-4 rounded-lg px-2 py-1"
+                      style={{
+                        top: topOffset,
+                        height,
+                        backgroundColor: task.color,
+                      }}
+                    >
+                      <Text className="text-xs font-medium text-gray-800">
+                        {task.title}
+                      </Text>
+                      <Text className="text-xs text-gray-600">
+                        {`${task.start}:00 - ${task.end}:00`}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+            </View>
+          </View>
+        ))}
+        <EditTaskDateModal
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          selectedTask={selectedTask}
+        />
+      </ScrollView>
     </SafeAreaView>
   );
 }
-
-function DraggableTask({ task, baseDate, visibleRange, setTasks, tasks }) {
-  const pan = useRef(new Animated.ValueXY()).current;
-
-  const { startDay, endDay } = visibleRange;
-
-  const startRow = Math.floor((startDay - 1) / numColumns);
-  const startCol = (startDay - 1) % numColumns;
-  const endCol = (endDay - 1) % numColumns;
-
-  const splitNeeded = endCol < startCol;
-
-  const duration = Math.max(endDay - startDay + 1, 1);
-
-  const panResponder = useRef(
-    PanResponder.create({
-      onStartShouldSetPanResponder: () => true,
-      onPanResponderMove: Animated.event([null, { dx: pan.x, dy: pan.y }], {
-        useNativeDriver: false,
-      }),
-      onPanResponderRelease: (e, gesture) => {
-        const newCol = Math.floor(gesture.moveX / cellSize);
-        const newRow = Math.floor((gesture.moveY - 110) / cellSize);
-
-        const newDay = newRow * numColumns + newCol + 1;
-
-        const durationDays =
-          (task.endDate - task.startDate) / (1000 * 60 * 60 * 24);
-
-        if (newDay >= 1 && newDay <= 31) {
-          const newStartDate = new Date(
-            baseDate.getFullYear(),
-            baseDate.getMonth(),
-            newDay
-          );
-          const newEndDate = new Date(
-            newStartDate.getTime() + durationDays * 24 * 60 * 60 * 1000
-          );
-
-          setTasks(
-            tasks.map((t) =>
-              t.id === task.id
-                ? { ...t, startDate: newStartDate, endDate: newEndDate }
-                : t
-            )
-          );
-        }
-
-        pan.setValue({ x: 0, y: 0 });
-      },
-    })
-  ).current;
-
-  // Eğer split yoksa tek parça renderla
-  if (!splitNeeded) {
-    const blockWidth = duration * cellSize - 4;
-
-    return (
-      <Animated.View
-        {...panResponder.panHandlers}
-        style={{
-          position: "absolute",
-          top: startRow * cellSize + 25,
-          left: startCol * cellSize + 2,
-          width: blockWidth,
-          height: 30,
-          backgroundColor: task.color,
-          justifyContent: "center",
-          alignItems: "center",
-          borderRadius: 4,
-          opacity: 0.9,
-          transform: [{ translateX: pan.x }, { translateY: pan.y }],
-        }}
-      >
-        <Text style={{ color: "white", fontSize: 11 }} numberOfLines={1}>
-          {task.title}
-        </Text>
-      </Animated.View>
-    );
-  }
-
-  // Split gerekiyorsa iki parça renderla
-  const firstRowEndDay = (startRow + 1) * numColumns;
-  const firstBlockWidth = (firstRowEndDay - startDay + 1) * cellSize - 4;
-  const secondBlockWidth = (endDay - firstRowEndDay) * cellSize + cellSize - 4;
-
-  return (
-    <>
-      <Animated.View
-        {...panResponder.panHandlers}
-        style={{
-          position: "absolute",
-          top: startRow * cellSize + 25,
-          left: startCol * cellSize + 2,
-          width: firstBlockWidth,
-          height: 30,
-          backgroundColor: task.color,
-          justifyContent: "center",
-          alignItems: "center",
-          borderRadius: 4,
-          opacity: 0.9,
-          transform: [{ translateX: pan.x }, { translateY: pan.y }],
-        }}
-      >
-        <Text style={{ color: "white", fontSize: 11 }} numberOfLines={1}>
-          {task.title}
-        </Text>
-      </Animated.View>
-
-      <Animated.View
-        {...panResponder.panHandlers}
-        style={{
-          position: "absolute",
-          top: (startRow + 1) * cellSize + 25,
-          left: 2,
-          width: secondBlockWidth,
-          height: 30,
-          backgroundColor: task.color,
-          justifyContent: "center",
-          alignItems: "center",
-          borderRadius: 4,
-          opacity: 0.9,
-          transform: [{ translateX: pan.x }, { translateY: pan.y }],
-        }}
-      >
-        <Text style={{ color: "white", fontSize: 11 }} numberOfLines={1}>
-          {task.title}
-        </Text>
-      </Animated.View>
-    </>
-  );
-}
-
-const styles = StyleSheet.create({
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginHorizontal: 10,
-    marginBottom: 10,
-    alignItems: "center",
-  },
-  arrow: { fontSize: 18 },
-  monthTitle: { fontSize: 18, fontWeight: "bold" },
-  grid: { flexDirection: "row", flexWrap: "wrap" },
-  cell: {
-    width: cellSize,
-    height: cellSize,
-    borderWidth: 1,
-    borderColor: "#ddd",
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
-    padding: 5,
-  },
-  dayText: { fontSize: 14, fontWeight: "bold" },
-});

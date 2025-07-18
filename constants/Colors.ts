@@ -44,5 +44,7 @@ export const Colors = {
     lightViolet: "#7661fd",
     bg_violet: "#c2b8ff",
     bg_blue: "#D6E9FF",
+    light_red: "#FEE9ED",
+
   },
 };

@@ -74,6 +74,8 @@
 import Entypo from "@expo/vector-icons/Entypo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
+import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 import {
   Dimensions,
   Image,
@@ -84,13 +86,11 @@ import {
 } from "react-native";
 import TextShortener from "../../constants/TextShortener";
 
-import { useNavigation } from "@react-navigation/native";
-
-
 const width = Dimensions.get("window").width;
 
 const UserCard = () => {
   const navigation = useNavigation();
+  const { t } = useTranslation();
   return (
     <View style={[styles.userCard, styles.cardContainer]}>
       <Image
@@ -110,15 +110,24 @@ const UserCard = () => {
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity className="bg-green" style={[styles.button]}>
-            <Text style={styles.buttonText}>Follow</Text>
+            <Text style={styles.buttonText}>{t("friend.follow")}</Text>
           </TouchableOpacity>
           {/* //View Profile Button */}
-          <TouchableOpacity style={styles.viewProfileButton}
-                  onPress={() => navigation.navigate("userdetails/index")}
-                >
-                      <Text style={styles.viewProfileText}>View Profile</Text>
-                </TouchableOpacity>
-
+          <TouchableOpacity
+            style={styles.viewProfileButton}
+            onPress={() => navigation.navigate("userdatails/index")}
+          >
+            <Text style={styles.viewProfileText}>
+              {t("friend.viewProfile")}
+            </Text>
+          </TouchableOpacity>
+          {/* //View Profile Button */}
+          <TouchableOpacity
+            style={styles.viewProfileButton}
+            onPress={() => navigation.navigate("userdatails/index")}
+          >
+            <Text style={styles.viewProfileText}>View Profile</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -191,18 +200,16 @@ const styles = StyleSheet.create({
   // View Profile button style
 
   viewProfileButton: {
-    backgroundColor: '#a5e8d8', // Açıq mavi/boz
+    backgroundColor: "#a5e8d8", // Açıq mavi/boz
     borderRadius: 5,
     paddingVertical: 5,
     paddingHorizontal: 6,
- 
-    borderColor: '#cfded9', // Fonla uyğun sərhəd
-  
-    
+
+    borderColor: "#cfded9", // Fonla uyğun sərhəd
   },
   viewProfileText: {
-    color: '#333', // Tünd boz və ya yaşıl
-    fontWeight: '500',
+    color: "#333", // Tünd boz və ya yaşıl
+    fontWeight: "500",
     fontSize: 11,
   },
 });

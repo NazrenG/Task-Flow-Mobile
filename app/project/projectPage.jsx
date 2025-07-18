@@ -1,76 +1,86 @@
+import Card from "@/components/Card/Card";
+import { MaterialIcons } from "@expo/vector-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Dimensions,
   Pressable,
+  SafeAreaView,
   ScrollView,
-  StyleSheet,
   Text,
   View,
 } from "react-native";
-import Toast from "react-native-toast-message";
 import Header from "../../components/Header";
 import CreateProjectModal from "../../components/projectPageComponents/createProjectModal";
+import { Colors } from "../../constants/Colors";
 import CardPagination from "./cardPagination";
 import InProgressProject from "./inProgressProject";
 import RecentAvtivity from "./recentActivity";
 
-const width = Dimensions.get("window").width;
-
-const cardsData = [
-  {
-    title: "Featured Event",
-    content: "Join our annual conference with industry leaders",
-  },
-  {
-    title: "Special Offer",
-    content: "Get 20% off all bookings made this week",
-  },
-  {
-    title: "New Feature",
-    content: "Try our new event planning toolkit",
-  },
-];
+ 
 
 const ProjectPage = () => {
   const { t } = useTranslation();
   const [modalVisible, setModalVisible] = useState(false);
-
-  const [value, setValue] = useState(50);
+ 
 
   return (
-    <View className="pb-6">
+    <SafeAreaView className="flex-1 bg-background">
       <Header></Header>
       <ScrollView contentContainerStyle={{ alignItems: "center", padding: 10 }}>
-        <View style={styles.grid}>
-          <View style={styles.gridItem} className="bg-light_navy">
-            <Text>{t("project.totalProjects")}</Text>
-            <Text>10</Text>
-          </View>
-          <View style={styles.gridItem} className="bg-light_red">
-            <Text>{t("project.complateProjects")}</Text>
-            <Text>6</Text>
-          </View>
-          <View style={styles.gridItem} className="bg-light_green">
-            <Text>{t("project.onGoingProjects")}</Text>
-            <Text>2</Text>
-          </View>
-          <View style={styles.gridItem} className="bg-bg_yellow">
-            <Text>{t("project.pendingProjects")}</Text>
-            <Text>2</Text>
-          </View>
+        <View className="flex-row flex-wrap justify-between items-center  p-4 mb-3 gap-2 rounded-lg bg-white shadow-sm">
+          <Card
+            title={t("project.totalProjects")}
+            count="0"
+            color={Colors.secondary.bg_blue}
+            icon={<MaterialIcons name="view-list" size={20} color="#0E7490" />}
+            gradient={["#A5F3FC", "#22D3EE"]}
+          />
+          <Card
+            title={t("project.complateProjects")}
+            count="0"
+            color={Colors.secondary.light_red}
+            icon={
+              <MaterialIcons
+                name="check-circle-outline"
+                size={20}
+                color="#b81836"
+              />
+            }
+            gradient={["#f397a8", "#ef7f5a"]}
+          />
+
+          <Card
+            title={t("project.onGoingProjects")}
+            count="2"
+            color={Colors.secondary.bg_green}
+            icon={
+              <MaterialIcons name="query-builder" size={20} color="#059669" />
+            }
+            gradient={[Colors.secondary.lightGreen, Colors.secondary.green]}
+          />
+          <Card
+            title={t("project.pendingProjects")}
+            count="0"
+            color={Colors.secondary.bg_yellow}
+            icon={
+              <MaterialIcons name="pending-actions" size={20} color="#D97706" />
+            }
+            gradient={[Colors.secondary.lightYellow, Colors.secondary.yellow]}
+          />
         </View>
         <Pressable
-          style={{ width: width / 2 - 40, height: width / 6 }}
-          className="bg-navyBlue my-5 rounded-xl justify-center items-center flex flex-row gap-3"
+          className="bg-navyBlue p-3 rounded-xl items-center flex flex-row justify-start gap-1 mb-2"
           onPress={() => setModalVisible(true)}
         >
-          <FontAwesome name="plus" size={20} color="white" />
-          <Text className="text-white font-bold text-lg">
+          <FontAwesome name="plus" size={15} color="white" />
+          <Text className="text-white font-bold text-base">
             {t("project.createProject")}
           </Text>
         </Pressable>
+        {/** divide*/}
+        <View className="w-full h-[1px] bg-gray-200 my-2" />
         <View className="h-[30vh]">
           <CardPagination></CardPagination>
         </View>
@@ -85,36 +95,8 @@ const ProjectPage = () => {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
 export default ProjectPage;
-
-const styles = StyleSheet.create({
-  grid: {
-    width: width - 40,
-    height: width / 3 + 103,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 10,
-    justifyContent: "space-between",
-    padding: 10,
-    backgroundColor: "white",
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 3,
-  },
-  gridItem: {
-    width: "48%",
-    height: 100,
-    gap: 6,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 10,
-    borderRadius: 8,
-  },
-});

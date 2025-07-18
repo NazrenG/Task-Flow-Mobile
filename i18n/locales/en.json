@@ -3,8 +3,8 @@
   "language": "Language",
 
   "project": {
-    "totalProjects": "Total Projects",
-    "complateProjects": "Complete Projects",
+    "totalProjects": "Total    Projects",
+    "complateProjects": "Completed  Projects",
     "onGoingProjects": "On Going Projects",
     "pendingProjects": "Pending Projects",
     "createProject": "Create Project",
@@ -30,7 +30,10 @@
     "selectUsers": "Select Members",
     "selectedUsers": "Selected Members",
     "delete": "Delete",
+    "viewDetails": "View Details",
     "editProject": "edit Project",
+    "submit": "Submit",
+    "cancel": "Cancel",
     "toast": {
       "success": {
         "deleteProject": "Project deleted successfully!",
@@ -44,8 +47,48 @@
       }
     }
   },
-  
-  "userDetail":{
+  "notification": {
+    "requests": "Requests",
+    "reminders": "Reminders",
+    "others": "Others",
+    "toast": {
+      "success": {
+        "requestAccepted": "Request Successfully Accepted!",
+        "requestDecline": "Request Successfully Declined!",
+        "reminderDeleted": "Reminder Deleted!",
+        "notificationDeleted": "Notification Deleted!"
+      },
+      "fail": {
+        "requestAccepted": "Failed to accept request!",
+        "requestDecline": "Failed to decline request!",
+        "reminderDeleted": "Failed to delete reminder!",
+        "notificationDeleted": "Failed to delete notification!"
+      }
+    }
+  },
+
+  "friend": {
+    "yourFriends": "Your Friends",
+    "allUsers": "All Users",
+    "message": "Message",
+    "unfollow": "Unfollow",
+    "follow": "Follow",
+    "viewProfile": "View Profile"
+  },
+
+  "projectDetails": {
+    "country": "Country",
+    "occupation": "Occupation",
+    "gender": "Gender",
+    "birthday": "Birthday",
+    "phone": "Phone",
+    "status": "Status",
+    "priority": "Priority",
+    "projectOverview": "Project Overview"
+  },
+
+
+  "userDetail": {
     "info": "Basic Info",
     "totalTasks": "Total Task",
     "completedTasks": "Complete Task",
@@ -53,30 +96,27 @@
     "holdTasks": "Hold Task",
     "country": "Country",
     "occupation": "Occupation",
-    "gender":"Gender",
+    "gender": "Gender",
     "birthDate": "Birth Date",
-    "phone":"Phone",
+    "phone": "Phone",
     "status": "Status",
     "overview": "Task Overview",
     "priority": "Priority",
     "start": "Start",
     "deadline": "Deadline",
     "progress": "Progress"
-  
   },
-
-  "profile":{
+  "profile": {
     "info": "Profile Info",
     "fullname": "Full Name",
     "email": "Email",
     "phone": "Phone Number",
     "country": "Country",
     "department": "Department",
-    "gender":"Gender",
+    "gender": "Gender",
     "birthDate": "Birth Date"
   },
-
-  "settings":{
+  "settings": {
     "name": "Settings",
     "editprofile": "Edit Profile",
     "changePassword": "Change Password",
@@ -86,56 +126,6 @@
     "deleteAccount": "Delete Account",
     "cleanHistory": "Clean History",
     "logout": "Log Out",
-    "save":"Update"
-  },
-
-  "dashboard": {
-
-    "projects": "Projects",
-    "tasks": "Tasks",
-    "kanban": "Kanban",
-    "managarProjects": "Manage your project in one touch",
-    "organizeTasks": "Organize tasks, teams, and deadlines with ease.",
-    "tryNow": "Try For Free Now",
-    "totalClients": "Total Clients",
-    "message": "Message",
-    "createtask": "Create Task",
-    "participantprofile":"Participant Ocuupation Profile",
-    "statisticsAccording":"Statistics according to occupational profile of all participants",
-    "dailyTasks": "Daily Tasks",
-    "noTask":"No Task For An Hour",
-    "currentTasks": "Current Tasks"
-  },
-
-  "chat":{
-    "message": "Message",
-    "send": "Send",
-    "typeMessage": "Type your message here...",
-    "online" : "online",
-    "offline" : "offline"
-  },
-
-  "task":{
-    "totalTasks": "Total Task",
-    "completeTasks": "Complete Task",
-    "runningTasks": "Running Task",
-    "holdTasks": "Hold Task",
-    "tasks":"Tasks",
-    "todo":"to do",
-    "inprogress":"in progress",
-    "completed":"completed",
-    "all":"All",
-    "priority":"Priority",
-    "deadline":"Deadline",
-    "project":"Project"
-  },
-  "kanban":{
-    "name":"Project Name",
-    "back":"back",
-    "next":"next",
-    "kanban":"Kanban",
-    "table":"Table"
+    "save": "Update"
   }
-
-  
 }
