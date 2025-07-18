@@ -15,11 +15,12 @@ export default function CalendarDropdown({
   data,
   onChange,
   placeholder = "Seçin...",
-  selectedValue = "",
+  selectedValue ,
 }) {
   const [expanded, setExpanded] = useState(false);
   const [top, setTop] = useState(0); // tezden bax
-  const [value, setValue] = useState(selectedValue);
+  const  [value, setValue] = useState(selectedValue );
+
 
   const toggleExpanded = useCallback(() => {
     setExpanded((prev) => !prev);
@@ -49,7 +50,18 @@ export default function CalendarDropdown({
         activeOpacity={0.8}
         onPress={toggleExpanded}
       >
-        <Text className="text-sm opacity-80">{value || placeholder}</Text>
+        <View className="flex-row items-center gap-2">
+          <Image
+            source={
+              data.find((item) => item.label === value)?.icon ||
+              require("../assets/images/flags/united-kingdom.png")
+            }
+            className="w-5 h-5"
+            resizeMode="contain"
+          />
+          <Text className="text-sm opacity-80">{value || placeholder}</Text>
+        </View>
+
         <AntDesign name={expanded ? "caretup" : "caretdown"} size={13} />
       </TouchableOpacity>
 

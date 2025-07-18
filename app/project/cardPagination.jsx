@@ -9,13 +9,14 @@ import {
 } from "react-native";
 import RoundedButton from "../../components/Button/RoundedButton";
 import { Colors } from "../../constants/Colors";
-
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useTranslation } from "react-i18next";
 import ProjectActionsDropdown from "../../components/dropdown/projectActionsDropdown";
-
+const width = Dimensions.get("window").width;
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 const CardPagination = () => {
+  const [modalVisible, setModalVisible] = useState(false);
   const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
   const { t } = useTranslation();
   const scrollRef = useRef(null);
@@ -51,14 +52,16 @@ const CardPagination = () => {
 
   return (
     <View style={styles.container}>
-      <View className="flex flex-row items-center justify-between my-2">
-        <Text className="text-base font-semibold my-2 ml-2">
+      <View className="flex flex-row items-center justify-end my-2">
+        {/* <Text className="text-base font-semibold my-2 ml-2">
           {t("project.recentProjectUpdates")}
-        </Text>
-        <View className="flex flex-row gap-1">
+        </Text> */}
+ 
+
+        <View className="flex flex-row gap-1 ">
           <RoundedButton
             data={t("project.pending")}
-            styleData="bg-light_navy"
+            styleData="bg-bg_blue"
             textStyle="text-sm"
           ></RoundedButton>
           <RoundedButton
@@ -132,7 +135,7 @@ const CardPagination = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1, 
     // paddingVertical: 20,
   },
   card: {
@@ -163,6 +166,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     marginTop: 10,
+    marginBottom: 20,
   },
   dot: {
     width: 8,
