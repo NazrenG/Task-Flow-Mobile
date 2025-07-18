@@ -152,14 +152,14 @@ import { useTranslation } from "react-i18next";
 import {
   Animated,
   Dimensions,
+  SafeAreaView,
   Text,
   TouchableOpacity,
   View,
-  SafeAreaView
 } from "react-native";
 import FriendCard from "../../components/friendsPageComponents/friendCard";
 import UserCard from "../../components/friendsPageComponents/userCard";
-import Header from "../../components/Header"; 
+import Header from "../../components/Header";
 const width = Dimensions.get("window").width;
 
 export default function Friends() {
@@ -190,7 +190,7 @@ export default function Friends() {
                 activeTab === 0 ? "font-bold text-black" : "text-gray-500"
               }
             >
-              Your Friends
+              {t("friend.yourFriends")}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -202,7 +202,7 @@ export default function Friends() {
                 activeTab === 1 ? "font-bold text-black" : "text-gray-500"
               }
             >
-              All Users
+              {t("friend.allUsers")}
             </Text>
           </TouchableOpacity>
         </View>

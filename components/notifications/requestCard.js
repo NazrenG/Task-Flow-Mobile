@@ -1,10 +1,12 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import { FontAwesome, Feather } from "@expo/vector-icons";
+import { Feather, FontAwesome } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 
 export default function RequestCard({ user, message, onAccept, onReject }) {
+  const { t } = useTranslation();
+
   return (
     <View className="bg-white rounded-xl shadow shadow-slate-300 px-2 py-3 mb-3 flex-row items-center justify-between  ">
-       
       <View className="flex-row items-start space-x-3 w-[70%] gap-1">
         <Image
           source={{ uri: user.avatar }}
@@ -18,7 +20,6 @@ export default function RequestCard({ user, message, onAccept, onReject }) {
           </Text>
         </View>
       </View>
-  
       <View className="flex-row items-center space-x-2 gap-1">
         <TouchableOpacity
           onPress={onAccept}

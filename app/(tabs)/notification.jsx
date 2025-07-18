@@ -1,5 +1,5 @@
-
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   SafeAreaView,
   ScrollView,
@@ -8,14 +8,14 @@ import {
   View,
 } from "react-native";
 import Header from "../../components/Header";
-import OtherCard from "../../components/notifications/otherCard";
-import ReminderCard from "../../components/notifications/reminderCard";
-import RequestCard from "../../components/notifications/requestCard";
+import { OtherCard } from "../../components/notifications/otherCard";
+import { ReminderCard } from "../../components/notifications/reminderCard";
+import { RequestCard } from "../../components/notifications/requestCard";
 
 export default function NotificationScreen() {
   const [searchText, setSearchText] = useState("");
   const [activeTab, setActiveTab] = useState("requests");
-
+  const { t } = useTranslation();
   const requests = [
     {
       id: 1,
@@ -66,11 +66,15 @@ export default function NotificationScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
+    <SafeAreaView style={{ flex: 1 }}>
       <Header onSearch={setSearchText} />
 
       <View className="flex-row gap-1 mt-4   px-4">
-        {["requests", "reminders", "others"].map((tab) => (
+        {[
+          t("notification.requests"),
+          t("notification.reminders"),
+          t("notification.others"),
+        ].map((tab) => (
           <TouchableOpacity
             key={tab}
             onPress={() => setActiveTab(tab)}
@@ -79,18 +83,18 @@ export default function NotificationScreen() {
             }`}
           >
             <Text className={`${tabColors[tab].text} font-semibold`}>
-              {tab === "requests"
-                ? "Requests"
-                : tab === "reminders"
-                ? "Reminders"
-                : "Others"}
+              {tab === t("notification.requests")
+                ? t("notification.requests")
+                : tab === t("notification.reminders")
+                ? t("notification.reminders")
+                : t("notification.others")}
             </Text>
           </TouchableOpacity>
         ))}
       </View>
 
       <ScrollView contentContainerStyle={{ padding: 16 }}>
-        {activeTab === "requests" && (
+        {activeTab === t("notification.requests") && (
           <View className="bg-white rounded-xl shadow p-4">
             {requests.map((req) => (
               <RequestCard
@@ -104,7 +108,7 @@ export default function NotificationScreen() {
           </View>
         )}
 
-        {activeTab === "reminders" && (
+        {activeTab === t("notification.reminders") && (
           <View className="bg-white rounded-xl shadow p-4 space-y-3 gap-1">
             {reminders.map((reminder) => (
               <ReminderCard
@@ -117,7 +121,7 @@ export default function NotificationScreen() {
           </View>
         )}
 
-        {activeTab === "others" && (
+        {activeTab === t("notification.OTHERS") && (
           <View className="bg-white rounded-xl shadow p-4 space-y-3 gap-1">
             {others.map((item) => (
               <OtherCard
@@ -129,7 +133,6 @@ export default function NotificationScreen() {
           </View>
         )}
       </ScrollView>
-
     </SafeAreaView>
   );
 }

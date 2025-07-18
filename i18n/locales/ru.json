@@ -26,21 +26,34 @@
     "edit": "Редактировать",
     "selectUsers": "Выберите участника",
     "selectedUsers": "Избранные участники",
+    "viewDetails": "просмотреть детали",
     "delete": "Удалить",
+    "submit": "Продолжать",
+    "cancel": "Отмена",
     "toast": {
       "success": {
-        "deleteProject": "Project deleted successfully!",
-        "editProject": "Project edited successfully!",
-        "userListUpdated": "User List Updated Successfully!"
+        "deleteProject": "Проект успешно удален!",
+        "editProject": "Проект успешно отредактирован!",
+        "userListUpdated": "Список пользователей успешно обновлен!"
       },
       "fail": {
-        "deleteProject": "Failed to delete project!",
-        "editProject": "Failed to edit project!",
-        "userListUpdated": "Failed To Update User List!"
+        "deleteProject": "Не удалось удалить проект!",
+        "editProject": "Не удалось редактировать проект!",
+        "userListUpdated": "Не удалось обновить список пользователей!"
       }
     }
   },
 
+  "projectDetails": {
+    "country": "Страна",
+    "occupation": "Занятие",
+    "gender": "Пол",
+    "birthday": "День рождения",
+    "phone": "Телефон",
+    "status": "Статус",
+    "priority": "Приоритет",
+    "projectOverview": "Обзор проекта"
+  },
   "userDetail": {
     "info": "Основная информация",
     "totalTasks": "Общие задачи",
@@ -82,6 +95,35 @@
     "cleanHistory": "Очистить историю",
     "logout": "Выйти",
     "save": "Обновлять"
+  },
+
+  "notification": {
+    "requests": "Запросы",
+    "reminders": "Напоминания",
+    "others": "Другие",
+    "toast": {
+      "success": {
+        "requestAccepted": "Запрос успешно принят!",
+        "requestDecline": "Запрос успешно отклонен!",
+        "reminderDeleted": "Напоминание удалено!",
+        "notificationDeleted": "Уведомление удалено!"
+      },
+      "fail": {
+        "requestAccepted": "Не удалось принять запрос!",
+        "requestDecline": "Не удалось отклонить запрос!",
+        "reminderDeleted": "Не удалось удалить напоминание.!",
+        "notificationDeleted": "Не удалось удалить уведомление.!"
+      }
+    }
+  },
+
+  "friend": {
+    "yourFriends": "Твои друзья",
+    "allUsers": "Все пользователи",
+    "message": "Сообщение",
+    "unfollow": "Отписаться",
+    "follow": "Следовать",
+    "viewProfile": "Просмотреть профиль"
   },
   "welcome": "зкшмуе",
   "language": "ывислы"
