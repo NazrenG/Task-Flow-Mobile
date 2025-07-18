@@ -20,6 +20,8 @@ import {
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import Header from "../../components/Header";
+import Button from "../../components/Button/Button";
+
 
 const { width, height } = Dimensions.get("window");
 
@@ -170,10 +172,17 @@ export default function EditProfileScreen() {
               </TouchableOpacity>
             </View>
 
-            <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-              <Text style={styles.saveButtonText}>
-                {t("settings.save") || "Save"}
-              </Text>
+             <TouchableOpacity
+                        onPress={() => router.push("/quiz")}
+                        className="bg-dark_violet justify-center items-center rounded-full p-4"
+                        style={{
+                          width: width * 0.9, // ekranın 90%-i
+                          maxWidth: 500,
+                          marginBottom: 25,
+                        }}
+                      >
+              <Button text={t("settings.save")} />
+             
             </TouchableOpacity>
           </View>
         </ScrollView>

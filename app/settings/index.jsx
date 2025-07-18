@@ -72,7 +72,7 @@ export default function SettingsScreen() {
 
   const handlePress = (key) => {
     if (key === "changePassword") {
-      router.push("/changePassword");
+      router.push("settings/updatePassword");
     } else if (key === "editProfile") {
       router.push("/settings/editprofile");
     } else if (key === "notification") {
