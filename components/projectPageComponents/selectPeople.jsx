@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   FlatList,
   Modal,
@@ -15,43 +16,39 @@ const fakeUsers = [
   { id: "3", name: "Charlie Davis" },
   { id: "4", name: "Diana Evans" },
   { id: "5", name: "Eliot Rogers" },
+  { id: "6", name: "Farid Salman" },
+  { id: "7", name: "Gulnar N." },
 ];
 
 export default function UserSelectorModal({ visible, onClose }) {
   const [searchText, setSearchText] = useState("");
-  const [selectedUserId, setSelectedUserId] = useState(null);
-
+  const [selectedUserIds, setSelectedUserIds] = useState([]);
+  const { t } = useTranslation();
   const filteredUsers = fakeUsers.filter((user) =>
     user.name.toLowerCase().includes(searchText.toLowerCase())
   );
 
-  const handleSubmit = async () => {
-    // const selectedUser = fakeUsers.find((u) => u.id === selectedUserId);
-    // if (!selectedUser) {
-    //   Alert.alert("Please select a user first.");
-    //   return;
-    // }
-    // try {
-    //   const response = await fetch("", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({ userId: selectedUser.id }),
-    //   });
-    //   const result = await response.json();
-    //   console.log(" User assigned:", result);
-    //   Alert.alert("Success", `${selectedUser.name} was assigned!`);
-    //   onClose();
-    // } catch (err) {
-    //   console.error(err);
-    //   Alert.alert("Error", "Something went wrong.");
-    // }
+  const toggleSelection = (id) => {
+    setSelectedUserIds((prev) =>
+      prev.includes(id) ? prev.filter((uid) => uid !== id) : [...prev, id]
+    );
+  };
+
+  const handleSubmit = () => {
+    const selectedUsers = fakeUsers.filter((u) =>
+      selectedUserIds.includes(u.id)
+    );
+    console.log("Selected users:", selectedUsers);
+    onClose(); // close modal
   };
 
   return (
     <Modal animationType="fade" transparent visible={visible}>
       <View className="flex-1 bg-black/50 justify-center items-center">
         <View className="bg-white rounded-xl w-11/12 p-6 max-h-[80%]">
-          <Text className="text-lg font-semibold mb-4">Select a User</Text>
+          <Text className="text-lg font-semibold mb-4">
+            {t("project.selectUsers")}
+          </Text>
 
           <TextInput
             placeholder="Search users..."
@@ -63,43 +60,48 @@ export default function UserSelectorModal({ visible, onClose }) {
           <FlatList
             data={filteredUsers}
             keyExtractor={(item) => item.id}
+            style={{ maxHeight: 200 }} // fix overflow
             renderItem={({ item }) => {
-              const isSelected = selectedUserId === item.id;
+              const isSelected = selectedUserIds.includes(item.id);
 
               return (
                 <Pressable
-                  onPress={() => setSelectedUserId(item.id)}
+                  onPress={() => toggleSelection(item.id)}
                   className="flex-row items-center mb-4"
                 >
                   <View
-                    className={`w-6 h-6 rounded-full border-2 ${
-                      isSelected ? "border-blue-500" : "border-gray-400"
-                    } items-center justify-center`}
+                    className={`w-6 h-6 rounded-md border-2 mr-2 items-center justify-center ${
+                      isSelected
+                        ? "border-blue-500 bg-blue-500"
+                        : "border-gray-400"
+                    }`}
                   >
                     {isSelected && (
-                      <View className="w-3 h-3 rounded-full bg-blue-500" />
+                      <Text className="text-white text-xs font-bold">✓</Text>
                     )}
                   </View>
-                  <Text className="ml-3 text-base text-gray-800">
-                    {item.name}
-                  </Text>
+                  <Text className="text-base text-gray-800">{item.name}</Text>
                 </Pressable>
               );
             }}
           />
 
-          <View className="flex flex-row  gap-1 mt-6">
+          <View className="flex-row justify-end gap-2 mt-6">
             <TouchableOpacity
               onPress={() => onClose(false)}
               className="px-4 py-2 bg-red-500 rounded-md"
             >
-              <Text className="text-white font-medium">Cancel</Text>
+              <Text className="text-white font-medium">
+                {t("project.cancel")}
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={handleSubmit}
-              className="px-4 py-2 bg-green-500 rounded-md"
+              onPress={() => handleSubmit()}
+              className="px-4 py-2 bg-green rounded-md"
             >
-              <Text className="text-white font-medium">Submit</Text>
+              <Text className="text-white font-medium">
+                {t("project.submit")}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>

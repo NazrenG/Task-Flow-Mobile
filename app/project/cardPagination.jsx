@@ -56,7 +56,6 @@ const CardPagination = () => {
         {/* <Text className="text-base font-semibold my-2 ml-2">
           {t("project.recentProjectUpdates")}
         </Text> */}
- 
 
         <View className="flex flex-row gap-1 ">
           <RoundedButton
@@ -77,7 +76,7 @@ const CardPagination = () => {
         </View>
       </View>
       {/* Horizontal Scroll Cards */}
-      <View>
+      <View className="py-2">
         <ScrollView
           ref={scrollRef}
           horizontal
@@ -135,7 +134,7 @@ const CardPagination = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, 
+    flex: 1,
     // paddingVertical: 20,
   },
   card: {
