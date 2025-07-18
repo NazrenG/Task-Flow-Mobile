@@ -52,9 +52,9 @@ const CardPagination = () => {
   return (
     <View style={styles.container}>
       <View className="flex flex-row items-center justify-between my-2">
-        <Text className="text-base font-semibold my-2 ml-2">
+        {/* <Text className="text-base font-semibold my-2 ml-2">
           {t("project.recentProjectUpdates")}
-        </Text>
+        </Text> */}
         <View className="flex flex-row gap-1">
           <RoundedButton
             data={t("project.pending")}
@@ -74,7 +74,7 @@ const CardPagination = () => {
         </View>
       </View>
       {/* Horizontal Scroll Cards */}
-      <View>
+      <View className="py-2">
         <ScrollView
           ref={scrollRef}
           horizontal
@@ -133,7 +133,8 @@ const CardPagination = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // paddingVertical: 20,
+    // marginTop: 5,
+    paddingVertical: "20vh",
   },
   card: {
     width: SCREEN_WIDTH / 2 - 40,

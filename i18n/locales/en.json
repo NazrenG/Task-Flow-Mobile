@@ -27,7 +27,10 @@
     "selectUsers": "Select Members",
     "selectedUsers": "Selected Members",
     "delete": "Delete",
+    "viewDetails": "View Details",
     "editProject": "edit Project",
+    "submit": "Submit",
+    "cancel": "Cancel",
     "toast": {
       "success": {
         "deleteProject": "Project deleted successfully!",
@@ -41,6 +44,87 @@
       }
     }
   },
+  "notification": {
+    "requests": "Requests",
+    "reminders": "Reminders",
+    "others": "Others",
+    "toast": {
+      "success": {
+        "requestAccepted": "Request Successfully Accepted!",
+        "requestDecline": "Request Successfully Declined!",
+        "reminderDeleted": "Reminder Deleted!",
+        "notificationDeleted": "Notification Deleted!"
+      },
+      "fail": {
+        "requestAccepted": "Failed to accept request!",
+        "requestDecline": "Failed to decline request!",
+        "reminderDeleted": "Failed to delete reminder!",
+        "notificationDeleted": "Failed to delete notification!"
+      }
+    }
+  },
+
+  "friend": {
+    "yourFriends": "Your Friends",
+    "allUsers": "All Users",
+    "message": "Message",
+    "unfollow": "Unfollow",
+    "follow": "Follow",
+    "viewProfile": "View Profile"
+  },
+
+  "projectDetails": {
+    "country": "Country",
+    "occupation": "Occupation",
+    "gender": "Gender",
+    "birthday": "Birthday",
+    "phone": "Phone",
+    "status": "Status",
+    "priority": "Priority",
+    "projectOverview": "Project Overview"
+  },
+
   "welcome": "Welcome",
-  "language": "Language"
+  "language": "Language",
+
+  "userDetail": {
+    "info": "Basic Info",
+    "totalTasks": "Total Tasks",
+    "completedTasks": "Completed Tasks",
+    "runningTasks": "Running Tasks",
+    "holdTasks": "Hold Tasks",
+    "country": "Country",
+    "occupation": "Occupation",
+    "gender": "Gender",
+    "birthDate": "Birth Date",
+    "phone": "Phone",
+    "status": "Status",
+    "overview": "Task Overview",
+    "priority": "Priority",
+    "start": "Start",
+    "deadline": "Deadline",
+    "progress": "Progress"
+  },
+  "profile": {
+    "info": "Profile Info",
+    "fullname": "Full Name",
+    "email": "Email",
+    "phone": "Phone Number",
+    "country": "Country",
+    "department": "Department",
+    "gender": "Gender",
+    "birthDate": "Birth Date"
+  },
+  "settings": {
+    "name": "Settings",
+    "editprofile": "Edit Profile",
+    "changePassword": "Change Password",
+    "notifications": "Notifications",
+    "activityLog": "Activity Log",
+    "dangerZone": "Danger Zone",
+    "deleteAccount": "Delete Account",
+    "cleanHistory": "Clean History",
+    "logout": "Log Out",
+    "save": "Update"
+  }
 }

@@ -73,6 +73,7 @@
 
 import Entypo from "@expo/vector-icons/Entypo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { useTranslation } from "react-i18next";
 import {
   Dimensions,
   Image,
@@ -85,6 +86,7 @@ import TextShortener from "../../constants/TextShortener";
 const width = Dimensions.get("window").width;
 
 const FriendCard = () => {
+  const { t } = useTranslation();
   return (
     <View style={[styles.userCard, styles.cardContainer]}>
       <Image
@@ -104,10 +106,10 @@ const FriendCard = () => {
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={[styles.button, styles.messageButton]}>
-            <Text style={styles.buttonText}>Message</Text>
+            <Text style={styles.buttonText}>{t("friend.message")}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.button, styles.unfollowButton]}>
-            <Text style={styles.buttonText}>Unfollow</Text>
+            <Text style={styles.buttonText}>{t("friend.unfollow")}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -120,7 +122,7 @@ export default FriendCard;
 const styles = StyleSheet.create({
   cardContainer: {
     backgroundColor: "white",
-    padding: 20, // Adjust this value as needed
+    padding: 10, // Adjust this value as needed
     borderRadius: 10,
     borderWidth: 1,
     borderColor: "#e5e7eb",

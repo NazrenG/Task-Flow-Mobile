@@ -1,91 +1,144 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Dimensions, View } from "react-native";
-import RoundedButton from "../../components/Button/RoundedButton";
+import {
+  Dimensions,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import Header from "../../components/Header";
-import FriendRequestsView from "../../components/notificationPageComponents/friendRequestsView";
-import ReminderRequestsView from "../../components/notificationPageComponents/reminderRequestsView";
+import {
+  OtherCard,
+  ReminderCard,
+  RequestCard,
+} from "../../components/notifications/requestCard";
 
 const width = Dimensions.get("window").width;
 
 export default function Notification() {
   const { t } = useTranslation();
   const [searchText, setSearchText] = useState("");
-  const [selectedButton, setSelectedButton] = useState("friend");
-  // const [isReminder, setReminder] = useState(false);
+  const [activeTab, setActiveTab] = useState("requests");
+
+  const requests = [
+    {
+      id: 1,
+      user: {
+        name: "Zehra Memmedzade",
+        avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+      },
+      message:
+        "Hi, I am OOO OOO. I want to invite you to my project named: TERS",
+    },
+    {
+      id: 2,
+      user: {
+        name: "Nezrin Quliyeva",
+        avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+      },
+      message:
+        "Hi, I am OOO OOO. I want to invite you to my project named: TERS",
+    },
+  ];
+
+  const reminders = [
+    { id: 1, date: "08-07-2025", message: "Project deadline approaching!" },
+    { id: 2, date: "10-07-2025", message: "Submit weekly report." },
+  ];
+
+  const others = [
+    { id: 1, text: "System maintenance scheduled." },
+    { id: 2, text: "Your password will expire soon." },
+  ];
+
+  const tabColors = {
+    requests: {
+      bg: "bg-light_green",
+      activeBg: "bg-green",
+      text: "text-white",
+    },
+    reminders: {
+      bg: "bg-bg_yellow",
+      activeBg: "bg-yellow",
+      text: "text-white",
+    },
+    others: {
+      bg: "bg-bg_violet",
+      activeBg: "bg-light_violet",
+      text: "text-white",
+    },
+  };
 
   return (
-    <View style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <Header onSearch={setSearchText} />
-      <View
-        style={{
-          flex: 1,
-          alignItems: "center",
-          // justifyContent: "start",
-        }}
-      >
-        <View className="bg-white h-[87%] w-[94%] rounded-lg mt-2 p-3 px-5">
-          {/* <Text>Notifications</Text> */}
-          <View className="flex-row gap-4 my-1">
-            <RoundedButton
-              data="Friend Requests"
-              styleData={
-                selectedButton === "friend"
-                  ? "px-4 rounded-[6vw] bg-green"
-                  : "px-4 rounded-[6vw] bg-light_green"
-              }
-              textStyle={
-                selectedButton === "friend"
-                  ? "text-lg font-semibold text-white"
-                  : "text-lg"
-              }
-              customPress={() => setSelectedButton("friend")}
-            />
-            <RoundedButton
-              data="Reminders"
-              styleData={
-                selectedButton === "reminder"
-                  ? "px-4 rounded-[6vw] bg-[#fa8299]"
-                  : "px-4 rounded-[6vw] bg-light_red"
-              }
-              textStyle={
-                selectedButton === "reminder"
-                  ? "text-lg font-semibold text-white"
-                  : "text-lg"
-              }
-              customPress={() => setSelectedButton("reminder")}
-            />
-            <RoundedButton
-              data="Other"
-              styleData={
-                selectedButton === "other"
-                  ? "px-4 rounded-[6vw] bg-[rgb(255,188,3)]"
-                  : "px-4 rounded-[6vw] bg-customYellow"
-              }
-              textStyle={
-                selectedButton === "other"
-                  ? "text-lg font-semibold text-white"
-                  : "text-lg"
-              }
-              customPress={() => setSelectedButton("other")}
-            />
-          </View>
-          <View className="h-px  bg-gray-300 w-full my-2 mb-6" />
-          <View>
-            {selectedButton === "friend" && (
-              <FriendRequestsView></FriendRequestsView>
-            )}
-            {selectedButton === "reminder" && (
-              <ReminderRequestsView></ReminderRequestsView>
-            )}
-            {/* {selectedButton === "friend" && (
-              <FriendRequestsView></FriendRequestsView>
-            )} */}
-          </View>
-          {/* <Text style={{ fontSize: 24 }}>{t("language")}</Text> 
-                <Text style={{ color: "black" }}>Notification Screen</Text> */}
-        </View>
+
+      <View className="flex-row gap-1 mt-4   px-4">
+        {[
+          t("notification.requests"),
+          t("notification.reminders"),
+          t("notification.others"),
+        ].map((tab) => (
+          <TouchableOpacity
+            key={tab}
+            onPress={() => setActiveTab(tab)}
+            className={`py-2 px-4 rounded-full ${
+              activeTab === tab ? tabColors[tab].activeBg : tabColors[tab].bg
+            }`}
+          >
+            <Text className={`${tabColors[tab].text} font-semibold`}>
+              {tab === t("notification.requests")
+                ? t("notification.requests")
+                : tab === t("notification.reminders")
+                ? t("notification.reminders")
+                : t("notification.others")}
+            </Text>
+          </TouchableOpacity>
+        ))}
       </View>
-    </View>
+
+      <ScrollView contentContainerStyle={{ padding: 16 }}>
+        {activeTab === t("notification.requests") && (
+          <View className="bg-white rounded-xl shadow p-4">
+            {requests.map((req) => (
+              <RequestCard
+                key={req.id}
+                user={req.user}
+                message={req.message}
+                onAccept={() => console.log("Accepted", req.id)}
+                onReject={() => console.log("Rejected", req.id)}
+              />
+            ))}
+          </View>
+        )}
+
+        {activeTab === t("notification.reminders") && (
+          <View className="bg-white rounded-xl shadow p-4 space-y-3 gap-1">
+            {reminders.map((reminder) => (
+              <ReminderCard
+                key={reminder.id}
+                date={reminder.date}
+                message={reminder.message}
+                onDelete={() => console.log("Deleted", reminder.id)}
+              />
+            ))}
+          </View>
+        )}
+
+        {activeTab === t("notification.OTHERS") && (
+          <View className="bg-white rounded-xl shadow p-4 space-y-3 gap-1">
+            {others.map((item) => (
+              <OtherCard
+                key={item.id}
+                text={item.text}
+                onAction={() => console.log("Action taken for", item.id)}
+              />
+            ))}
+          </View>
+        )}
+      </ScrollView>
+    </SafeAreaView>
   );
 }

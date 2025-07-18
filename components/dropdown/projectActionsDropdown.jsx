@@ -1,4 +1,5 @@
 import { Entypo } from "@expo/vector-icons";
+import { useNavigation } from "expo-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, Text, View } from "react-native";
@@ -10,18 +11,20 @@ export default function ProjectActionsDropdown() {
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [membersModalVisible, setMembersModalVisible] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
+  const navigation = useNavigation();
   const { t } = useTranslation();
 
   const menuOptions = [
     t("project.edit"),
     t("project.selectUsers"),
+    t("project.viewDetails"),
     t("project.delete"),
   ];
 
   const handleDelete = () => {
     Toast.show({
       type: "success",
-      text1: t("project.toast.deleteProject"),
+      text1: t("project.toast.success.deleteProject"),
       position: "bottom",
       visibilityTime: 3000,
     });
@@ -45,6 +48,9 @@ export default function ProjectActionsDropdown() {
         setMembersModalVisible(true);
         break;
       case 2:
+        navigation.navigate("project/projectDetailsPage");
+        break;
+      case 3:
         handleDelete();
         break;
 
@@ -62,7 +68,7 @@ export default function ProjectActionsDropdown() {
 
       {/* Dropdown menu */}
       {openMenu && (
-        <View className="absolute bottom-full right-0 mt-2 w-40 bg-white border rounded-md shadow-md z-50">
+        <View className="absolute bottom-full right-0 mt-2 w-40 bg-white border rounded-md shadow-md z-[250]">
           {menuOptions.map((option, idx) => (
             <Pressable
               key={idx}
