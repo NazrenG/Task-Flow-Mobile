@@ -115,19 +115,13 @@ const UserCard = () => {
           {/* //View Profile Button */}
           <TouchableOpacity
             style={styles.viewProfileButton}
-            onPress={() => navigation.navigate("userdatails/index")}
+            onPress={() => navigation.navigate("userdetails/index")}
           >
             <Text style={styles.viewProfileText}>
               {t("friend.viewProfile")}
             </Text>
           </TouchableOpacity>
-          {/* //View Profile Button */}
-          <TouchableOpacity
-            style={styles.viewProfileButton}
-            onPress={() => navigation.navigate("userdatails/index")}
-          >
-            <Text style={styles.viewProfileText}>View Profile</Text>
-          </TouchableOpacity>
+         
         </View>
       </View>
     </View>

@@ -5,12 +5,14 @@ import { useState } from "react";
 import {
   Dimensions,
   Image,
+  Platform,
   Pressable,
   ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
   View,
+  KeyboardAvoidingView
 } from "react-native";
 
 const ChatDetail = () => {
@@ -19,6 +21,11 @@ const ChatDetail = () => {
   const [text, setText] = useState("");
 
   return (
+    <KeyboardAvoidingView
+    style={{ flex: 1 }}
+    behavior={Platform.OS === "ios" ? "padding" : "height"}
+    keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} // status bar + header boyu
+  >
     <View style={{ flex: 1 }}>
       <View className="flex flex-row items-center gap-3 bg-gray-300 pt-[15vw] pb-6 px-5">
         <Pressable onPress={() => navigation.goBack()}>
@@ -92,7 +99,8 @@ const ChatDetail = () => {
         </View>
         {/* <Text>You typed: {text}</Text> */}
       </View>
-    </View>
+      </View>
+      </KeyboardAvoidingView>
   );
 };
 

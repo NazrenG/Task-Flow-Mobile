@@ -167,13 +167,26 @@
   },
 
   "friend": {
-    "yourFriends": "Твои друзья",
-    "allUsers": "Все пользователи",
-    "message": "Сообщение",
-    "unfollow": "Отписаться",
-    "follow": "Следовать",
-    "viewProfile": "Просмотреть профиль"
+  "yourFriends": "Друзья",
+  "allUsers": "Пользователи",
+  "message": "Сообщ.",
+  "unfollow": "Отписка",
+  "follow": "Подписка",
+  "viewProfile": "Профиль"
+}
+,
+   "calendar":{
+    "edittask":{
+      "editTask": "Редактировать задачу",
+      "taskName": "Имя задачи*:",
+      "enterTaskName": "Введите имя задачи",
+      "startDate": "Дата начала:",
+      "endDate": "Дата окончания:",
+      "submit": "Отправить",
+      "cancel": "Отмена"
+    }
   },
   "welcome": "зкшмуе",
-  "language": "ывислы"
+  "language": "ывислы",
+   "search": "Поиск"
 }

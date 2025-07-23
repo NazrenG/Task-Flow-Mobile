@@ -1,6 +1,6 @@
 import i18n from "@/i18n/i18n";
 import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { useRouter } from "expo-router"; // ✅ expo-router yönləndirmə
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -47,9 +47,9 @@ const handleLanguageChange = (item) => {
 };
 
 export default function SettingsScreen() {
-  const router = useRouter(); // ✅ expo-router yönləndirmə hook-u
+  const router = useRouter();
   const { t } = useTranslation();
-  const [searchText, setSearchText] = useState("");
+  const [darkModeEnabled, setDarkModeEnabled] = useState(false);
 
   const profile = {
     name: "Sevgi Elesgerova",
@@ -62,6 +62,7 @@ export default function SettingsScreen() {
     { key: "changePassword", icon: "key", label: t("settings.changePassword") },
     { key: "notification", icon: "bell", label: t("settings.notifications") },
     { key: "activityLog", icon: "activity", label: t("settings.activityLog") },
+    { key: "darkMode", icon: "moon", label: t("settings.darkMode") }, // ✅ Dark mode düyməsi
   ];
 
   const dangerList = [
@@ -77,6 +78,9 @@ export default function SettingsScreen() {
       router.push("/settings/editprofile");
     } else if (key === "notification") {
       router.push("/notification");
+    } else if (key === "darkMode") {
+      setDarkModeEnabled(!darkModeEnabled);
+      console.log("Dark Mode is now:", !darkModeEnabled);
     } else {
       console.log("Pressed:", key);
     }
