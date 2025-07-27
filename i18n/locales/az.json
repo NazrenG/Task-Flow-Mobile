@@ -168,7 +168,25 @@
     "all":"All",
     "priority":"Prioritet",
     "deadline":"Son tarix",
-    "project":"Layihə"
+    "project":"Layihə",
+    "createtask":"Tapşırıq Yarat",
+    "cratetedTask": {
+  "taskName": "Tapşırığın adı",
+  "enterTaskName": "Tapşırığın adını daxil edin",
+  "startDate": "Başlama tarixi",
+  "endDate": "Bitmə tarixi",
+  "description": "Təsvir",
+  "enterdescription": "Təsviri daxil edin",
+  "save": "Yadda saxla",
+  "close": "Ləğv et",
+  "priority": "Əhəmiyyət",
+  "status": "Status",
+  "color": "Rəng",
+  "high": "Yüksək",
+  "medium": "Orta",
+  "easy": "Asan"
+}
+
   },
   "kanban":{
     "name":"Layihənin Adı",

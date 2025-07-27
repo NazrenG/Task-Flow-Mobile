@@ -33,7 +33,7 @@
     "selectedUsers": "Selected Members",
     "delete": "Delete",
     "viewDetails": "View Details",
-    "editProject": "edit Project",
+    "editProject": "Edit Project",
     "submit": "Submit",
     "cancel": "Cancel",
     "toast": {
@@ -168,7 +168,25 @@
     "all":"All",
     "priority":"Priority",
     "deadline":"Deadline",
-    "project":"Project"
+    "project":"Project",
+    "createtask":"Create Task",
+    "cratetedTask":{
+      "taskName": "Task Name",
+      "enterTaskName": "Enter task name",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+"description": "Description",
+      "enterdescription": "Enter description",
+      "save": "Save",
+      "close": "Close",
+      "priority": "Priority",
+      "status": "Status",
+      "color":"Color",
+      "high": "High",
+      "medium": "Medium",
+      "easy": "Easy"
+     
+    }
   },
   "kanban":{
     "name":"Project Name",

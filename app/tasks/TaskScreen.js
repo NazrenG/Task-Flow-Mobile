@@ -122,21 +122,21 @@ export default function TaskListMobile() {
       </View>
 
       <View className="flex-row justify-between mb-1">
-        <Text className="text-xs text-gray-500">Priority:</Text>
+        <Text className="text-xs text-gray-500">{t("task.priority")}:</Text>
         <Text className={`text-xs font-medium ${priorityColor(item.priority)}`}>
           {item.priority}
         </Text>
       </View>
 
       <View className="flex-row justify-between mb-1">
-        <Text className="text-xs text-gray-500">Deadline:</Text>
+        <Text className="text-xs text-gray-500">{t("task.deadline")}:</Text>
         <Text className={`text-xs font-medium ${deadlineColor(item.deadline)}`}>
           {item.deadline}
         </Text>
       </View>
 
       <View className="flex-row justify-between mb-2">
-        <Text className="text-xs text-gray-500">Project:</Text>
+        <Text className="text-xs text-gray-500">{t("task.project")}:</Text>
         <Text className="text-xs font-medium text-gray-800">
           {item.project}
         </Text>
@@ -176,57 +176,52 @@ export default function TaskListMobile() {
 
         <View className="items-center px-4 py-2">
           <View className="flex-row flex-wrap justify-between items-center w-full rounded-lg bg-white shadow-sm p-4 mx-4 gap-2 mb-2">
-            <Card
-              title="Total Task"
-              count="0"
-              color={Colors.secondary.bg_yellow}
-              icon={
-                <MaterialIcons name="assignment" size={20} color="#D97706" />
-              }
-              gradient={[Colors.secondary.yellow, Colors.secondary.lightYellow]}
-            />
-            <Card
-              title="Running Task"
-              count="2"
-              color={Colors.secondary.bg_green}
-              icon={
-                <MaterialIcons
-                  name="play-circle-outline"
-                  size={20}
-                  color="#059669"
-                />
-              }
-              gradient={[Colors.secondary.green, Colors.secondary.lightGreen]}
-            />
-            <Card
-              title="On Hold Task"
-              count="0"
-              color={Colors.secondary.bg_violet}
-              icon={
-                <MaterialIcons
-                  name="pause-circle-outline"
-                  size={20}
-                  color="white"
-                />
-              }
-              gradient={[
-                Colors.secondary.violet,
-                Colors.secondary.lightViolet,
-              ]}
-            />
-            <Card
-              title="Complete Task"
-              count="0"
-              color={Colors.secondary.bg_blue}
-              icon={
-                <MaterialIcons
-                  name="check-circle-outline"
-                  size={20}
-                  color="#0E7490"
-                />
-              }
-              gradient={["#A5F3FC", "#22D3EE"]}
-            />
+          <Card
+            title={t("task.totalTasks")}
+            count="0"
+            color={Colors.secondary.bg_yellow}
+            icon={<MaterialIcons name="assignment" size={20} color="#D97706" />}
+            gradient={[Colors.secondary.yellow, Colors.secondary.lightYellow]}
+          />
+          <Card
+            title={t("task.runningTasks")}
+            count="2"
+            color={Colors.secondary.bg_green}
+            icon={
+              <MaterialIcons
+                name="play-circle-outline"
+                size={20}
+                color="#059669"
+              />
+            }
+            gradient={[Colors.secondary.green, Colors.secondary.lightGreen]}
+          />
+          <Card
+            title={t("task.runningTasks")}
+            count="0"
+            color={Colors.secondary.bg_violet}
+            icon={
+              <MaterialIcons
+                name="pause-circle-outline"
+                size={20}
+                color="white"
+              />
+            }
+            gradient={[Colors.secondary.violet, Colors.secondary.lightViolet]} // Gradient colors for the card
+          />
+          <Card
+            title={t("task.completeTasks")}
+            count="0"
+            color={Colors.secondary.bg_blue}
+            icon={
+              <MaterialIcons
+                name="check-circle-outline"
+                size={20}
+                color="#0E7490"
+              />
+            }
+            gradient={["#A5F3FC", "#22D3EE"]}
+          />
           </View>
 
           <Pressable
@@ -234,12 +229,13 @@ export default function TaskListMobile() {
             onPress={() => setModalVisible(true)}
           >
             <FontAwesome name="plus" size={15} color="white" />
-            <Text className="text-white font-bold text-base">Create Task</Text>
+            <Text className="text-white font-bold text-base">{t("task.createtask")}</Text>
           </Pressable>
         </View>
 
         <View className="px-4 mt-2">
-          <Text className="text-lg font-bold">Tasks</Text>
+            <Text className="text-lg font-bold">{t("task.tasks")}</Text>
+
           <View className="border-b border-gray-200 my-2" />
 
           <View className="flex-row justify-between mb-2">
