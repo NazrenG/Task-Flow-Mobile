@@ -1,16 +1,17 @@
-import i18n from "@/i18n/i18n";
+import React from "react";
+import { Image, TextInput, TouchableOpacity, View, SafeAreaView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
-import React from "react";
-import { Image, TextInput, TouchableOpacity, View } from "react-native";
-import CalendarDropdown from "../hooks/DropDown";
-import { SafeAreaView } from "react-native-safe-area-context"; // Dəqiq safe area üçün
 import { useTranslation } from "react-i18next";
+import i18n from "@/i18n/i18n";
+import CalendarDropdown from "../hooks/DropDown";
+import { useTheme } from "./ThemeContext";
+import { Colors } from "../constants/Colors";
 
- 
 export default function Header({ onSearch }) {
   const navigation = useNavigation();
-   const { t } = useTranslation();
+  const { t } = useTranslation();
+  const { theme, toggleTheme } = useTheme();
 
   const languages = [
     {
@@ -29,11 +30,11 @@ export default function Header({ onSearch }) {
       icon: require("@/assets/images/flags/russia.png"),
     },
   ];
- 
+
   const handleLanguageChange = (item) => {
     i18n.changeLanguage(item.value);
   };
- 
+
   return (
     <SafeAreaView edges={['top']} className="bg-[#f8f8f8]">
       <View className="px-4 py-2 flex-row items-center justify-between">
@@ -47,9 +48,9 @@ export default function Header({ onSearch }) {
             className="w-full h-full"
           />
         </TouchableOpacity>
- 
+
         {/* Search Input */}
-        <View className="flex-1 flex-row bg-[#e0e0e0] rounded-xl items-center px-3 mr-2">
+        <View className="flex-1 flex-row bg-[#e0e0e0] rounded-3xl items-center px-3 mr-2">
           <Ionicons name="search" size={20} color="#555" />
           <TextInput
             className="flex-1 p-2 text-black"
@@ -58,7 +59,7 @@ export default function Header({ onSearch }) {
             onChangeText={onSearch}
           />
         </View>
- 
+
         {/* Language Dropdown */}
         <View className="mr-3 w-20">
           <CalendarDropdown
@@ -71,4 +72,3 @@ export default function Header({ onSearch }) {
     </SafeAreaView>
   );
 }
- 
