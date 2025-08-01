@@ -13,10 +13,10 @@ import {
   Text,
   View,
 } from "react-native";
-
+ 
 import { Colors } from "@/constants/Colors";
  
-
+ 
 export default function Dashboard() {
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState("");
@@ -24,7 +24,7 @@ export default function Dashboard() {
     navigation.navigate("project/projectPage");
   };
   const { t } = useTranslation();  
-
+ 
   const cardData = [
     {
       label: t("dashboard.totalClients"),
@@ -37,11 +37,11 @@ export default function Dashboard() {
       icon: "message",
     },
   ];
-
+ 
   return (
     <SafeAreaView className="flex-1 bg-background">
       <Header onSearch={setSearchText} />
-
+ 
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 100 }}
@@ -49,7 +49,7 @@ export default function Dashboard() {
       >
         {/* Count View */}
         <CountView />
-
+ 
         {/* Create Project */}
         <ImageBackground
           source={require("../../assets/images/bg-manage.png")}
@@ -72,7 +72,7 @@ export default function Dashboard() {
             </View>
           </View>
         </ImageBackground>
-
+ 
         {/* Info Cards */}
         <View className="flex-row flex-wrap justify-between gap-3 mt-3">
           {cardData.map((card, index) => (
@@ -93,7 +93,7 @@ export default function Dashboard() {
               <Text className="text-black font-bold">{card.label}</Text>
             </View>
           ))}
-
+ 
           <View className="bg-navyBlue flex-[0.48] items-center justify-center p-3 rounded-xl shadow-md">
             <Text className="text-white font-extrabold text-xl mb-1">
               {t("dashboard.createtask")}
@@ -101,7 +101,7 @@ export default function Dashboard() {
             <FontAwesome6 name="plus" size={15} color="white" />
           </View>
         </View>
-
+ 
         {/* Participant Occupation */}
         <View className="bg-white mt-4 rounded-lg shadow-md p-3">
           <Text className="text-lg font-semibold text-black">
@@ -112,10 +112,10 @@ export default function Dashboard() {
           </Text>
           <DonutChart />
         </View>
-
+ 
         {/* Daily Tasks */}
         <DailyTasks />
-
+ 
         {/* Current Project */}
         <View className="bg-white mt-4 rounded-lg shadow-md p-3">
           <Text className="text-xl font-semibold text-black">
@@ -126,3 +126,4 @@ export default function Dashboard() {
     </SafeAreaView>
   );
 }
+ 

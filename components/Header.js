@@ -1,17 +1,16 @@
-import React from "react";
-import { Image, TextInput, TouchableOpacity, View, SafeAreaView } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from '@react-navigation/native';
-import { useTranslation } from "react-i18next";
 import i18n from "@/i18n/i18n";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import React from "react";
+import { Image, TextInput, TouchableOpacity, View } from "react-native";
 import CalendarDropdown from "../hooks/DropDown";
-import { useTheme } from "./ThemeContext";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useTheme } from "../components/ThemeContext";
 import { Colors } from "../constants/Colors";
 
 export default function Header({ onSearch }) {
   const navigation = useNavigation();
-  const { t } = useTranslation();
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme(); // dark / light mövzusunu alırıq
 
   const languages = [
     {
@@ -36,7 +35,7 @@ export default function Header({ onSearch }) {
   };
 
   return (
-    <SafeAreaView edges={['top']} className="bg-[#f8f8f8]">
+    <SafeAreaView edges={["top"]} style={{ backgroundColor: Colors[theme].background }}>
       <View className="px-4 py-2 flex-row items-center justify-between">
         {/* Profile */}
         <TouchableOpacity
@@ -50,12 +49,16 @@ export default function Header({ onSearch }) {
         </TouchableOpacity>
 
         {/* Search Input */}
-        <View className="flex-1 flex-row bg-[#e0e0e0] rounded-3xl items-center px-3 mr-2">
-          <Ionicons name="search" size={20} color="#555" />
+        <View
+          className="flex-1 flex-row rounded-xl items-center px-3 mr-2"
+          style={{ backgroundColor: Colors[theme].inputBg }}
+        >
+          <Ionicons name="search" size={20} color={Colors[theme].icon} />
           <TextInput
-            className="flex-1 p-2 text-black"
-            placeholder={t("search")}
-            placeholderTextColor="#aaa"
+            className="flex-1 p-2"
+            style={{ color: Colors[theme].text }}
+            placeholder="Search..."
+            placeholderTextColor={Colors[theme].placeholder}
             onChangeText={onSearch}
           />
         </View>

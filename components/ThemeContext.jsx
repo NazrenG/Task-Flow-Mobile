@@ -6,7 +6,7 @@ const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
   const colorScheme = Appearance.getColorScheme(); // system default
-  const [theme, setTheme] = useState(colorScheme || "light");
+  const [theme, setTheme] = useState("light");
 
   useEffect(() => {
     const subscription = Appearance.addChangeListener(({ colorScheme }) => {
