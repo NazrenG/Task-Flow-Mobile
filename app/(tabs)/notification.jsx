@@ -10,10 +10,12 @@ import Header from "../../components/Header";
 import OtherCard from "../../components/notifications/otherCard";
 import ReminderCard from "../../components/notifications/reminderCard";
 import RequestCard from "../../components/notifications/requestCard";
+import { useTranslation } from "react-i18next";
 
 export default function NotificationScreen() {
   const [searchText, setSearchText] = useState("");
   const [activeTab, setActiveTab] = useState("requests");
+  const { t } = useTranslation();
 
   const requests = [
     {
