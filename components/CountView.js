@@ -3,20 +3,22 @@ import { FontAwesome5, Octicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
+import { useTranslation } from "react-i18next";
 
 const CountCard = ({ icon, iconLib, count, label, bgColor, gradient }) => {
   const router = useRouter();
   const IconComponent = iconLib === "Octicons" ? Octicons : FontAwesome5;
+  const { t } = useTranslation();  
 
   const handlePress = () => {
     switch (label) {
-      case "Kanban":
+      case t("dashboard.kanban"):
         router.push("/kanban/KanbanScreen");
         break;
-      case "Projects":
+      case t("dashboard.projects"):
         router.push("/project/projectPage");
         break;
-      case "Tasks":
+      case t("dashboard.tasks"):
         router.push("/tasks/TaskScreen");
         break;
       default:
@@ -51,13 +53,15 @@ const CountCard = ({ icon, iconLib, count, label, bgColor, gradient }) => {
 };
 
 export default function CountView() {
+  const { t } = useTranslation();  
+
   return (
     <View className="flex-1 flex-row items-center justify-between bg-white p-3 mt-4 rounded-lg shadow-lg gap-2">
       <CountCard
         icon="project-diagram"
         iconLib="FontAwesome5"
         count={9}
-        label="Projects"
+        label={t("dashboard.projects")}
         bgColor="bg-bg_green"
         gradient={[Colors.secondary.green, Colors.secondary.lightGreen]}
       />
@@ -65,7 +69,7 @@ export default function CountView() {
         icon="tasks"
         iconLib="FontAwesome5"
         count={8}
-        label="Tasks"
+        label={t("dashboard.tasks")}
         bgColor="bg-bg_yellow"
         gradient={[Colors.secondary.yellow, Colors.secondary.lightYellow]}
       />
@@ -73,7 +77,7 @@ export default function CountView() {
         icon="project"
         iconLib="Octicons"
         count={9}
-        label="Kanban"
+        label={t("dashboard.kanban")}
         bgColor="bg-bg_violet"
         gradient={[Colors.secondary.violet, Colors.secondary.lightViolet]}
       />

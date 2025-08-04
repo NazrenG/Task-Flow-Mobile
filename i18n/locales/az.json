@@ -1,4 +1,7 @@
 {
+   "welcome": "Xoş gəldiniz",
+  "language": "Dil",
+
   "project": {
     "totalProjects": "Ümumi Layihələr",
     "complateProjects": "Tamamlanmış Layihələr",
@@ -53,8 +56,7 @@
     "priority": "Prioritet",
     "projectOverview": "Layihənin icmalı"
   },
-  "welcome": "Xoş gəldiniz",
-  "language": "Dil",
+
 
   "notification": {
     "requests": "Istəklər",
@@ -115,6 +117,7 @@
     "gender": "Cins",
     "birthDate": "Doğum tarixi"
   },
+
   "settings": {
     "name": "Ayarlar",
     "editprofile": "Profili Redaktə Et",
@@ -126,5 +129,51 @@
     "cleanHistory": "Tarixi Təmizlə",
     "logout": "Çıxış",
     "save": "Yeniləyin"
+  },
+
+  "dashboard": {
+    "projects": "Layihələr",
+    "tasks": "Tapşırıqlar",
+    "kanban": "Kanban",
+    "managarProjects": "Layihəni asanlıqla idarə edin",
+    "organizeTasks": "Tapşırıqları, komandaları və son tarixləri asanlıqla təşkil edin.",
+    "tryNow": "İndi Pulsuz Yoxlayın",
+    "totalClients": "Müştəri say",
+    "message": "Mesaj",
+    "createtask": "Tapşırıq Yarat",
+    "participantprofile":"İştirakçıların Peşə Profilinə Baxış",
+    "statisticsAccording":"Bütün iştirakçıların peşə profillərinə görə statistika",
+    "dailyTasks": "Gündəlik Tapşırıqlar",
+    "noTask":"Bu saat üçün tapşırıq yoxdur",
+    "currentTasks": "Cari Tapşırıqlar"
+  },
+
+ "chat":{
+   "message": "Mesajlar",
+    "send": "Göndər",
+    "typeMessage": "Mesajınızı bura yazın...",
+    "online" : "onlayn",
+    "offline" : "oflayn"
+ },
+ "task":{
+    "totalTasks": "Ümumi Tapşırıqlar",
+    "completeTasks": "Tamamlanmış Tapşırıqlar",
+    "runningTasks": "Çalışan Tapşırıqlar",
+    "holdTasks": "Tapşırıqları saxlayın",
+    "tasks":"Tapşırıqlar",
+    "todo":"to do",
+    "inprogress":"in progress",
+    "completed":"completed",
+    "all":"All",
+    "priority":"Prioritet",
+    "deadline":"Son tarix",
+    "project":"Layihə"
+  },
+  "kanban":{
+    "name":"Layihənin Adı",
+    "back":"geri",
+    "next":"növbəti",
+    "kanban":"Kanban",
+    "table":"Cədvəl"
   }
 }

@@ -10,11 +10,12 @@ import {
   Linking,
   Modal,
   Pressable,
+  SafeAreaView,
   Text,
-  View,
-  SafeAreaView
+  View
 } from "react-native";
 import Header from "../../components/Header";
+
 
 export default function Message() {
   const navigation = useNavigation();
@@ -25,10 +26,16 @@ export default function Message() {
   const goToChat = () => {
     navigation.navigate("chat/chatDetails");
   };
+   
+  
 
   return (
+
+    <>
+    
+          <Header onSearch={setSearchText} />
     <SafeAreaView style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Header onSearch={setSearchText} />
+
       <View
         style={{ flex: 1, width: width - 40, height: "auto", borderRadius: 11 }}
         className="bg-white mt-4 py-4 px-6"
@@ -41,7 +48,7 @@ export default function Message() {
             marginBottom: 15,
           }}
         >
-          <Text className="text-2xl font-semibold text-black">Messages</Text>
+            <Text className="text-2xl font-semibold text-black">{t("chat.message")}</Text>
         </View>
 
         {/* space */}
@@ -87,7 +94,7 @@ export default function Message() {
                 alignSelf: "flex-end",
                 marginTop: 8,
               }}
-            />
+              />
           </View>
         </View>
         {/* <Text style={{ fontSize: 24 }}>{t("language")}</Text> */}
@@ -101,22 +108,22 @@ export default function Message() {
         <Pressable
           onPress={() => setModalVisible(false)}
           className="flex-1 bg-black/50 justify-center items-center"
-        >
+          >
           <Pressable
             onPress={() => {}}
             className="bg-white p-6 rounded-xl w-3/4 items-center gap-6"
-          >
+            >
             <Image
               style={{
                 width: width / 2,
                 height: width / 2,
               }}
               source={require("../../assets/images/default-user.png")}
-            />
+              />
             <View className="flex flex-row justify-around w-full ">
               <Pressable
                 onPress={() => Linking.openURL("mailto:example@email.com")}
-              >
+                >
                 <Entypo name="mail" size={24} color="black" />
               </Pressable>
               <View className="w-px h-7 bg-black" />
@@ -129,7 +136,7 @@ export default function Message() {
                   navigation.navigate("chat/chatDetails");
                   setModalVisible(false);
                 }}
-              >
+                >
                 <AntDesign name="message1" size={24} color="black" />
               </Pressable>
             </View>
@@ -137,5 +144,6 @@ export default function Message() {
         </Pressable>
       </Modal>
     </SafeAreaView>
+                </>
   );
 }

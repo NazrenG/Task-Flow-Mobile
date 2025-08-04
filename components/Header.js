@@ -10,6 +10,7 @@ const currentLang = i18n.language ? i18n.language.toUpperCase() : "en";
 
 export default function Header({ onSearch }) {
   const navigation = useNavigation();
+
   const languages = [
     {
       label: "EN",
@@ -21,7 +22,6 @@ export default function Header({ onSearch }) {
       value: "az",
       icon: require("@/assets/images/flags/azerbaijan.png"),
     },
-
     {
       label: "RU",
       value: "ru",
@@ -66,6 +66,8 @@ export default function Header({ onSearch }) {
 />
 
       </View>
-    </View>
+      </View>
+      
+   
   );
 }

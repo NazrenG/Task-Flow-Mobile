@@ -1,4 +1,7 @@
 {
+  "welcome": "Welcome",
+  "language": "Language",
+
   "project": {
     "totalProjects": "Total    Projects",
     "complateProjects": "Completed  Projects",
@@ -84,15 +87,13 @@
     "projectOverview": "Project Overview"
   },
 
-  "welcome": "Welcome",
-  "language": "Language",
 
   "userDetail": {
     "info": "Basic Info",
-    "totalTasks": "Total Tasks",
-    "completedTasks": "Completed Tasks",
-    "runningTasks": "Running Tasks",
-    "holdTasks": "Hold Tasks",
+    "totalTasks": "Total Task",
+    "completedTasks": "Complete Task",
+    "runningTasks": "Running Task",
+    "holdTasks": "Hold Task",
     "country": "Country",
     "occupation": "Occupation",
     "gender": "Gender",

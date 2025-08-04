@@ -8,7 +8,6 @@ import {
   Pressable,
   SafeAreaView,
   ScrollView,
-  StyleSheet,
   Text,
   View,
 } from "react-native";
@@ -19,28 +18,12 @@ import CardPagination from "./cardPagination";
 import InProgressProject from "./inProgressProject";
 import RecentAvtivity from "./recentActivity";
 
-const width = Dimensions.get("window").width;
-
-const cardsData = [
-  {
-    title: "Featured Event",
-    content: "Join our annual conference with industry leaders",
-  },
-  {
-    title: "Special Offer",
-    content: "Get 20% off all bookings made this week",
-  },
-  {
-    title: "New Feature",
-    content: "Try our new event planning toolkit",
-  },
-];
+ 
 
 const ProjectPage = () => {
   const { t } = useTranslation();
   const [modalVisible, setModalVisible] = useState(false);
-
-  const [value, setValue] = useState(50);
+ 
 
   return (
     <SafeAreaView className="flex-1 bg-background">
@@ -87,7 +70,7 @@ const ProjectPage = () => {
             gradient={[Colors.secondary.lightYellow, Colors.secondary.yellow]}
           />
         </View>
-        <Pressable 
+        <Pressable
           className="bg-navyBlue p-3 rounded-xl items-center flex flex-row justify-start gap-1 mb-2"
           onPress={() => setModalVisible(true)}
         >
@@ -96,7 +79,7 @@ const ProjectPage = () => {
             {t("project.createProject")}
           </Text>
         </Pressable>
-       { /** divide*/}
+        {/** divide*/}
         <View className="w-full h-[1px] bg-gray-200 my-2" />
         <View className="h-[30vh]">
           <CardPagination></CardPagination>
@@ -117,31 +100,3 @@ const ProjectPage = () => {
 };
 
 export default ProjectPage;
-
-const styles = StyleSheet.create({
-  grid: {
-    width: width - 40,
-    height: width / 3 + 103,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 10,
-    justifyContent: "space-between",
-    padding: 10,
-    backgroundColor: "white",
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 3,
-  },
-  gridItem: {
-    width: "48%",
-    height: 100,
-    gap: 6,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 10,
-    borderRadius: 8,
-  },
-});

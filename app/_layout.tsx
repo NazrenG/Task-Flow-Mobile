@@ -21,7 +21,8 @@ export default function RootLayout() {
       <Stack.Screen name="quiz/index" />
       <Stack.Screen name="chat/chatDetails" />
       <Stack.Screen name="project/projectPage" />
-      <Stack.Screen name="profile/index" />
+        <Stack.Screen name="profile/index" />
+         <Stack.Screen name="notification" />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
     </Stack>
     <Toast />
