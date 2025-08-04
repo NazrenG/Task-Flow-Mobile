@@ -208,7 +208,7 @@ export default function Friends() {
         </View>
 
         <Animated.View
-          className="h-[3px] bg-purple-800 absolute top-10  "
+          className="h-[3px] bg-purple-800 absolute top-[50] "
           style={{
             width: width / 2 - 20,
             transform: [{ translateX }],
