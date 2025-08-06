@@ -11,17 +11,17 @@ import {
   KeyboardAvoidingView,
   Modal,
   Platform,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
-  SafeAreaView
+  View
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
-import Header from "../../components/Header";
 import Button from "../../components/Button/Button";
+import Header from "../../components/Header";
 
 
 const { width, height } = Dimensions.get("window");
@@ -42,6 +42,8 @@ export default function EditProfileScreen() {
   const [form, setForm] = useState(defaultData);
   const [avatar, setAvatar] = useState(defaultData.avatar);
   const [backgroundImage] = useState(require('../../assets/images/page.jpg'));
+    const [searchText, setSearchText] = useState("");
+
   const { t } = useTranslation();
   const scrollViewRef = useRef(null);
   const [inputPositions, setInputPositions] = useState({});
@@ -91,15 +93,19 @@ export default function EditProfileScreen() {
   const [calendarVisible, setCalendarVisible] = useState(false);
 
   return (
-    <SafeAreaView style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      
-      <Header />
+    <>
+    
+            <Header onSearch={setSearchText} />
+    
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => router.back()}
       >
         <MaterialIcons name="arrow-back-ios" size={24} color="#333" />
       </TouchableOpacity>
+    <SafeAreaView style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      
+      
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
@@ -145,9 +151,9 @@ export default function EditProfileScreen() {
               ["gender", t("profile.gender")],
             ].map(([key, label]) => (
               <View
-                key={key}
-                style={styles.inputGroup}
-                onLayout={(event) => onInputLayout(key, event)}
+              key={key}
+              style={styles.inputGroup}
+              onLayout={(event) => onInputLayout(key, event)}
               >
                 <Text style={styles.label}>{label}</Text>
                 <TextInput
@@ -205,13 +211,14 @@ export default function EditProfileScreen() {
               }
             }}
             maxDate={new Date().toISOString().split('T')[0]}
-          />
+            />
           <TouchableOpacity onPress={() => setCalendarVisible(false)} style={{ padding: 10, alignItems: 'center' }}>
             <Text style={{ color: "#6852ff", fontWeight: "bold" }}>Bağla</Text>
           </TouchableOpacity>
         </View>
       </Modal>
     </SafeAreaView>
+</>
   );
 }
 

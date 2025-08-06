@@ -2,7 +2,12 @@ import i18n from "@/i18n/i18n";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { Image, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import CalendarDropdown from "../hooks/DropDown";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "../components/ThemeContext";
@@ -10,7 +15,7 @@ import { Colors } from "../constants/Colors";
 
 export default function Header({ onSearch }) {
   const navigation = useNavigation();
-  const { theme } = useTheme(); // dark / light mövzusunu alırıq
+  const { theme, toggleTheme } = useTheme(); // dark / light və dəyişdirmə funksiyası
 
   const languages = [
     {
@@ -35,7 +40,10 @@ export default function Header({ onSearch }) {
   };
 
   return (
-    <SafeAreaView edges={["top"]} style={{ backgroundColor: Colors[theme].background }}>
+    <SafeAreaView
+      edges={["top"]}
+      style={{ backgroundColor: Colors[theme].background }}
+    >
       <View className="px-4 py-2 flex-row items-center justify-between">
         {/* Profile */}
         <TouchableOpacity
@@ -64,13 +72,22 @@ export default function Header({ onSearch }) {
         </View>
 
         {/* Language Dropdown */}
-        <View className="mr-3 w-20">
+        <View className="mr-2 w-20">
           <CalendarDropdown
             data={languages}
             placeholder="lan"
             onChange={handleLanguageChange}
           />
         </View>
+
+        {/* 🌙/☀️ Toggle */}
+        <TouchableOpacity onPress={toggleTheme}>
+          <Ionicons
+            name={theme === "dark" ? "moon" : "sunny"}
+            size={24}
+            color={Colors[theme].icon}
+          />
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

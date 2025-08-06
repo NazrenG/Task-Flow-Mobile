@@ -80,13 +80,14 @@ const Register = () => {
 
           <View style={{ marginBottom: height * 0.04, width: "100%" }} />
 
-           <TouchableOpacity
- onPress={() => router.push("auth/otpVerification")}
- className="bg-dark_violet justify-center items-center rounded-full p-4"
- style={{ width: width - 40, marginBottom: 20 }}
- >
- <Button text="Register" />
-</TouchableOpacity>
+  
+<Button
+  text="Register"
+  onPress={() => router.push("auth/otpVerification")}
+  style={{ width: width - 40, marginBottom: 20 }}
+  className="bg-dark_violet justify-center items-center rounded-full p-4"
+/>
+
 
           <View
             style={{
