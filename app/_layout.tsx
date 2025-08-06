@@ -4,6 +4,7 @@ import { Stack } from "expo-router";
 import "react-native-reanimated";
 import Toast from "react-native-toast-message";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { ThemeProvider } from "../components/ThemeContext"; // doğru path-ə uyğun dəyiş
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -15,7 +16,8 @@ export default function RootLayout() {
   }
 
   return (
-  <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+       <ThemeProvider> 
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
       <Stack.Screen name="quiz/index" />
@@ -25,7 +27,8 @@ export default function RootLayout() {
          <Stack.Screen name="notification" />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
     </Stack>
-    <Toast />
+        <Toast />
+        </ThemeProvider>
   </GestureHandlerRootView>
 );
 

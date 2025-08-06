@@ -25,9 +25,10 @@
     "descriptionData": "Введите текст (максимум 400 символов)",
     "characters": "символ",
     "edit": "Редактировать",
-    "selectUsers": "Выберите участника",
+"selectUsers": "Участник",
+"viewDetails": "Детали",
     "selectedUsers": "Избранные участники",
-    "viewDetails": "просмотреть детали",
+    
     "delete": "Удалить",
     "submit": "Продолжать",
     "cancel": "Отмена",
@@ -127,7 +128,7 @@
 
   "task":{
      "totalTasks": "Всего задач",
-    "completedTasks": "Выполненные задачи",
+    "completeTasks": "Выполненные задачи",
     "runningTasks": "Запуск задач",
     "holdTasks": "Удержание задач",
     "tasks":"Задачи",
@@ -137,7 +138,24 @@
     "all":"All",
     "priority":"Приоритет",
     "deadline":"Крайний срок",
-    "project":"Проект"
+    "project":"Проект",
+    "createtask":"Создать задачу",
+    "cratetedTask": {
+  "taskName": "Название задачи",
+  "enterTaskName": "Введите название задачи",
+  "startDate": "Дата начала",
+  "endDate": "Дата окончания",
+  "description": "Описание",
+  "enterdescription": "Введите описание",
+  "save": "Сохранить",
+  "close": "Отмена",
+  "priority": "Приоритет",
+  "status": "Статус",
+  "color": "Цвет",
+  "high": "Высокий",
+  "medium": "Средний",
+  "easy": "Низкий"
+}
   },
   "kanban":{
     "name":"Название проекта",
@@ -167,13 +185,26 @@
   },
 
   "friend": {
-    "yourFriends": "Твои друзья",
-    "allUsers": "Все пользователи",
-    "message": "Сообщение",
-    "unfollow": "Отписаться",
-    "follow": "Следовать",
-    "viewProfile": "Просмотреть профиль"
+  "yourFriends": "Друзья",
+  "allUsers": "Пользователи",
+  "message": "Сообщ.",
+  "unfollow": "Отписка",
+  "follow": "Подписка",
+  "viewProfile": "Профиль"
+}
+,
+   "calendar":{
+    "edittask":{
+      "editTask": "Редактировать задачу",
+      "taskName": "Имя задачи*:",
+      "enterTaskName": "Введите имя задачи",
+      "startDate": "Дата начала:",
+      "endDate": "Дата окончания:",
+      "submit": "Отправить",
+      "cancel": "Отмена"
+    }
   },
   "welcome": "зкшмуе",
-  "language": "ывислы"
+  "language": "ывислы",
+   "search": "Поиск"
 }

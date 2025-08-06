@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Modal, Text, TextInput, TouchableOpacity, View ,Pressable,Dimensions} from "react-native";
+import { useTranslation } from "react-i18next";
 
 const width = Dimensions.get("window").width;
 
@@ -12,6 +13,7 @@ export default function TaskModal({ visible, onClose, onSave }) {
   const [priority, setPriority] = useState("High");
   const [status, setStatus] = useState("To do");
   const [color, setColor] = useState("#3b82f6");
+  const { t } = useTranslation();  
 
   const colors = ["#3b82f6", "#10b981", "#facc15", "#f87171", "#8b5cf6"];
   const priorities = ["High", "Medium", "Easy"];
@@ -34,26 +36,26 @@ export default function TaskModal({ visible, onClose, onSave }) {
           style={{ width: width - 30 }}
         > 
             {/* Task Name */}
-            <Text className="text-base font-semibold mt-4">Task Name</Text>
+            <Text className="text-base font-semibold mt-4">{t("task.cratetedTask.taskName")}</Text>
             <TextInput
               className="border border-gray-200 bg-white rounded-md p-2 mt-1"
               value={taskName}
               onChangeText={setTaskName}
-              placeholder="Enter task name"
+              placeholder={t("task.cratetedTask.enterTaskName")}
             />
 
             {/* Description */}
-            <Text className="text-base font-semibold mt-4">Description</Text>
+            <Text className="text-base font-semibold mt-4">{t("task.cratetedTask.description")}</Text>
             <TextInput
               className="border border-gray-200 bg-white rounded-md p-2 mt-1 h-24 text-start"
               value={description}
               onChangeText={setDescription}
-              placeholder="Enter description"
+              placeholder={t("task.cratetedTask.enterdescription")}
               multiline
             />
 
             {/* Start Date */}
-            <Text className="text-base font-semibold mt-4">Start Date</Text>
+            <Text className="text-base font-semibold mt-4">{t("task.cratetedTask.startDate")}</Text>
             <TextInput
               className="border border-gray-200 bg-white rounded-md p-2 mt-1"
               value={startDate}
@@ -62,7 +64,7 @@ export default function TaskModal({ visible, onClose, onSave }) {
             />
 
             {/* End Date */}
-            <Text className="text-base font-semibold mt-4">End Date</Text>
+            <Text className="text-base font-semibold mt-4">{t("task.cratetedTask.endDate")}</Text>
             <TextInput
               className="border border-gray-200 bg-white rounded-md p-2 mt-1"
               value={endDate}
@@ -71,18 +73,18 @@ export default function TaskModal({ visible, onClose, onSave }) {
             />
 
             {/* Priority */}
-            <Text className="text-base font-semibold mt-4">Priority</Text>
+            <Text className="text-base font-semibold mt-4">{t("task.cratetedTask.priority")}</Text>
             <View className="flex-row flex-wrap mt-2 gap-2">
               {priorities.map((p) => (
                 <TouchableOpacity
                   key={p}
                   onPress={() => setPriority(p)}
                   className={`px-3 py-1 border rounded-full ${ 
-                    priority=== p && p=== "High"
+                    priority=== p && p=== t("task.cratetedTask.high")
                       ? "bg-red-100 border-red-500"
-                      : priority === p && p === "Medium"
+                      : priority === p && p === t("task.cratetedTask.medium")
                       ? "bg-bg_yellow border-yellow"
-                      : priority === p && p === "Easy"
+                      : priority === p && p === t("task.cratetedTask.easy")
                       ? "bg-bg_green border-green"
                       : "bg-white border-gray-300"
                   }  
@@ -95,7 +97,7 @@ export default function TaskModal({ visible, onClose, onSave }) {
             </View>
 
             {/* Status */}
-            <Text className="text-base font-semibold mt-4">Status</Text>
+            <Text className="text-base font-semibold mt-4">{t("task.cratetedTask.status")}</Text>
             <View className="flex-row flex-wrap mt-2 gap-2">
               {statuses.map((s) => (
                 <TouchableOpacity
@@ -116,7 +118,7 @@ export default function TaskModal({ visible, onClose, onSave }) {
             </View>
 
             {/* Color */}
-            <Text className="text-base font-semibold mt-4">Color</Text>
+            <Text className="text-base font-semibold mt-4">{t("task.cratetedTask.color")}</Text>
             <View className="flex-row mt-2 gap-2">
               {colors.map((c) => (
                 <TouchableOpacity
@@ -136,7 +138,7 @@ export default function TaskModal({ visible, onClose, onSave }) {
                 className="bg-red-500 px-6 py-3 rounded"
                 onPress={onClose}
               >
-                <Text className="text-white font-semibold">Close</Text>
+                <Text className="text-white font-semibold">{t("task.cratetedTask.close")}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 className="bg-green px-6 py-3 rounded"
@@ -152,7 +154,7 @@ export default function TaskModal({ visible, onClose, onSave }) {
                   })
                 }
               >
-                <Text className="text-white font-semibold">Save</Text>
+                <Text className="text-white font-semibold">{t("task.cratetedTask.save")}</Text>
               </TouchableOpacity>
             </View> 
         </Pressable>

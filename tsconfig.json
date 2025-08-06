@@ -17,5 +17,5 @@
 
     "app/(tabs)/dashboard.jsx",
     "constants/TextShortener.js"
-  ]
+, "app/(tabs)/_layout.jsx"  ]
 }

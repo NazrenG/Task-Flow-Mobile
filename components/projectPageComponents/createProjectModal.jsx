@@ -109,12 +109,12 @@ const CreateProjectModal = ({ modalVisible, setModalVisible }) => {
               className="bg-red-500 px-6 py-3 rounded-md"
             >
               <Text className="text-white text-center font-semibold">
-                Cancel
+                {t("project.cancel")}
               </Text>
             </Pressable>
             <Pressable className="bg-green px-6 py-3 rounded-md">
               <Text className="text-white text-center font-semibold">
-                Submit
+                {t("project.submit")}
               </Text>
             </Pressable>
           </View>

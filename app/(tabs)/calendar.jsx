@@ -10,8 +10,9 @@ import {
 } from "react-native";
 import EditTaskDateModal from "../../components/calendarPage/editTaskDateModal";
 import Header from "../../components/Header";
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
 
-// Saat blokları
 const HOURS = Array.from({ length: 12 }, (_, i) => 8 + i);
 
 export default function CalendarScreen() {
@@ -20,6 +21,9 @@ export default function CalendarScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedTask, setSelectedTask] = useState("");
   const [searchText, setSearchText] = useState("");
+
+  const { theme } = useTheme();
+  const colors = Colors[theme];
 
   const tasks = [
     {
@@ -59,69 +63,69 @@ export default function CalendarScreen() {
     },
   ];
 
-  // Seçilen haftanın başlangıcı
   const startOfSelectedWeek = startOfWeek(selectedDate, { weekStartsOn: 1 });
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
       <Header onSearch={setSearchText} />
+
       {/* Header */}
-      <View className="flex-row justify-between items-center p-4">
-        <TouchableOpacity
-          onPress={() => setCurrentDate(subMonths(currentDate, 1))}
-          className="p-2"
-        >
-          <Ionicons name="chevron-back" size={24} color="gray" />
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: 16,
+        }}
+      >
+        <TouchableOpacity onPress={() => setCurrentDate(subMonths(currentDate, 1))}>
+          <Ionicons name="chevron-back" size={24} color={colors.icon} />
         </TouchableOpacity>
-        <Text className="text-xl font-bold text-purple-600">
+        <Text style={{ fontSize: 20, fontWeight: "bold", color: colors.titleText }}>
           {format(currentDate, "MMMM yyyy")}
         </Text>
-        <TouchableOpacity
-          onPress={() => setCurrentDate(addMonths(currentDate, 1))}
-          className="p-2"
-        >
-          <Ionicons name="chevron-forward" size={24} color="gray" />
+        <TouchableOpacity onPress={() => setCurrentDate(addMonths(currentDate, 1))}>
+          <Ionicons name="chevron-forward" size={24} color={colors.icon} />
         </TouchableOpacity>
       </View>
 
       {/* Week Selector */}
-      <View className="flex-row justify-between px-2 mb-2">
-        <TouchableOpacity
-          onPress={() => setSelectedDate(addDays(startOfSelectedWeek, -7))}
-          className="p-2"
-        >
-          <Ionicons name="chevron-back" size={20} color="gray" />
+      <View style={{ flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 8, marginBottom: 8 }}>
+        <TouchableOpacity onPress={() => setSelectedDate(addDays(startOfSelectedWeek, -7))}>
+          <Ionicons name="chevron-back" size={20} color={colors.icon} />
         </TouchableOpacity>
 
-        <View className="flex-row space-x-2 flex-1 justify-around">
+        <View style={{ flexDirection: "row", justifyContent: "space-around", flex: 1 }}>
           {Array.from({ length: 7 }).map((_, i) => {
             const day = addDays(startOfSelectedWeek, i);
-            const isToday =
-              format(day, "yyyy-MM-dd") === format(new Date(), "yyyy-MM-dd");
-            const isSelected =
-              format(day, "yyyy-MM-dd") === format(selectedDate, "yyyy-MM-dd");
+            const isToday = format(day, "yyyy-MM-dd") === format(new Date(), "yyyy-MM-dd");
+            const isSelected = format(day, "yyyy-MM-dd") === format(selectedDate, "yyyy-MM-dd");
+
             return (
-              <TouchableOpacity
-                key={i}
-                onPress={() => setSelectedDate(day)}
-                className="items-center"
-              >
-                <Text className="text-xs text-gray-500">
+              <TouchableOpacity key={i} onPress={() => setSelectedDate(day)} style={{ alignItems: "center" }}>
+                <Text style={{ fontSize: 12, color: colors.labelText }}>
                   {format(day, "EEE")}
                 </Text>
                 <View
-                  className={`w-8 h-8 rounded-full justify-center items-center ${
-                    isSelected
-                      ? "bg-purple-600"
+                  style={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: 16,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    backgroundColor: isSelected
+                      ? colors.primary
                       : isToday
-                      ? "bg-purple-200"
-                      : ""
-                  }`}
+                      ? colors.primaryTransparent
+                      : "transparent",
+                  }}
                 >
                   <Text
-                    className={`text-sm ${
-                      isSelected ? "text-white font-bold" : "text-gray-700"
-                    }`}
+                    style={{
+                      fontSize: 14,
+                      fontWeight: isSelected ? "bold" : "normal",
+                      color: isSelected ? "#fff" : colors.text,
+                    }}
                   >
                     {format(day, "d")}
                   </Text>
@@ -131,30 +135,27 @@ export default function CalendarScreen() {
           })}
         </View>
 
-        <TouchableOpacity
-          onPress={() => setSelectedDate(addDays(startOfSelectedWeek, 7))}
-          className="p-2"
-        >
-          <Ionicons name="chevron-forward" size={20} color="gray" />
+        <TouchableOpacity onPress={() => setSelectedDate(addDays(startOfSelectedWeek, 7))}>
+          <Ionicons name="chevron-forward" size={20} color={colors.icon} />
         </TouchableOpacity>
       </View>
 
       {/* Divider */}
-      <View className="h-px bg-gray-200 mb-2" />
+      <View style={{ height: 1, backgroundColor: colors.border, marginBottom: 8 }} />
 
       {/* Daily Schedule */}
       <ScrollView>
         {HOURS.map((hour) => (
-          <View key={hour} className="flex-row border-b border-gray-100 h-20">
+          <View key={hour} style={{ flexDirection: "row", borderBottomWidth: 1, borderBottomColor: colors.border, height: 80 }}>
             {/* Hour label */}
-            <View className="w-14 items-end pr-2 pt-2">
-              <Text className="text-xs text-gray-500">
+            <View style={{ width: 56, alignItems: "flex-end", paddingRight: 8, paddingTop: 8 }}>
+              <Text style={{ fontSize: 12, color: colors.labelText }}>
                 {hour.toString().padStart(2, "0")}:00
               </Text>
             </View>
 
             {/* Tasks */}
-            <View className="flex-1 relative">
+            <View style={{ flex: 1, position: "relative" }}>
               {tasks
                 .filter((t) => t.start >= hour && t.start < hour + 1)
                 .map((task) => {
@@ -167,17 +168,22 @@ export default function CalendarScreen() {
                         setModalVisible(true);
                       }}
                       key={task.id}
-                      className="absolute left-0 right-4 rounded-lg px-2 py-1"
                       style={{
+                        position: "absolute",
+                        left: 0,
+                        right: 16,
                         top: topOffset,
                         height,
                         backgroundColor: task.color,
+                        borderRadius: 8,
+                        paddingHorizontal: 8,
+                        paddingVertical: 4,
                       }}
                     >
-                      <Text className="text-xs font-medium text-gray-800">
+                      <Text style={{ fontSize: 12, fontWeight: "600", color: "#1f2937" }}>
                         {task.title}
                       </Text>
-                      <Text className="text-xs text-gray-600">
+                      <Text style={{ fontSize: 12, color: "#4b5563" }}>
                         {`${task.start}:00 - ${task.end}:00`}
                       </Text>
                     </TouchableOpacity>

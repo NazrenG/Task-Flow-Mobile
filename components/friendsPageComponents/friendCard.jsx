@@ -82,11 +82,14 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useTheme } from "../../components/ThemeContext";
 import TextShortener from "../../constants/TextShortener";
 const width = Dimensions.get("window").width;
 
 const FriendCard = () => {
   const { t } = useTranslation();
+    const { theme } = useTheme();
+
   return (
     <View style={[styles.userCard, styles.cardContainer]}>
       <Image
