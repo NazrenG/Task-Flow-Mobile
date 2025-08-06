@@ -25,7 +25,17 @@ light: {
   tabInactive: "#777",
   tabActiveBg: "#e3dbff",
   tabButtonBg: "#7661fd",
-  tabButtonIcon: "#403955",
+    tabButtonIcon: "#403955",
+  
+    // Add more colors as needed
+    
+     highlight: "#e9d5ff",
+  highlightText: "#ffffff",
+  todayHighlight: "#ede9fe",
+  todayHighlightText: "#4b0082",
+    border: "#e5e7eb",
+   titleText: "#111827",
+  labelText: "#374151",
 },
   dark: {
   background: "#121212",
@@ -45,7 +55,15 @@ light: {
   tabInactive: "#666",
   tabActiveBg: "#333366",
   tabButtonBg: "#333366",
-  tabButtonIcon: "#f6b26b",
+    tabButtonIcon: "#f6b26b",
+  
+ titleText: "#ffffff",
+  labelText: "#d1d5db",
+     highlight: "#8b5cf6",
+  highlightText: "#ffffff",
+  todayHighlight: "#312e81",
+  todayHighlightText: "#d8b4fe",
+  border: "#374151",
 },
   primary: {
     darkPurple: "rgb(93, 69, 251)",

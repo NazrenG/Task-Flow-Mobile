@@ -8,15 +8,19 @@ import {
   View,
 } from "react-native";
 import { Calendar } from "react-native-calendars";
+import { useTheme } from "../ThemeContext";
+import { Colors } from "../../constants/Colors";
 
 const width = Dimensions.get("window").width;
 
 const EditTaskDateModal = ({ modalVisible, setModalVisible, selectedTask }) => {
   const { t } = useTranslation();
+  const { theme } = useTheme();
+  const colors = Colors[theme];
 
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [selecting, setSelecting] = useState(null); 
+  const [selecting, setSelecting] = useState(null);
 
   return (
     <Modal
@@ -27,50 +31,104 @@ const EditTaskDateModal = ({ modalVisible, setModalVisible, selectedTask }) => {
     >
       <Pressable
         onPress={() => setModalVisible(false)}
-        className="flex-1 bg-black/50 justify-center items-center"
+        style={{
+          flex: 1,
+          backgroundColor: "rgba(0,0,0,0.5)",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
       >
         <Pressable
           onPress={() => {}}
-          className="bg-white p-6 rounded-xl gap-6"
-          style={{ width: width - 30 }}
+          style={{
+            backgroundColor: colors.card,
+            padding: 24,
+            borderRadius: 16,
+            gap: 24,
+            width: width - 30,
+          }}
         >
-          <Text className="text-2xl text-center">{t("calendar.edittask.editTask")}</Text>
+          <Text
+            style={{
+              fontSize: 20,
+              textAlign: "center",
+              color: colors.text,
+              fontWeight: "bold",
+            }}
+          >
+            {t("calendar.edittask.editTask")}
+          </Text>
 
-          <View className="flex flex-row gap-3">
-            <View className="flex-1">
-              <Text className="mb-2">{t("calendar.edittask.taskName")}</Text>
-              <Text className="mt-2 mb-1 border p-2 rounded-md text-zinc-500">
+          <View style={{ flexDirection: "row", gap: 12 }}>
+            <View style={{ flex: 1 }}>
+              <Text style={{ marginBottom: 8, color: colors.text }}>
+                {t("calendar.edittask.taskName")}
+              </Text>
+              <Text
+                style={{
+                  marginTop: 8,
+                  marginBottom: 4,
+                  borderWidth: 1,
+                  borderColor: colors.border,
+                  padding: 8,
+                  borderRadius: 8,
+                  color: colors.text,
+                }}
+              >
                 {selectedTask}
               </Text>
             </View>
           </View>
 
-          <View className="w-full flex flex-row justify-start gap-3">
-            <View className="flex-1">
-              <Text className="mb-2">{t("calendar.edittask.startDate")}</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "flex-start",
+              gap: 12,
+            }}
+          >
+            <View style={{ flex: 1 }}>
+              <Text style={{ marginBottom: 8, color: colors.text }}>
+                {t("calendar.edittask.startDate")}
+              </Text>
               <Pressable
                 onPress={() => setSelecting("start")}
-                className="border px-4 py-2 rounded-md mt-2"
+                style={{
+                  borderWidth: 1,
+                  borderColor: colors.border,
+                  paddingVertical: 8,
+                  paddingHorizontal: 16,
+                  borderRadius: 8,
+                  marginTop: 8,
+                }}
               >
-                <Text className="text-zinc-700">
+                <Text style={{ color: colors.text }}>
                   {startDate || "YYYY-MM-DD"}
                 </Text>
               </Pressable>
             </View>
-            <View className="flex-1">
-              <Text className="mb-2">{t("calendar.edittask.endDate")}</Text>
+            <View style={{ flex: 1 }}>
+              <Text style={{ marginBottom: 8, color: colors.text }}>
+                {t("calendar.edittask.endDate")}
+              </Text>
               <Pressable
                 onPress={() => setSelecting("end")}
-                className="border px-4 py-2 rounded-md mt-2"
+                style={{
+                  borderWidth: 1,
+                  borderColor: colors.border,
+                  paddingVertical: 8,
+                  paddingHorizontal: 16,
+                  borderRadius: 8,
+                  marginTop: 8,
+                }}
               >
-                <Text className="text-zinc-700">
+                <Text style={{ color: colors.text }}>
                   {endDate || "YYYY-MM-DD"}
                 </Text>
               </Pressable>
             </View>
           </View>
 
-          {/* Calendar shown when selecting start or end */}
           {selecting && (
             <Calendar
               onDayPress={(day) => {
@@ -94,22 +152,44 @@ const EditTaskDateModal = ({ modalVisible, setModalVisible, selectedTask }) => {
                   },
                 }),
               }}
-              style={{ marginTop: 10 }}
+              theme={{
+                backgroundColor: colors.card,
+                calendarBackground: colors.card,
+                dayTextColor: colors.text,
+                monthTextColor: colors.text,
+                textDisabledColor: colors.subtext,
+                arrowColor: colors.primary,
+                selectedDayBackgroundColor: colors.primary,
+                todayTextColor: colors.primary,
+              }}
+              style={{ marginTop: 10, borderRadius: 8 }}
             />
           )}
 
-          <View className="flex flex-row justify-end gap-4 mt-4">
+          <View style={{ flexDirection: "row", justifyContent: "flex-end", gap: 16 }}>
             <Pressable
               onPress={() => setModalVisible(false)}
-              className="bg-red-500 px-6 py-3 rounded-md"
+              style={{
+                backgroundColor: "#EF4444",
+                paddingHorizontal: 24,
+                paddingVertical: 12,
+                borderRadius: 8,
+              }}
             >
-              <Text className="text-white text-center font-semibold">
+              <Text style={{ color: "#fff", fontWeight: "bold" }}>
                 {t("calendar.edittask.cancel")}
               </Text>
             </Pressable>
-               <Pressable className="bg-green px-6 py-3 rounded-md">
-              <Text className="text-white text-center font-semibold">
-                 {t("calendar.edittask.submit")}
+            <Pressable
+              style={{
+                backgroundColor: "#22C55E",
+                paddingHorizontal: 24,
+                paddingVertical: 12,
+                borderRadius: 8,
+              }}
+            >
+              <Text style={{ color: "#fff", fontWeight: "bold" }}>
+                {t("calendar.edittask.submit")}
               </Text>
             </Pressable>
           </View>

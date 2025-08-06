@@ -147,6 +147,7 @@
 //     paddingHorizontal: 6,
 //   },
 // });
+
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -160,6 +161,9 @@ import {
 import FriendCard from "../../components/friendsPageComponents/friendCard";
 import UserCard from "../../components/friendsPageComponents/userCard";
 import Header from "../../components/Header";
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
+
 const width = Dimensions.get("window").width;
 
 export default function Friends() {
@@ -167,6 +171,7 @@ export default function Friends() {
   const [searchText, setSearchText] = useState("");
   const [activeTab, setActiveTab] = useState(0);
   const translateX = useRef(new Animated.Value(0)).current;
+  const { theme } = useTheme();
 
   const handleTabPress = (index) => {
     setActiveTab(index);
@@ -179,56 +184,92 @@ export default function Friends() {
   return (
     <>
       <Header onSearch={setSearchText} />
-    <SafeAreaView className="flex-1 items-center">
-      <View className="  mt-4  rounded-xl p-3 mx-3 bg-white">
-        <View className="flex-row w-full border-b border-gray-300">
-          <TouchableOpacity
-            className="flex-1 items-center py-3"
-            onPress={() => handleTabPress(0)}
-            >
-            <Text
-              className={
-                activeTab === 0 ? "font-bold text-black" : "text-gray-500"
-              }
-            >
-              {t("friend.yourFriends")}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            className="flex-1 items-center py-3"
-            onPress={() => handleTabPress(1)}
-            >
-            <Text
-              className={
-                activeTab === 1 ? "font-bold text-black" : "text-gray-500"
-              }
-            >
-              {t("friend.allUsers")}
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        <Animated.View
-          className="h-[3px] bg-purple-800 absolute top-[50] "
+      <SafeAreaView
+        style={{
+          flex: 1,
+          alignItems: "center",
+          backgroundColor: Colors[theme].background,
+        }}
+      >
+        <View
           style={{
-            width: width / 2 - 20,
-            transform: [{ translateX }],
+            marginTop: 16,
+            borderRadius: 12,
+            padding: 12,
+            marginHorizontal: 12,
+            width: width - 24,
+            backgroundColor: Colors[theme].card,
           }}
+        >
+          {/* Tabs */}
+          <View
+            style={{
+              flexDirection: "row",
+              borderBottomWidth: 1,
+              borderColor: Colors[theme].border || "#ccc",
+            }}
+          >
+            <TouchableOpacity
+              style={{ flex: 1, alignItems: "center", paddingVertical: 12 }}
+              onPress={() => handleTabPress(0)}
+            >
+              <Text
+                style={{
+                  fontWeight: activeTab === 0 ? "bold" : "normal",
+                  color:
+                    activeTab === 0
+                      ? Colors[theme].text
+                      : Colors[theme].textSecondary,
+                }}
+              >
+                {t("friend.yourFriends")}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{ flex: 1, alignItems: "center", paddingVertical: 12 }}
+              onPress={() => handleTabPress(1)}
+            >
+              <Text
+                style={{
+                  fontWeight: activeTab === 1 ? "bold" : "normal",
+                  color:
+                    activeTab === 1
+                      ? Colors[theme].text
+                      : Colors[theme].textSecondary,
+                }}
+              >
+                {t("friend.allUsers")}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Animated underline */}
+          <Animated.View
+            style={{
+              height: 3,
+              backgroundColor: Colors[theme].primary || Colors.primary.darkPurple,
+              position: "absolute",
+              top: 50,
+              left: 0,
+              width: width / 2 - 20,
+              transform: [{ translateX }],
+            }}
           />
 
-        <View className="p-5">
-          {activeTab === 0 ? (
-            <View className="flex-row flex-wrap justify-between p-1 gap-4">
-              <FriendCard />
-              <FriendCard />
-              <FriendCard />
-            </View>
-          ) : (
-            <UserCard />
-          )}
+          {/* Content */}
+          <View style={{ padding: 20 }}>
+            {activeTab === 0 ? (
+              <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 16, justifyContent: "space-between" }}>
+                <FriendCard />
+                <FriendCard />
+                <FriendCard />
+              </View>
+            ) : (
+              <UserCard />
+            )}
+          </View>
         </View>
-      </View>
-    </SafeAreaView>
-          </>
+      </SafeAreaView>
+    </>
   );
 }
