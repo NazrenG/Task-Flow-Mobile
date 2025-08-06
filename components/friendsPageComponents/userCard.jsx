@@ -121,7 +121,6 @@ const UserCard = () => {
               {t("friend.viewProfile")}
             </Text>
           </TouchableOpacity>
-         
         </View>
       </View>
     </View>

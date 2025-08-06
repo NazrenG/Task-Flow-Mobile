@@ -63,8 +63,8 @@ export default function CalendarScreen() {
   const startOfSelectedWeek = startOfWeek(selectedDate, { weekStartsOn: 1 });
 
   return (
-  <SafeAreaView className="flex-1 bg-gray-50">
-          <Header onSearch={setSearchText} />
+    <SafeAreaView className="flex-1 bg-gray-50">
+      <Header onSearch={setSearchText} />
       {/* Header */}
       <View className="flex-row justify-between items-center p-4">
         <TouchableOpacity

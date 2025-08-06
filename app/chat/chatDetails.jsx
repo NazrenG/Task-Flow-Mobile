@@ -5,12 +5,15 @@ import { useState } from "react";
 import {
   Dimensions,
   Image,
+  Keyboard,
+  KeyboardAvoidingView,
   Platform,
   Pressable,
   ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from "react-native";
 import { useTheme } from "@/components/ThemeContext";
@@ -58,7 +61,7 @@ const ChatDetail = () => {
         <View style={{ width: width, padding: 10, alignItems: "flex-start" }}>
           <View className="flex flex-row gap-3">
             <Image
-              style={{ width: width / 10, height: width / 10 }}
+              style={{ width: width / 9, height: width / 9 }}
               source={require("../../assets/images/default-user.png")}
             />
             <View
