@@ -71,9 +71,21 @@
 //   },
 // });
 
+//  viewProfileButton: {
+//     backgroundColor: "#a5e8d8", // Açıq mavi/boz
+//     borderRadius: 5,
+//     paddingVertical: 5,
+//     paddingHorizontal: 6,
+
+//     borderColor: "#cfded9", // Fonla uyğun sərhəd
+//   }
+
+  // <TouchableOpacity className="bg-green" style={[styles.button]}>
+  //           <Text style={styles.buttonText}>{t("friend.follow")}</Text>
+  //         </TouchableOpacity>
+
 import Entypo from "@expo/vector-icons/Entypo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import {
@@ -85,39 +97,66 @@ import {
   View,
 } from "react-native";
 import TextShortener from "../../constants/TextShortener";
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
 
 const width = Dimensions.get("window").width;
 
 const UserCard = () => {
   const navigation = useNavigation();
   const { t } = useTranslation();
+  const { theme } = useTheme(); // 🌙 Get current theme
+
   return (
-    <View style={[styles.userCard, styles.cardContainer]}>
+    <View
+      style={[
+        styles.cardContainer,
+        {
+          backgroundColor: Colors[theme].background,
+          borderColor: Colors[theme].border,
+        },
+      ]}
+    >
       <Image
         style={styles.userImage}
         source={require("../../assets/images/default-user.png")}
       />
-      <Text style={styles.userName}>Nezrin</Text>
+      <Text style={[styles.userName, { color: Colors[theme].text }]}>
+        Nezrin
+      </Text>
       <View style={styles.userInfo}>
         <View style={styles.infoRow}>
-          <MaterialIcons name="call" size={15} color="black" />
-          <Text style={styles.infoText}>055 999 88 78</Text>
+          <MaterialIcons name="call" size={15} color={Colors[theme].text} />
+          <Text style={[styles.infoText, { color: Colors[theme].mutedText }]}>
+            055 999 88 78
+          </Text>
         </View>
         <View style={styles.infoRow}>
-          <Entypo name="mail" size={15} color="black" />
-          <Text>{TextShortener("quliyeva@gmail.com", 16)}</Text>
+          <Entypo name="mail" size={15} color={Colors[theme].text} />
+          <Text style={{ color: Colors[theme].mutedText }}>
+            {TextShortener("quliyeva@gmail.com", 16)}
+          </Text>
         </View>
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity className="bg-green" style={[styles.button]}>
-            <Text style={styles.buttonText}>{t("friend.follow")}</Text>
-          </TouchableOpacity>
-          {/* //View Profile Button */}
+      <TouchableOpacity className="bg-green" style={[styles.button]}>
+             <Text style={styles.buttonText}>{t("friend.follow")}</Text>
+           </TouchableOpacity>
+
+
           <TouchableOpacity
-            style={styles.viewProfileButton}
+            style={[
+              styles.viewProfileButton,
+             ,
+            ]}
             onPress={() => navigation.navigate("userdetails/index")}
           >
-            <Text style={styles.viewProfileText}>
+            <Text
+              style={[
+                styles.viewProfileText,
+                { color: Colors[theme].viewProfileText },
+              ]}
+            >
               {t("friend.viewProfile")}
             </Text>
           </TouchableOpacity>
@@ -131,21 +170,14 @@ export default UserCard;
 
 const styles = StyleSheet.create({
   cardContainer: {
-    backgroundColor: "white",
-    padding: 10, // Adjust this value as needed
+    padding: 10,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "#e5e7eb",
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
+    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 1,
     elevation: 1,
-  },
-  userCard: {
     alignItems: "center",
     width: width / 3 + 10,
   },
@@ -168,11 +200,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 2,
+    gap: 4,
   },
   infoText: {
-    color: "#6b7280",
     marginLeft: 4,
     marginTop: 8,
+    fontSize: 12,
   },
   buttonContainer: {
     flexDirection: "row",
@@ -184,24 +217,18 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 6,
   },
-
   buttonText: {
     color: "white",
     fontSize: 12,
   },
-
-  // View Profile button style
-
   viewProfileButton: {
     backgroundColor: "#a5e8d8", // Açıq mavi/boz
     borderRadius: 5,
     paddingVertical: 5,
     paddingHorizontal: 6,
-
-    borderColor: "#cfded9", // Fonla uyğun sərhəd
+     borderColor: "#cfded9", // Fonla uyğun sərhəd
   },
   viewProfileText: {
-    color: "#333", // Tünd boz və ya yaşıl
     fontWeight: "500",
     fontSize: 11,
   },

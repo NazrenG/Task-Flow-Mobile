@@ -83,35 +83,58 @@ import {
   View,
 } from "react-native";
 import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
 import TextShortener from "../../constants/TextShortener";
+
 const width = Dimensions.get("window").width;
 
 const FriendCard = () => {
   const { t } = useTranslation();
-    const { theme } = useTheme();
+  const { theme } = useTheme();
 
   return (
-    <View style={[styles.userCard, styles.cardContainer]}>
+    <View
+      style={[
+        styles.cardContainer,
+        { backgroundColor: Colors[theme].background, borderColor: Colors[theme].border },
+      ]}
+    >
       <Image
         style={styles.userImage}
         source={require("../../assets/images/default-user.png")}
       />
-      <Text style={styles.userName}>Nezrin</Text>
+      <Text style={[styles.userName, { color: Colors[theme].text }]}>
+        Nezrin
+      </Text>
       <View style={styles.userInfo}>
         <View style={styles.infoRow}>
-          <MaterialIcons name="call" size={15} color="black" />
-          <Text style={styles.infoText}>055 999 88 77</Text>
+          <MaterialIcons name="call" size={15} color={Colors[theme].text} />
+          <Text style={[styles.infoText, { color: Colors[theme].mutedText }]}>
+            055 999 88 77
+          </Text>
         </View>
         <View style={styles.infoRow}>
-          <Entypo name="mail" size={15} color="black" />
-          <Text>{TextShortener("quliyeva@gmail.com", 16)}</Text>
+          <Entypo name="mail" size={15} color={Colors[theme].text} />
+          <Text style={{ color: Colors[theme].mutedText }}>
+            {TextShortener("quliyeva@gmail.com", 16)}
+          </Text>
         </View>
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={[styles.button, styles.messageButton]}>
+          <TouchableOpacity
+            style={[
+              styles.button,
+              { backgroundColor: Colors[theme].primary },
+            ]}
+          >
             <Text style={styles.buttonText}>{t("friend.message")}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.unfollowButton]}>
+          <TouchableOpacity
+            style={[
+              styles.button,
+              { backgroundColor: Colors[theme].secondary },
+            ]}
+          >
             <Text style={styles.buttonText}>{t("friend.unfollow")}</Text>
           </TouchableOpacity>
         </View>
@@ -124,21 +147,14 @@ export default FriendCard;
 
 const styles = StyleSheet.create({
   cardContainer: {
-    backgroundColor: "white",
-    padding: 10, // Adjust this value as needed
+    padding: 10,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "#e5e7eb",
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
+    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 1,
     elevation: 1,
-  },
-  userCard: {
     alignItems: "center",
     width: width / 3 + 10,
   },
@@ -158,14 +174,12 @@ const styles = StyleSheet.create({
   },
   infoRow: {
     flexDirection: "row",
-    justifyContent: "center",
     alignItems: "center",
-    marginTop: 2,
+    marginTop: 6,
+    gap: 4,
   },
   infoText: {
-    color: "#6b7280",
-    marginLeft: 4,
-    marginTop: 8,
+    fontSize: 12,
   },
   buttonContainer: {
     flexDirection: "row",
@@ -176,12 +190,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingVertical: 5,
     paddingHorizontal: 6,
-  },
-  messageButton: {
-    backgroundColor: "#6b46c1", // darkPurple color
-  },
-  unfollowButton: {
-    backgroundColor: "#7c3aed", // bg_violet color
   },
   buttonText: {
     color: "white",

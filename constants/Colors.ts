@@ -35,7 +35,10 @@ light: {
   todayHighlightText: "#4b0082",
     border: "#e5e7eb",
    titleText: "#111827",
-  labelText: "#374151",
+    labelText: "#374151",
+   mutedText: "#6d81a9ff",
+    primary: "#6b46c1",   // Message button
+    secondary: "#7c3aed", // Unfollow button
 },
   dark: {
   background: "#121212",
@@ -63,7 +66,10 @@ light: {
   highlightText: "#ffffff",
   todayHighlight: "#312e81",
   todayHighlightText: "#d8b4fe",
-  border: "#374151",
+    border: "#6b6f76ff",
+   mutedText: "#9c9ea0ff",
+    primary: "#a78bfa",
+    secondary: "#8b5cf6",
 },
   primary: {
     darkPurple: "rgb(93, 69, 251)",
