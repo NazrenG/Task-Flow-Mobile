@@ -11,6 +11,8 @@ import {
 import ProjectStateDropdown from "../dropdown/projectStateDropdown";
 import ProjectInput from "../Input/ProjectInput";
 import ColorPicker from "./colorPicker";
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors"; 
 
 const width = Dimensions.get("window").width;
 
@@ -22,6 +24,9 @@ const EditProjectModal = ({ modalVisible, setModalVisible }) => {
   const [text, setText] = useState("");
   const [selected, setSelected] = useState(null);
   const [open, setOpen] = useState(false);
+
+    const { theme } = useTheme();
+
   const options = [
     t("project.pending"),
     t("project.onGoing"),
@@ -35,26 +40,30 @@ const EditProjectModal = ({ modalVisible, setModalVisible }) => {
       transparent={true}
       visible={modalVisible}
       onRequestClose={() => setModalVisible(false)}
+      style={{ backgroundColor: Colors[theme].card }}
     >
       <Pressable
         onPress={() => setModalVisible(false)}
         className="flex-1 bg-black/50 justify-center items-center"
+        
       >
         <Pressable
           onPress={() => {}}
           className="bg-white p-6 rounded-xl items-center gap-6"
-          style={{ width: width - 30 }}
+          style={[{ width: width - 30 } ,{ backgroundColor: Colors[theme].card }]}
+         
         >
-          <Text className="text-2xl">{t("project.editProject")}</Text>
+          <Text className="text-2xl"  style={{ color: Colors[theme].text }}>{t("project.editProject")}</Text>
           <View className="flex flex-row gap-3">
-            <View className="flex-1">
-              <Text className="mb-2">{t("project.projectName")}:</Text>
+            <View className="flex-1" style={{ color: Colors[theme].text }}>
+              <Text className="mb-2" style={{ color: Colors[theme].text }}>{t("project.projectName")}:</Text>
               <ProjectInput
                 placeholder={t("project.enterProjectName") + "..."}
+                
               />
             </View>
-            <View className="flex-1">
-              <Text className="mb-2">{t("project.projectState")}:</Text>
+            <View className="flex-1" >
+              <Text className="mb-2" style={{ color: Colors[theme].text }}>{t("project.projectState")}:</Text>
               <ProjectStateDropdown></ProjectStateDropdown>
               {/* <ProjectInput placeholder={"Enter project name..."} /> */}
             </View>

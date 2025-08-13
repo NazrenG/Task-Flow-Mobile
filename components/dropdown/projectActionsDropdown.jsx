@@ -6,6 +6,9 @@ import { Pressable, Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import EditProjectModal from "../projectPageComponents/editProjectModal";
 import UserSelectorModal from "../projectPageComponents/selectPeople";
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
+
 ///bura id oturulmelidi
 export default function ProjectActionsDropdown() {
   const [editModalVisible, setEditModalVisible] = useState(false);
@@ -13,6 +16,7 @@ export default function ProjectActionsDropdown() {
   const [openMenu, setOpenMenu] = useState(false);
   const navigation = useNavigation();
   const { t } = useTranslation();
+  const { theme } = useTheme();
 
   const menuOptions = [
     t("project.edit"),
@@ -60,15 +64,15 @@ export default function ProjectActionsDropdown() {
   };
 
   return (
-    <View className="relative items-end">
+    <View className="relative items-end" >
       {/* 3-dot menu button */}
-      <Pressable onPress={() => setOpenMenu(!openMenu)} className="p-2">
-        <Entypo name="dots-three-horizontal" size={24} color="black" />
+      <Pressable onPress={() => setOpenMenu(!openMenu)} className="p-2"  >
+        <Entypo name="dots-three-horizontal" size={24}  style={{ color: Colors[theme].text }}/>
       </Pressable>
 
       {/* Dropdown menu */}
       {openMenu && (
-        <View className="absolute bottom-full right-0 mt-2 w-40 bg-white border rounded-md shadow-md z-[250]">
+        <View className="absolute bottom-full right-0 mt-2 w-40 bg-white border rounded-md shadow-md z-[250]" style={{ backgroundColor: Colors[theme].card }}>
           {menuOptions.map((option, idx) => (
             <Pressable
               key={idx}
@@ -79,7 +83,7 @@ export default function ProjectActionsDropdown() {
               }}
               className="px-4 py-2 border-b last:border-b-0"
             >
-              <Text className="text-gray-700 text-sm">{option}</Text>
+              <Text className="text-gray-700 text-sm" style={{ color: Colors[theme].text }}>{option}</Text>
             </Pressable>
           ))}
         </View>

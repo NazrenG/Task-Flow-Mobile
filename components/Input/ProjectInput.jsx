@@ -20,8 +20,9 @@
 // };
 
 // export default Input;
-
 import { TextInput, View } from "react-native";
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
 
 const ProjectInput = ({
   placeholder,
@@ -29,14 +30,26 @@ const ProjectInput = ({
   keyboardType = "default",
   ...rest
 }) => {
+  const { theme } = useTheme();
+
   return (
-    <View className="border border-black rounded-lg py-1 px-2 w-[90%]  mb-1">
+    <View
+      className="rounded-lg py-1 px-2 w-[90%] mb-1"
+      style={{
+        borderWidth: 1,
+        borderColor: Colors[theme].border ,
+        backgroundColor: Colors[theme].backgroundSecondary ,
+      }}
+    >
       <TextInput
         placeholder={placeholder}
-        placeholderTextColor="#555"
-        className="text-base text-black"
+        placeholderTextColor={Colors[theme].placeholder }
+        className="text-base"
+        style={{
+          color: Colors[theme].text,
+          textAlign: "left",
+        }}
         keyboardType={keyboardType}
-        style={{ textAlign: "left" }}
         {...rest}
       />
     </View>
