@@ -18,6 +18,7 @@ const width = Dimensions.get("window").width;
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 const CardPagination = () => {
+  const [modalVisible, setModalVisible] = useState(false);
   const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
   const { t } = useTranslation();
   const scrollRef = useRef(null);
@@ -62,14 +63,15 @@ const CardPagination = () => {
 
   return (
     <View style={styles.container}>
-      <View className="flex flex-row items-center justify-between my-2">
+      <View className="flex flex-row items-center justify-end my-2">
         {/* <Text className="text-base font-semibold my-2 ml-2">
           {t("project.recentProjectUpdates")}
         </Text> */}
-        <View className="flex flex-row gap-1">
+
+        <View className="flex flex-row gap-1 ">
           <RoundedButton
             data={t("project.pending")}
-            styleData="bg-light_navy"
+            styleData="bg-bg_blue"
             textStyle="text-sm"
           ></RoundedButton>
           <RoundedButton
@@ -166,8 +168,7 @@ const CardPagination = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // marginTop: 5,
-    paddingVertical: "20vh",
+    // paddingVertical: 20,
   },
   card: {
     width: SCREEN_WIDTH / 2 - 40,
@@ -197,6 +198,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     marginTop: 10,
+    marginBottom: 20,
   },
   dot: {
     width: 8,

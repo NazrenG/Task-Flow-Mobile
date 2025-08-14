@@ -1,15 +1,16 @@
 import i18n from "@/i18n/i18n";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Image, TextInput, TouchableOpacity, View } from "react-native";
 import CalendarDropdown from "../hooks/DropDown";
 
+const currentLang = i18n.language ? i18n.language.toUpperCase() : "en";
 
 
 export default function Header({ onSearch }) {
-
   const navigation = useNavigation();
+
   const languages = [
     {
       label: "EN",
@@ -21,7 +22,6 @@ export default function Header({ onSearch }) {
       value: "az",
       icon: require("@/assets/images/flags/azerbaijan.png"),
     },
-
     {
       label: "RU",
       value: "ru",
@@ -34,9 +34,12 @@ export default function Header({ onSearch }) {
   };
 
   return (
-    <View className="px-4 pt-14 bg-[#f8f8f8] flex-row items-center justify-between">
-          {/* Profile */}
-      <TouchableOpacity  className="w-9 h-9 rounded-3xl mr-3 overflow-hidden" onPress={() => navigation.navigate("profile/index")}> 
+    <View className="px-4   bg-[#f8f8f8] flex-row items-center justify-between">
+      {/* Profile */}
+      <TouchableOpacity
+        className="w-9 h-9 rounded-3xl mr-3 overflow-hidden"
+        onPress={() => navigation.navigate("profile/index")}
+      >
         <Image
           source={require("../assets/images/default-user.png")}
           className="w-full h-full"
@@ -53,14 +56,18 @@ export default function Header({ onSearch }) {
         />
       </View>
 
-      {/* Language Dropdown */}
       <View className="mr-3 w-20">
-        <CalendarDropdown
-          data={languages}
-          placeholder="lan"
-          onChange={handleLanguageChange}
-        />
+       <CalendarDropdown
+  data={languages}
+  placeholder="lan"
+  value={currentLang}
+  selectedValue={currentLang}
+  onChange={handleLanguageChange}
+/>
+
       </View>
-    </View>
+      </View>
+      
+   
   );
 }

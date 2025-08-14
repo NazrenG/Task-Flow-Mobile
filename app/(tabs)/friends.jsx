@@ -177,14 +177,15 @@ export default function Friends() {
   };
 
   return (
-    <View className="flex-1 items-center">
+    <>
       <Header onSearch={setSearchText} />
-      <View className="flex-1 w-[calc(100%-60px)] rounded-xl mx-[30px] my-[30px] bg-white">
+    <SafeAreaView className="flex-1 items-center">
+      <View className="  mt-4  rounded-xl p-3 mx-3 bg-white">
         <View className="flex-row w-full border-b border-gray-300">
           <TouchableOpacity
             className="flex-1 items-center py-3"
             onPress={() => handleTabPress(0)}
-          >
+            >
             <Text
               className={
                 activeTab === 0 ? "font-bold text-black" : "text-gray-500"
@@ -196,7 +197,7 @@ export default function Friends() {
           <TouchableOpacity
             className="flex-1 items-center py-3"
             onPress={() => handleTabPress(1)}
-          >
+            >
             <Text
               className={
                 activeTab === 1 ? "font-bold text-black" : "text-gray-500"
@@ -208,12 +209,12 @@ export default function Friends() {
         </View>
 
         <Animated.View
-          className="h-[3px] bg-purple-800 absolute top-10 left-0"
+          className="h-[3px] bg-purple-800 absolute top-[50] "
           style={{
-            width: width / 2 - 60,
+            width: width / 2 - 20,
             transform: [{ translateX }],
           }}
-        />
+          />
 
         <View className="p-5">
           {activeTab === 0 ? (
@@ -227,6 +228,7 @@ export default function Friends() {
           )}
         </View>
       </View>
-    </View>
+    </SafeAreaView>
+          </>
   );
 }

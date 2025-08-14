@@ -101,7 +101,7 @@ const UserCard = () => {
       <View style={styles.userInfo}>
         <View style={styles.infoRow}>
           <MaterialIcons name="call" size={15} color="black" />
-          <Text style={styles.infoText}>055 999 88 77</Text>
+          <Text style={styles.infoText}>055 999 88 78</Text>
         </View>
         <View style={styles.infoRow}>
           <Entypo name="mail" size={15} color="black" />
@@ -132,7 +132,7 @@ export default UserCard;
 const styles = StyleSheet.create({
   cardContainer: {
     backgroundColor: "white",
-    padding: 20, // Adjust this value as needed
+    padding: 10, // Adjust this value as needed
     borderRadius: 10,
     borderWidth: 1,
     borderColor: "#e5e7eb",

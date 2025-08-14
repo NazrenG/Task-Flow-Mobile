@@ -20,7 +20,6 @@ export default function RequestCard({ user, message, onAccept, onReject }) {
           </Text>
         </View>
       </View>
-
       <View className="flex-row items-center space-x-2 gap-1">
         <TouchableOpacity
           onPress={onAccept}

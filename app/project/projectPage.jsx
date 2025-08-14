@@ -99,15 +99,16 @@ const ProjectPage = () => {
           />
         </View>
         <Pressable
-          style={{ width: width / 2 - 40, height: width / 6 }}
-          className="bg-navyBlue my-5 rounded-xl justify-center items-center flex flex-row gap-3"
+          className="bg-navyBlue p-3 rounded-xl items-center flex flex-row justify-start gap-1 mb-2"
           onPress={() => setModalVisible(true)}
         >
-          <FontAwesome name="plus" size={20} color="white" />
-          <Text className="text-white font-bold text-lg">
+          <FontAwesome name="plus" size={15} color="white" />
+          <Text className="text-white font-bold text-base">
             {t("project.createProject")}
           </Text>
         </Pressable>
+        {/** divide*/}
+        <View className="w-full h-[1px] bg-gray-200 my-2" />
         <View className="h-[30vh]">
           <CardPagination></CardPagination>
         </View>
@@ -131,31 +132,3 @@ const ProjectPage = () => {
 };
 
 export default ProjectPage;
-
-const styles = StyleSheet.create({
-  grid: {
-    width: width - 40,
-    height: width / 3 + 103,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 10,
-    justifyContent: "space-between",
-    padding: 10,
-    backgroundColor: "white",
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 3,
-  },
-  gridItem: {
-    width: "48%",
-    height: 100,
-    gap: 6,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 10,
-    borderRadius: 8,
-  },
-});

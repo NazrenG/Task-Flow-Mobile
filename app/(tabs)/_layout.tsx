@@ -1,5 +1,5 @@
 import { Colors } from "@/constants/Colors";
-import { FontAwesome5, AntDesign } from "@expo/vector-icons";
+import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
 
 import { Tabs } from "expo-router";
 import React from "react";
@@ -74,12 +74,13 @@ export default function TabLayout() {
           borderTopWidth: 0,
           elevation: 0,
           height: 80,
-          position: "absolute"
+          position: "absolute",
         },
         tabBarActiveTintColor: Colors.primary.darkViolet,
         tabBarInactiveTintColor: "#777",
       }}
     >
+       
       <Tabs.Screen
         name="friends"
         options={{
@@ -119,7 +120,6 @@ export default function TabLayout() {
           ),
         }}
       />
-    
     </Tabs>
   );
 }

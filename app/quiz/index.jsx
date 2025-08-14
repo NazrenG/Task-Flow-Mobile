@@ -42,7 +42,7 @@ export default function Quiz() {
       ],
       icon: (
         <LottieView
-          source={require("../../assets/animations/quiz_second.json")}
+          source={require("../../assets/animations/quiz_third.json")}
           autoPlay
           loop
           style={{ width: 200, height: 200 }}
@@ -83,7 +83,7 @@ export default function Quiz() {
             className="w-full h-12 bg-[#403955] justify-center items-center rounded-lg mt-5"
             onPress={() => {
               if (index === 2) {
-                router.replace("/(tabs)/dashboard");
+                router.replace("/auth/login");
               } else {
                 increaseIndex();
               }

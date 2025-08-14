@@ -28,7 +28,7 @@ const InProgressProject = () => {
         shadowRadius: 6,
         elevation: 3,
       }}
-      className="p-4 bg-white rounded-lg m-3"
+      className="p-4 bg-white rounded-lg m-2"
     >
       <Text className="text-lg font-semibold mb-3">
         {t("project.inProcessProject")}

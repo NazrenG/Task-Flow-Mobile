@@ -2,9 +2,10 @@ import DonutChart from "@/components/charts/DonutChart";
 import CountView from "@/components/CountView";
 import DailyTasks from "@/components/dashboard/DailyTask";
 import Header from "@/components/Header";
+import { Colors } from "@/constants/Colors";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   ImageBackground,
@@ -13,29 +14,35 @@ import {
   Text,
   View,
 } from "react-native";
-
-import { Colors } from "@/constants/Colors";
-
+import { getToken } from "../../secureStore";
 export default function Dashboard() {
   const navigation = useNavigation();
-  const { t } = useTranslation();
   const [searchText, setSearchText] = useState("");
   const goToProjectPage = () => {
     navigation.navigate("project/projectPage");
   };
+  const { t } = useTranslation();
 
   const cardData = [
     {
-      label: "Total Clients",
+      label: t("dashboard.totalClients"),
       value: "3",
       icon: "people-group",
     },
     {
-      label: "Messages",
+      label: t("dashboard.message"),
       value: "1",
       icon: "message",
     },
   ];
+
+  useEffect(() => {
+    const getTokenFetch = async () => {
+      const stored = await getToken("authToken");
+      console.log("stored: " + stored);
+    };
+    getTokenFetch();
+  }, []);
 
   return (
     <SafeAreaView className="flex-1 bg-background">
@@ -58,15 +65,15 @@ export default function Dashboard() {
           <View className="flex-row justify-between items-center">
             <View className="flex-1 pr-3">
               <Text className="text-2xl font-semibold text-white">
-                Manage your project in one touch
+                {t("dashboard.managarProjects")}
               </Text>
               <Text className="text-sm text-bg_violet mt-2">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                {t("dashboard.organizeTasks")}
               </Text>
             </View>
             <View className="bg-white rounded-lg shadow-lg px-3 py-2 ml-2">
               <Text className="text-navyBlue font-medium text-sm">
-                Try For Free Now
+                {t("dashboard.tryNow")}
               </Text>
             </View>
           </View>
@@ -95,7 +102,7 @@ export default function Dashboard() {
 
           <View className="bg-navyBlue flex-[0.48] items-center justify-center p-3 rounded-xl shadow-md">
             <Text className="text-white font-extrabold text-xl mb-1">
-              Create task
+              {t("dashboard.createtask")}
             </Text>
             <FontAwesome6 name="plus" size={15} color="white" />
           </View>
@@ -104,10 +111,10 @@ export default function Dashboard() {
         {/* Participant Occupation */}
         <View className="bg-white mt-4 rounded-lg shadow-md p-3">
           <Text className="text-lg font-semibold text-black">
-            Participant Occupation Profile
+            {t("dashboard.participantprofile")}
           </Text>
           <Text className="text-sm text-gray-400 mt-2">
-            Statistics according to occupational profile of all participants
+            {t("dashboard.statisticsAccording")}
           </Text>
           <DonutChart />
         </View>
@@ -118,7 +125,7 @@ export default function Dashboard() {
         {/* Current Project */}
         <View className="bg-white mt-4 rounded-lg shadow-md p-3">
           <Text className="text-xl font-semibold text-black">
-            Current Projects
+            {t("dashboard.currentTasks")}
           </Text>
         </View>
       </ScrollView>
