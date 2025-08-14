@@ -2,10 +2,13 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useTranslation } from "react-i18next";
 import { Dimensions, ScrollView, Text, View } from "react-native";
 import * as Progress from "react-native-progress";
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
 
 const width = Dimensions.get("window").width;
 const InProgressProject = () => {
   const { t } = useTranslation();
+  const { theme } = useTheme();
 
   const projects = [
     { name: "test 90", daysLeft: -95 },
@@ -27,10 +30,11 @@ const InProgressProject = () => {
         shadowOpacity: 0.1,
         shadowRadius: 6,
         elevation: 3,
+        backgroundColor: Colors[theme].card
       }}
       className="p-4 bg-white rounded-lg m-2"
     >
-      <Text className="text-lg font-semibold mb-3">
+      <Text className="text-lg font-semibold mb-3" style={{ color: Colors[theme].text }}>
         {t("project.inProcessProject")}
       </Text>
       <ScrollView nestedScrollEnabled={true}>
@@ -44,7 +48,7 @@ const InProgressProject = () => {
               </View>
             </View>
             <View style={{ width: width - 150 }}>
-              <Text className="text-base mb-1">{project.name}</Text>
+              <Text className="text-base mb-1" style={{ color: Colors[theme].text }}>{project.name}</Text>
               <Progress.Bar
                 progress={0.6}
                 width={null}

@@ -1,5 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Dimensions, Image, ScrollView, Text, View } from "react-native";
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
 const width = Dimensions.get("window").width;
 
 const RecentAvtivity = () => {
@@ -41,6 +43,7 @@ const RecentAvtivity = () => {
       time: "8:34:14 AM",
     },
   ];
+  const { theme } = useTheme();
 
   return (
     <View
@@ -52,10 +55,11 @@ const RecentAvtivity = () => {
         shadowOpacity: 0.1,
         shadowRadius: 6,
         elevation: 3,
+        backgroundColor: Colors[theme].card
       }}
       className="p-2 bg-white my-4 mb-[10vh] rounded-xl p-4"
     >
-      <Text className="text-lg font-semibold mb-3">
+      <Text className="text-lg font-semibold mb-3" style={{ color: Colors[theme].text }}>
         {t("project.recentActivity")}
       </Text>
       <ScrollView nestedScrollEnabled={true}>
@@ -72,7 +76,7 @@ const RecentAvtivity = () => {
               className="flex flex-row items-center justify-between"
             >
               <View>
-                <Text className="text-base mb-1">{item.user}</Text>
+                <Text className="text-base mb-1" style={{ color: Colors[theme].text }}>{item.user}</Text>
                 {item.time !== null && (
                   <View className="flex-row items-center gap-1 mt-1">
                     {/* <MaterialIcons name="watch-later" size={15} color="gray" /> */}
@@ -81,7 +85,7 @@ const RecentAvtivity = () => {
                 )}
               </View>
               <View>
-                <Text>{item.act}</Text>
+                <Text style={{ color: Colors[theme].text }}>{item.act}</Text>
               </View>
             </View>
           </View>

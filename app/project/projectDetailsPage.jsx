@@ -4,7 +4,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 import { Dimensions, Image, StyleSheet, Text, View ,ScrollView} from "react-native";
 import RecentAvtivity from "./recentActivity";
-
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
 
 const width = Dimensions.get("window").width;
 
@@ -31,9 +32,10 @@ const ViewDetails = () => {
       endDate: "12/12/12",
     },
   };
+  const { theme } = useTheme();
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#F9FAFB" }}>
+    <View style={{ flex: 1, backgroundColor:  Colors[theme].background }}>
       <Header />
       <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
         
@@ -41,15 +43,15 @@ const ViewDetails = () => {
 
       <View style={styles.container}>
         {/* Profile Card */}
-        <View style={styles.profileCard}>
+        <View style={[styles.profileCard,{ backgroundColor: Colors[theme].card }]}>
           <Image source={profile.avatar} style={styles.avatar} />
-          <Text style={styles.name}>{profile.name}</Text>
-          <Text style={styles.email}>{profile.email}</Text>
+          <Text style={[styles.name,{color: Colors[theme].text }]}>{profile.name}</Text>
+            <Text style={[styles.email, { color: Colors[theme].text }]}>{profile.email}</Text>
         </View>
 
         {/* Info Card */}
-        <View style={styles.infoCard}>
-          <Text style={styles.infoHeader}>{t("userDetail.info")}</Text>
+        <View style={[styles.infoCard,{ backgroundColor: Colors[theme].card }]}>
+          <Text style={[styles.infoHeader,{color: Colors[theme].text }]}>{t("userDetail.info")}</Text>
           <InfoRow label={t("projectDetails.country")} value={info.country} />
           <InfoRow label={t("projectDetails.occupation")} value={info.occupation} />
           <InfoRow label={t("projectDetails.gender")} value={info.gender} />
@@ -86,8 +88,9 @@ const ViewDetails = () => {
   );
 };
 
-const InfoRow = ({ label, value }) => (
-  <View style={styles.infoRow}>
+const InfoRow = ({ label, value ,color}) => (
+
+  <View style={[styles.infoRow]} >
     <Text style={styles.infoLabel}>{label}</Text>
     <Text style={styles.infoValue}>{value}</Text>
   </View>
@@ -98,7 +101,6 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   profileCard: {
-    backgroundColor: "#fff",
     alignItems: "center",
     padding: 24,
     borderRadius: 16,
@@ -114,15 +116,12 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#1F2937",
     marginBottom: 4,
   },
   email: {
     fontSize: 14,
-    color: "#6B7280",
   },
   infoCard: {
-    backgroundColor: "#fff",
     borderRadius: 16,
     padding: 20,
     marginBottom: 24,
@@ -132,23 +131,19 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 16,
-    color: "#374151",
   },
   infoRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     paddingVertical: 8,
     borderBottomWidth: 1,
-    borderBottomColor: "#E5E7EB",
   },
   infoLabel: {
     fontSize: 15,
-    color: "#4B5563",
     fontWeight: "500",
   },
   infoValue: {
     fontSize: 15,
-    color: "#1F2937",
   },
   statusRow: {
     flexDirection: "row",

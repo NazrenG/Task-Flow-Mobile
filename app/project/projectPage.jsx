@@ -158,11 +158,11 @@ const ProjectPage = () => {
 
           <FontAwesome name="plus" size={15} color="white" />
 
-          <Text className="text-white font-bold text-base">
+          
 
-            {t("project.createProject")}
-
-          </Text>
+          <View>
+  <Text className="text-white font-bold text-base">{t("project.createProject")}</Text>
+</View>
 
         </Pressable>
 
