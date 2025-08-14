@@ -1,23 +1,42 @@
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
+
 import LottieView from "lottie-react-native";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Dimensions,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
 } from "react-native";
 import CodeVerification from "../../components/codeverification/codeVerification";
-import Button from "../../components/Button/Button";
+import {
+  fetchEmailConfirmation,
+  fetchVerifyCode,
+} from "../../utils/fetchUtils";
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const OtpVerificationScreen = () => {
   const [code, setCode] = useState(["", "", "", ""]);
+  const { email } = useLocalSearchParams();
   const codeRefs = useRef([]);
   const { width } = Dimensions.get("window");
+
+  useEffect(() => {
+    console.log("emailll" + email);
+    const getdata = async () => {
+      await delay(4000);
+      const confirmation = await fetchEmailConfirmation(email);
+      console.log(confirmation);
+    };
+    getdata();
+  }, [email]);
+
+  const checkCode = async () => {
+    console.log("otp email: " + email);
+    const response = await fetchVerifyCode(code, email);
+    if (response) router.push("/quiz");
+  };
 
   return (
     <KeyboardAvoidingView
@@ -35,15 +54,7 @@ const OtpVerificationScreen = () => {
           style={styles.animation}
         />
 
-    
-
-        <CodeVerification
-          code={code}
-          setCode={setCode}
-          onNext={() => router.push("auth/login")}
-        />
-
-       
+        <CodeVerification code={code} setCode={setCode} onNext={checkCode} />
       </ScrollView>
     </KeyboardAvoidingView>
   );

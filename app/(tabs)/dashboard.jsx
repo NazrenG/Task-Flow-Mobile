@@ -2,9 +2,10 @@ import DonutChart from "@/components/charts/DonutChart";
 import CountView from "@/components/CountView";
 import DailyTasks from "@/components/dashboard/DailyTask";
 import Header from "@/components/Header";
+import { Colors } from "@/constants/Colors";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   ImageBackground,
@@ -13,16 +14,14 @@ import {
   Text,
   View,
 } from "react-native";
-
-import { Colors } from "@/constants/Colors";
-
+import { getToken } from "../../secureStore";
 export default function Dashboard() {
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState("");
   const goToProjectPage = () => {
     navigation.navigate("project/projectPage");
   };
-  const { t } = useTranslation();  
+  const { t } = useTranslation();
 
   const cardData = [
     {
@@ -36,6 +35,14 @@ export default function Dashboard() {
       icon: "message",
     },
   ];
+
+  useEffect(() => {
+    const getTokenFetch = async () => {
+      const stored = await getToken("authToken");
+      console.log("stored: " + stored);
+    };
+    getTokenFetch();
+  }, []);
 
   return (
     <SafeAreaView className="flex-1 bg-background">
@@ -104,7 +111,7 @@ export default function Dashboard() {
         {/* Participant Occupation */}
         <View className="bg-white mt-4 rounded-lg shadow-md p-3">
           <Text className="text-lg font-semibold text-black">
-             {t("dashboard.participantprofile")}
+            {t("dashboard.participantprofile")}
           </Text>
           <Text className="text-sm text-gray-400 mt-2">
             {t("dashboard.statisticsAccording")}

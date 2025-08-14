@@ -82,6 +82,8 @@ export default function SettingsScreen() {
     }
   };
 
+  const handleDangerZoneBtn = async () => {};
+
   return (
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView

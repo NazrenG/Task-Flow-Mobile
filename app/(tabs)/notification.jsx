@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   SafeAreaView,
   ScrollView,
@@ -14,7 +15,7 @@ import RequestCard from "../../components/notifications/requestCard";
 export default function NotificationScreen() {
   const [searchText, setSearchText] = useState("");
   const [activeTab, setActiveTab] = useState("requests");
-
+  const { t } = useTranslation();
   const requests = [
     {
       id: 1,
