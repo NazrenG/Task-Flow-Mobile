@@ -11,11 +11,15 @@ import OtherCard from "../../components/notifications/otherCard";
 import ReminderCard from "../../components/notifications/reminderCard";
 import RequestCard from "../../components/notifications/requestCard";
 import { useTranslation } from "react-i18next";
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
+
 
 export default function NotificationScreen() {
   const [searchText, setSearchText] = useState("");
   const [activeTab, setActiveTab] = useState("requests");
   const { t } = useTranslation();
+  const { theme } = useTheme();
 
   const requests = [
     {
@@ -67,24 +71,24 @@ export default function NotificationScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
+    <SafeAreaView className="flex-1 " style={{ backgroundColor: Colors[theme].background }}> 
       <Header onSearch={setSearchText} />
 
-      <View className="flex-row gap-1 mt-4   px-4">
+      <View className="flex-row gap-1 mt-4   px-4" >
         {["requests", "reminders", "others"].map((tab) => (
           <TouchableOpacity
             key={tab}
             onPress={() => setActiveTab(tab)}
             className={`py-2 px-4 rounded-full ${
               activeTab === tab ? tabColors[tab].activeBg : tabColors[tab].bg
-            }`}
+            }`} 
           >
-            <Text className={`${tabColors[tab].text} font-semibold`}>
+            <Text className={`${tabColors[tab].text} font-semibold`} style={{ color: Colors[theme].background }}> 
               {tab === "requests"
-                ? t("")
+                ? t("notification.requests")
                 : tab === "reminders"
-                ? "Reminders"
-                : "Others"}
+                ? t("notification.reminders")
+                : t("notification.others")}
             </Text>
           </TouchableOpacity>
         ))}
@@ -92,7 +96,7 @@ export default function NotificationScreen() {
 
       <ScrollView contentContainerStyle={{ padding: 16 }}>
         {activeTab === "requests" && (
-          <View className="bg-white rounded-xl shadow p-4">
+          <View className=" rounded-xl shadow p-4" style={{ backgroundColor: Colors[theme].card }}>
             {requests.map((req) => (
               <RequestCard
                 key={req.id}
@@ -106,7 +110,7 @@ export default function NotificationScreen() {
         )}
 
         {activeTab === "reminders" && (
-          <View className="bg-white rounded-xl shadow p-4 space-y-3 gap-1">
+          <View className="rounded-xl shadow p-4 space-y-3 gap-1" style={{ backgroundColor: Colors[theme].card }}>
             {reminders.map((reminder) => (
               <ReminderCard
                 key={reminder.id}
@@ -119,7 +123,7 @@ export default function NotificationScreen() {
         )}
 
         {activeTab === "others" && (
-          <View className="bg-white rounded-xl shadow p-4 space-y-3 gap-1">
+          <View className=" rounded-xl shadow p-4 space-y-3 gap-1" style={{ backgroundColor: Colors[theme].card }}>
             {others.map((item) => (
               <OtherCard
                 key={item.id}

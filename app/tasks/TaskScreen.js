@@ -14,6 +14,7 @@ import Header from "../../components/Header";
 import { Colors } from "../../constants/Colors";
 import TaskModal from "./TaskModal";
 import { useTranslation } from "react-i18next";
+import { useTheme } from "../../components/ThemeContext";
 
 
 const mockData = [
@@ -71,6 +72,7 @@ export default function TaskListMobile() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [isModalVisible, setModalVisible] = useState(false);
   const { t } = useTranslation();  
+  const { theme } = useTheme();
 
   const filteredData =
     filter === "All"
@@ -101,9 +103,9 @@ export default function TaskListMobile() {
   };
 
   const renderItem = ({ item }) => (
-    <View className="bg-white rounded-xl p-4 mb-2 shadow-sm border border-gray-200">
+    <View className=" rounded-xl p-4 mb-2 shadow-sm border border-gray-200" style={{ backgroundColor: Colors[theme].card }}>
       <View className="flex-row justify-between items-center mb-1">
-        <Text className="text-base font-semibold text-gray-900 flex-1">
+        <Text className="text-base font-semibold text-gray-900 flex-1" style={{ color: Colors[theme].text }}>
           {item.title}
         </Text>
         <Text
@@ -121,23 +123,23 @@ export default function TaskListMobile() {
         </Text>
       </View>
 
-      <View className="flex-row justify-between mb-1">
-        <Text className="text-xs text-gray-500">{t("task.priority")}:</Text>
+      <View className="flex-row justify-between mb-1" style={{ color: Colors[theme].text }}>
+        <Text className="text-xs " style={{ color: Colors[theme].text }}>{t("task.priority")}:</Text>
         <Text className={`text-xs font-medium ${priorityColor(item.priority)}`}>
           {item.priority}
         </Text>
       </View>
 
       <View className="flex-row justify-between mb-1">
-        <Text className="text-xs text-gray-500">{t("task.deadline")}:</Text>
+        <Text className="text-xs " style={{ color: Colors[theme].text }}>{t("task.deadline")}:</Text>
         <Text className={`text-xs font-medium ${deadlineColor(item.deadline)}`}>
           {item.deadline}
         </Text>
       </View>
 
       <View className="flex-row justify-between mb-2">
-        <Text className="text-xs text-gray-500">{t("task.project")}:</Text>
-        <Text className="text-xs font-medium text-gray-800">
+        <Text className="text-xs " style={{ color: Colors[theme].text }}>{t("task.project")}:</Text>
+        <Text className="text-xs font-medium " style={{ color: Colors[theme].text }}>
           {item.project}
         </Text>
       </View>
@@ -174,8 +176,8 @@ export default function TaskListMobile() {
       <SafeAreaView className="flex-1 bg-gray-50">
         <Header onSearch={setSearchText} />
 
-        <View className="items-center px-4 py-2">
-          <View className="flex-row flex-wrap justify-between items-center w-full rounded-lg bg-white shadow-sm p-4 mx-4 gap-2 mb-2">
+        <View className="items-center px-4 py-2" style={{ backgroundColor: Colors[theme].background }}>
+          <View className="flex-row flex-wrap justify-between items-center w-full rounded-lg bg-white shadow-sm p-4 mx-4 gap-2 mb-2" style={{ backgroundColor: Colors[theme].card }}>
           <Card
             title={t("task.totalTasks")}
             count="0"
@@ -226,6 +228,7 @@ export default function TaskListMobile() {
 
           <Pressable
             className="flex flex-row justify-center bg-navyBlue rounded-xl items-center gap-1  p-3 mt-2 "
+            
             onPress={() => setModalVisible(true)}
           >
             <FontAwesome name="plus" size={15} color="white" />
@@ -233,17 +236,17 @@ export default function TaskListMobile() {
           </Pressable>
         </View>
 
-        <View className="px-4 mt-2">
-            <Text className="text-lg font-bold">{t("task.tasks")}</Text>
+        <View className="px-4 " style={{ backgroundColor: Colors[theme].background }}>
+            <Text className="text-lg font-bold" style={{ color: Colors[theme].text }}>{t("task.tasks")}</Text>
 
           <View className="border-b border-gray-200 my-2" />
 
-          <View className="flex-row justify-between mb-2">
+          <View className="flex-row justify-between mb-2" style={{ backgroundColor: Colors[theme].background }}>
             <TouchableOpacity onPress={() => router.back()}>
-              <MaterialIcons name="arrow-back-ios" size={20} color="black" />
+              <MaterialIcons name="arrow-back-ios" size={20} color={Colors[theme].text} />
             </TouchableOpacity>
 
-            <View className="flex-row flex-wrap justify-end flex-1 ml-4">
+            <View className="flex-row flex-wrap justify-end flex-1 ml-4" style={{ backgroundColor: Colors[theme].background }}>
               {statusFilters.map((s) => (
                 <TouchableOpacity
                   key={s}
@@ -267,6 +270,7 @@ export default function TaskListMobile() {
           renderItem={renderItem}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 40 }}
+          style={{ backgroundColor: Colors[theme].background }}
           ListEmptyComponent={
             <Text className="text-center text-gray-500 mt-4">
               No tasks found.

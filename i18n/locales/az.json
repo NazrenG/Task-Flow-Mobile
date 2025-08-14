@@ -129,7 +129,8 @@
     "deleteAccount": "Hesabı Sil",
     "cleanHistory": "Tarixi Təmizlə",
     "logout": "Çıxış",
-    "save": "Yeniləyin"
+    "save": "Yeniləyin",
+     "darkMode": "Tema"
   },
 
   "dashboard": {
@@ -204,6 +205,20 @@
       "endDate": "Bitmə tarixi:",
       "submit": "Təsdiq et",
       "cancel": "Ləğv et"
+    }
+  },
+  "changepassword": {
+        "changePassword": "Parolun dəyişdirilməsi",
+    "currentPassword": "Cari Şifrə",
+    "newPassword": "Yeni Şifrə",
+    "confirmPassword": "Təsdiq Şifrəsi",
+    "save": "Yadda saxla",
+    "errorMessage": "Xəta",
+    "successMessage": "Uğur",
+    "error": {
+      "emptyFields": "Bütün sahələri doldurun.",
+      "passwordMismatch": "Yeni şifrə və təsdiq şifrəsi uyğun gəlmir.",
+      "updateFailed": "Şifrəni yeniləmək mümkün olmadı."
     }
   }
 }

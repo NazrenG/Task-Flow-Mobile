@@ -1,3 +1,4 @@
+import i18n from "@/i18n/i18n";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
@@ -13,6 +14,10 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
+import CalendarDropdown from "../../hooks/DropDown";
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
+
 export default function UpdatePassword() {
   const router = useRouter();
   const { t } = useTranslation();
@@ -22,73 +27,144 @@ export default function UpdatePassword() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const { theme } = useTheme();
+
+  const languages = [
+    {
+      label: "EN",
+      value: "en",
+      icon: require("@/assets/images/flags/united-kingdom.png"),
+    },
+    {
+      label: "AZ",
+      value: "az",
+      icon: require("@/assets/images/flags/azerbaijan.png"),
+    },
+    {
+      label: "RU",
+      value: "ru",
+      icon: require("@/assets/images/flags/russia.png"),
+    },
+  ];
+
   const handleSave = () => {
     if (!currentPassword || !newPassword || !confirmPassword) {
-      Alert.alert("Error", "Please fill all fields.");
+      Alert.alert(
+        t("changepassword.errorMessage"),
+        t("changepassword.error.emptyFields")
+      );
       return;
     }
     if (newPassword !== confirmPassword) {
-      Alert.alert("Error", "New passwords do not match.");
+      Alert.alert(
+        t("changepassword.errorMessage"),
+        t("changepassword.error.passwordMismatch")
+      );
       return;
     }
 
-    Alert.alert("Success", "Password updated successfully.");
+    Alert.alert(
+      t("changepassword.successMessage"),
+      t("changepassword.error.passwordUpdated")
+    );
     router.back();
   };
 
+  const handleLanguageChange = (item) => {
+    i18n.changeLanguage(item.value);
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[
+        styles.container,
+        { backgroundColor: Colors[theme].background },
+      ]}
+    >
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
-          <MaterialIcons name="arrow-back-ios" size={24} color="black" />
+        <MaterialIcons
+  name="arrow-back-ios"
+  size={24}
+  color={Colors[theme].icon} // birbaşa rəng ver
+/>
         </TouchableOpacity>
-        <Text style={styles.headerText}>Change Password</Text>
-        <View style={{ width: 24 }} />
+        <Text style={[styles.headerText, { color: Colors[theme].icon}]}>
+          {t("changepassword.changePassword")}
+        </Text>
+
+        <View className="mr-3 w-20">
+          <CalendarDropdown
+            data={languages}
+            placeholder="lan"
+            onChange={handleLanguageChange}
+          />
+        </View>
       </View>
 
-      {/* Centered form */}
+      {/* Form */}
       <View style={styles.formContainer}>
-             
-
         <Input
-          placeholder="Current Password"
+          placeholder={t("changepassword.currentPassword")}
           value={currentPassword}
           onChangeText={setCurrentPassword}
-          style={styles.input}
+          style={[
+            styles.input,
+            {
+              backgroundColor: Colors[theme].inputBackground,
+              color: Colors[theme].text,
+              borderColor: Colors[theme].border,
+            },
+          ]}
+          placeholderTextColor={Colors[theme].placeholder}
           secureTextEntry
         />
         <Input
-          placeholder="New Password"
+          placeholder={t("changepassword.newPassword")}
           value={newPassword}
           onChangeText={setNewPassword}
-          style={styles.input}
+          style={[
+            styles.input,
+            {
+              backgroundColor: Colors[theme].inputBackground,
+              color: Colors[theme].text,
+              borderColor: Colors[theme].border,
+            },
+          ]}
+          placeholderTextColor={Colors[theme].placeholder}
           secureTextEntry
         />
         <Input
-          placeholder="Confirm New Password"
+          placeholder={t("changepassword.confirmPassword")}
           value={confirmPassword}
           onChangeText={setConfirmPassword}
-          style={styles.input}
+          style={[
+            styles.input,
+            {
+              backgroundColor: Colors[theme].inputBackground,
+              color: Colors[theme].text,
+              borderColor: Colors[theme].border,
+            },
+          ]}
+          placeholderTextColor={Colors[theme].placeholder}
           secureTextEntry
         />
 
-         <TouchableOpacity
-        onPress={handleSave}
-        className="bg-dark_violet justify-center items-center rounded-full p-4"
-        style={{
-          width: width * 0.9,
-          maxWidth: 400,
-          marginTop: 10,
-          marginBottom: 30,
-        }}
-      >
-        <Button text="Save" />
-      </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleSave}
+          className="bg-dark_violet justify-center items-center rounded-full p-4"
+          style={{
+            width: width * 0.9,
+            maxWidth: 400,
+            marginTop: 10,
+            marginBottom: 30,
+            backgroundColor: Colors[theme].primary,
+          }}
+        >
+          <Button text={t("changepassword.save")} />
+        </TouchableOpacity>
       </View>
-
-      {/* Button at the bottom */}
-     
     </SafeAreaView>
   );
 }
@@ -97,7 +173,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#fff",
   },
   header: {
     flexDirection: "row",
@@ -111,34 +186,15 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   input: {
-    width: '90%',
+    width: "90%",
     maxWidth: 400,
     borderWidth: 1,
-    borderColor: "#ccc",
     borderRadius: 10,
     padding: 14,
     marginBottom: 16,
-    backgroundColor: "#f9f9f9",
-  },
-  buttonContainer: {
-    width: '100%',
-    alignItems: 'center',
-    paddingBottom: 30,
-  },
-  button: {
-    width: '90%',
-    maxWidth: 400,
-    backgroundColor: "#6852ff",
-    padding: 15,
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "#fff",
-    fontWeight: "600",
   },
 });

@@ -97,7 +97,8 @@
     "deleteAccount": "Удалить аккаунт",
     "cleanHistory": "Очистить историю",
     "logout": "Выйти",
-    "save": "Обновлять"
+    "save": "Обновлять",
+    "darkMode": "Тема"
   },
 
   "dashboard": {
@@ -202,6 +203,21 @@
       "endDate": "Дата окончания:",
       "submit": "Отправить",
       "cancel": "Отмена"
+    }
+  },
+
+  "changepassword": {
+    "changePassword": "Изменить пароль",
+    "currentPassword": "Текущий пароль",
+    "newPassword": "Новый пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "save": "Сохранить",
+    "errorMessage": "Ошибка",
+    "successMessage": "Успех",
+    "error": {
+      "emptyFields": "Пожалуйста, заполните все поля.",
+      "passwordMismatch": "Пароли не совпадают.",
+      "updateFailed": "Не удалось обновить пароль."
     }
   },
   "welcome": "зкшмуе",

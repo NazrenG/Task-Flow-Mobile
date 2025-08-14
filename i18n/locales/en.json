@@ -128,7 +128,8 @@
     "deleteAccount": "Delete Account",
     "cleanHistory": "Clean History",
     "logout": "Log Out",
-    "save": "Update"
+    "save": "Update",
+    "darkMode": "Theme"
   },
    "dashboard": {
 
@@ -205,5 +206,22 @@
       "submit": "Submit",
       "cancel": "Cancel"
     }
+  }
+
+  ,
+  "changepassword":{
+    "changePassword": "Change Password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "save": "Save",
+    "error": {
+      "emptyFields": "Please fill all fields.",
+      "passwordMismatch": "Passwords do not match.",
+      "passwordUpdated": "Password updated successfully."
+    }
+    ,
+    "errorMessage": "Error",
+    "successMessage": "Success"
   }
 }
