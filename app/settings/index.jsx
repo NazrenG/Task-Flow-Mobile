@@ -15,6 +15,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CalendarDropdown from "../../hooks/DropDown";
+import { fetchLogout } from "../../utils/fetchUtils";
 
 const { width } = Dimensions.get("window");
 const scale = width / 375;
@@ -65,9 +66,13 @@ export default function SettingsScreen() {
   ];
 
   const dangerList = [
-    { icon: "trash-2", label: t("settings.deleteAccount") },
-    { icon: "clock", label: t("settings.cleanHistory") },
-    { icon: "log-out", label: t("settings.logout") },
+    {
+      key: "deleteAccount",
+      icon: "trash-2",
+      label: t("settings.deleteAccount"),
+    },
+    { key: "cleanHistory", icon: "clock", label: t("settings.cleanHistory") },
+    { key: "logOut", icon: "log-out", label: t("settings.logout") },
   ];
 
   const handlePress = (key) => {
@@ -82,7 +87,24 @@ export default function SettingsScreen() {
     }
   };
 
-  const handleDangerZoneBtn = async () => {};
+  const handleDangerZoneBtn = async (key) => {
+    // console.log("in danger zone handler" + key);
+    switch (key) {
+      case "logOut":
+        const result = await fetchLogout();
+        if (result) {
+          router.push("/auth/login");
+        }
+        break;
+      case "cleanHistory":
+        break;
+      case "deleteAccount":
+        break;
+
+      default:
+        break;
+    }
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -157,7 +179,7 @@ export default function SettingsScreen() {
             <TouchableOpacity
               key={index}
               className="flex-row justify-between items-center bg-red-50 p-4 rounded-xl border border-red-200"
-              onPress={() => console.log("Pressed:", item.label)}
+              onPress={() => handleDangerZoneBtn(item.key)}
             >
               <View className="flex-row items-center">
                 <Feather
