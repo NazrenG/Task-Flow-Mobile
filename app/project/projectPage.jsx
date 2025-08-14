@@ -1,65 +1,102 @@
+import Card from "@/components/Card/Card";
+import { MaterialIcons } from "@expo/vector-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Dimensions,
   Pressable,
+  SafeAreaView,
   ScrollView,
-  StyleSheet,
   Text,
   View,
 } from "react-native";
-import Toast from "react-native-toast-message";
 import Header from "../../components/Header";
 import CreateProjectModal from "../../components/projectPageComponents/createProjectModal";
+import { Colors } from "../../constants/Colors";
+import {
+  fetchComplatedProjectCount,
+  fetchOnGoingProjectCount,
+  fetchPendingProjectCount,
+} from "../../utils/fetchUtils";
 import CardPagination from "./cardPagination";
 import InProgressProject from "./inProgressProject";
 import RecentAvtivity from "./recentActivity";
 
 const width = Dimensions.get("window").width;
-
-const cardsData = [
-  {
-    title: "Featured Event",
-    content: "Join our annual conference with industry leaders",
-  },
-  {
-    title: "Special Offer",
-    content: "Get 20% off all bookings made this week",
-  },
-  {
-    title: "New Feature",
-    content: "Try our new event planning toolkit",
-  },
-];
-
 const ProjectPage = () => {
   const { t } = useTranslation();
   const [modalVisible, setModalVisible] = useState(false);
+  const [totalProjectCount, setTotalProjects] = useState("");
+  const [complatedProjectCount, setComplatedProjects] = useState("");
+  const [onGoingProjectCount, setOnGoingProjects] = useState("");
+  const [pendingProjectCount, setPendingProjects] = useState("");
+  console.log("is modal on: " + modalVisible);
 
-  const [value, setValue] = useState(50);
+  useEffect(() => {
+    const getDatas = async () => {
+      try {
+        const complatedProj = await fetchComplatedProjectCount();
+        const pendingProj = await fetchPendingProjectCount();
+        const onGoingProj = await fetchOnGoingProjectCount();
+
+        console.log("complatedProj" + complatedProj);
+        console.log("pendingProj" + pendingProj);
+        console.log("onGoingProj" + onGoingProj);
+        setComplatedProjects(complatedProj);
+        setPendingProjects(pendingProj);
+        setOnGoingProjects(onGoingProj);
+      } catch (error) {
+        console.log("error in getDatas: " + error);
+      }
+    };
+    getDatas();
+  }, []);
 
   return (
-    <View className="pb-6">
+    <SafeAreaView className="flex-1 bg-background">
       <Header></Header>
       <ScrollView contentContainerStyle={{ alignItems: "center", padding: 10 }}>
-        <View style={styles.grid}>
-          <View style={styles.gridItem} className="bg-light_navy">
-            <Text>{t("project.totalProjects")}</Text>
-            <Text>10</Text>
-          </View>
-          <View style={styles.gridItem} className="bg-light_red">
-            <Text>{t("project.complateProjects")}</Text>
-            <Text>6</Text>
-          </View>
-          <View style={styles.gridItem} className="bg-light_green">
-            <Text>{t("project.onGoingProjects")}</Text>
-            <Text>2</Text>
-          </View>
-          <View style={styles.gridItem} className="bg-bg_yellow">
-            <Text>{t("project.pendingProjects")}</Text>
-            <Text>2</Text>
-          </View>
+        <View className="flex-row flex-wrap justify-between items-center  p-4 mb-3 gap-2 rounded-lg bg-white shadow-sm">
+          <Card
+            title={t("project.totalProjects")}
+            count="0"
+            color={Colors.secondary.bg_blue}
+            icon={<MaterialIcons name="view-list" size={20} color="#0E7490" />}
+            gradient={["#A5F3FC", "#22D3EE"]}
+          />
+          <Card
+            title={t("project.complateProjects")}
+            count={complatedProjectCount}
+            color={Colors.secondary.light_red}
+            icon={
+              <MaterialIcons
+                name="check-circle-outline"
+                size={20}
+                color="#b81836"
+              />
+            }
+            gradient={["#f397a8", "#ef7f5a"]}
+          />
+
+          <Card
+            title={t("project.onGoingProjects")}
+            count={onGoingProjectCount}
+            color={Colors.secondary.bg_green}
+            icon={
+              <MaterialIcons name="query-builder" size={20} color="#059669" />
+            }
+            gradient={[Colors.secondary.lightGreen, Colors.secondary.green]}
+          />
+          <Card
+            title={t("project.pendingProjects")}
+            count={pendingProjectCount}
+            color={Colors.secondary.bg_yellow}
+            icon={
+              <MaterialIcons name="pending-actions" size={20} color="#D97706" />
+            }
+            gradient={[Colors.secondary.lightYellow, Colors.secondary.yellow]}
+          />
         </View>
         <Pressable
           style={{ width: width / 2 - 40, height: width / 6 }}
@@ -81,11 +118,15 @@ const ProjectPage = () => {
         <RecentAvtivity></RecentAvtivity>
         {/* </View> */}
       </ScrollView>
-      <CreateProjectModal
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-      />
-    </View>
+      {modalVisible ? (
+        <CreateProjectModal
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
+      ) : (
+        <></>
+      )}
+    </SafeAreaView>
   );
 };
 
