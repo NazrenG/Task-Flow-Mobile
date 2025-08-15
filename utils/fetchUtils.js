@@ -1,7 +1,7 @@
 import { getToken, saveToken } from "../secureStore";
 
-const URL = "https://e33ce7167fc7.ngrok-free.app/api";
-// const URL = "https://taskflowwebapi20250802142810.azurewebsites.net/api";
+// const URL = "https://e33ce7167fc7.ngrok-free.app/api";
+const URL = "https://taskflowwebapi20250802142810.azurewebsites.net/api";
 
 ///// AUTH FETCHES
 export const fetchSignUp = async (email, name, surname, username, password) => {
@@ -254,6 +254,57 @@ export const fetchPendingProjectCount = async () => {
     }
   } catch (error) {
     console.log("pendingg projects count error: " + error);
+  }
+};
+
+export const fetchOnGoingProjectsList = async () => {
+  try {
+    const token = await getToken("authToken");
+    const response = await fetch(URL + "/Project/OnGoingProject", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    response.text().then((text) => {
+      console.log("error in on going projects list: " + text);
+    });
+    if (response.ok) {
+      const data = response.json();
+      console.log("OnGoingProject: " + data);
+      console.log("OnGoingProject: " + response);
+      return data;
+    }
+  } catch (error) {
+    console.log("OnGoingProject error: " + error);
+  }
+};
+
+export const fetchRecentActivitiesList = async () => {
+  try {
+    const token = await getToken("authToken");
+    const response = await fetch(
+      URL + "/ProjectActivity/TeamMemberActivities",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    response.text().then((text) => {
+      console.log("error in RecentActivities list: " + text);
+    });
+    if (response.ok) {
+      const data = response.json();
+      console.log("RecentActivities: " + data);
+
+      return data;
+    }
+  } catch (error) {
+    console.log("RecentActivities error: " + error);
   }
 };
 
