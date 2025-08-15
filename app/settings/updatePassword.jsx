@@ -17,6 +17,8 @@ import Input from "../../components/Input/Input";
 import CalendarDropdown from "../../hooks/DropDown";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
+import LottieView from "lottie-react-native";
+
 
 export default function UpdatePassword() {
   const router = useRouter();
@@ -102,9 +104,18 @@ export default function UpdatePassword() {
           />
         </View>
       </View>
-
       {/* Form */}
       <View style={styles.formContainer}>
+ <LottieView
+            source={require("../../assets/animations/Animation - 1751226345030.json")}
+            autoPlay
+            loop
+            style={{
+              width: width * 0.9,
+              height: width * 0.8,
+              marginBottom: 30,
+            }}
+          />
         <Input
           placeholder={t("changepassword.currentPassword")}
           value={currentPassword}
@@ -152,18 +163,16 @@ export default function UpdatePassword() {
         />
 
         <TouchableOpacity
-          onPress={handleSave}
-          className="bg-dark_violet justify-center items-center rounded-full p-4"
-          style={{
-            width: width * 0.9,
-            maxWidth: 400,
-            marginTop: 10,
-            marginBottom: 30,
-            backgroundColor: Colors[theme].primary,
-          }}
-        >
-          <Button text={t("changepassword.save")} />
-        </TouchableOpacity>
+            onPress={() => router.push("/profile")}
+            className="bg-dark_violet justify-center items-center rounded-full p-4"
+            style={{
+              width: width * 0.9, // ekranın 90%-i
+              maxWidth: 400,
+              marginBottom: 20,
+            }}
+          >
+            <Button text={t("changepassword.save")} />
+          </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

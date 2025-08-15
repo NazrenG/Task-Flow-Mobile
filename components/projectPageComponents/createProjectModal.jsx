@@ -11,24 +11,18 @@ import {
 import ProjectStateDropdown from "../dropdown/projectStateDropdown";
 import ProjectInput from "../Input/ProjectInput";
 import ColorPicker from "./colorPicker";
-
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
 const width = Dimensions.get("window").width;
 
 const CreateProjectModal = ({ modalVisible, setModalVisible }) => {
   const { t } = useTranslation();
+  const { theme } = useTheme();
+
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [showDatePicker, setShowDatePicker] = useState(false);
   const [text, setText] = useState("");
-  const [selected, setSelected] = useState(null);
-  const [open, setOpen] = useState(false);
-  const options = [
-    t("project.pending"),
-    t("project.onGoing"),
-    t("project.complated"),
-  ];
 
-  console.log("in create modal");
   return (
     <Modal
       animationType="fade"
@@ -38,51 +32,90 @@ const CreateProjectModal = ({ modalVisible, setModalVisible }) => {
     >
       <Pressable
         onPress={() => setModalVisible(false)}
-        className="flex-1 bg-black/50 justify-center items-center"
+        style={{
+          flex: 1,
+          backgroundColor: "rgba(0,0,0,0.5)",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
       >
         <Pressable
           onPress={() => {}}
-          className="bg-white p-6 rounded-xl items-center gap-6"
-          style={{ width: width - 30 }}
+          style={{
+            width: width - 30,
+            backgroundColor: Colors[theme].card,
+            padding: 20,
+            borderRadius: 16,
+            gap: 16,
+            alignItems: "center", // Center all child items horizontally           <Text className="text-2xl">{t("project.createProject")}</Text>
+            
+          }}
         >
-          <Text className="text-2xl">{t("project.createProject")}</Text>
-          <View className="flex flex-row gap-3">
-            <View className="flex-1">
-              <Text className="mb-2">{t("project.projectName")}:</Text>
+          {/* Title */}
+         <Text className="text-2xl" style={{ color: Colors[theme].text }}>{t("project.createProject")}</Text>
+
+          {/* Project Name & State */}
+          <View style={{ flexDirection: "row", gap: 12, width: "100%", justifyContent: "center" }}>
+            <View style={{ flex: 1 }}>
+              <Text style={{ color: Colors[theme].text, marginBottom: 4 }}>
+                {t("project.projectName")}:
+              </Text>
               <ProjectInput
                 placeholder={t("project.enterProjectName") + "..."}
+                style={{ color: Colors[theme].text }}
               />
             </View>
-            <View className="flex-1">
-              <Text className="mb-2">{t("project.projectState")}:</Text>
-              <ProjectStateDropdown></ProjectStateDropdown>
-              {/* <ProjectInput placeholder={"Enter project name..."} /> */}
+            <View style={{ flex: 1 }}>
+              <Text style={{ color: Colors[theme].text, marginBottom: 4 }}>
+                {t("project.projectState")}:
+              </Text>
+              <ProjectStateDropdown />
             </View>
           </View>
-          <View className="w-full flex flex-row justify-start gap-3">
-            <View className="flex-1">
-              <Text className="mb-2">{t("project.startDate")}:</Text>
+
+          {/* Start & End Dates */}
+          <View style={{ flexDirection: "row", gap: 12, width: "100%", justifyContent: "center" }}>
+            <View style={{ flex: 1 }}>
+              <Text style={{ color: Colors[theme].text, marginBottom: 4 }}>
+                {t("project.startDate")}:
+              </Text>
               <TextInput
                 value={startDate}
                 onChangeText={setStartDate}
                 placeholder="YYYY-MM-DD"
-                keyboardType="numbers-and-punctuation"
-                className="border px-4 py-2 rounded-md mt-2"
+                placeholderTextColor={Colors[theme].placeholder}
+                style={{
+                  color: Colors[theme].text,
+                  borderColor: Colors[theme].border,
+                  borderWidth: 1,
+                  borderRadius: 8,
+                  padding: 8,
+                }}
               />
             </View>
-            <View className="flex-1">
-              <Text className="mb-2">{t("project.endDate")}:</Text>
+            <View style={{ flex: 1 }}>
+              <Text style={{ color: Colors[theme].text, marginBottom: 4 }}>
+                {t("project.endDate")}:
+              </Text>
               <TextInput
                 value={endDate}
                 onChangeText={setEndDate}
                 placeholder="YYYY-MM-DD"
-                keyboardType="numbers-and-punctuation"
-                className="border px-4 py-2 rounded-md mt-2"
+                placeholderTextColor={Colors[theme].placeholder}
+                style={{
+                  color: Colors[theme].text,
+                  borderColor: Colors[theme].border,
+                  borderWidth: 1,
+                  borderRadius: 8,
+                  padding: 8,
+                }}
               />
             </View>
           </View>
-          <View className="w-full justify-start">
-            <Text>{t("project.description")}:</Text>
+
+          {/* Description */}
+          <View style={{ marginTop: 12, width: "100%" }}>
+            <Text style={{ color: Colors[theme].text }}>{t("project.description")}:</Text>
             <TextInput
               value={text}
               onChangeText={(val) => {
@@ -92,32 +125,46 @@ const CreateProjectModal = ({ modalVisible, setModalVisible }) => {
               numberOfLines={6}
               maxLength={400}
               placeholder={t("project.descriptionData")}
-              className="border rounded-xl p-4 text-base text-gray-800 h-40 mt-2"
-              textAlignVertical="top"
+              placeholderTextColor={Colors[theme].placeholder}
+              style={{
+                color: Colors[theme].text,
+                borderColor: Colors[theme].border,
+                borderWidth: 1,
+                borderRadius: 12,
+                padding: 12,
+                height: 120,
+                marginTop: 4,
+                textAlignVertical: "top",
+              }}
             />
-            <Text className="mt-2 text-sm text-gray-500">
+            <Text style={{ color: Colors[theme].secondaryText, marginTop: 4, fontSize: 12, textAlign: "center" }}>
               {text.length} / 400 {t("project.characters")}
             </Text>
           </View>
-          <View className="w-full justify-start">
-            <Text>{t("project.colorPicker")}:</Text>
-            <ColorPicker></ColorPicker>
+
+          {/* Color Picker */}
+          <View style={{ marginTop: 12, width: "100%"}}>
+            <Text style={{ color: Colors[theme].text, marginBottom: 4 }}>{t("project.colorPicker")}:</Text>
+            <ColorPicker />
           </View>
-          <View className="flex flex-row justify-start gap-4">
-            <Pressable
-              onPress={() => setModalVisible(false)}
-              className="bg-red-500 px-6 py-3 rounded-md"
-            >
-              <Text className="text-white text-center font-semibold">
-                {t("project.cancel")}
-              </Text>
-            </Pressable>
-            <Pressable className="bg-green px-6 py-3 rounded-md">
-              <Text className="text-white text-center font-semibold">
-                {t("project.submit")}
-              </Text>
-            </Pressable>
-          </View>
+
+          {/* Buttons */}
+         <View className="flex flex-row justify-center gap-4 mt-4 w-full">
+  <Pressable
+    onPress={() => setModalVisible(false)}
+    className="bg-red-500 px-6 py-3 rounded-md"
+  >
+    <Text className="text-white text-center font-semibold">
+       {t("project.cancel")}
+    </Text>
+  </Pressable>
+  <Pressable className="bg-green px-6 py-3 rounded-md">
+    <Text className="text-white text-center font-semibold">
+      {t("project.submit")}
+    </Text>
+  </Pressable>
+</View>
+
         </Pressable>
       </Pressable>
     </Modal>

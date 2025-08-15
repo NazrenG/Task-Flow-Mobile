@@ -67,7 +67,7 @@ const InProgressProject = () => {
               )}
             </View>
           </View>
-        ))}7
+        ))}
       </ScrollView>
     </View>
   );

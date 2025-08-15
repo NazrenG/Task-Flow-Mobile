@@ -1,13 +1,8 @@
 import Card from "@/components/Card/Card";
-
 import { MaterialIcons } from "@expo/vector-icons";
-
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-
 import { useState } from "react";
-
 import { useTranslation } from "react-i18next";
-
 import {
 
   Dimensions,
@@ -168,14 +163,14 @@ const ProjectPage = () => {
 
         {/** divide*/}
 
-        <View className="w-full h-[1px] bg-gray-200 my-2" />
+        <View className="w-full h-[1px]  my-2" />
 
         <View className="h-[30vh]"  >
 
           <CardPagination></CardPagination>
 
         </View>
-        <View className="w-full h-[1px] bg-gray-200 my-2" />
+        <View className="w-full h-[1px] my-2" />
 
         {/* <View className="h-[25vh] w-full my-1"> */}
 

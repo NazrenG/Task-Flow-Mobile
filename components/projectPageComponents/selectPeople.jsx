@@ -6,9 +6,10 @@ import {
   Pressable,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
 } from "react-native";
+import { Colors } from "../../constants/Colors";
+import { useTheme } from "../../components/ThemeContext";
 
 const fakeUsers = [
   { id: "1", name: "Alice Smith" },
@@ -24,6 +25,8 @@ export default function UserSelectorModal({ visible, onClose }) {
   const [searchText, setSearchText] = useState("");
   const [selectedUserIds, setSelectedUserIds] = useState([]);
   const { t } = useTranslation();
+  const { theme } = useTheme();
+
   const filteredUsers = fakeUsers.filter((user) =>
     user.name.toLowerCase().includes(searchText.toLowerCase())
   );
@@ -39,14 +42,23 @@ export default function UserSelectorModal({ visible, onClose }) {
       selectedUserIds.includes(u.id)
     );
     console.log("Selected users:", selectedUsers);
-    onClose(); // close modal
+    onClose();
   };
 
   return (
     <Modal animationType="fade" transparent visible={visible}>
-      <View className="flex-1 bg-black/50 justify-center items-center">
-        <View className="bg-white rounded-xl w-11/12 p-6 max-h-[80%]">
-          <Text className="text-lg font-semibold mb-4">
+      <View
+        className="flex-1 justify-center items-center"
+        style={{ backgroundColor: Colors[theme].overlay }}
+      >
+        <View
+          className="rounded-xl w-11/12 p-6 max-h-[80%]"
+          style={{ backgroundColor: Colors[theme].card }}
+        >
+          <Text
+            className="text-lg font-semibold mb-4"
+            style={{ color: Colors[theme].text }}
+          >
             {t("project.selectUsers")}
           </Text>
 
@@ -54,16 +66,24 @@ export default function UserSelectorModal({ visible, onClose }) {
             placeholder="Search users..."
             value={searchText}
             onChangeText={setSearchText}
-            className="border border-gray-300 rounded-md px-4 py-2 mb-4"
+            placeholderTextColor={Colors[theme].placeholder}
+            style={{
+              borderColor: Colors[theme].border,
+              borderWidth: 1,
+              borderRadius: 8,
+              paddingHorizontal: 12,
+              paddingVertical: 8,
+              marginBottom: 16,
+              color: Colors[theme].text,
+            }}
           />
 
           <FlatList
             data={filteredUsers}
             keyExtractor={(item) => item.id}
-            style={{ maxHeight: 200 }} // fix overflow
+            style={{ maxHeight: 200 }}
             renderItem={({ item }) => {
               const isSelected = selectedUserIds.includes(item.id);
-
               return (
                 <Pressable
                   onPress={() => toggleSelection(item.id)}
@@ -72,7 +92,7 @@ export default function UserSelectorModal({ visible, onClose }) {
                   <View
                     className={`w-6 h-6 rounded-md border-2 mr-2 items-center justify-center ${
                       isSelected
-                        ? "border-blue-500 bg-blue-500"
+                        ? "bg-blue-500 border-blue-500"
                         : "border-gray-400"
                     }`}
                   >
@@ -80,29 +100,35 @@ export default function UserSelectorModal({ visible, onClose }) {
                       <Text className="text-white text-xs font-bold">✓</Text>
                     )}
                   </View>
-                  <Text className="text-base text-gray-800">{item.name}</Text>
+                  <Text
+                    style={{ color: Colors[theme].text }}
+                    className="text-base"
+                  >
+                    {item.name}
+                  </Text>
                 </Pressable>
               );
             }}
           />
 
+          {/* Buttons */}
           <View className="flex-row justify-end gap-2 mt-6">
-            <TouchableOpacity
+            <Pressable
               onPress={() => onClose(false)}
               className="px-4 py-2 bg-red-500 rounded-md"
             >
               <Text className="text-white font-medium">
                 {t("project.cancel")}
               </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => handleSubmit()}
+            </Pressable>
+            <Pressable
+              onPress={handleSubmit}
               className="px-4 py-2 bg-green rounded-md"
             >
               <Text className="text-white font-medium">
                 {t("project.submit")}
               </Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
         </View>
       </View>

@@ -19,10 +19,11 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { Calendar } from 'react-native-calendars';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Button from "../../components/Button/Button";
 import Header from "../../components/Header";
-
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from '../../constants/Colors';
 
 const { width, height } = Dimensions.get("window");
 
@@ -39,14 +40,18 @@ const defaultData = {
 };
 
 export default function EditProfileScreen() {
+  const { theme } = useTheme();
   const [form, setForm] = useState(defaultData);
   const [avatar, setAvatar] = useState(defaultData.avatar);
   const [backgroundImage] = useState(require('../../assets/images/page.jpg'));
-    const [searchText, setSearchText] = useState("");
-
+  const [searchText, setSearchText] = useState("");
   const { t } = useTranslation();
   const scrollViewRef = useRef(null);
   const [inputPositions, setInputPositions] = useState({});
+  const [calendarVisible, setCalendarVisible] = useState(false);
+
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
 
   const handleChange = (key, value) => {
     setForm({ ...form, [key]: value });
@@ -90,22 +95,23 @@ export default function EditProfileScreen() {
     Alert.alert("Profiliniz yeniləndi.");
   };
 
-  const [calendarVisible, setCalendarVisible] = useState(false);
-
   return (
-    <>
-    
-            <Header onSearch={setSearchText} />
-    
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors[theme].background }}>
+      <Header onSearch={setSearchText} />
+
       <TouchableOpacity
-        style={styles.backButton}
+        style={{
+          position: "absolute",
+          top: 100,
+          left: 20,
+          zIndex: 2,
+          padding: 6,
+          borderRadius: 999,
+        }}
         onPress={() => router.back()}
       >
-        <MaterialIcons name="arrow-back-ios" size={24} color="#333" />
+        <MaterialIcons name="arrow-back-ios" size={24} color={Colors[theme].card} />
       </TouchableOpacity>
-    <SafeAreaView style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      
-      
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
@@ -122,21 +128,27 @@ export default function EditProfileScreen() {
               style={styles.backgroundImage}
               resizeMode="cover"
             >
-              <TouchableOpacity style={styles.headerCamera} onPress={pickImage}>
-           <MaterialIcons  name="edit" size={20} color="black" />
+              <TouchableOpacity
+                style={[styles.headerCamera, { backgroundColor: Colors[theme].card }]}
+                onPress={pickImage}
+              >
+                <MaterialIcons name="edit" size={20} color={Colors[theme].text} />
               </TouchableOpacity>
             </ImageBackground>
 
             <View style={styles.profileImageContainer}>
-              <View style={styles.profileImageWrapper}>
+              <View style={[styles.profileImageWrapper, { backgroundColor: Colors[theme].card }]}>
                 <Image
                   source={avatar}
                   style={styles.profileImage}
                   resizeMode="cover"
                 />
               </View>
-              <TouchableOpacity style={styles.profileCamera} onPress={pickImage}>
-                <MaterialIcons  name="edit" size={20} color="black" />
+              <TouchableOpacity
+                style={[styles.profileCamera, { backgroundColor: Colors[theme].card }]}
+                onPress={pickImage}
+              >
+                <MaterialIcons name="edit" size={20} color={Colors[theme].text} />
               </TouchableOpacity>
             </View>
           </View>
@@ -151,86 +163,85 @@ export default function EditProfileScreen() {
               ["gender", t("profile.gender")],
             ].map(([key, label]) => (
               <View
-              key={key}
-              style={styles.inputGroup}
-              onLayout={(event) => onInputLayout(key, event)}
+                key={key}
+                style={styles.inputGroup}
+                onLayout={(event) => onInputLayout(key, event)}
               >
-                <Text style={styles.label}>{label}</Text>
+                <Text style={[styles.label, { color: Colors[theme].text }]}>{label}</Text>
                 <TextInput
-                  style={styles.input}
+                  style={[styles.input, { backgroundColor: Colors[theme].card, color: Colors[theme].text }]}
                   value={form[key]}
                   onChangeText={(text) => handleChange(key, text)}
                   placeholder={label}
-                  placeholderTextColor="#aaa"
+                  placeholderTextColor={Colors[theme].secondaryText}
                   onFocus={() => handleFocus(key)}
                 />
               </View>
             ))}
 
-            {/* 🗓️ Birthday Input with Calendar Popup */}
-            <View style={styles.inputGroup}>
-              <Text style={styles.label}>{t("profile.birthDate")}</Text>
-              <TouchableOpacity
-                onPress={() => setCalendarVisible(true)}
-                style={[styles.input, { justifyContent: 'center' }]}
-              >
-                <Text style={{ color: form.birthday ? '#111' : '#aaa', fontSize: 16 }}>
-                  {form.birthday ? new Date(form.birthday).toLocaleDateString() : t("profile.birthDate")}
-                </Text>
-              </TouchableOpacity>
-            </View>
+            {/* Birthday Input */}
+         <View style={styles.inputGroup}>
+  <Text style={[styles.label, { color: Colors[theme].text }]}>{t("profile.birthDate")}</Text>
+  <TouchableOpacity
+    onPress={() => setDatePickerVisibility(true)}
+    style={[styles.input, { backgroundColor: Colors[theme].card, justifyContent: 'center' }]}
+  >
+    <Text style={{ color: form.birthday ? Colors[theme].text : Colors[theme].secondaryText, fontSize: 16 }}>
+      {form.birthday ? new Date(form.birthday).toLocaleDateString() : t("profile.birthDate")}
+    </Text>
+  </TouchableOpacity>
+</View>
 
-             <TouchableOpacity
-                        onPress={() => router.push("/quiz")}
-                        className="bg-dark_violet justify-center items-center rounded-full p-4"
-                        style={{
-                          width: width * 0.9, // ekranın 90%-i
-                          maxWidth: 500,
-                          marginBottom: 25,
-                        }}
-                      >
-              <Button text={t("settings.save")} />
-             
-            </TouchableOpacity>
+{/* Date Picker */}
+<DateTimePickerModal
+  isVisible={isDatePickerVisible}
+  mode="date"
+  maximumDate={new Date()}
+  onConfirm={(date) => {
+    handleChange("birthday", date.toISOString());
+    setDatePickerVisibility(false);
+  }}
+  onCancel={() => setDatePickerVisibility(false)}
+/>
+
+              <TouchableOpacity
+            onPress={() => router.push("/profile")}
+            className="bg-dark_violet justify-center items-center rounded-full p-4"
+            style={{
+              width: width * 0.9, // ekranın 90%-i
+              maxWidth: 400,
+              marginBottom: 20,
+            }}
+          >
+            <Button text={t("settings.save")} />
+          </TouchableOpacity>
+
+        
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
 
-      {/* 🗓️ Calendar Modal */}
-      <Modal visible={calendarVisible} transparent animationType="slide">
-        <View style={styles.calendarModal}>
-          <Calendar
-            onDayPress={(day) => {
-              handleChange('birthday', day.dateString);
-              setCalendarVisible(false);
-            }}
-            markedDates={{
-              [form.birthday]: {
-                selected: true,
-                selectedColor: '#6852ff'
-              }
-            }}
-            maxDate={new Date().toISOString().split('T')[0]}
-            />
-          <TouchableOpacity onPress={() => setCalendarVisible(false)} style={{ padding: 10, alignItems: 'center' }}>
-            <Text style={{ color: "#6852ff", fontWeight: "bold" }}>Bağla</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
+
+
+{/* Birthday DatePicker Modal */}
+<Modal transparent animationType="fade" visible={calendarVisible}>
+  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+    <View style={{ backgroundColor: Colors[theme].card, padding: 20, borderRadius: 12 }}>
+
+      <TouchableOpacity
+        onPress={() => setCalendarVisible(false)}
+        style={{ marginTop: 10, alignItems: 'center' }}
+      >
+        <Text style={{ color: Colors[theme].primary, fontWeight: 'bold' }}>Bağla</Text>
+      </TouchableOpacity>
+    </View>
+  </View>
+</Modal>
     </SafeAreaView>
-</>
   );
 }
 
 const styles = StyleSheet.create({
-  backButton: {
-    position: "absolute",
-    top: 100,
-    left: 20,
-    zIndex: 2,
-    padding: 6,
-    borderRadius: 999,
-  },
   backgroundImage: {
     width,
     height: height * 0.28,
@@ -243,7 +254,6 @@ const styles = StyleSheet.create({
     right: 20,
     padding: 10,
     borderRadius: 50,
-    backgroundColor: "white",
     zIndex: 10,
   },
   profileImageContainer: {
@@ -256,7 +266,6 @@ const styles = StyleSheet.create({
     width: 128,
     height: 128,
     borderRadius: 64,
-    backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
     overflow: "hidden",
@@ -271,7 +280,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     right: 0,
-    backgroundColor: "white",
     padding: 6,
     borderRadius: 999,
     elevation: 3,
@@ -280,9 +288,6 @@ const styles = StyleSheet.create({
     marginTop: 80,
     paddingHorizontal: 24,
     paddingBottom: 40,
-    backgroundColor: "#fff",
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 2,
   },
   inputGroup: {
     marginBottom: 14,
@@ -290,35 +295,14 @@ const styles = StyleSheet.create({
   label: {
     marginBottom: 6,
     fontWeight: "500",
-    color: "#444",
   },
   input: {
-    backgroundColor: "#f5f5f5",
     paddingVertical: 10,
     paddingHorizontal: 14,
     borderRadius: 10,
     fontSize: 16,
-    color: "#111",
-  },
-  saveButton: {
-    marginTop: 24,
-    backgroundColor: "#6852ff",
-    paddingVertical: 14,
-    borderRadius: 12,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 3 },
-    shadowRadius: 6,
-    elevation: 4,
-  },
-  saveButtonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
   },
   calendarModal: {
-    backgroundColor: "#fff",
     margin: 20,
     marginTop: 100,
     borderRadius: 10,

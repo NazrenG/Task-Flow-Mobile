@@ -1,33 +1,26 @@
-import { MaterialIcons } from '@expo/vector-icons';
-import * as ImagePicker from "expo-image-picker";
+import { Feather, MaterialIcons } from '@expo/vector-icons';
 import { router } from "expo-router";
-import { useRef, useState } from 'react';
-import { useTranslation } from "react-i18next";
+import { useState } from 'react';
 import {
   Alert,
   Dimensions,
   Image,
   ImageBackground,
-  KeyboardAvoidingView,
-  Modal,
-  Platform,
-  SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
-  View
+  View,
+  SafeAreaView,
 } from 'react-native';
-import { Calendar } from 'react-native-calendars';
-import Button from "../../components/Button/Button";
 import Header from "../../components/Header";
-import { Colors } from '../../constants/Colors';
+import * as ImagePicker from "expo-image-picker";
+import { useTranslation } from "react-i18next";
+import { Colors } from '../../constants/Colors'; 
 import { useTheme } from "../../components/ThemeContext";
 
 const { width, height } = Dimensions.get("window");
 
-const defaultData = {
+const selectItem = {
   avatar: require('../../assets/images/default-user.png'),
   username: 'sevgi',
   email: 'sevgi.elesgerova@gmail.com',
@@ -39,34 +32,12 @@ const defaultData = {
   birthday: '',
 };
 
-export default function EditProfileScreen() {
+export default function ProfileScreen() {
   const { theme } = useTheme();
-  const [form, setForm] = useState(defaultData);
-  const [avatar, setAvatar] = useState(defaultData.avatar);
-  const [backgroundImage] = useState(require('../../assets/images/page.jpg'));
   const [searchText, setSearchText] = useState("");
+  const [backgroundImage] = useState(require('../../assets/images/page.jpg'));
+  const [avatar, setAvatar] = useState(selectItem.avatar);
   const { t } = useTranslation();
-  const scrollViewRef = useRef(null);
-  const [inputPositions, setInputPositions] = useState({});
-  const [calendarVisible, setCalendarVisible] = useState(false);
-
-  const handleChange = (key, value) => {
-    setForm({ ...form, [key]: value });
-  };
-
-  const onInputLayout = (key, event) => {
-    const { y } = event.nativeEvent.layout;
-    setInputPositions((prev) => ({ ...prev, [key]: y }));
-  };
-
-  const handleFocus = (key) => {
-    if (inputPositions[key] !== undefined) {
-      scrollViewRef.current?.scrollTo({
-        y: inputPositions[key] - 20,
-        animated: true,
-      });
-    }
-  };
 
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -88,10 +59,6 @@ export default function EditProfileScreen() {
     }
   };
 
-  const handleSave = () => {
-    Alert.alert("Profiliniz yeniləndi.");
-  };
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors[theme].background }}>
       <Header onSearch={setSearchText} />
@@ -101,149 +68,94 @@ export default function EditProfileScreen() {
           position: "absolute",
           top: 100,
           left: 20,
-          zIndex: 2,
-          padding: 6,
+          zIndex: 1,
           borderRadius: 999,
+          padding: 6,
         }}
         onPress={() => router.back()}
       >
-        <MaterialIcons name="arrow-back-ios" size={24} color={Colors[theme].text} />
+        <MaterialIcons name="arrow-back-ios" size={25} color={Colors[theme].card} />
       </TouchableOpacity>
 
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-      >
-        <ScrollView
-          ref={scrollViewRef}
-          keyboardShouldPersistTaps="handled"
-          keyboardDismissMode="on-drag"
+      <View style={{ position: "relative" }}>
+        <ImageBackground
+          source={backgroundImage}
+          style={styles.backgroundImage}
+          resizeMode="cover"
         >
-          <View style={{ position: "relative" }}>
-            <ImageBackground
-              source={backgroundImage}
-              style={styles.backgroundImage}
-              resizeMode="cover"
-            >
-              <TouchableOpacity
-                style={[styles.headerCamera, { backgroundColor: Colors[theme].card }]}
-                onPress={pickImage}
-              >
-                <MaterialIcons name="edit" size={20} color={Colors[theme].text} />
-              </TouchableOpacity>
-            </ImageBackground>
+          <TouchableOpacity
+            style={styles.settingsIcon}
+            onPress={() => router.push("/settings")}
+          >
+            <Feather name="settings" size={24} color={Colors[theme].card} />
+          </TouchableOpacity>
 
-            <View style={styles.profileImageContainer}>
-              <View style={[styles.profileImageWrapper, { backgroundColor: Colors[theme].card }]}>
-                <Image
-                  source={avatar}
-                  style={styles.profileImage}
-                  resizeMode="cover"
-                />
-              </View>
-              <TouchableOpacity
-                style={[styles.profileCamera, { backgroundColor: Colors[theme].card }]}
-                onPress={pickImage}
-              >
-                <MaterialIcons name="edit" size={20} color={Colors[theme].text} />
-              </TouchableOpacity>
-            </View>
+          <TouchableOpacity
+            style={[styles.headerCamera, { backgroundColor: Colors[theme].card }]}
+            onPress={pickImage}
+          >
+            <Feather name="camera" size={20} color={Colors[theme].icon} />
+          </TouchableOpacity>
+        </ImageBackground>
+
+        <View style={styles.profileImageContainer}>
+          <View style={[styles.profileImageWrapper, { backgroundColor: Colors[theme].card }]}>
+            <Image source={avatar} style={styles.profileImage} resizeMode="cover" />
           </View>
 
-          <View style={styles.formContainer}>
-            {[
-              ["fullName", t("profile.fullname")],
-              ["email", t("profile.email")],
-              ["phone", t("profile.phone")],
-              ["department", t("profile.department")],
-              ["country", t("profile.country")],
-              ["gender", t("profile.gender")],
-            ].map(([key, label]) => (
-              <View
-                key={key}
-                style={styles.inputGroup}
-                onLayout={(event) => onInputLayout(key, event)}
-              >
-                <Text style={[styles.label, { color: Colors[theme].text }]}>{label}</Text>
-                <TextInput
-                  style={[styles.input, { backgroundColor: Colors[theme].card, color: Colors[theme].text }]}
-                  value={form[key]}
-                  onChangeText={(text) => handleChange(key, text)}
-                  placeholder={label}
-                  placeholderTextColor={Colors[theme].secondaryText}
-                  onFocus={() => handleFocus(key)}
-                />
-              </View>
-            ))}
-
-            {/* Birthday Input */}
-            <View style={styles.inputGroup}>
-              <Text style={[styles.label, { color: Colors[theme].text }]}>{t("profile.birthDate")}</Text>
-              <TouchableOpacity
-                onPress={() => setCalendarVisible(true)}
-                style={[styles.input, { backgroundColor: Colors[theme].card, justifyContent: 'center' }]}
-              >
-                <Text style={{ color: form.birthday ? Colors[theme].text : Colors[theme].secondaryText, fontSize: 16 }}>
-                  {form.birthday ? new Date(form.birthday).toLocaleDateString() : t("profile.birthDate")}
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            <TouchableOpacity
-              onPress={handleSave}
-              style={{
-                marginTop: 20,
-                width: width * 0.9,
-                maxWidth: 500,
-                alignSelf: "center"
-              }}
-            >
-              <Button text={t("settings.save")} />
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
-
-      {/* Calendar Modal */}
-      <Modal visible={calendarVisible} transparent animationType="slide">
-        <View style={[styles.calendarModal, { backgroundColor: Colors[theme].card }]}>
-          <Calendar
-            onDayPress={(day) => {
-              handleChange('birthday', day.dateString);
-              setCalendarVisible(false);
-            }}
-            markedDates={{
-              [form.birthday]: {
-                selected: true,
-                selectedColor: Colors[theme].primary
-              }
-            }}
-            maxDate={new Date().toISOString().split('T')[0]}
-            theme={{
-              todayTextColor: Colors[theme].primary,
-              arrowColor: Colors[theme].text,
-              monthTextColor: Colors[theme].text,
-              textDayFontWeight: '500',
-              textMonthFontWeight: 'bold',
-              textDayHeaderFontWeight: '500',
-              textDayStyle: { color: Colors[theme].text }
-            }}
-          />
-          <TouchableOpacity onPress={() => setCalendarVisible(false)} style={{ padding: 10, alignItems: 'center' }}>
-            <Text style={{ color: Colors[theme].primary, fontWeight: "bold" }}>Bağla</Text>
+          <TouchableOpacity
+            style={[styles.profileCamera, { backgroundColor: Colors[theme].card }]}
+            onPress={pickImage}
+          >
+            <Feather name="camera" size={20} color={Colors[theme].icon} />
           </TouchableOpacity>
         </View>
-      </Modal>
+      </View>
+
+      <View style={styles.nameSection}>
+        <Text style={[styles.username, { color: Colors[theme].text }]}>
+          {selectItem.username}
+        </Text>
+        <Text style={[styles.email, { color: Colors[theme].secondaryText }]}>
+          {selectItem.email}
+        </Text>
+      </View>
+
+      <View style={[styles.infoCard, { backgroundColor: Colors[theme].card }]}>
+        <Text style={[styles.infoTitle, { color: Colors[theme].text }]}>
+          {t("profile.info")}
+        </Text>
+        {[
+          [t("profile.fullname"), selectItem.fullName],
+          [t("profile.email"), selectItem.email],
+          [t("profile.phone"), selectItem.phone],
+          [t("profile.department"), selectItem.department],
+          [t("profile.country"), selectItem.country],
+          [t("profile.gender"), selectItem.gender || "—"],
+          [t("profile.birthDate"), selectItem.birthday || "—"],
+        ].map(([label, value], index) => (
+          <Text key={index} style={[styles.infoItem, { color: Colors[theme].secondaryText }]}>
+            <Text style={[styles.infoLabel, { color: Colors[theme].text }]}>{label}: </Text>
+            {value}
+          </Text>
+        ))}
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   backgroundImage: {
-    width,
-    height: height * 0.28,
+    width: width,
+    height: height * 0.3,
     justifyContent: "flex-end",
     alignItems: "center",
+  },
+  settingsIcon: {
+    position: "absolute",
+    top: 24,
+    right: 20,
+    zIndex: 10,
   },
   headerCamera: {
     position: "absolute",
@@ -281,29 +193,34 @@ const styles = StyleSheet.create({
     borderRadius: 999,
     elevation: 3,
   },
-  formContainer: {
+  nameSection: {
     marginTop: 80,
-    paddingHorizontal: 24,
-    paddingBottom: 40,
+    alignItems: "center",
   },
-  inputGroup: {
-    marginBottom: 14,
+  username: {
+    fontSize: 20,
+    fontWeight: "bold",
   },
-  label: {
-    marginBottom: 6,
-    fontWeight: "500",
-  },
-  input: {
-    paddingVertical: 10,
-    paddingHorizontal: 14,
-    borderRadius: 10,
+  email: {
     fontSize: 16,
   },
-  calendarModal: {
-    margin: 20,
-    marginTop: 100,
-    borderRadius: 10,
-    padding: 10,
-    elevation: 10,
+  infoCard: {
+    borderRadius: 20,
+    padding: 20,
+    marginHorizontal: 16,
+    marginTop: 24,
+    elevation: 3,
+  },
+  infoTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  infoItem: {
+    fontSize: 16,
+    marginBottom: 6,
+  },
+  infoLabel: {
+    fontWeight: "bold",
   },
 });
