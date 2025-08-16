@@ -1,7 +1,7 @@
 import Card from "@/components/Card/Card";
 import { MaterialIcons } from "@expo/vector-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
 
@@ -24,7 +24,11 @@ import Header from "../../components/Header";
 import CreateProjectModal from "../../components/projectPageComponents/createProjectModal";
 
 import { Colors } from "../../constants/Colors";
-
+import {
+  fetchComplatedProjectCount,
+  fetchOnGoingProjectCount,
+  fetchPendingProjectCount,
+} from "../../utils/fetchUtils";
 import CardPagination from "./cardPagination";
 
 import InProgressProject from "./inProgressProject";
@@ -39,6 +43,7 @@ import { useTheme } from "../../components/ThemeContext";
 
 
 
+const width = Dimensions.get("window").width;
 const ProjectPage = () => {
 
   const { t } = useTranslation();
@@ -50,6 +55,31 @@ const ProjectPage = () => {
 
 
 
+  const [totalProjectCount, setTotalProjects] = useState("");
+  const [complatedProjectCount, setComplatedProjects] = useState("");
+  const [onGoingProjectCount, setOnGoingProjects] = useState("");
+  const [pendingProjectCount, setPendingProjects] = useState("");
+  console.log("is modal on: " + modalVisible);
+
+  useEffect(() => {
+    const getDatas = async () => {
+      try {
+        const complatedProj = await fetchComplatedProjectCount();
+        const pendingProj = await fetchPendingProjectCount();
+        const onGoingProj = await fetchOnGoingProjectCount();
+
+        console.log("complatedProj" + complatedProj);
+        console.log("pendingProj" + pendingProj);
+        console.log("onGoingProj" + onGoingProj);
+        setComplatedProjects(complatedProj);
+        setPendingProjects(pendingProj);
+        setOnGoingProjects(onGoingProj);
+      } catch (error) {
+        console.log("error in getDatas: " + error);
+      }
+    };
+    getDatas();
+  }, []);
 
   return (
 
@@ -74,17 +104,34 @@ const ProjectPage = () => {
             icon={<MaterialIcons name="view-list" size={20} color="#0E7490" />}
 
             gradient={["#A5F3FC", "#22D3EE"]}
-
+          />
+          <Card
+            title={t("project.complateProjects")}
+            count={complatedProjectCount}
+            color={Colors.secondary.light_red}
+            icon={
+              <MaterialIcons
+                name="check-circle-outline"
+                size={20}
+                color="#b81836"
+              />
+            }
+            gradient={["#f397a8", "#ef7f5a"]}
           />
 
           <Card
-
-            title={t("project.complateProjects")}
-
-            count="0"
-
-            color={Colors.secondary.light_red}
-
+            title={t("project.onGoingProjects")}
+            count={onGoingProjectCount}
+            color={Colors.secondary.bg_green}
+            icon={
+              <MaterialIcons name="query-builder" size={20} color="#059669" />
+            }
+            gradient={[Colors.secondary.lightGreen, Colors.secondary.green]}
+          />
+          <Card
+            title={t("project.pendingProjects")}
+            count={pendingProjectCount}
+            color={Colors.secondary.bg_yellow}
             icon={
 
               <MaterialIcons
@@ -185,15 +232,14 @@ const ProjectPage = () => {
         {/* </View> */}
 
       </ScrollView>
-
-      <CreateProjectModal
-
-        modalVisible={modalVisible}
-
-        setModalVisible={setModalVisible}
-
-      />
-
+      {modalVisible ? (
+        <CreateProjectModal
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
+      ) : (
+        <></>
+      )}
     </SafeAreaView>
 
   );

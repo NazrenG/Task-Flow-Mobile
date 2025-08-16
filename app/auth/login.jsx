@@ -14,11 +14,18 @@ import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import Title from "../../components/Title/Title";
 
+import { fetchSignIn } from "../../utils/fetchUtils";
+
 const { width } = Dimensions.get("window");
 
 const Login = () => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
+
+  const handleLogin = async () => {
+    const response = await fetchSignIn(username, password);
+    if (response) router.push("/(tabs)/dashboard");
+  };
 
   return (
     <KeyboardAvoidingView
@@ -73,7 +80,7 @@ const Login = () => {
           <View style={{ marginBottom: 50, width: "100%" }} />
 
           <TouchableOpacity
-            onPress={() => router.push("/quiz")}
+            onPress={() => handleLogin()}
             className="bg-dark_violet justify-center items-center rounded-full p-4"
             style={{
               width: width * 0.9, // ekranın 90%-i

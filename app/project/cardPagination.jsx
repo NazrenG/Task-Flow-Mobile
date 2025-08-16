@@ -1,4 +1,6 @@
-import { useRef, useState } from "react";
+import LottieView from "lottie-react-native";
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Dimensions,
   Pressable,
@@ -8,12 +10,13 @@ import {
   View,
 } from "react-native";
 import RoundedButton from "../../components/Button/RoundedButton";
-import { Colors } from "../../constants/Colors";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { useTranslation } from "react-i18next";
 import ProjectActionsDropdown from "../../components/dropdown/projectActionsDropdown";
 import { useTheme } from "../../components/ThemeContext";
 
+import { Colors } from "../../constants/Colors";
+import { fetchUsersProjects } from "../../utils/fetchUtils";
+
+const width = Dimensions.get("window").width;
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 const CardPagination = () => {
@@ -23,6 +26,7 @@ const CardPagination = () => {
   const scrollRef = useRef(null);
   const { theme } = useTheme();
 
+  // const [cardsData, setCardsData] = useState([]);
   const cardsData = [
     {
       title: "Featured Event",
@@ -52,6 +56,14 @@ const CardPagination = () => {
       animated: true,
     });
   };
+
+  useEffect(() => {
+    const getDatas = async () => {
+      const response = await fetchUsersProjects();
+      setCardsData(response);
+    };
+    getDatas();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -141,23 +153,38 @@ const CardPagination = () => {
 
         {/* Pagination Dots */}
         <View style={styles.pagination}>
-          {cardsData.map((_, index) => (
-            <Pressable
-              key={index}
-              onPress={() => {
-                scrollToIndex(index);
-                setCurrentIndex(index);
-              }}
-              style={[
-                styles.dot,
-                { backgroundColor: Colors[theme].border },
-                currentIndex === index && {
-                  backgroundColor: Colors[theme].primary,
-                  width: 12,
-                },
-              ]}
-            />
-          ))}
+          {cardsData && cardsData.length > 0 ? (
+            cardsData.map((_, index) => (
+              <Pressable
+                key={index}
+                onPress={() => {
+                  scrollToIndex(index);
+                  setCurrentIndex(index);
+                }}
+                style={[styles.dot, currentIndex === index && styles.activeDot]}
+              />
+            ))
+          ) : (
+            <View>
+              <LottieView
+                source={require("../../assets/animations/EmptyArray.json")}
+                autoPlay
+                loop
+                style={{ width: 400, height: 170 }} // Animasiya ölçüsü
+              />
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 16,
+                  fontWeight: "600",
+                  color: "#4B5563", // Tailwind gray-700 equivalent
+                  marginTop: 8,
+                }}
+              >
+                You don`t have a project!
+              </Text>
+            </View>
+          )}
         </View>
       </View>
     </View>

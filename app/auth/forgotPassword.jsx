@@ -8,11 +8,12 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
-import CodeVerification from "../../components/codeverification/codeVerification";
 import Button from "../../components/Button/Button";
+import CodeVerification from "../../components/codeverification/codeVerification";
 import Input from "../../components/Input/Input";
+import { fetchEmailConfirmation } from "../../utils/fetchUtils";
 
 const ForgetPasswordScreen = () => {
   const [email, setEmail] = useState("");
@@ -23,8 +24,11 @@ const ForgetPasswordScreen = () => {
 
   const { width } = Dimensions.get("window");
 
-  const handleReset = () => {
-    setShowCodeInputs(true);
+  const handleReset = async () => {
+    const response = await fetchEmailConfirmation(email);
+    if (response) {
+      setShowCodeInputs(true);
+    }
   };
 
   const handleCodeChange = (text, index) => {
@@ -43,22 +47,24 @@ const ForgetPasswordScreen = () => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
     >
-      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
-      <LottieView
-                source={require("../../assets/animations/Animation - 1751226345030.json")}
-                autoPlay
-                loop
-                style={styles.animation}
-              />
-
-
+      <ScrollView
+        contentContainerStyle={styles.container}
+        keyboardShouldPersistTaps="handled"
+      >
+        <LottieView
+          source={require("../../assets/animations/Animation - 1751226345030.json")}
+          autoPlay
+          loop
+          style={styles.animation}
+        />
 
         {!showCodeInputs ? (
           <>
-        <Text style={styles.title}>Reset Your Password</Text>
-        <Text style={styles.subtitle}>
-          Enter the email associated with your account and we’ll send you reset instructions.
-        </Text>
+            <Text style={styles.title}>Reset Your Password</Text>
+            <Text style={styles.subtitle}>
+              Enter the email associated with your account and we’ll send you
+              reset instructions.
+            </Text>
             <Text style={styles.label}>Your Email</Text>
             <Input
               placeholder="Enter your Email"
@@ -69,7 +75,6 @@ const ForgetPasswordScreen = () => {
             <TouchableOpacity
               onPress={handleReset}
               className="bg-dark_violet justify-center items-center rounded-full p-4"
-
               style={{
                 width: width * 0.9,
                 maxWidth: 400,
@@ -81,9 +86,16 @@ const ForgetPasswordScreen = () => {
           </>
         ) : (
           <>
-           <CodeVerification code={code}
-    setCode={setCode}
-    onNext={() => router.push("auth/changePassword")}/>
+            <CodeVerification
+              code={code}
+              setCode={setCode}
+              onNext={() =>
+                router.push({
+                  pathname: "auth/changePassword",
+                  params: { email },
+                })
+              }
+            />
           </>
         )}
 

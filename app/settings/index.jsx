@@ -17,6 +17,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import CalendarDropdown from "../../hooks/DropDown";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
+import { fetchLogout } from "../../utils/fetchUtils";
 
 const { width } = Dimensions.get("window");
 const scale = width / 375;
@@ -53,11 +54,23 @@ export default function SettingsScreen() {
   const { t } = useTranslation();
   const { theme, toggleTheme } = useTheme();
 
-  const profile = {
-    name: "Sevgi Elesgerova",
-    email: "sevgi.elesgerova@gmail.com",
-    avatar: require("../../assets/images/default-user.png"),
-  };
+ 
+  const [searchText, setSearchText] = useState("");
+  const [profile, setProfile] = useState({
+    fullName: "-",
+    email: "-",
+    phone: "-",
+    department: "-",
+    country: "-",
+    gender: "-",
+    birthday: "-",
+    path: require("../../assets/images/default-user.png"),
+  });
+  // const profile = {
+  //   name: "Sevgi Elesgerova",
+  //   email: "sevgi.elesgerova@gmail.com",
+  //   avatar: require("../../assets/images/default-user.png"),
+  // };
 
   const settingsList = [
     { key: "editProfile", icon: "edit", label: t("settings.editprofile") },
@@ -68,9 +81,13 @@ export default function SettingsScreen() {
   ];
 
   const dangerList = [
-    { icon: "trash-2", label: t("settings.deleteAccount") },
-    { icon: "clock", label: t("settings.cleanHistory") },
-    { icon: "log-out", label: t("settings.logout") },
+    {
+      key: "deleteAccount",
+      icon: "trash-2",
+      label: t("settings.deleteAccount"),
+    },
+    { key: "cleanHistory", icon: "clock", label: t("settings.cleanHistory") },
+    { key: "logOut", icon: "log-out", label: t("settings.logout") },
   ];
 
   const handlePress = (key) => {
@@ -84,6 +101,32 @@ export default function SettingsScreen() {
       console.log("Pressed:", key);
     }
   };
+
+  const handleDangerZoneBtn = async (key) => {
+    // console.log("in danger zone handler" + key);
+    switch (key) {
+      case "logOut":
+        const result = await fetchLogout();
+        if (result) {
+          router.push("/auth/login");
+        }
+        break;
+      case "cleanHistory":
+        break;
+      case "deleteAccount":
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     // const response = await fetchProfileData(email);
+  //   };
+  //   fetchData();
+  // }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors[theme].background }}>
@@ -181,12 +224,14 @@ export default function SettingsScreen() {
           {dangerList.map((item, index) => (
             <TouchableOpacity
               key={index}
-              className="flex-row justify-between items-center p-4 rounded-xl border"
+              // className="flex-row justify-between items-center p-4 rounded-xl border"
               style={{
                 backgroundColor: Colors[theme].dangerBg,
                 borderColor: Colors[theme].dangerBorder,
               }}
-              onPress={() => console.log("Pressed:", item.label)}
+              // onPress={() => console.log("Pressed:", item.label)}
+              className="flex-row justify-between items-center bg-red-50 p-4 rounded-xl border border-red-200"
+              onPress={() => handleDangerZoneBtn(item.key)}
             >
               <View className="flex-row items-center">
                 <Feather name={item.icon} size={normalize(20)} color={Colors[theme].dangerText} />

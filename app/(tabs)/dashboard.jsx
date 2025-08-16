@@ -2,9 +2,10 @@ import DonutChart from "@/components/charts/DonutChart";
 import CountView from "@/components/CountView";
 import DailyTasks from "@/components/dashboard/DailyTask";
 import Header from "@/components/Header";
+import { Colors } from "@/constants/Colors";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   ImageBackground,
@@ -18,6 +19,7 @@ import {
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
  
+import { getToken } from "../../secureStore";
 export default function Dashboard() {
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState("");
@@ -40,7 +42,15 @@ export default function Dashboard() {
       icon: "message",
     },
   ];
- 
+
+  useEffect(() => {
+    const getTokenFetch = async () => {
+      const stored = await getToken("authToken");
+      console.log("stored: " + stored);
+    };
+    getTokenFetch();
+  }, []);
+
   return (
     <SafeAreaView className="flex-1 bg-background" style={{ backgroundColor: Colors[theme].background }}>
       <Header onSearch={setSearchText} />

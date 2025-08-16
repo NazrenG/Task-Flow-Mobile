@@ -19,7 +19,8 @@
         "resizeMode": "cover",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.anonymous.TaskFlowMobile"
     },
     "web": {
       "bundler": "metro",
@@ -38,7 +39,8 @@
       ],
       "expo-localization",
       "expo-font",
-      "expo-web-browser"
+      "expo-web-browser",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true

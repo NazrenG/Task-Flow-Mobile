@@ -1,37 +1,43 @@
-import React, { useState } from "react";
+import { router, useLocalSearchParams } from "expo-router";
+import { useState } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-  TouchableOpacity,
   Alert,
+  Dimensions,
   KeyboardAvoidingView,
   Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
-import { router } from "expo-router";
+import Input from "../../components/Input/Input";
+import { fetchChangePassword } from "../../utils/fetchUtils";
 
 const { width, height } = Dimensions.get("window");
 
 const ChangePasswordScreen = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const { email } = useLocalSearchParams();
 
-  const handleSubmit = () => {
-    // if (!newPassword || !confirmPassword) {
-    //   Alert.alert("Error", "Please fill in both fields.");
-    //   return;
-    // }
+  const handleSubmit = async () => {
+    if (!newPassword || !confirmPassword) {
+      Alert.alert("Error", "Please fill in both fields.");
+      return;
+    }
 
-    // if (newPassword !== confirmPassword) {
-    //   Alert.alert("Error", "Passwords do not match.");
-    //   return;
-    // }
-
-    Alert.alert("Success", "Password changed successfully!");
-    router.push("auth/login");
+    if (newPassword !== confirmPassword) {
+      Alert.alert("Error", "Passwords do not match.");
+      return;
+    }
+    console.log("email in change pass: " + email);
+    const response = await fetchChangePassword(email, newPassword);
+    if (response) {
+      Alert.alert("Success", "Password changed successfully!");
+      router.push("auth/login");
+    }
+    //bura else elave edib toast error yazmaq lazimdi
   };
 
   return (
