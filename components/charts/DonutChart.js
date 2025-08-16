@@ -24,7 +24,7 @@ const DonutSlice = ({ startAngle, endAngle, color }) => {
   ].join(" ");
 
   // stroke="#fff"
-  return <Path d={pathData} fill={color}  strokeWidth={2} />;
+  return <Path d={pathData} fill={color}  strokeWidth={2}  />;
 };
 
 export default function  DonutChart() {

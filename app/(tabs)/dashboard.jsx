@@ -68,8 +68,8 @@ export default function Dashboard() {
                 {t("dashboard.organizeTasks")}
               </Text>
             </View>
-            <View className="bg-white rounded-lg shadow-lg px-3 py-2 ml-2" style={{ backgroundColor: Colors[theme].card }}>
-              <Text className="text-navyBlue font-medium text-sm" style={{ color: Colors[theme].text }}>
+            <View className="bg-white rounded-lg shadow-lg px-3 py-2 ml-2" >
+              <Text className="text-navyBlue font-medium text-sm">
                 {t("dashboard.tryNow")}
               </Text>
             </View>
