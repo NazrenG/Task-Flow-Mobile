@@ -99,13 +99,30 @@ import {
 import TextShortener from "../../constants/TextShortener";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
+import { fetchFriendRequests } from "../../utils/friendUtils";
 
 const width = Dimensions.get("window").width;
 
-const UserCard = () => {
+const UserCard = ({ name, email, image }) => {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const { theme } = useTheme(); // 🌙 Get current theme
+
+  const handleFollow = async () => {
+    try {
+      const friendData = {
+        ReceiverEmail: email, // Backend’in beklediği
+        Text: `Friend request from ${name}`, // Mesaj
+        IsAccepted: false,
+        NotificationType: "FriendRequest",
+      };
+
+      await fetchFriendRequests(friendData);
+      console.log("Follow request sent successfully");
+    } catch (error) {
+      console.error("Error sending follow request:", error);
+    }
+  };
 
   return (
     <View
@@ -119,30 +136,31 @@ const UserCard = () => {
     >
       <Image
         style={styles.userImage}
-        source={require("../../assets/images/default-user.png")}
+        source={
+          image
+            ? { uri: image }
+            : require("../../assets/images/default-user.png")
+        }
       />
-      <Text style={[styles.userName, { color: Colors[theme].text }]}>
-        Nezrin
-      </Text>
+      <Text style={[styles.userName,{ color: Colors[theme].text }]}>{name}</Text>
       <View style={styles.userInfo}>
         <View style={styles.infoRow}>
           <MaterialIcons name="call" size={15} color={Colors[theme].text} />
-          <Text style={[styles.infoText, { color: Colors[theme].mutedText }]}>
-            055 999 88 78
-          </Text>
+          <Text style={[styles.infoText, { color: Colors[theme].mutedText }]}>98283 2327 23732</Text>
         </View>
         <View style={styles.infoRow}>
-          <Entypo name="mail" size={15} color={Colors[theme].text} />
-          <Text style={{ color: Colors[theme].mutedText }}>
-            {TextShortener("quliyeva@gmail.com", 16)}
-          </Text>
+          <Entypo name="mail" size={15} color={Colors[theme].text}/>
+          <Text style={{ color: Colors[theme].mutedText }}>{TextShortener(email, 16)}</Text>
         </View>
 
         <View style={styles.buttonContainer}>
-      <TouchableOpacity className="bg-green" style={[styles.button]}>
-             <Text style={styles.buttonText}>{t("friend.follow")}</Text>
-           </TouchableOpacity>
-
+          <TouchableOpacity
+            className="bg-green"
+            style={[styles.button]}
+            onPress={handleFollow} // Artık doğru fonksiyon
+          >
+            <Text style={styles.buttonText}>{t("friend.follow")}</Text>
+          </TouchableOpacity>
 
           <TouchableOpacity
             style={[
@@ -170,6 +188,7 @@ export default UserCard;
 
 const styles = StyleSheet.create({
   cardContainer: {
+    backgroundColor: "white",
     padding: 10,
     borderRadius: 10,
     borderWidth: 1,
@@ -222,13 +241,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   viewProfileButton: {
-    backgroundColor: "#a5e8d8", // Açıq mavi/boz
+    backgroundColor: "#a5e8d8",
     borderRadius: 5,
     paddingVertical: 5,
     paddingHorizontal: 6,
-     borderColor: "#cfded9", // Fonla uyğun sərhəd
+    borderColor: "#cfded9",
   },
   viewProfileText: {
+    color: "#333",
     fontWeight: "500",
     fontSize: 11,
   },

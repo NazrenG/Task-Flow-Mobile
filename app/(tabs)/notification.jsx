@@ -1,4 +1,7 @@
 import { useState } from "react";
+import LottieView from "lottie-react-native";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   SafeAreaView,
   ScrollView,
@@ -14,38 +17,56 @@ import { useTranslation } from "react-i18next";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
 
+import {
+  fetchReminderNotifications,
+  fetchRequestNotifications,
+} from "../../utils/notificationUtils";
 
 export default function NotificationScreen() {
   const [searchText, setSearchText] = useState("");
   const [activeTab, setActiveTab] = useState("requests");
   const { t } = useTranslation();
-  const { theme } = useTheme();
+  const [requests, setRequests] = useState([]);
+  const [reminders, setReminders] = useState([]);
 
-  const requests = [
-    {
-      id: 1,
-      user: {
-        name: "Zehra Memmedzade",
-        avatar: "https://randomuser.me/api/portraits/women/44.jpg",
-      },
-      message:
-        "Hi, I am OOO OOO. I want to invite you to my project named: TERS",
-    },
-    {
-      id: 2,
-      user: {
-        name: "Nezrin Quliyeva",
-        avatar: "https://randomuser.me/api/portraits/women/44.jpg",
-      },
-      message:
-        "Hi, I am OOO OOO. I want to invite you to my project named: TERS",
-    },
-  ];
+  const fetchNotifications = async () => {
+    try {
+      const requestData = await fetchRequestNotifications();
+      const reminderData = await fetchReminderNotifications();
+      setRequests(requestData);
+      setReminders(reminderData);
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+    }
+  };
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
+  // const requests = [
+  //   {
+  //     id: 1,
+  //     user: {
+  //       name: "Zehra Memmedzade",
+  //       avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+  //     },
+  //     message:
+  //       "Hi, I am OOO OOO. I want to invite you to my project named: TERS",
+  //   },
+  //   {
+  //     id: 2,
+  //     user: {
+  //       name: "Nezrin Quliyeva",
+  //       avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+  //     },
+  //     message:
+  //       "Hi, I am OOO OOO. I want to invite you to my project named: TERS",
+  //   },
+  // ];
 
-  const reminders = [
-    { id: 1, date: "08-07-2025", message: "Project deadline approaching!" },
-    { id: 2, date: "10-07-2025", message: "Submit weekly report." },
-  ];
+  // const reminders = [
+  //   { id: 1, date: "08-07-2025", message: "Project deadline approaching!" },
+  //   { id: 2, date: "10-07-2025", message: "Submit weekly report." },
+  // ];
 
   const others = [
     { id: 1, text: "System maintenance scheduled." },
@@ -85,7 +106,7 @@ export default function NotificationScreen() {
           >
             <Text className={`${tabColors[tab].text} font-semibold`} style={{ color: Colors[theme].background }}> 
               {tab === "requests"
-                ? t("notification.requests")
+                ? t("Requests")
                 : tab === "reminders"
                 ? t("notification.reminders")
                 : t("notification.others")}
@@ -96,29 +117,53 @@ export default function NotificationScreen() {
 
       <ScrollView contentContainerStyle={{ padding: 16 }}>
         {activeTab === "requests" && (
-          <View className=" rounded-xl shadow p-4" style={{ backgroundColor: Colors[theme].card }}>
-            {requests.map((req) => (
-              <RequestCard
-                key={req.id}
-                user={req.user}
-                message={req.message}
-                onAccept={() => console.log("Accepted", req.id)}
-                onReject={() => console.log("Rejected", req.id)}
+          <View className="bg-white rounded-xl shadow p-4">
+            {requests.length === 0 && (
+              <LottieView
+                source={require("../../assets/animations/EmptyArray.json")}
+                autoPlay
+                loop
+                style={{ width: 350, height: 170 }}
               />
-            ))}
+            )}
+            {requests.length > 0 &&
+              requests.map((req, index) => (
+                <RequestCard
+                  key={req.requestId || index}
+                  request={req}
+                  user={{
+                    name: req.senderName || "Unknown",
+                    avatar: req.image
+                      ? { uri: req.image }
+                      : require("../../assets/images/default-user.png"),
+                  }}
+                  message={req.text}
+                  onAccept={() => console.log("Accepted", req.requestId)}
+                  onReject={() => console.log("Rejected", req.requestId)}
+                />
+              ))}
           </View>
         )}
 
         {activeTab === "reminders" && (
-          <View className="rounded-xl shadow p-4 space-y-3 gap-1" style={{ backgroundColor: Colors[theme].card }}>
-            {reminders.map((reminder) => (
-              <ReminderCard
-                key={reminder.id}
-                date={reminder.date}
-                message={reminder.message}
-                onDelete={() => console.log("Deleted", reminder.id)}
+          <View className="bg-white rounded-xl shadow p-4 space-y-3 gap-1">
+            {reminders.length === 0 && (
+              <LottieView
+                source={require("../../assets/animations/EmptyArray.json")}
+                autoPlay
+                loop
+                style={{ width: 350, height: 170 }}
               />
-            ))}
+            )}
+            {reminders.length > 0 &&
+              reminders.map((reminder) => (
+                <ReminderCard
+                  key={reminder.id}
+                  date={reminder.date}
+                  message={reminder.message}
+                  onDelete={() => console.log("Deleted", reminder.id)}
+                />
+              ))}
           </View>
         )}
 

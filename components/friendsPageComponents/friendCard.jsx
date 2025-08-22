@@ -12,10 +12,11 @@ import {
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
 import TextShortener from "../../constants/TextShortener";
-
+import { fetchUnfollowRequest } from "../../utils/friendUtils";
 const width = Dimensions.get("window").width;
 
-const FriendCard = () => {
+
+const FriendCard = ({ name, email, image }) => {
   const { t } = useTranslation();
   const { theme } = useTheme();
 
@@ -31,31 +32,22 @@ const FriendCard = () => {
     >
       {/* Avatar */}
       <Image
-        style={[
-          styles.userImage,
-          { borderColor: Colors[theme].primary },
-        ]}
-        source={require("../../assets/images/default-user.png")}
+        style={[styles.userImage ,{ borderColor: Colors[theme].primary }]}
+        source={
+          image
+            ? { uri: image }
+            : require("../../assets/images/default-user.png")
+        }
       />
-
-      {/* Name */}
-      <Text style={[styles.userName, { color: Colors[theme].text }]}>
-        Nezrin
-      </Text>
-
-      {/* Info */}
+      <Text style={[styles.userName, { color: Colors[theme].text }]}>{name}</Text>
       <View style={styles.userInfo}>
         <View style={styles.infoRow}>
-          <MaterialIcons name="call" size={15} color={Colors[theme].text} />
-          <Text style={[styles.infoText, { color: Colors[theme].mutedText }]}>
-            055 999 88 77
-          </Text>
+              <MaterialIcons name="call" size={15} color={Colors[theme].text} />
+          <Text style={[styles.infoText, { color: Colors[theme].mutedText }]}>88 8 8 8</Text>
         </View>
         <View style={styles.infoRow}>
-          <Entypo name="mail" size={15} color={Colors[theme].text} />
-          <Text style={{ color: Colors[theme].mutedText }}>
-            {TextShortener("quliyeva@gmail.com", 16)}
-          </Text>
+          <Entypo name="mail" size={15}  color={Colors[theme].text} />
+          <Text style={{ color: Colors[theme].mutedText }}>{TextShortener(email, 16)}</Text>
         </View>
 
         {/* Actions */}
@@ -68,13 +60,16 @@ const FriendCard = () => {
           >
             <Text style={styles.buttonText}>{t("friend.message")}</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.button,
-              { backgroundColor: Colors[theme].secondary },
-            ]}
-          >
+          <TouchableOpacity style={[styles.button, styles.unfollowButton ,{ backgroundColor: Colors[theme].secondary }]} onPress={async () => {
+            try {
+              await fetchUnfollowRequest(name);
+              console.log("Unfollowed successfully");
+            } catch (error) {
+              console.error("Error unfollowing:", error);
+            }
+          }}>
             <Text style={styles.buttonText}>{t("friend.unfollow")}</Text>
+
           </TouchableOpacity>
         </View>
       </View>
