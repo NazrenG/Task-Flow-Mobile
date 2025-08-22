@@ -91,6 +91,13 @@ const Login = () => {
             <Button text="Login" />
           </TouchableOpacity>
 
+<Button
+  text="null"
+  onPress={() => router.push("/dashboard")}
+  style={{ width: width - 40, marginBottom: 20 }}
+  className="bg-dark_violet justify-center items-center rounded-full p-4"
+/>
+
           <View className="flex-row items-center justify-center mt-2">
             <Text style={{ color: "#FF9332" }}>Don`t have an account? </Text>
             <Link

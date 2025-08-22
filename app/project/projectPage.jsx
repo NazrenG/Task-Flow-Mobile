@@ -4,7 +4,6 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-
   Dimensions,
 
   Pressable,
@@ -16,7 +15,6 @@ import {
   Text,
 
   View,
-
 } from "react-native";
 
 import Header from "../../components/Header";

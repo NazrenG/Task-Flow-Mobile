@@ -17,7 +17,6 @@ import {
  
  
 import { useTheme } from "../../components/ThemeContext";
-import { Colors } from "../../constants/Colors";
  
 import { getToken } from "../../secureStore";
 export default function Dashboard() {

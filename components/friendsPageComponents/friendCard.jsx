@@ -1,76 +1,3 @@
-// import Entypo from "@expo/vector-icons/Entypo";
-// import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-// import {
-//   Dimensions,
-//   Image,
-//   StyleSheet,
-//   Text,
-//   TouchableOpacity,
-//   View,
-// } from "react-native";
-// import TextShortener from "../../constants/TextShortener.js";
-// const width = Dimensions.get("window").width;
-
-// const FriendCard = () => {
-//   return (
-//     <View
-//       style={styles.userCard}
-//       className="bg-white p-[5vw] rounded-md border border-gray-200 shadow-sm"
-//     >
-//       <Image
-//         style={{ width: width / 9, height: width / 9 }}
-//         source={require("../../assets/images/default-user.png")}
-//       />
-//       <Text className="font-bold text-base mt-3">Nezrin</Text>
-//       <View style={styles.userInfo}>
-//         <View className="flex flex-row justify-center items-center gap-1">
-//           <MaterialIcons name="call" size={15} color="black" />
-//           <Text className="text-gray-500 mt-2">055 999 88 77</Text>
-//         </View>
-//         <View className="flex flex-row justify-center items-center gap-1">
-//           <Entypo name="mail" size={15} color="black" />
-//           {/* <TextShortener data={"quliyeva@gmail.com"} count={16} /> */}
-//         </View>
-
-//         <View className="flex flex-row gap-2">
-//           <TouchableOpacity className="bg-darkPurple" style={styles.button}>
-//             <Text className="text-white">Message</Text>
-//           </TouchableOpacity>
-//           <TouchableOpacity className="bg-bg_violet" style={styles.button}>
-//             <Text className="text-white">Unfollow</Text>
-//           </TouchableOpacity>
-//         </View>
-//       </View>
-//     </View>
-//   );
-// };
-
-// export default FriendCard;
-
-// const styles = StyleSheet.create({
-//   userCard: {
-//     // display: "flex",
-//     // flexDirection: "row",
-//     alignItems: "center",
-//     // boxShadow: "offsite",
-//     // backgroundColor: "red",
-//     width: width / 3 + 15,
-//   },
-//   userInfo: {
-//     // marginLeft: 20,
-//     width: width / 3 + 15,
-//     // marginTop: 10,
-//     alignItems: "center",
-//     // backgroundColor: "red",
-//   },
-//   button: {
-//     borderRadius: 5,
-//     marginTop: 14,
-//     paddingVertical: 5,
-//     paddingHorizontal: 6,
-//   },
-// });
-
 import Entypo from "@expo/vector-icons/Entypo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useTranslation } from "react-i18next";
@@ -96,16 +23,27 @@ const FriendCard = () => {
     <View
       style={[
         styles.cardContainer,
-        { backgroundColor: Colors[theme].background, borderColor: Colors[theme].border },
+        {
+          backgroundColor: Colors[theme].card,
+          borderColor: Colors[theme].border,
+        },
       ]}
     >
+      {/* Avatar */}
       <Image
-        style={styles.userImage}
+        style={[
+          styles.userImage,
+          { borderColor: Colors[theme].primary },
+        ]}
         source={require("../../assets/images/default-user.png")}
       />
+
+      {/* Name */}
       <Text style={[styles.userName, { color: Colors[theme].text }]}>
         Nezrin
       </Text>
+
+      {/* Info */}
       <View style={styles.userInfo}>
         <View style={styles.infoRow}>
           <MaterialIcons name="call" size={15} color={Colors[theme].text} />
@@ -120,6 +58,7 @@ const FriendCard = () => {
           </Text>
         </View>
 
+        {/* Actions */}
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={[
@@ -146,53 +85,64 @@ const FriendCard = () => {
 export default FriendCard;
 
 const styles = StyleSheet.create({
-  cardContainer: {
-    padding: 10,
-    borderRadius: 10,
+   cardContainer: {
+    padding: 18,
+    borderRadius: 18,
     borderWidth: 1,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 1,
-    elevation: 1,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    elevation: 3,
     alignItems: "center",
-    width: width / 3 + 10,
+    width: "90%",          // daha geniş və adaptiv
+    maxWidth: width / 2.5, // limit qoyuruq ki, çox böyüməsin
+    marginBottom: 14,
+    alignSelf: "center",   // ortada olsun
   },
   userImage: {
-    width: width / 9,
-    height: width / 9,
-    borderRadius: width / 18,
+    width: width / 7,
+    height: width / 7,
+    borderRadius: width / 14,
+    borderWidth: 2,
+    marginBottom: 10,
   },
   userName: {
-    fontWeight: "bold",
-    fontSize: 16,
-    marginTop: 12,
+    fontWeight: "600",
+    fontSize: 18,
+    marginBottom: 8,
   },
   userInfo: {
-    width: width / 3 + 15,
+    width: "100%",
     alignItems: "center",
   },
   infoRow: {
     flexDirection: "row",
     alignItems: "center",
     marginTop: 6,
-    gap: 4,
+    gap: 6,
   },
   infoText: {
-    fontSize: 12,
+    fontSize: 13,
+    opacity: 0.8,
   },
   buttonContainer: {
     flexDirection: "row",
-    gap: 8,
-    marginTop: 14,
+    gap: 10,
+    marginTop: 16,
   },
   button: {
-    borderRadius: 5,
-    paddingVertical: 5,
-    paddingHorizontal: 6,
+    borderRadius: 20,
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 3,
+    elevation: 2,
   },
   buttonText: {
     color: "white",
-    fontSize: 12,
+    fontSize: 13,
+    fontWeight: "500",
   },
 });

@@ -15,6 +15,7 @@ import {
 import Input from "../../components/Input/Input";
 import Title from "../../components/Title/Title";
 import { fetchSignUp } from "../../utils/fetchUtils";
+import Button from "../../components/Button/Button";
 
 const { width, height } = Dimensions.get("window");
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
