@@ -3,9 +3,9 @@ import { Pressable, Text, View } from "react-native";
 
 import { useTranslation } from "react-i18next";
 
-export default function ProjectStateDropdown() {
+export default function ProjectStateDropdown({ selectedState, onStateSelect }) {
   const { t } = useTranslation();
-  const [selected, setSelected] = useState(null);
+  // const [selected, setSelected] = useState(null);
   const [open, setOpen] = useState(false);
 
   const options = [
@@ -22,7 +22,7 @@ export default function ProjectStateDropdown() {
           className="border rounded-md p-4 bg-white"
         >
           <Text className="text-gray-600">
-            {selected ? selected : "Select priority"}
+            {selectedState ? selectedState : "Select priority"}
           </Text>
         </Pressable>
 
@@ -32,7 +32,7 @@ export default function ProjectStateDropdown() {
               <Pressable
                 key={idx}
                 onPress={() => {
-                  setSelected(option);
+                  onStateSelect(option);
                   setOpen(false);
                 }}
                 className="p-3 border-b last:border-b-0"

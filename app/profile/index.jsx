@@ -1,47 +1,57 @@
-import { Feather, MaterialIcons } from '@expo/vector-icons';
+import { Feather, MaterialIcons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
-import { useState } from 'react';
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Alert,
   Dimensions,
   Image,
   ImageBackground,
+  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  SafeAreaView
-} from 'react-native';
+} from "react-native";
 import Header from "../../components/Header";
-import * as ImagePicker from "expo-image-picker";
-import { useTranslation } from "react-i18next";
-
+import { fetchProfileData } from "../../utils/fetchUtils";
 
 const { width, height } = Dimensions.get("window");
 
-const selectItem = {
-  avatar: require('../../assets/images/default-user.png'),
-  username: 'sevgi',
-  email: 'sevgi.elesgerova@gmail.com',
-  fullName: 'Sevgi Alasgarova',
-  phone: '0559717465',
-  department: 'Other (please specify)',
-  country: 'Azerbaijan',
-  gender: '',
-  birthday: '',
-};
-
 export default function ProfileScreen() {
   const [searchText, setSearchText] = useState("");
-  const [backgroundImage] = useState(require('../../assets/images/page.jpg'));
-  const [avatar, setAvatar] = useState(selectItem.avatar);
-    const { t } = useTranslation();
-  
+  const [backgroundImage] = useState(require("../../assets/images/page.jpg"));
+  const [avatar, setAvatar] = useState(
+    require("../../assets/images/default-user.png")
+  );
+  const { t } = useTranslation();
+  const [profile, setProfile] = useState({
+    fullName: "-",
+    email: "-",
+    phone: "-",
+    department: "-",
+    country: "-",
+    gender: "-",
+    birthday: "-",
+    path: require("../../assets/images/default-user.png"),
+  });
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetchProfileData();
+      setProfile(response);
+      console.log(JSON.stringify(profile, null, 2));
+    };
+    fetchData();
+  }, []);
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
-      Alert.alert("Permission denied", "We need permission to access your gallery.");
+      Alert.alert(
+        "Permission denied",
+        "We need permission to access your gallery."
+      );
       return;
     }
 
@@ -54,7 +64,7 @@ export default function ProfileScreen() {
 
     if (!result.canceled) {
       const selectedUri = result.assets[0].uri;
-      setAvatar({ uri: selectedUri }); 
+      setAvatar({ uri: selectedUri });
       console.log("Selected image URI:", selectedUri);
     }
   };
@@ -102,7 +112,7 @@ export default function ProfileScreen() {
         <View style={styles.profileImageContainer}>
           <View style={styles.profileImageWrapper}>
             <Image
-              source={avatar}
+              source={profile.image ? profile.image : avatar}
               style={styles.profileImage}
               resizeMode="cover"
             />
@@ -117,21 +127,21 @@ export default function ProfileScreen() {
 
       {/* Username and email */}
       <View style={styles.nameSection}>
-        <Text style={styles.username}>{selectItem.username}</Text>
-        <Text style={styles.email}>{selectItem.email}</Text>
+        <Text style={styles.username}>{profile.username}</Text>
+        <Text style={styles.email}>{profile.email}</Text>
       </View>
 
       {/* Personal Info */}
       <View style={styles.infoCard}>
         <Text style={styles.infoTitle}>{t("profile.info")}</Text>
         {[
-          [t("profile.fullname"), selectItem.fullName],
-          [t("profile.email"), selectItem.email],
-          [t("profile.phone"), selectItem.phone],
-          [t("profile.department"), selectItem.department],
-          [t("profile.country"), selectItem.country],
-          [t("profile.gender"), selectItem.gender || "—"],
-          [t("profile.birthDate"), selectItem.birthday || "—"],
+          [t("profile.fullname"), profile.fullname],
+          [t("profile.email"), profile.email],
+          [t("profile.phone"), profile.phone || "—"],
+          [t("profile.department"), profile.occupation],
+          [t("profile.country"), profile.country || "—"],
+          [t("profile.gender"), profile.gender || "—"],
+          [t("profile.birthDate"), profile.birthday || "—"],
         ].map(([label, value], index) => (
           <Text key={index} style={styles.infoItem}>
             <Text style={styles.infoLabel}>{label}: </Text>
