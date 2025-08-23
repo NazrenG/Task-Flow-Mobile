@@ -13,8 +13,8 @@ import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
 import TextShortener from "../../constants/TextShortener";
 import { fetchUnfollowRequest } from "../../utils/friendUtils";
-const width = Dimensions.get("window").width;
 
+const width = Dimensions.get("window").width;
 
 const FriendCard = ({ name, email, image }) => {
   const { t } = useTranslation();
@@ -31,26 +31,41 @@ const FriendCard = ({ name, email, image }) => {
       ]}
     >
       {/* Avatar */}
-      <Image
-        style={[styles.userImage ,{ borderColor: Colors[theme].primary }]}
-        source={
-          image
-            ? { uri: image }
-            : require("../../assets/images/default-user.png")
-        }
-      />
-      <Text style={[styles.userName, { color: Colors[theme].text }]}>{name}</Text>
+      <View style={styles.avatarWrapper}>
+        <Image
+          style={[styles.userImage, { borderColor: Colors[theme].primary }]}
+          source={
+            image
+              ? { uri: image }
+              : require("../../assets/images/default-user.png")
+          }
+        />
+      </View>
+
+      {/* Name */}
+      <Text style={[styles.userName, { color: Colors[theme].text }]}>
+        {name}
+      </Text>
+
+      {/* Info */}
       <View style={styles.userInfo}>
         <View style={styles.infoRow}>
-              <MaterialIcons name="call" size={15} color={Colors[theme].text} />
-          <Text style={[styles.infoText, { color: Colors[theme].mutedText }]}>88 8 8 8</Text>
-        </View>
-        <View style={styles.infoRow}>
-          <Entypo name="mail" size={15}  color={Colors[theme].text} />
-          <Text style={{ color: Colors[theme].mutedText }}>{TextShortener(email, 16)}</Text>
+          <MaterialIcons name="call" size={16} color={Colors[theme].primary} />
+          <Text
+            style={[styles.infoText, { color: Colors[theme].mutedText }]}
+          >
+            88 8 8 8
+          </Text>
         </View>
 
-        {/* Actions */}
+        <View style={styles.infoRow}>
+          <Entypo name="mail" size={16} color={Colors[theme].primary} />
+          <Text style={{ color: Colors[theme].mutedText }}>
+            {TextShortener(email, 18)}
+          </Text>
+        </View>
+
+        {/* Buttons */}
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={[
@@ -60,16 +75,22 @@ const FriendCard = ({ name, email, image }) => {
           >
             <Text style={styles.buttonText}>{t("friend.message")}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.unfollowButton ,{ backgroundColor: Colors[theme].secondary }]} onPress={async () => {
-            try {
-              await fetchUnfollowRequest(name);
-              console.log("Unfollowed successfully");
-            } catch (error) {
-              console.error("Error unfollowing:", error);
-            }
-          }}>
-            <Text style={styles.buttonText}>{t("friend.unfollow")}</Text>
 
+          <TouchableOpacity
+            style={[
+              styles.button,
+              { backgroundColor: Colors[theme].secondary },
+            ]}
+            onPress={async () => {
+              try {
+                await fetchUnfollowRequest(name);
+                console.log("Unfollowed successfully");
+              } catch (error) {
+                console.error("Error unfollowing:", error);
+              }
+            }}
+          >
+            <Text style={styles.buttonText}>{t("friend.unfollow")}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -80,32 +101,38 @@ const FriendCard = ({ name, email, image }) => {
 export default FriendCard;
 
 const styles = StyleSheet.create({
-   cardContainer: {
-    padding: 18,
-    borderRadius: 18,
+  cardContainer: {
+    padding: 20,
+    borderRadius: 20,
     borderWidth: 1,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
     elevation: 3,
     alignItems: "center",
-    width: "90%",          // daha geniş və adaptiv
-    maxWidth: width / 2.5, // limit qoyuruq ki, çox böyüməsin
-    marginBottom: 14,
-    alignSelf: "center",   // ortada olsun
+    width: "90%",
+    maxWidth: width / 2.3,
+    marginBottom: 18,
+    alignSelf: "center",
   },
-  userImage: {
-    width: width / 7,
-    height: width / 7,
-    borderRadius: width / 14,
+  avatarWrapper: {
+    padding: 4,
+    borderRadius: 999,
     borderWidth: 2,
+    borderColor: "rgba(0,0,0,0.05)",
     marginBottom: 10,
   },
+  userImage: {
+    width: width / 6.5,
+    height: width / 6.5,
+    borderRadius: width / 13,
+    borderWidth: 2,
+  },
   userName: {
-    fontWeight: "600",
-    fontSize: 18,
-    marginBottom: 8,
+    fontWeight: "700",
+    fontSize: 17,
+    marginBottom: 6,
   },
   userInfo: {
     width: "100%",
@@ -119,25 +146,22 @@ const styles = StyleSheet.create({
   },
   infoText: {
     fontSize: 13,
-    opacity: 0.8,
+    opacity: 0.85,
   },
   buttonContainer: {
     flexDirection: "row",
-    gap: 10,
-    marginTop: 16,
+    gap: 12,
+    marginTop: 18,
   },
   button: {
-    borderRadius: 20,
+    borderRadius: 22,
     paddingVertical: 8,
-    paddingHorizontal: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 3,
+    paddingHorizontal: 14,
     elevation: 2,
   },
   buttonText: {
     color: "white",
     fontSize: 13,
-    fontWeight: "500",
+    fontWeight: "600",
   },
 });

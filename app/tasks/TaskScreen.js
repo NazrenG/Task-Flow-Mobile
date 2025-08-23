@@ -24,7 +24,6 @@ import {
   fetchUpdateTask,
 } from "../../utils/taskUtils";
 import TaskModal from "./TaskModal";
-import { useTranslation } from "react-i18next";
 import { useTheme } from "../../components/ThemeContext";
 
 const statusFilters = ["to do", "in progress", "done", "All"];
@@ -200,7 +199,7 @@ export default function TaskListMobile() {
     <>
       <TaskModal
         visible={isModalVisible}
-        task={selectedItem}
+        task={selectedItem || {}}
         onClose={() => setModalVisible(false)}
         onSave={(updatedTask) => {
           updateTask(updatedTask.id, updatedTask);

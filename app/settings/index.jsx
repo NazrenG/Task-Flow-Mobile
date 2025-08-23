@@ -1,6 +1,7 @@
 import i18n from "@/i18n/i18n";
 import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
+import { useRouter } from "expo-router"; // ✅ expo-router yönləndirmə
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Dimensions,
@@ -11,13 +12,10 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Switch,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CalendarDropdown from "../../hooks/DropDown";
-import { useTheme } from "../../components/ThemeContext";
-import { Colors } from "../../constants/Colors";
-import { fetchLogout } from "../../utils/fetchUtils";
+import { fetchLogout, fetchProfileData } from "../../utils/fetchUtils";
 
 const { width } = Dimensions.get("window");
 const scale = width / 375;
@@ -50,22 +48,10 @@ const handleLanguageChange = (item) => {
 };
 
 export default function SettingsScreen() {
-  const router = useRouter();
+  const router = useRouter(); // ✅ expo-router yönləndirmə hook-u
   const { t } = useTranslation();
-  const { theme, toggleTheme } = useTheme();
-
- 
   const [searchText, setSearchText] = useState("");
-  const [profile, setProfile] = useState({
-    fullName: "-",
-    email: "-",
-    phone: "-",
-    department: "-",
-    country: "-",
-    gender: "-",
-    birthday: "-",
-    path: require("../../assets/images/default-user.png"),
-  });
+  const [profile, setProfile] = useState([]);
   // const profile = {
   //   name: "Sevgi Elesgerova",
   //   email: "sevgi.elesgerova@gmail.com",
@@ -77,7 +63,6 @@ export default function SettingsScreen() {
     { key: "changePassword", icon: "key", label: t("settings.changePassword") },
     { key: "notification", icon: "bell", label: t("settings.notifications") },
     { key: "activityLog", icon: "activity", label: t("settings.activityLog") },
-    { key: "darkMode", icon: "moon", label: t("settings.darkMode") },
   ];
 
   const dangerList = [
@@ -121,25 +106,31 @@ export default function SettingsScreen() {
     }
   };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     // const response = await fetchProfileData(email);
-  //   };
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetchProfileData();
+      setProfile(response);
+      console.log("in settings index rep" + JSON.stringify(response, null, 2));
+      console.log("in settings index" + JSON.stringify(profile, null, 2));
+    };
+    fetchData();
+  }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: Colors[theme].background }}>
+    <SafeAreaView className="flex-1 bg-white">
       <ScrollView
         className="px-4"
         contentContainerStyle={{ paddingTop: 10, paddingBottom: 20 }}
       >
         {/* Header */}
         <View className="flex-row items-center justify-between mb-6">
-          <TouchableOpacity onPress={() => router.back()} className="rounded-full p-1">
-            <MaterialIcons name="arrow-back-ios" size={25} color={Colors[theme].text} />
+          <TouchableOpacity
+            onPress={() => router.back()}
+            className="rounded-full p-1"
+          >
+            <MaterialIcons name="arrow-back-ios" size={25} color="black" />
           </TouchableOpacity>
-          <Text style={{ color: Colors[theme].text }} className="text-lg font-semibold">
+          <Text className="text-lg font-semibold text-gray-900">
             {t("settings.name")}
           </Text>
           <View className="mr-3 w-20">
@@ -152,94 +143,73 @@ export default function SettingsScreen() {
         </View>
 
         {/* Profile Section */}
-        <View
-          className="flex-row items-center p-4 rounded-2xl shadow-sm mb-6"
-          style={{ backgroundColor: Colors[theme].card }}
-        >
+        <View className="flex-row items-center bg-gray-100 p-4 rounded-2xl shadow-sm mb-6">
           <Image
-            source={profile.avatar}
+            source={
+              profile.image
+                ? profile.image
+                : require("../../assets/images/default-user.png")
+            }
             style={styles.avatarLarge}
             className="mr-4"
           />
           <View className="flex-1">
-            <Text style={{ color: Colors[theme].text }} className="text-base font-bold">
-              {profile.name}
+            <Text className="text-base font-bold text-gray-900">
+              {profile.fullname}
             </Text>
-            <Text style={{ color: Colors[theme].secondaryText }} className="text-sm mt-1">
-              {profile.email}
-            </Text>
+            <Text className="text-sm text-gray-600 mt-1">{profile.email}</Text>
           </View>
         </View>
 
         {/* Settings List */}
         <View className="space-y-2">
-          {settingsList.map((item, index) => {
-            if (item.key === "darkMode") {
-              return (
-                <View
-                  key={index}
-                  className="flex-row justify-between items-center p-4 rounded-xl shadow-sm"
-                  style={{ backgroundColor: Colors[theme].card }}
-                >
-                  <View className="flex-row items-center">
-                    <Feather name={item.icon} size={normalize(20)} color={Colors[theme].icon} />
-                    <Text style={{ color: Colors[theme].text }} className="ml-3 text-base">
-                      {item.label}
-                    </Text>
-                  </View>
-                  <Switch
-                    value={theme === "dark"}
-                    onValueChange={toggleTheme}
-                    trackColor={{ false: "#ccc", true: "#6852ff" }}
-                    thumbColor="#fff"
-                  />
-                </View>
-              );
-            }
-
-            return (
-              <TouchableOpacity
-                key={index}
-                className="flex-row justify-between items-center p-4 rounded-xl shadow-sm"
-                style={{ backgroundColor: Colors[theme].card }}
-                onPress={() => handlePress(item.key)}
-              >
-                <View className="flex-row items-center">
-                  <Feather name={item.icon} size={normalize(20)} color={Colors[theme].icon} />
-                  <Text style={{ color: Colors[theme].text }} className="ml-3 text-base">
-                    {item.label}
-                  </Text>
-                </View>
-                <Ionicons name="chevron-forward" size={normalize(20)} color={Colors[theme].icon} />
-              </TouchableOpacity>
-            );
-          })}
+          {settingsList.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              className="flex-row justify-between items-center bg-white p-4 rounded-xl shadow-sm"
+              onPress={() => handlePress(item.key)}
+            >
+              <View className="flex-row items-center">
+                <Feather name={item.icon} size={normalize(20)} color="#444" />
+                <Text className="ml-3 text-base text-gray-800">
+                  {item.label}
+                </Text>
+              </View>
+              <Ionicons
+                name="chevron-forward"
+                size={normalize(20)}
+                color="#bbb"
+              />
+            </TouchableOpacity>
+          ))}
         </View>
 
         {/* Danger Zone */}
-        <Text style={{ color: Colors[theme].secondaryText }} className="mt-8 mb-2 text-sm font-semibold">
+        <Text className="mt-8 mb-2 text-sm text-gray-500 font-semibold">
           {t("settings.dangerZone")}
         </Text>
         <View className="space-y-2 mb-8">
           {dangerList.map((item, index) => (
             <TouchableOpacity
               key={index}
-              // className="flex-row justify-between items-center p-4 rounded-xl border"
-              style={{
-                backgroundColor: Colors[theme].dangerBg,
-                borderColor: Colors[theme].dangerBorder,
-              }}
-              // onPress={() => console.log("Pressed:", item.label)}
               className="flex-row justify-between items-center bg-red-50 p-4 rounded-xl border border-red-200"
               onPress={() => handleDangerZoneBtn(item.key)}
             >
               <View className="flex-row items-center">
-                <Feather name={item.icon} size={normalize(20)} color={Colors[theme].dangerText} />
-                <Text className="ml-3 text-base font-medium" style={{ color: Colors[theme].dangerText }}>
+                <Feather
+                  name={item.icon}
+                  size={normalize(20)}
+                  color="#d9534f"
+                />
+                <Text className="ml-3 text-base text-red-600 font-medium">
                   {item.label}
                 </Text>
               </View>
-              <Ionicons name="chevron-forward" size={normalize(20)} color={Colors[theme].dangerText} />
+              <Ionicons
+                name="chevron-forward"
+                size={normalize(20)}
+                color="#d9534f"
+              />
             </TouchableOpacity>
           ))}
         </View>

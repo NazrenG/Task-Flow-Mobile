@@ -1,8 +1,3 @@
-import { useState } from "react";
-import { Modal, Text, TextInput, TouchableOpacity, View, Pressable, Dimensions } from "react-native";
-import { useTranslation } from "react-i18next";
-import { useTheme } from "../../components/ThemeContext";
-import { Colors } from "../../constants/Colors";
 import { useEffect, useState } from "react";
 import {
   Dimensions,
@@ -26,8 +21,6 @@ export default function TaskModal({ visible, onClose, onSave, task }) {
   const [priority, setPriority] = useState("high");
   const [status, setStatus] = useState("to do");
   const [color, setColor] = useState("#3b82f6");
-  const { t } = useTranslation();
-  const { theme } = useTheme();
 
   const colors = ["#3b82f6", "#10b981", "#facc15", "#f87171", "#8b5cf6"];
   const priorities = ["high", "medium", "easy"];
@@ -85,12 +78,10 @@ export default function TaskModal({ visible, onClose, onSave, task }) {
       visible={visible}
       onRequestClose={() => setModalVisible(false)}
     >
-      {/* Modal background */}
       <Pressable
         onPress={() => setModalVisible(false)}
-        style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.5)", justifyContent: "center", alignItems: "center" }}
+        className="flex-1 bg-black/50 justify-center items-center"
       >
-        {/* Modal content */}
         <Pressable
           onPress={() => {}}
           className="bg-white p-6 rounded-xl"
@@ -116,114 +107,27 @@ export default function TaskModal({ visible, onClose, onSave, task }) {
           />
 
           {/* Start Date */}
-          <Text style={{ color: Colors[theme].text, fontSize: 16, fontWeight: "600", marginTop: 16 }}>
-            {t("task.cratetedTask.startDate")}
-          </Text>
+          <Text className="text-base font-semibold mt-4">Start Date</Text>
           <TextInput
-            style={{
-              borderWidth: 1,
-              borderColor: Colors[theme].border,
-              backgroundColor: Colors[theme].inputBg,
-              color: Colors[theme].text,
-              borderRadius: 8,
-              padding: 8,
-              marginTop: 4
-            }}
+            className="border border-gray-200 bg-white rounded-md p-2 mt-1"
             value={startDate}
             onChangeText={setStartDate}
-            placeholder="MM/DD/YYYY"
-            placeholderTextColor={Colors[theme].placeholder}
+            placeholder="DD/MM/YYYY"
           />
 
           {/* End Date */}
-          <Text style={{ color: Colors[theme].text, fontSize: 16, fontWeight: "600", marginTop: 16 }}>
-            {t("task.cratetedTask.endDate")}
-          </Text>
+          <Text className="text-base font-semibold mt-4">End Date</Text>
           <TextInput
-            style={{
-              borderWidth: 1,
-              borderColor: Colors[theme].border,
-              backgroundColor: Colors[theme].inputBg,
-              color: Colors[theme].text,
-              borderRadius: 8,
-              padding: 8,
-              marginTop: 4
-            }}
+            className="border border-gray-200 bg-white rounded-md p-2 mt-1"
             value={endDate}
             onChangeText={setEndDate}
-            placeholder="MM/DD/YYYY"
-            placeholderTextColor={Colors[theme].placeholder}
+            placeholder="DD/MM/YYYY"
           />
 
           {/* Priority */}
-               <Text className="text-base font-semibold mt-4" style={{ color: Colors[theme].text }}>{t("task.cratetedTask.priority")}</Text>
-            <View className="flex-row flex-wrap mt-2 gap-2">
-              {priorities.map((p) => (
-                <TouchableOpacity
-                  key={p}
-                  onPress={() => setPriority(p)}
-                  className={`px-3 py-1 border rounded-full ${ 
-                    priority=== p && p=== t("task.cratetedTask.high")
-                      ? "bg-red-100 border-red-500"
-                      : priority === p && p === t("task.cratetedTask.medium")
-                      ? "bg-bg_yellow border-yellow"
-                      : priority === p && p === t("task.cratetedTask.easy")
-                      ? "bg-bg_green border-green"
-                      : "bg-white border-gray-300"
-                  }  
-                  
-                  `}
-                >
-                  <Text>{p}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-
-          {/* Status */}
-         <Text className="text-base font-semibold mt-4" style={{ color: Colors[theme].text }}>{t("task.cratetedTask.status")}</Text>
-            <View className="flex-row flex-wrap mt-2 gap-2">
-              {statuses.map((s) => (
-                <TouchableOpacity
-                  key={s}
-                  onPress={() => setStatus(s)}
-                  className={`px-3 py-1 border rounded-full ${
-                    status === s && s === "To do"
-                      ? "bg-bg_blue border-blue-500"
-                      : status === s && s === "In progress"
-                      ? "bg-bg_yellow border-yellow"
-                      : status === s && s === "Done"
-                      ? "bg-bg_green border-green"
-                      : "bg-white border-gray-300"}`}
-                >
-                  <Text>{s}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-  
-
-          {/* Color */}
-          <Text style={{ color: Colors[theme].text, fontSize: 16, fontWeight: "600", marginTop: 16 }}>
-            {t("task.cratetedTask.color")}
-          </Text>
-          <View style={{ flexDirection: "row", marginTop: 8, gap: 8 }}>
-            {colors.map((c) => (
-              <TouchableOpacity
-                key={c}
-                onPress={() => setColor(c)}
-                style={{
-                  width: 32,
-                  height: 32,
-                  borderRadius: 8,
-                  backgroundColor: c,
-                  borderWidth: color === c ? 2 : 0,
-                  borderColor: Colors[theme].text
-                }}
-              />
-            ))}
-          </View>
-
-          {/* Buttons */}
-          <View className="flex-row justify-end gap-1 mt-8">
+          <Text className="text-base font-semibold mt-4">Priority</Text>
+          <View className="flex-row flex-wrap mt-2 gap-2">
+            {priorities.map((p) => (
               <TouchableOpacity
                 key={p}
                 onPress={() => setPriority(p)}
@@ -239,7 +143,7 @@ export default function TaskModal({ visible, onClose, onSave, task }) {
               >
                 <Text>{p}</Text>
               </TouchableOpacity>
-            
+            ))}
           </View>
 
           {/* Status */}
@@ -307,7 +211,7 @@ export default function TaskModal({ visible, onClose, onSave, task }) {
               }}
             >
               <Text className="text-white font-semibold">{`${
-                task?.id ? "Update" : t("task.cratetedTask.save")
+                task?.id ? "Update" : "Save"
               }`}</Text>
             </TouchableOpacity>
           </View>
@@ -315,91 +219,4 @@ export default function TaskModal({ visible, onClose, onSave, task }) {
       </Pressable>
     </Modal>
   );
-}
-
-
-
-{/*
-    //prioritet
-            <Text className="text-base font-semibold mt-4">{t("task.cratetedTask.priority")}</Text>
-            <View className="flex-row flex-wrap mt-2 gap-2">
-              {priorities.map((p) => (
-                <TouchableOpacity
-                  key={p}
-                  onPress={() => setPriority(p)}
-                  className={`px-3 py-1 border rounded-full ${ 
-                    priority=== p && p=== t("task.cratetedTask.high")
-                      ? "bg-red-100 border-red-500"
-                      : priority === p && p === t("task.cratetedTask.medium")
-                      ? "bg-bg_yellow border-yellow"
-                      : priority === p && p === t("task.cratetedTask.easy")
-                      ? "bg-bg_green border-green"
-                      : "bg-white border-gray-300"
-                  }  
-                  
-                  `}
-                >
-                  <Text>{p}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-  
-  //status
-    <Text className="text-base font-semibold mt-4">{t("task.cratetedTask.status")}</Text>
-            <View className="flex-row flex-wrap mt-2 gap-2">
-              {statuses.map((s) => (
-                <TouchableOpacity
-                  key={s}
-                  onPress={() => setStatus(s)}
-                  className={`px-3 py-1 border rounded-full ${
-                    status === s && s === "To do"
-                      ? "bg-bg_blue border-blue-500"
-                      : status === s && s === "In progress"
-                      ? "bg-bg_yellow border-yellow"
-                      : status === s && s === "Done"
-                      ? "bg-bg_green border-green"
-                      : "bg-white border-gray-300"}`}
-                >
-                  <Text>{s}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <View className="flex-row justify-end gap-1 mt-8">
-              <TouchableOpacity
-                className="bg-red-500 px-6 py-3 rounded"
-                onPress={onClose}
-              >
-                <Text className="text-white font-semibold">{t("task.cratetedTask.close")}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                className="bg-green px-6 py-3 rounded"
-                onPress={() =>
-                  onSave({
-                    taskName,
-                    description,
-                    startDate,
-                    endDate,
-                    priority,
-                    status,
-                    color,
-                  })
-                }
-              >
-                <Text className="text-white font-semibold">{t("task.cratetedTask.save")}</Text>
-              </TouchableOpacity>
-                    </View>  */
 }

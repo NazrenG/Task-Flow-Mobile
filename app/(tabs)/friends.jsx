@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState ,useEffect} from "react";
 // import { useRef, useState } from "react";
 // import { useTranslation } from "react-i18next";
 // import {
@@ -149,7 +149,6 @@ import { useRef, useState } from "react";
 //   },
 // });
 import LottieView from "lottie-react-native";
-import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Animated,

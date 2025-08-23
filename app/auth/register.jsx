@@ -15,7 +15,6 @@ import {
 import Input from "../../components/Input/Input";
 import Title from "../../components/Title/Title";
 import { fetchSignUp } from "../../utils/fetchUtils";
-import Button from "../../components/Button/Button";
 
 const { width, height } = Dimensions.get("window");
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -111,16 +110,8 @@ const Register = () => {
 
           <View style={{ marginBottom: height * 0.04 }} />
 
-  
-<Button
-  text="Register"
-  onPress={() => router.push("auth/otpVerification")}
-  style={{ width: width - 40, marginBottom: 20 }}
-  className="bg-dark_violet justify-center items-center rounded-full p-4"
-/>
-
-
-          <View
+          <TouchableOpacity
+            onPress={handleSignUp}
             style={{
               width: width - 40,
               marginBottom: 20,
@@ -132,7 +123,7 @@ const Register = () => {
             }}
           >
             <Text style={{ color: "white" }}>Register</Text>
-          </View>
+          </TouchableOpacity>
 
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Text style={{ color: "#FF9332" }}>Already a member? </Text>

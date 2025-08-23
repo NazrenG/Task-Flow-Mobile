@@ -1,4 +1,3 @@
-import { useState } from "react";
 import LottieView from "lottie-react-native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -13,10 +12,6 @@ import Header from "../../components/Header";
 import OtherCard from "../../components/notifications/otherCard";
 import ReminderCard from "../../components/notifications/reminderCard";
 import RequestCard from "../../components/notifications/requestCard";
-import { useTranslation } from "react-i18next";
-import { useTheme } from "../../components/ThemeContext";
-import { Colors } from "../../constants/Colors";
-
 import {
   fetchReminderNotifications,
   fetchRequestNotifications,
@@ -92,24 +87,24 @@ export default function NotificationScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 " style={{ backgroundColor: Colors[theme].background }}> 
+    <SafeAreaView className="flex-1 bg-background">
       <Header onSearch={setSearchText} />
 
-      <View className="flex-row gap-1 mt-4   px-4" >
+      <View className="flex-row gap-1 mt-4   px-4">
         {["requests", "reminders", "others"].map((tab) => (
           <TouchableOpacity
             key={tab}
             onPress={() => setActiveTab(tab)}
             className={`py-2 px-4 rounded-full ${
               activeTab === tab ? tabColors[tab].activeBg : tabColors[tab].bg
-            }`} 
+            }`}
           >
-            <Text className={`${tabColors[tab].text} font-semibold`} style={{ color: Colors[theme].background }}> 
+            <Text className={`${tabColors[tab].text} font-semibold`}>
               {tab === "requests"
                 ? t("Requests")
                 : tab === "reminders"
-                ? t("notification.reminders")
-                : t("notification.others")}
+                ? "Reminders"
+                : "Others"}
             </Text>
           </TouchableOpacity>
         ))}
@@ -168,7 +163,7 @@ export default function NotificationScreen() {
         )}
 
         {activeTab === "others" && (
-          <View className=" rounded-xl shadow p-4 space-y-3 gap-1" style={{ backgroundColor: Colors[theme].card }}>
+          <View className="bg-white rounded-xl shadow p-4 space-y-3 gap-1">
             {others.map((item) => (
               <OtherCard
                 key={item.id}
