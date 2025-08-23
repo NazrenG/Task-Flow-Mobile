@@ -140,8 +140,7 @@ const UserCard = ({ name, email, image }) => {
 
           <TouchableOpacity
             style={styles.viewProfileButton}
-            onPress={() => navigation.navigate("userdatails/index")}
-          >
+            onPress={() => navigation.navigate("userdatails")}>
             <Text style={styles.viewProfileText}>
               {t("friend.viewProfile")}
             </Text>

@@ -13,14 +13,16 @@ import { fetchCreateProject } from "../../utils/fetchUtils";
 import ProjectStateDropdown from "../dropdown/projectStateDropdown";
 import ProjectInput from "../Input/ProjectInput";
 import ColorPicker from "./colorPicker";
+import { Calendar } from "react-native-calendars";
 
 const width = Dimensions.get("window").width;
 
 const CreateProjectModal = ({ modalVisible, setModalVisible }) => {
   const { t } = useTranslation();
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-  const [showStartPicker, setShowStartPicker] = useState(false);
+  
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [selecting, setSelecting] = useState(null); // hansı tarixi seçirik? start yoxsa end?
 
   const [text, setText] = useState("");
   const [projectName, setProjectName] = useState("");
@@ -92,29 +94,56 @@ const CreateProjectModal = ({ modalVisible, setModalVisible }) => {
             <View className="w-full flex flex-row justify-start gap-3">
               <View className="flex-1">
                 <Text className="mb-2">{t("project.startDate")}:</Text>
-                {showStartPicker && (
-                  <DateTimePicker
-                    value={startDate}
-                    mode="date"
-                    display="default"
-                    onChange={(event, selectedDate) =>
-                      setStartDate(selectedDate || startDate)
-                    }
-                  />
-                )}
+                <Pressable
+                onPress={() => setSelecting("start")}
+                className="border px-4 py-2 rounded-md mt-2"
+              >
+                <Text className="text-zinc-700">
+                  {startDate || "YYYY-MM-DD"}
+                </Text>
+              </Pressable>
               </View>
               <View className="flex-1">
                 <Text className="mb-2">{t("project.endDate")}:</Text>
-                <TextInput
-                  value={endDate}
-                  onChangeText={setEndDate}
-                  placeholder="YYYY-MM-DD"
-                  keyboardType="numbers-and-punctuation"
-                  className="border px-4 py-2 rounded-md mt-2"
-                />
+                <Pressable
+                onPress={() => setSelecting("end")}
+                className="border px-4 py-2 rounded-md mt-2"
+              >
+                <Text className="text-zinc-700">
+                  {endDate || "YYYY-MM-DD"}
+                </Text>
+              </Pressable>
               </View>
             </View>
+
+
+
             <View className="w-full justify-start">
+          {/* Calendar */}
+          {selecting && (
+            <Calendar
+              onDayPress={(day) => {
+                if (selecting === "start") setStartDate(day.dateString);
+                if (selecting === "end") setEndDate(day.dateString);
+                setSelecting(null); // seçim bitəndə bağlansın
+              }}
+              markedDates={{
+                ...(startDate && {
+                  [startDate]: {
+                    selected: true,
+                    selectedColor: "#3b82f6",
+                  },
+                }),
+                ...(endDate && {
+                  [endDate]: {
+                    selected: true,
+                    selectedColor: "#10b981",
+                  },
+                }),
+              }}
+              style={{ marginTop: 10, borderRadius: 8 }}
+            />
+          )}
               <Text>{t("project.description")}:</Text>
               <TextInput
                 value={text}

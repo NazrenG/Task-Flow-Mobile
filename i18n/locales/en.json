@@ -1,6 +1,8 @@
 {
   "welcome": "Welcome",
   "language": "Language",
+  "search": "Search",
+  
 
   "project": {
     "totalProjects": "Total    Projects",
@@ -31,7 +33,7 @@
     "selectedUsers": "Selected Members",
     "delete": "Delete",
     "viewDetails": "View Details",
-    "editProject": "edit Project",
+    "editProject": "Edit Project",
     "submit": "Submit",
     "cancel": "Cancel",
     "toast": {
@@ -126,6 +128,100 @@
     "deleteAccount": "Delete Account",
     "cleanHistory": "Clean History",
     "logout": "Log Out",
-    "save": "Update"
+    "save": "Update",
+    "darkMode": "Theme"
+  },
+   "dashboard": {
+
+    "projects": "Projects",
+    "tasks": "Tasks",
+    "kanban": "Kanban",
+    "managarProjects": "Manage your project in one touch",
+    "organizeTasks": "Organize tasks, teams, and deadlines with ease.",
+    "tryNow": "Try For Free Now",
+    "totalClients": "Total Clients",
+    "message": "Message",
+    "createtask": "Create Task",
+    "participantprofile":"Participant Ocuupation Profile",
+    "statisticsAccording":"Statistics according to occupational profile of all participants",
+    "dailyTasks": "Daily Tasks",
+    "noTask":"No Task For An Hour",
+    "currentTasks": "Current Tasks"
+  },
+
+  "chat":{
+    "message": "Message",
+    "send": "Send",
+    "typeMessage": "Type your message here...",
+    "online" : "online",
+    "offline" : "offline"
+  },
+
+  "task":{
+    "totalTasks": "Total Task",
+    "completeTasks": "Complete Task",
+    "runningTasks": "Running Task",
+    "holdTasks": "Hold Task",
+    "tasks":"Tasks",
+    "todo":"to do",
+    "inprogress":"in progress",
+    "completed":"completed",
+    "all":"All",
+    "priority":"Priority",
+    "deadline":"Deadline",
+    "project":"Project",
+    "createtask":"Create Task",
+    "cratetedTask":{
+      "taskName": "Task Name",
+      "enterTaskName": "Enter task name",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+"description": "Description",
+      "enterdescription": "Enter description",
+      "save": "Save",
+      "close": "Close",
+      "priority": "Priority",
+      "status": "Status",
+      "color":"Color",
+      "high": "High",
+      "medium": "Medium",
+      "easy": "Easy"
+     
+    }
+  },
+  "kanban":{
+    "name":"Project Name",
+    "back":"back",
+    "next":"next",
+    "kanban":"Kanban",
+    "table":"Table"
+  },
+  "calendar":{
+    "edittask":{
+      "editTask": "Edit Task Time",
+      "taskName": "Task Name*:",
+      "enterTaskName": "Make plans to create new products",
+      "startDate": "Start Date:",
+      "endDate": "End Date:",
+      "submit": "Submit",
+      "cancel": "Cancel"
+    }
+  }
+
+  ,
+  "changepassword":{
+    "changePassword": "Change Password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "save": "Save",
+    "error": {
+      "emptyFields": "Please fill all fields.",
+      "passwordMismatch": "Passwords do not match.",
+      "passwordUpdated": "Password updated successfully."
+    }
+    ,
+    "errorMessage": "Error",
+    "successMessage": "Success"
   }
 }
