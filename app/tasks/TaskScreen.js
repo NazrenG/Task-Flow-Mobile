@@ -1,7 +1,9 @@
 import Card from "@/components/Card/Card";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { useState } from "react";
+import LottieView from "lottie-react-native";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   FlatList,
   Pressable,
@@ -12,41 +14,18 @@ import {
 } from "react-native";
 import Header from "../../components/Header";
 import { Colors } from "../../constants/Colors";
+import {
+  fetchCompletedTaskCount,
+  fetchDeleteTask,
+  fetchGetAllTasks,
+  fetchOnHoldTaskCount,
+  fetchRunningTaskCount,
+  fetchTotalTaskCount,
+  fetchUpdateTask,
+} from "../../utils/taskUtils";
 import TaskModal from "./TaskModal";
-import { useTranslation } from "react-i18next";
 
-
-const mockData = [
-  {
-    id: "1",
-    title: "New task",
-    priority: "medium",
-    createdAt: "19-06-2025",
-    deadline: "07-08-2025",
-    project: "No Team",
-    status: "to do",
-  },
-  {
-    id: "2",
-    title: "Long task title example to see wrapping",
-    priority: "medium",
-    createdAt: "08-07-2025",
-    deadline: "08-07-2025",
-    project: "No Team",
-    status: "in progress",
-  },
-  {
-    id: "3",
-    title: "zazazaza",
-    priority: "easy",
-    createdAt: "08-07-2025",
-    deadline: "09-07-2025",
-    project: "No Team",
-    status: "completed",
-  },
-];
-
-const statusFilters = ["to do", "in progress", "completed", "All"];
+const statusFilters = ["to do", "in progress", "done", "All"];
 
 const getStatusBgColor = (status, filter) => {
   if (filter === status) {
@@ -55,7 +34,7 @@ const getStatusBgColor = (status, filter) => {
         return "bg-bg_blue";
       case "in progress":
         return "bg-bg_yellow";
-      case "completed":
+      case "done":
         return "bg-bg_green";
       default:
         return "bg-gray-300";
@@ -70,15 +49,55 @@ export default function TaskListMobile() {
   const [searchText, setSearchText] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
   const [isModalVisible, setModalVisible] = useState(false);
-  const { t } = useTranslation();  
+  const { t } = useTranslation();
+  const [totalTaskCount, setTotalTaskCount] = useState("");
+  const [runningTaskCount, setRunningTaskCount] = useState("");
+  const [onHoldTaskCount, setOnHoldTaskCount] = useState("");
+  const [completedTaskCount, setCompletedTaskCount] = useState("");
+  const [tasks, setTasks] = useState([]);
+
+  //delete task function
+  const deleteTask = async (taskId) => {
+    try {
+      await fetchDeleteTask(taskId);
+      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+      fetchTaskCounts();
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
+  };
+
+  const updateTask = async (taskId, task) => {
+    try {
+      await fetchUpdateTask(taskId, task);
+      setTasks((prevTasks) =>
+        prevTasks.map((t) => (t.id === taskId ? { ...t, ...task } : t))
+      );
+    } catch (error) {
+      console.error("Error updating task:", error);
+    }
+  };
+  useEffect(() => {
+    fetchTaskCounts();
+  }, []);
+  const fetchTaskCounts = async () => {
+    const total = await fetchTotalTaskCount();
+    const running = await fetchRunningTaskCount();
+    const onHold = await fetchOnHoldTaskCount();
+    const completed = await fetchCompletedTaskCount();
+    const allTasks = await fetchGetAllTasks();
+    setTasks(allTasks);
+    setTotalTaskCount(total);
+    setRunningTaskCount(running);
+    setOnHoldTaskCount(onHold);
+    setCompletedTaskCount(completed);
+  };
 
   const filteredData =
-    filter === "All"
-      ? mockData
-      : mockData.filter((item) => item.status === filter);
+    filter === "All" ? tasks : tasks.filter((item) => item.status === filter);
 
   const searchFilteredData = filteredData.filter((item) =>
-    item.title.toLowerCase().includes(searchText.toLowerCase())
+    (item.title ?? "").toLowerCase().includes(searchText.toLowerCase())
   );
 
   const priorityColor = (priority) => {
@@ -103,12 +122,15 @@ export default function TaskListMobile() {
   const renderItem = ({ item }) => (
     <View className="bg-white rounded-xl p-4 mb-2 shadow-sm border border-gray-200">
       <View className="flex-row justify-between items-center mb-1">
-        <Text className="text-base font-semibold text-gray-900 flex-1">
+        <Text
+          className="text-base font-semibold text-gray-900 flex-1"
+          style={{ color: item.color || "black" }}
+        >
           {item.title}
         </Text>
         <Text
           className={`text-xs font-bold px-2 py-0.5 rounded-full ${
-            item.status === "completed"
+            item.status === "done"
               ? "bg-bg_green text-gray-800"
               : item.status === "in progress"
               ? "bg-bg_yellow text-gray-800"
@@ -144,16 +166,27 @@ export default function TaskListMobile() {
 
       <View className="flex-row space-x-2 gap-1">
         <TouchableOpacity
-          className="bg-gray-200 p-2 rounded-full"
+          className="bg-gray-200 p-2 rounded-full" style={{ backgroundColor: Colors.secondary.bg_green }}
           onPress={() => {
             setSelectedItem(item);
             setModalVisible(true);
           }}
         >
-          <MaterialIcons name="edit" color={"gray"} size={15} />
+          <MaterialIcons
+            name="edit"
+            color={Colors.secondary.green}
+            size={15}
+          />
         </TouchableOpacity>
-        <TouchableOpacity className="bg-gray-200 p-2 rounded-full">
-          <MaterialIcons name="delete" color={"gray"} size={15} />
+        <TouchableOpacity
+          className="bg-gray-200 p-2 rounded-full" style={{ backgroundColor: Colors.secondary.light_red }}
+          onPress={() => deleteTask(item.id)}
+        >
+          <MaterialIcons
+            name="delete"
+            color={"red"}
+            size={15}
+          />
         </TouchableOpacity>
       </View>
     </View>
@@ -166,7 +199,8 @@ export default function TaskListMobile() {
         task={selectedItem}
         onClose={() => setModalVisible(false)}
         onSave={(updatedTask) => {
-          console.log("Kaydedilen task:", updatedTask);
+          updateTask(updatedTask.id, updatedTask);
+          console.log("Added or updated task:", updatedTask);
           setModalVisible(false);
         }}
       />
@@ -178,7 +212,7 @@ export default function TaskListMobile() {
           <View className="flex-row flex-wrap justify-between items-center w-full rounded-lg bg-white shadow-sm p-4 mx-4 gap-2 mb-2">
             <Card
               title="Total Task"
-              count="0"
+              count={totalTaskCount}
               color={Colors.secondary.bg_yellow}
               icon={
                 <MaterialIcons name="assignment" size={20} color="#D97706" />
@@ -187,7 +221,7 @@ export default function TaskListMobile() {
             />
             <Card
               title="Running Task"
-              count="2"
+              count={runningTaskCount}
               color={Colors.secondary.bg_green}
               icon={
                 <MaterialIcons
@@ -200,7 +234,7 @@ export default function TaskListMobile() {
             />
             <Card
               title="On Hold Task"
-              count="0"
+              count={onHoldTaskCount}
               color={Colors.secondary.bg_violet}
               icon={
                 <MaterialIcons
@@ -209,14 +243,11 @@ export default function TaskListMobile() {
                   color="white"
                 />
               }
-              gradient={[
-                Colors.secondary.violet,
-                Colors.secondary.lightViolet,
-              ]}
+              gradient={[Colors.secondary.violet, Colors.secondary.lightViolet]}
             />
             <Card
               title="Complete Task"
-              count="0"
+              count={completedTaskCount}
               color={Colors.secondary.bg_blue}
               icon={
                 <MaterialIcons
@@ -267,14 +298,17 @@ export default function TaskListMobile() {
         <FlatList
           className="px-4"
           data={searchFilteredData}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.id.toString()}
           renderItem={renderItem}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 40 }}
           ListEmptyComponent={
-            <Text className="text-center text-gray-500 mt-4">
-              No tasks found.
-            </Text>
+            <LottieView
+              source={require("../../assets/animations/EmptyArray.json")}
+              autoPlay
+              loop
+              style={{ width: 350, height: 170 }}
+            />
           }
         />
       </SafeAreaView>

@@ -20,10 +20,7 @@ const CodeVerification = ({ code, setCode, onNext }) => {
   return (
     <>
          <Text style={styles.title}>Verify Your Email</Text>
-        <Text style={styles.subtitle}>
-        We've sent a 4-digit code to your email. Enter it below to continue.
-
-        </Text>
+        <Text style={styles.subtitle}>We've sent a 4-digit code to your email. Enter it below to continue. </Text>
       <View style={styles.codeInputs}>
         {code.map((digit, index) => (
           <TextInput

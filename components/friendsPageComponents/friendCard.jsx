@@ -83,33 +83,47 @@ import {
   View,
 } from "react-native";
 import TextShortener from "../../constants/TextShortener";
+import { fetchUnfollowRequest } from "../../utils/friendUtils";
 const width = Dimensions.get("window").width;
 
-const FriendCard = () => {
+
+const FriendCard = ({ name, email, image }) => {
   const { t } = useTranslation();
   return (
     <View style={[styles.userCard, styles.cardContainer]}>
       <Image
         style={styles.userImage}
-        source={require("../../assets/images/default-user.png")}
+        source={
+          image
+            ? { uri: image }
+            : require("../../assets/images/default-user.png")
+        }
       />
-      <Text style={styles.userName}>Nezrin</Text>
+      <Text style={styles.userName}>{name}</Text>
       <View style={styles.userInfo}>
         <View style={styles.infoRow}>
           <MaterialIcons name="call" size={15} color="black" />
-          <Text style={styles.infoText}>055 999 88 77</Text>
+          <Text style={styles.infoText}>88 8 8 8</Text>
         </View>
         <View style={styles.infoRow}>
           <Entypo name="mail" size={15} color="black" />
-          <Text>{TextShortener("quliyeva@gmail.com", 16)}</Text>
+          <Text>{TextShortener(email, 16)}</Text>
         </View>
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={[styles.button, styles.messageButton]}>
             <Text style={styles.buttonText}>{t("friend.message")}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.unfollowButton]}>
+          <TouchableOpacity style={[styles.button, styles.unfollowButton]} onPress={async () => {
+            try {
+              await fetchUnfollowRequest(name);
+              console.log("Unfollowed successfully");
+            } catch (error) {
+              console.error("Error unfollowing:", error);
+            }
+          }}>
             <Text style={styles.buttonText}>{t("friend.unfollow")}</Text>
+
           </TouchableOpacity>
         </View>
       </View>

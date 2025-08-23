@@ -70,7 +70,6 @@
 //     paddingHorizontal: 6,
 //   },
 // });
-
 import Entypo from "@expo/vector-icons/Entypo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
@@ -85,34 +84,60 @@ import {
   View,
 } from "react-native";
 import TextShortener from "../../constants/TextShortener";
+import { fetchFriendRequests } from "../../utils/friendUtils";
 
 const width = Dimensions.get("window").width;
 
-const UserCard = () => {
+const UserCard = ({ name, email, image }) => {
   const navigation = useNavigation();
   const { t } = useTranslation();
+
+  const handleFollow = async () => {
+    try {
+      const friendData = {
+        ReceiverEmail: email, // Backend’in beklediği
+        Text: `Friend request from ${name}`, // Mesaj
+        IsAccepted: false,
+        NotificationType: "FriendRequest",
+      };
+
+      await fetchFriendRequests(friendData);
+      console.log("Follow request sent successfully");
+    } catch (error) {
+      console.error("Error sending follow request:", error);
+    }
+  };
+
   return (
     <View style={[styles.userCard, styles.cardContainer]}>
       <Image
         style={styles.userImage}
-        source={require("../../assets/images/default-user.png")}
+        source={
+          image
+            ? { uri: image }
+            : require("../../assets/images/default-user.png")
+        }
       />
-      <Text style={styles.userName}>Nezrin</Text>
+      <Text style={styles.userName}>{name}</Text>
       <View style={styles.userInfo}>
         <View style={styles.infoRow}>
           <MaterialIcons name="call" size={15} color="black" />
-          <Text style={styles.infoText}>055 999 88 78</Text>
+          <Text style={styles.infoText}>98283 2327 23732</Text>
         </View>
         <View style={styles.infoRow}>
           <Entypo name="mail" size={15} color="black" />
-          <Text>{TextShortener("quliyeva@gmail.com", 16)}</Text>
+          <Text>{TextShortener(email, 16)}</Text>
         </View>
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity className="bg-green" style={[styles.button]}>
+          <TouchableOpacity
+            className="bg-green"
+            style={[styles.button]}
+            onPress={handleFollow} // Artık doğru fonksiyon
+          >
             <Text style={styles.buttonText}>{t("friend.follow")}</Text>
           </TouchableOpacity>
-          {/* //View Profile Button */}
+
           <TouchableOpacity
             style={styles.viewProfileButton}
             onPress={() => navigation.navigate("userdatails/index")}
@@ -132,15 +157,12 @@ export default UserCard;
 const styles = StyleSheet.create({
   cardContainer: {
     backgroundColor: "white",
-    padding: 10, // Adjust this value as needed
+    padding: 10,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: "#e5e7eb",
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
+    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 1,
     elevation: 1,
@@ -184,24 +206,19 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 6,
   },
-
   buttonText: {
     color: "white",
     fontSize: 12,
   },
-
-  // View Profile button style
-
   viewProfileButton: {
-    backgroundColor: "#a5e8d8", // Açıq mavi/boz
+    backgroundColor: "#a5e8d8",
     borderRadius: 5,
     paddingVertical: 5,
     paddingHorizontal: 6,
-
-    borderColor: "#cfded9", // Fonla uyğun sərhəd
+    borderColor: "#cfded9",
   },
   viewProfileText: {
-    color: "#333", // Tünd boz və ya yaşıl
+    color: "#333",
     fontWeight: "500",
     fontSize: 11,
   },
