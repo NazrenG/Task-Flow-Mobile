@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
-import { fetchChangePassword } from "../../utils/fetchUtils";
+import { fetchResetPassword } from "../../utils/fetchUtils";
 
 const { width, height } = Dimensions.get("window");
 
@@ -32,7 +32,7 @@ const ChangePasswordScreen = () => {
       return;
     }
     console.log("email in change pass: " + email);
-    const response = await fetchChangePassword(email, newPassword);
+    const response = await fetchResetPassword(email, newPassword);
     if (response) {
       Alert.alert("Success", "Password changed successfully!");
       router.push("auth/login");

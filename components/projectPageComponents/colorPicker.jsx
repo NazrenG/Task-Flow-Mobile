@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Pressable, View } from "react-native";
 import { Colors } from "../../constants/Colors";
 
@@ -11,15 +10,15 @@ const colors = [
   Colors.primary.darkPurple,
 ];
 
-export default function ColorPicker() {
-  const [selectedColor, setSelectedColor] = useState(null);
+export default function ColorPicker({ selectedColor, onColorSelected }) {
+  // const [selectedColor, setSelectedColor] = useState(null);
 
   return (
     <View className="flex-row flex-wrap gap-3 p-4">
       {colors.map((color, index) => (
         <Pressable
           key={index}
-          onPress={() => setSelectedColor(color)}
+          onPress={() => onColorSelected(color)}
           className={`w-10 h-10 rounded-md border-2 ${
             selectedColor === color ? "border-black" : "border-transparent"
           }`}

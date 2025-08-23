@@ -4,9 +4,9 @@ import { useTranslation } from "react-i18next";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
 
-export default function ProjectStateDropdown() {
+export default function ProjectStateDropdown({ selectedState, onStateSelect }) {
   const { t } = useTranslation();
-  const [selected, setSelected] = useState(null);
+  // const [selected, setSelected] = useState(null);
   const [open, setOpen] = useState(false);
   const { theme } = useTheme();
 
@@ -29,8 +29,8 @@ export default function ProjectStateDropdown() {
             backgroundColor: Colors[theme].backgroundSecondary,
           }}
         >
-          <Text style={{ color: Colors[theme].text }}>
-            {selected ? selected : "Select priority"}
+          <Text className="text-gray-600">
+            {selectedState ? selectedState : "Select priority"}
           </Text>
         </Pressable>
 
@@ -53,7 +53,7 @@ export default function ProjectStateDropdown() {
               <Pressable
                 key={idx}
                 onPress={() => {
-                  setSelected(option);
+                  onStateSelect(option);
                   setOpen(false);
                 }}
                 style={{

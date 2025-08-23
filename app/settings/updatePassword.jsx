@@ -19,6 +19,7 @@ import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
 import LottieView from "lottie-react-native";
 
+import { fetchChangePassword } from "../../utils/fetchUtils";
 
 export default function UpdatePassword() {
   const router = useRouter();
@@ -29,27 +30,7 @@ export default function UpdatePassword() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const { theme } = useTheme();
-
-  const languages = [
-    {
-      label: "EN",
-      value: "en",
-      icon: require("@/assets/images/flags/united-kingdom.png"),
-    },
-    {
-      label: "AZ",
-      value: "az",
-      icon: require("@/assets/images/flags/azerbaijan.png"),
-    },
-    {
-      label: "RU",
-      value: "ru",
-      icon: require("@/assets/images/flags/russia.png"),
-    },
-  ];
-
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!currentPassword || !newPassword || !confirmPassword) {
       Alert.alert(
         t("changepassword.errorMessage"),
@@ -65,11 +46,17 @@ export default function UpdatePassword() {
       return;
     }
 
-    Alert.alert(
-      t("changepassword.successMessage"),
-      t("changepassword.error.passwordUpdated")
-    );
-    router.back();
+    const data = {
+      oldPassword: currentPassword,
+      newPassword,
+      confirmPassword,
+    };
+
+    const response = await fetchChangePassword(data);
+    if (response) {
+      Alert.alert("Success", "Password updated successfully.");
+      router.back();
+    } else Alert.alert("Error", "Password was not updated.");
   };
 
   const handleLanguageChange = (item) => {
@@ -205,5 +192,22 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 14,
     marginBottom: 16,
+  },
+  buttonContainer: {
+    width: "100%",
+    alignItems: "center",
+    paddingBottom: 30,
+  },
+  button: {
+    width: "90%",
+    maxWidth: 400,
+    backgroundColor: "#6852ff",
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "#fff",
+    fontWeight: "600",
   },
 });

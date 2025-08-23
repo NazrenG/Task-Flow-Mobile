@@ -1,4 +1,4 @@
-import { getToken, saveToken } from "../secureStore";
+import { deleteToken, getToken, saveToken } from "../secureStore";
 
 // const URL = "https://e33ce7167fc7.ngrok-free.app/api";
 const URL = "https://taskflowwebapi20250802142810.azurewebsites.net/api";
@@ -121,7 +121,7 @@ export const fetchVerifyCode = async (code, email) => {
     console.error("verify code error:", error);
   }
 };
-export const fetchChangePassword = async (email, newPassword) => {
+export const fetchResetPassword = async (email, newPassword) => {
   try {
     console.log("verify code email: " + email);
 
@@ -160,11 +160,11 @@ export const fetchLogout = async () => {
     });
     const data = await response.json();
     console.log("error in logout: " + data.message);
-    // if (response.ok) {
-    //   console.log("logout successfull");
-    //   await deleteToken("authToken");
-    //   return true;
-    // } else return false;
+    if (response.ok) {
+      console.log("logout successfull");
+      await deleteToken("authToken");
+      return true;
+    } else return false;
   } catch (error) {
     console.log("error in logout: " + error);
   }
@@ -173,22 +173,22 @@ export const fetchLogout = async () => {
 //////////////////////////////////////////////////////////////////////
 //PROFILE FETCHES
 
-export const fetchProfileData = async (email) => {
+export const fetchProfileData = async () => {
   try {
     const token = await getToken("authToken");
     console.log("logout token: " + token);
-    const response = await fetch(URL + `/Profile/${email}`, {
+    const response = await fetch(URL + "/Auth/currentUser", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
-    const data = await response.json();
-    console.log("error profile data: " + data.message);
+
     if (response.ok) {
       console.log("profile data successfull");
       const data = await response.json();
+      console.log("data in prof fetch: " + data);
       return data;
     } else return false;
   } catch (error) {
@@ -196,6 +196,84 @@ export const fetchProfileData = async (email) => {
   }
 };
 
+export const fetchUpdateProfileData = async (data) => {
+  try {
+    const token = await getToken("authToken");
+    const response = await fetch(URL + "/Profile/EditedProfile", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {
+      console.log("profile data successfull");
+      const data = await response.json();
+      console.log("data in prof update fetch: " + data);
+      return data;
+    } else {
+      console.log(response);
+      return false;
+    }
+  } catch (error) {
+    console.log("error update profile: " + error);
+  }
+};
+
+export const fetchProfileImg = async (data) => {
+  try {
+    console.log("in img upload: " + JSON.stringify(data));
+    const token = await getToken("authToken");
+    const response = await fetch(URL + "/Profile/EditedProfileImage", {
+      method: "PUT",
+      headers: {
+        // "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: data,
+    });
+
+    if (response.ok) {
+      console.log("profile img upload successfull");
+      const data = await response.json();
+      console.log("in profile img upload fetch: " + data);
+      return data;
+    } else {
+      console.log(response);
+      return false;
+    }
+  } catch (error) {
+    console.log("error in profile img upload: " + error);
+  }
+};
+
+export const fetchChangePassword = async (data) => {
+  try {
+    const token = await getToken("authToken");
+    const response = await fetch(URL + "/Profile/ChangePassword", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {
+      console.log("profile change password successfull");
+      const data = await response.json();
+      console.log("in profile change password fetch: " + data);
+      return data;
+    } else {
+      console.log(response);
+      return false;
+    }
+  } catch (error) {
+    console.log("error in profile change password: " + error);
+  }
+};
 ////////////////////////////////////////////////
 //PROJECT FETCHES
 
@@ -210,7 +288,7 @@ export const fetchComplatedProjectCount = async () => {
       },
     });
     if (response.ok) {
-      const data = response.json();
+      const data = await response.json();
       console.log("CompletedTaskCount projects count" + data);
       return data;
     }
@@ -229,7 +307,7 @@ export const fetchOnGoingProjectCount = async () => {
       },
     });
     if (response.ok) {
-      const data = response.json();
+      const data = await response.json();
       console.log("OnGoingProjectCount projects count" + data);
       return data;
     }
@@ -248,7 +326,7 @@ export const fetchPendingProjectCount = async () => {
       },
     });
     if (response.ok) {
-      const data = response.json();
+      const data = await response.json();
       console.log("PendingProjectCount projects count" + data);
       return data;
     }
@@ -271,7 +349,7 @@ export const fetchOnGoingProjectsList = async () => {
       console.log("error in on going projects list: " + text);
     });
     if (response.ok) {
-      const data = response.json();
+      const data = await response.json();
       console.log("OnGoingProject: " + data);
       console.log("OnGoingProject: " + response);
       return data;
@@ -298,13 +376,37 @@ export const fetchRecentActivitiesList = async () => {
       console.log("error in RecentActivities list: " + text);
     });
     if (response.ok) {
-      const data = response.json();
+      const data = await response.json();
       console.log("RecentActivities: " + data);
 
       return data;
     }
   } catch (error) {
     console.log("RecentActivities error: " + error);
+  }
+};
+
+export const fetchCreateProject = async (project) => {
+  try {
+    const token = await getToken("authToken");
+    const response = await fetch(URL + "/Project", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log("create project: " + data);
+      return true;
+    } else {
+      response.text().then((text) => {
+        console.log("error in create project: " + text);
+      });
+    }
+  } catch (error) {
+    console.log("Create project error: " + error);
   }
 };
 
@@ -319,7 +421,7 @@ export const fetchUsersProjects = async () => {
       },
     });
     if (response.ok) {
-      const data = response.json();
+      const data = await response.json();
       console.log("usersprojects count" + data);
       return data;
     }
