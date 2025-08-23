@@ -1,15 +1,16 @@
 import i18n from "@/i18n/i18n";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Image, TextInput, TouchableOpacity, View } from "react-native";
 import CalendarDropdown from "../hooks/DropDown";
+import { fetchProfileData } from "../utils/fetchUtils";
 
 const currentLang = i18n.language ? i18n.language.toUpperCase() : "en";
 
-
 export default function Header({ onSearch }) {
   const navigation = useNavigation();
+  const [img, setImg] = useState("");
 
   const languages = [
     {
@@ -33,6 +34,14 @@ export default function Header({ onSearch }) {
     i18n.changeLanguage(item.value);
   };
 
+  useEffect(() => {
+    const getData = async () => {
+      const response = await fetchProfileData();
+      setImg(response.image);
+    };
+    getData();
+  }, []);
+
   return (
     <View className="px-4   bg-[#f8f8f8] flex-row items-center justify-between">
       {/* Profile */}
@@ -41,7 +50,7 @@ export default function Header({ onSearch }) {
         onPress={() => navigation.navigate("profile/index")}
       >
         <Image
-          source={require("../assets/images/default-user.png")}
+          source={img ? img : require("../assets/images/default-user.png")}
           className="w-full h-full"
         />
       </TouchableOpacity>
@@ -57,17 +66,14 @@ export default function Header({ onSearch }) {
       </View>
 
       <View className="mr-3 w-20">
-       <CalendarDropdown
-  data={languages}
-  placeholder="lan"
-  value={currentLang}
-  selectedValue={currentLang}
-  onChange={handleLanguageChange}
-/>
-
+        <CalendarDropdown
+          data={languages}
+          placeholder="lan"
+          value={currentLang}
+          selectedValue={currentLang}
+          onChange={handleLanguageChange}
+        />
       </View>
-      </View>
-      
-   
+    </View>
   );
 }

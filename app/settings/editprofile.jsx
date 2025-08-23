@@ -1,7 +1,7 @@
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Alert,
@@ -11,37 +11,43 @@ import {
   KeyboardAvoidingView,
   Modal,
   Platform,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
-  SafeAreaView
-} from 'react-native';
-import { Calendar } from 'react-native-calendars';
-import Header from "../../components/Header";
+} from "react-native";
+import { Calendar } from "react-native-calendars";
 import Button from "../../components/Button/Button";
-
+import Header from "../../components/Header";
+import {
+  fetchProfileData,
+  fetchProfileImg,
+  fetchUpdateProfileData,
+} from "../../utils/fetchUtils";
 
 const { width, height } = Dimensions.get("window");
 
-const defaultData = {
-  avatar: require('../../assets/images/default-user.png'),
-  username: 'sevgi',
-  email: 'sevgi.elesgerova@gmail.com',
-  fullName: 'Sevgi Alasgarova',
-  phone: '0559717465',
-  department: 'Other (please specify)',
-  country: 'Azerbaijan',
-  gender: '',
-  birthday: '',
-};
+// const defaultData = {
+//   avatar: require('../../assets/images/default-user.png'),
+//   username: 'sevgi',
+//   email: 'sevgi.elesgerova@gmail.com',
+//   fullName: 'Sevgi Alasgarova',
+//   phone: '0559717465',
+//   department: 'Other (please specify)',
+//   country: 'Azerbaijan',
+//   gender: '',
+//   birthday: '',
+// };
 
 export default function EditProfileScreen() {
-  const [form, setForm] = useState(defaultData);
-  const [avatar, setAvatar] = useState(defaultData.avatar);
-  const [backgroundImage] = useState(require('../../assets/images/page.jpg'));
+  const [form, setForm] = useState([]);
+  const [avatar, setAvatar] = useState(
+    require("../../assets/images/default-user.png")
+  );
+  const [backgroundImage] = useState(require("../../assets/images/page.jpg"));
   const { t } = useTranslation();
   const scrollViewRef = useRef(null);
   const [inputPositions, setInputPositions] = useState({});
@@ -64,10 +70,26 @@ export default function EditProfileScreen() {
     }
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetchProfileData();
+      setForm(response);
+      console.log(JSON.stringify(response, null, 2));
+    };
+    fetchData();
+  }, []);
+
+  const handleUpdateProfile = async () => {
+    const response = await fetchUpdateProfileData(form);
+  };
+
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
-      Alert.alert("Permission denied", "We need permission to access your gallery.");
+      Alert.alert(
+        "Permission denied",
+        "We need permission to access your gallery."
+      );
       return;
     }
 
@@ -77,10 +99,19 @@ export default function EditProfileScreen() {
       aspect: [1, 1],
       quality: 1,
     });
-
+    console.log("in pick img");
     if (!result.canceled) {
-      const selectedUri = result.assets[0].uri;
-      setAvatar({ uri: selectedUri });
+      // const selectedUri = result.assets[0].uri;
+      // setAvatar({ uri: selectedUri });
+      const image = result.assets[0];
+      const formData = new FormData();
+      formData.append("file", {
+        uri: image.uri,
+        type: "image/jpeg", // or detect based on file extension
+        name: "profile.jpg", // must include a name
+      });
+      console.log("in !result");
+      const response = await fetchProfileImg(formData);
     }
   };
 
@@ -91,13 +122,11 @@ export default function EditProfileScreen() {
   const [calendarVisible, setCalendarVisible] = useState(false);
 
   return (
-    <SafeAreaView style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      
+    <SafeAreaView
+      style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+    >
       <Header />
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => router.back()}
-      >
+      <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
         <MaterialIcons name="arrow-back-ios" size={24} color="#333" />
       </TouchableOpacity>
 
@@ -117,30 +146,33 @@ export default function EditProfileScreen() {
               resizeMode="cover"
             >
               <TouchableOpacity style={styles.headerCamera} onPress={pickImage}>
-           <MaterialIcons  name="edit" size={20} color="black" />
+                <MaterialIcons name="edit" size={20} color="black" />
               </TouchableOpacity>
             </ImageBackground>
 
             <View style={styles.profileImageContainer}>
               <View style={styles.profileImageWrapper}>
                 <Image
-                  source={avatar}
+                  source={form.image ? form.image : avatar}
                   style={styles.profileImage}
                   resizeMode="cover"
                 />
               </View>
-              <TouchableOpacity style={styles.profileCamera} onPress={pickImage}>
-                <MaterialIcons  name="edit" size={20} color="black" />
+              <TouchableOpacity
+                style={styles.profileCamera}
+                onPress={pickImage}
+              >
+                <MaterialIcons name="edit" size={20} color="black" />
               </TouchableOpacity>
             </View>
           </View>
 
           <View style={styles.formContainer}>
             {[
-              ["fullName", t("profile.fullname")],
+              ["fullname", t("profile.fullname")],
               ["email", t("profile.email")],
               ["phone", t("profile.phone")],
-              ["department", t("profile.department")],
+              ["occupation", t("profile.department")],
               ["country", t("profile.country")],
               ["gender", t("profile.gender")],
             ].map(([key, label]) => (
@@ -166,25 +198,31 @@ export default function EditProfileScreen() {
               <Text style={styles.label}>{t("profile.birthDate")}</Text>
               <TouchableOpacity
                 onPress={() => setCalendarVisible(true)}
-                style={[styles.input, { justifyContent: 'center' }]}
+                style={[styles.input, { justifyContent: "center" }]}
               >
-                <Text style={{ color: form.birthday ? '#111' : '#aaa', fontSize: 16 }}>
-                  {form.birthday ? new Date(form.birthday).toLocaleDateString() : t("profile.birthDate")}
+                <Text
+                  style={{
+                    color: form.birthday ? "#111" : "#aaa",
+                    fontSize: 16,
+                  }}
+                >
+                  {form.birthday
+                    ? new Date(form.birthday).toLocaleDateString()
+                    : t("profile.birthDate")}
                 </Text>
               </TouchableOpacity>
             </View>
 
-             <TouchableOpacity
-                        onPress={() => router.push("/quiz")}
-                        className="bg-dark_violet justify-center items-center rounded-full p-4"
-                        style={{
-                          width: width * 0.9, // ekranın 90%-i
-                          maxWidth: 500,
-                          marginBottom: 25,
-                        }}
-                      >
+            <TouchableOpacity
+              onPress={() => handleUpdateProfile()}
+              className="bg-dark_violet justify-center items-center rounded-full p-4"
+              style={{
+                width: width * 0.9, // ekranın 90%-i
+                maxWidth: 500,
+                marginBottom: 25,
+              }}
+            >
               <Button text={t("settings.save")} />
-             
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -195,18 +233,21 @@ export default function EditProfileScreen() {
         <View style={styles.calendarModal}>
           <Calendar
             onDayPress={(day) => {
-              handleChange('birthday', day.dateString);
+              handleChange("birthday", day.dateString);
               setCalendarVisible(false);
             }}
             markedDates={{
               [form.birthday]: {
                 selected: true,
-                selectedColor: '#6852ff'
-              }
+                selectedColor: "#6852ff",
+              },
             }}
-            maxDate={new Date().toISOString().split('T')[0]}
+            maxDate={new Date().toISOString().split("T")[0]}
           />
-          <TouchableOpacity onPress={() => setCalendarVisible(false)} style={{ padding: 10, alignItems: 'center' }}>
+          <TouchableOpacity
+            onPress={() => setCalendarVisible(false)}
+            style={{ padding: 10, alignItems: "center" }}
+          >
             <Text style={{ color: "#6852ff", fontWeight: "bold" }}>Bağla</Text>
           </TouchableOpacity>
         </View>

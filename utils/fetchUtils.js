@@ -121,7 +121,7 @@ export const fetchVerifyCode = async (code, email) => {
     console.error("verify code error:", error);
   }
 };
-export const fetchChangePassword = async (email, newPassword) => {
+export const fetchResetPassword = async (email, newPassword) => {
   try {
     console.log("verify code email: " + email);
 
@@ -196,6 +196,84 @@ export const fetchProfileData = async () => {
   }
 };
 
+export const fetchUpdateProfileData = async (data) => {
+  try {
+    const token = await getToken("authToken");
+    const response = await fetch(URL + "/Profile/EditedProfile", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {
+      console.log("profile data successfull");
+      const data = await response.json();
+      console.log("data in prof update fetch: " + data);
+      return data;
+    } else {
+      console.log(response);
+      return false;
+    }
+  } catch (error) {
+    console.log("error update profile: " + error);
+  }
+};
+
+export const fetchProfileImg = async (data) => {
+  try {
+    console.log("in img upload: " + JSON.stringify(data));
+    const token = await getToken("authToken");
+    const response = await fetch(URL + "/Profile/EditedProfileImage", {
+      method: "PUT",
+      headers: {
+        // "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: data,
+    });
+
+    if (response.ok) {
+      console.log("profile img upload successfull");
+      const data = await response.json();
+      console.log("in profile img upload fetch: " + data);
+      return data;
+    } else {
+      console.log(response);
+      return false;
+    }
+  } catch (error) {
+    console.log("error in profile img upload: " + error);
+  }
+};
+
+export const fetchChangePassword = async (data) => {
+  try {
+    const token = await getToken("authToken");
+    const response = await fetch(URL + "/Profile/ChangePassword", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {
+      console.log("profile change password successfull");
+      const data = await response.json();
+      console.log("in profile change password fetch: " + data);
+      return data;
+    } else {
+      console.log(response);
+      return false;
+    }
+  } catch (error) {
+    console.log("error in profile change password: " + error);
+  }
+};
 ////////////////////////////////////////////////
 //PROJECT FETCHES
 

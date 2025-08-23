@@ -1,7 +1,7 @@
 import i18n from "@/i18n/i18n";
 import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router"; // ✅ expo-router yönləndirmə
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Dimensions,
@@ -15,7 +15,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CalendarDropdown from "../../hooks/DropDown";
-import { fetchLogout } from "../../utils/fetchUtils";
+import { fetchLogout, fetchProfileData } from "../../utils/fetchUtils";
 
 const { width } = Dimensions.get("window");
 const scale = width / 375;
@@ -51,16 +51,7 @@ export default function SettingsScreen() {
   const router = useRouter(); // ✅ expo-router yönləndirmə hook-u
   const { t } = useTranslation();
   const [searchText, setSearchText] = useState("");
-  const [profile, setProfile] = useState({
-    fullName: "-",
-    email: "-",
-    phone: "-",
-    department: "-",
-    country: "-",
-    gender: "-",
-    birthday: "-",
-    path: require("../../assets/images/default-user.png"),
-  });
+  const [profile, setProfile] = useState([]);
   // const profile = {
   //   name: "Sevgi Elesgerova",
   //   email: "sevgi.elesgerova@gmail.com",
@@ -115,12 +106,15 @@ export default function SettingsScreen() {
     }
   };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     // const response = await fetchProfileData(email);
-  //   };
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetchProfileData();
+      setProfile(response);
+      console.log("in settings index rep" + JSON.stringify(response, null, 2));
+      console.log("in settings index" + JSON.stringify(profile, null, 2));
+    };
+    fetchData();
+  }, []);
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -151,13 +145,17 @@ export default function SettingsScreen() {
         {/* Profile Section */}
         <View className="flex-row items-center bg-gray-100 p-4 rounded-2xl shadow-sm mb-6">
           <Image
-            source={profile.avatar}
+            source={
+              profile.image
+                ? profile.image
+                : require("../../assets/images/default-user.png")
+            }
             style={styles.avatarLarge}
             className="mr-4"
           />
           <View className="flex-1">
             <Text className="text-base font-bold text-gray-900">
-              {profile.name}
+              {profile.fullname}
             </Text>
             <Text className="text-sm text-gray-600 mt-1">{profile.email}</Text>
           </View>
