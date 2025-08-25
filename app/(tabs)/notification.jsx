@@ -105,10 +105,10 @@ export default function NotificationScreen() {
           >
             <Text className={`${tabColors[tab].text} font-semibold`} style={{ color: Colors[theme].card }}>
               {tab === "requests"
-                ? t("Requests")
+                ?t("notification.requests")
                 : tab === "reminders"
-                ? "Reminders"
-                : "Others"}
+                ? t("notification.reminders")
+                :  t("notification.others")}
             </Text>
           </TouchableOpacity>
         ))}

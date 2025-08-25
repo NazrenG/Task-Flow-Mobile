@@ -103,63 +103,89 @@ export default function TaskListMobile() {
   };
 
   const renderItem = ({ item }) => (
-    <View className=" rounded-xl p-4 mb-2 shadow-sm border border-gray-200" style={{ backgroundColor: Colors[theme].card }}>
-      <View className="flex-row justify-between items-center mb-1">
-        <Text className="text-base font-semibold text-gray-900 flex-1" style={{ color: Colors[theme].text }}>
-          {item.title}
-        </Text>
-        <Text
-          className={`text-xs font-bold px-2 py-0.5 rounded-full ${
-            item.status === "completed"
-              ? "bg-bg_green text-gray-800"
-              : item.status === "in progress"
-              ? "bg-bg_yellow text-gray-800"
-              : item.status === "to do"
-              ? "bg-bg_blue text-gray-800"
-              : "bg-gray-200 text-gray-700"
-          }`}
-        >
-          {item.status}
-        </Text>
-      </View>
+  <View
+    className="rounded-xl p-4 mb-2 shadow-sm border border-gray-200"
+    style={{ backgroundColor: Colors[theme].card }}
+  >
+    <View className="flex-row justify-between items-center mb-1">
+      {/* Task Title: Pen rəngi theme uyğun */}
+      <Text
+        className="text-base font-semibold flex-1"
+        style={{ color: Colors[theme].text }}
+      >
+        {item.title}
+      </Text>
 
-      <View className="flex-row justify-between mb-1" style={{ color: Colors[theme].text }}>
-        <Text className="text-xs " style={{ color: Colors[theme].text }}>{t("task.priority")}:</Text>
-        <Text className={`text-xs font-medium ${priorityColor(item.priority)}`}>
-          {item.priority}
-        </Text>
-      </View>
-
-      <View className="flex-row justify-between mb-1">
-        <Text className="text-xs " style={{ color: Colors[theme].text }}>{t("task.deadline")}:</Text>
-        <Text className={`text-xs font-medium ${deadlineColor(item.deadline)}`}>
-          {item.deadline}
-        </Text>
-      </View>
-
-      <View className="flex-row justify-between mb-2">
-        <Text className="text-xs " style={{ color: Colors[theme].text }}>{t("task.project")}:</Text>
-        <Text className="text-xs font-medium " style={{ color: Colors[theme].text }}>
-          {item.project}
-        </Text>
-      </View>
-
-      <View className="flex-row space-x-2 gap-1">
-        <TouchableOpacity
-          className="bg-gray-200 p-2 rounded-full"
-          onPress={() => {
-            setSelectedItem(item);
-            setModalVisible(true);
-          }}
-        >
-          <MaterialIcons name="edit" color={"gray"} size={15} />
-        </TouchableOpacity>
-        <TouchableOpacity className="bg-gray-200 p-2 rounded-full">
-          <MaterialIcons name="delete" color={"gray"} size={15} />
-        </TouchableOpacity>
-      </View>
+      {/* Status */}
+      <Text
+        className={`text-xs font-bold px-2 py-0.5 rounded-full ${
+          item.status === "completed"
+            ? "bg-bg_green text-gray-800"
+            : item.status === "in progress"
+            ? "bg-bg_yellow text-gray-800"
+            : item.status === "to do"
+            ? "bg-bg_blue text-gray-800"
+            : "bg-gray-200 text-gray-700"
+        }`}
+      >
+        {item.status}
+      </Text>
     </View>
-  );
+
+    <View className="flex-row justify-between mb-1">
+      <Text className="text-xs" style={{ color: Colors[theme].text }}>
+        {t("task.priority")}:
+      </Text>
+      <Text className={`text-xs font-medium ${priorityColor(item.priority)}`}>
+        {item.priority}
+      </Text>
+    </View>
+
+    <View className="flex-row justify-between mb-1">
+      <Text className="text-xs" style={{ color: Colors[theme].text }}>
+        {t("task.deadline")}:
+      </Text>
+      <Text className={`text-xs font-medium ${deadlineColor(item.deadline)}`}>
+        {item.deadline}
+      </Text>
+    </View>
+
+    <View className="flex-row justify-between mb-2">
+      <Text className="text-xs" style={{ color: Colors[theme].text }}>
+        {t("task.project")}:
+      </Text>
+      <Text className="text-xs font-medium" style={{ color: Colors[theme].text }}>
+        {item.project}
+      </Text>
+    </View>
+
+    {/* Edit & Delete Buttons */}
+    
+    <View className="flex-row space-x-2 gap-1">
+      {/* Edit düyməsi MAVİ oldu */}
+      <TouchableOpacity
+        className="bg-blue-200 p-2 rounded-full"
+        onPress={() => {
+          setSelectedItem(item);
+          setModalVisible(true);
+        }}
+      >
+        <MaterialIcons name="edit" color={"#2563EB"} size={15} />
+      </TouchableOpacity>
+
+      {/* Zibil düyməsi QIRMIZI */}
+      <TouchableOpacity
+        className="bg-gray-200 p-2 rounded-full"
+        onPress={() => {
+          console.log("Deleted:", item.id);
+        }}
+      >
+        <MaterialIcons name="delete" color={"red"} size={15} />
+      </TouchableOpacity>
+
+    </View>
+  </View>
+);
 
   return (
     <>
