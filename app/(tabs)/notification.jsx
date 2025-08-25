@@ -16,6 +16,8 @@ import {
   fetchReminderNotifications,
   fetchRequestNotifications,
 } from "../../utils/notificationUtils";
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
 
 export default function NotificationScreen() {
   const [searchText, setSearchText] = useState("");
@@ -23,6 +25,8 @@ export default function NotificationScreen() {
   const { t } = useTranslation();
   const [requests, setRequests] = useState([]);
   const [reminders, setReminders] = useState([]);
+  const { theme } = useTheme();
+
 
   const fetchNotifications = async () => {
     try {
@@ -87,7 +91,7 @@ export default function NotificationScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
+    <SafeAreaView className="flex-1 bg-background" style={{ backgroundColor: Colors[theme].background }}>
       <Header onSearch={setSearchText} />
 
       <View className="flex-row gap-1 mt-4   px-4">
@@ -99,7 +103,7 @@ export default function NotificationScreen() {
               activeTab === tab ? tabColors[tab].activeBg : tabColors[tab].bg
             }`}
           >
-            <Text className={`${tabColors[tab].text} font-semibold`}>
+            <Text className={`${tabColors[tab].text} font-semibold`} style={{ color: Colors[theme].card }}>
               {tab === "requests"
                 ? t("Requests")
                 : tab === "reminders"
@@ -112,7 +116,7 @@ export default function NotificationScreen() {
 
       <ScrollView contentContainerStyle={{ padding: 16 }}>
         {activeTab === "requests" && (
-          <View className="bg-white rounded-xl shadow p-4">
+          <View className="bg-white rounded-xl shadow p-4" style={{ backgroundColor: Colors[theme].card }}>
             {requests.length === 0 && (
               <LottieView
                 source={require("../../assets/animations/EmptyArray.json")}

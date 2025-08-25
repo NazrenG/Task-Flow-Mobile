@@ -1,6 +1,8 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import Svg, { G, Path, Circle } from "react-native-svg";
+import { StyleSheet, Text, View } from "react-native";
+import Svg, { Circle, G, Path } from "react-native-svg";
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
 
 const DonutSlice = ({ startAngle, endAngle, color }) => {
   const radius = 80;
@@ -21,7 +23,8 @@ const DonutSlice = ({ startAngle, endAngle, color }) => {
     "Z",
   ].join(" ");
 
-  return <Path d={pathData} fill={color} stroke="#fff" strokeWidth={2} />;
+  // stroke="#fff"
+  return <Path d={pathData} fill={color}  strokeWidth={2} />;
 };
 
 export default function  DonutChart() {
@@ -35,6 +38,9 @@ export default function  DonutChart() {
 
   const total = data.reduce((sum, d) => sum + d.value, 0); 
   let cumulativeAngle = 0;
+
+    const { theme } = useTheme();
+
 
   return (
     <View style={styles.container}>
@@ -72,7 +78,7 @@ export default function  DonutChart() {
               <View
                 style={[styles.colorBox, { backgroundColor: item.color }]}
               />
-              <Text style={styles.legendText}>
+              <Text style={[ styles.legendText ,{ color: Colors[theme].text }]}>
                 {item.name} — {percent}%
               </Text>
             </View>
@@ -105,6 +111,6 @@ const styles = StyleSheet.create({
   },
   legendText: {
     fontSize: 14,
-    color: "#333",
+   
   },
 });

@@ -10,17 +10,19 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { useTheme } from "../components/ThemeContext";
+import { Colors } from "../constants/Colors";
 
 export default function CalendarDropdown({
   data,
   onChange,
   placeholder = "Seçin...",
-  selectedValue ,
+  selectedValue,
 }) {
+  const { theme } = useTheme();
   const [expanded, setExpanded] = useState(false);
-  const [top, setTop] = useState(0); // tezden bax
-  const  [value, setValue] = useState(selectedValue );
-
+  const [top, setTop] = useState(0);
+  const [value, setValue] = useState(selectedValue);
 
   const toggleExpanded = useCallback(() => {
     setExpanded((prev) => !prev);
@@ -46,7 +48,7 @@ export default function CalendarDropdown({
   return (
     <View onLayout={onLayout}>
       <TouchableOpacity
-        className="h-12  flex-row justify-center items-center w-full align-baseline px-3 gap-2"
+        className="h-12 flex-row justify-center items-center w-full align-baseline px-3 gap-2"
         activeOpacity={0.8}
         onPress={toggleExpanded}
       >
@@ -59,24 +61,35 @@ export default function CalendarDropdown({
             className="w-5 h-5"
             resizeMode="contain"
           />
-          <Text className="text-sm opacity-80">{value || placeholder}</Text>
+          <Text
+            className="text-sm"
+            style={{ color: Colors[theme].text, opacity: 0.8 }}
+          >
+            {value || placeholder}
+          </Text>
         </View>
 
-        <AntDesign name={expanded ? "caretup" : "caretdown"} size={13} />
+        <AntDesign name={expanded ? "caretup" : "caretdown"} size={13} color={Colors[theme].icon} />
       </TouchableOpacity>
 
       {expanded && (
         <Modal visible={expanded} transparent animationType="fade">
           <TouchableWithoutFeedback onPress={() => setExpanded(false)}>
-            <View className="flex-row bg-transparent">
-              <View className="absolute right-[5px] top-20 bg-white p-1 rounded-md shadow-sm shadow-gray-600  elevation-md ">
+            <View className="flex-1">
+              <View
+                className="absolute right-[5px] top-20 p-1 rounded-md"
+                style={{
+                  backgroundColor: Colors[theme].card,
+                  shadowColor: Colors[theme].shadow || "#000",
+                  elevation: 4,
+                }}
+              >
                 <FlatList
                   keyExtractor={(item) => item.value}
                   data={data}
                   renderItem={({ item }) => (
                     <TouchableOpacity
-                      className="flex-row items-center
-                       h-5 px-3"
+                      className="flex-row items-center h-7 px-3"
                       onPress={() => handleSelect(item)}
                       activeOpacity={0.8}
                     >
@@ -85,11 +98,13 @@ export default function CalendarDropdown({
                         className="w-5 h-5 mr-2"
                         resizeMode="contain"
                       />
-                      <Text>{item.label}</Text>
+                      <Text style={{ color: Colors[theme].text }}>
+                        {item.label}
+                      </Text>
                     </TouchableOpacity>
                   )}
                   ItemSeparatorComponent={() => (
-                    <View className="h-[1px] bg-gray-300" />
+                    <View style={{ height: 1, backgroundColor: Colors[theme].separator }} />
                   )}
                 />
               </View>

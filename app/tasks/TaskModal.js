@@ -9,8 +9,9 @@ import {
   View,
 } from "react-native";
 import { Calendar } from "react-native-calendars";
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
 import { fetchCreateTask, fetchUpdateTask } from "../../utils/taskUtils";
-
 const width = Dimensions.get("window").width;
 
 export default function TaskModal({ visible, onClose, onSave, task }) {
@@ -25,6 +26,8 @@ export default function TaskModal({ visible, onClose, onSave, task }) {
   const [status, setStatus] = useState("to do");
   const [color, setColor] = useState("#3b82f6");
 
+    const { theme } = useTheme();
+  
   const colors = ["#3b82f6", "#10b981", "#facc15", "#f87171", "#8b5cf6"];
   const priorities = ["high", "medium", "easy"];
   const statuses = ["to do", "in progress", "done"];
@@ -64,29 +67,37 @@ export default function TaskModal({ visible, onClose, onSave, task }) {
       transparent={true}
       visible={visible}
       onRequestClose={() => setModalVisible(false)}
+    
     >
       <Pressable
         onPress={() => setModalVisible(false)}
         className="flex-1 bg-black/50 justify-center items-center"
+        
       >
         <Pressable
           onPress={() => {}}
           className="bg-white p-6 rounded-xl"
-          style={{ width: width - 30 }}
+          style={[{ width: width - 30 },{backgroundColor: Colors[theme].card}]}
         >
           {/* Task Name */}
-          <Text className="text-base font-semibold mt-4">Task Name</Text>
+          <Text className="text-base font-semibold mt-4" style={{color: Colors[theme].text}}>Task Name</Text>
           <TextInput
             className="border border-gray-200 bg-white rounded-md p-2 mt-1"
+            style={{backgroundColor: Colors[theme].card}}
             value={title}
             onChangeText={setTaskName}
             placeholder="Enter task name"
+              placeholderTextColor={theme === "dark" ? "#9ca3af" : "#6b7280"} // Dark/Light mode
+
           />
 
           {/* Description */}
-          <Text className="text-base font-semibold mt-4">Description</Text>
+          <Text className="text-base font-semibold mt-4" style={{color: Colors[theme].text}}>Description</Text>
           <TextInput
             className="border border-gray-200 bg-white rounded-md p-2 mt-1 h-24 text-start"
+                        style={{backgroundColor: Colors[theme].card}}
+  placeholderTextColor={theme === "dark" ? "#9ca3af" : "#6b7280"} // Dark/Light mode
+
             value={description}
             onChangeText={setDescription}
             placeholder="Enter description"
@@ -96,90 +107,146 @@ export default function TaskModal({ visible, onClose, onSave, task }) {
           {/* Start & End Date */}
           <View className="flex-row gap-2 mt-4">
             <View className="flex-1">
-              <Text className="text-base font-semibold">Start Date</Text>
+              <Text className="text-base font-semibold" style={{color: Colors[theme].text}}>Start Date</Text>
               <Pressable
                 onPress={() => setSelecting("start")}
                 className="border border-gray-200 bg-white rounded-md p-2 mt-1"
+                style={{backgroundColor: Colors[theme].card}}
               >
-                <Text>{startDate || "YYYY-MM-DD"}</Text>
+                <Text style={{color: Colors[theme].text}}>{startDate || "YYYY-MM-DD"}</Text>
               </Pressable>
             </View>
             <View className="flex-1">
-              <Text className="text-base font-semibold">End Date</Text>
+              <Text className="text-base font-semibold" style={{color: Colors[theme].text}}>End Date</Text>
               <Pressable
                 onPress={() => setSelecting("end")}
                 className="border border-gray-200 bg-white rounded-md p-2 mt-1"
+                style={{backgroundColor: Colors[theme].card}}
               >
-                <Text>{endDate || "YYYY-MM-DD"}</Text>
+                <Text style={{color: Colors[theme].text}}>{endDate || "YYYY-MM-DD"}</Text>
               </Pressable>
             </View>
           </View>
 
           {selecting && (
-            <Calendar
-              onDayPress={(day) => {
-                if (selecting === "start") setStartDate(day.dateString);
-                if (selecting === "end") setEndDate(day.dateString);
-                setSelecting(null);
-              }}
-              markedDates={{
-                ...(startDate && {
-                  [startDate]: { selected: true, selectedColor: "#3b82f6" },
-                }),
-                ...(endDate && {
-                  [endDate]: { selected: true, selectedColor: "#10b981" },
-                }),
-              }}
-              style={{ marginTop: 10, borderRadius: 8 }}
-            />
-          )}
+  <Calendar
+    onDayPress={(day) => {
+      if (selecting === "start") setStartDate(day.dateString);
+      if (selecting === "end") setEndDate(day.dateString);
+      setSelecting(null);
+    }}
+    markedDates={{
+      ...(startDate && {
+        [startDate]: { selected: true, selectedColor: "#3b82f6" },
+      }),
+      ...(endDate && {
+        [endDate]: { selected: true, selectedColor: "#10b981" },
+      }),
+    }}
+    style={{ marginTop: 10, borderRadius: 8 }}
+    theme={{
+      backgroundColor: Colors[theme].card,      // Dark/Light arxa plan
+      calendarBackground: Colors[theme].card,   // Calendar fon
+      textSectionTitleColor: Colors[theme].text,
+      dayTextColor: Colors[theme].text,
+      monthTextColor: Colors[theme].text,
+      selectedDayBackgroundColor: "#3b82f6",
+      selectedDayTextColor: "#ffffff",
+      todayTextColor: "#f59e0b",
+      arrowColor: Colors[theme].text,
+      textDisabledColor: theme === "dark" ? "#6b7280" : "#d1d5db",
+      dotColor: "#10b981",
+      selectedDotColor: "#ffffff",
+    }}
+  />
+)}
 
-                  {/* Priority */}
-          <Text className="text-base font-semibold mt-4">Priority</Text>
-          <View className="flex-row flex-wrap mt-2 gap-2">
-            {priorities.map((p) => (
-              <TouchableOpacity
-                key={p}
-                onPress={() => setPriority(p)}
-                className={`px-3 py-1 border rounded-full ${
-                  priority === p && p === "high"
-                    ? "bg-red-100 border-red-500"
-                    : priority === p && p === "medium"
-                    ? "bg-bg_yellow border-yellow"
-                    : priority === p && p === "easy"
-                    ? "bg-bg_green border-green"
-                    : "bg-white border-gray-300"
-                }`}
-              >
-                <Text>{p}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
 
-          {/* Status */}
-          <Text className="text-base font-semibold mt-4">Status</Text>
-          <View className="flex-row flex-wrap mt-2 gap-2">
-            {statuses.map((s) => (
-              <TouchableOpacity
-                key={s}
-                onPress={() => setStatus(s)}
-                className={`px-3 py-1 border rounded-full ${
-                  status === s && s === "to do"
-                    ? "bg-bg_blue border-blue-500"
-                    : status === s && s === "in progress"
-                    ? "bg-bg_yellow border-yellow"
-                    : status === s && s === "done"
-                    ? "bg-bg_green border-green"
-                    : "bg-white border-gray-300"
-                }`}
-              >
-                <Text>{s}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
+                {/* Priority */}
+<Text className="text-base font-semibold mt-4" style={{ color: Colors[theme].text }}>
+  Priority
+</Text>
+<View className="flex-row flex-wrap mt-2 gap-2">
+  {priorities.map((p) => {
+    let bgColor = Colors[theme].card; // default background
+    let borderColor = Colors[theme].border; // default border
+
+    if (priority === p) {
+      if (p === "high") {
+        bgColor = theme === "dark" ? "#b91c1c" : "#fee2e2"; // tünd qırmızı / açıq qırmızı
+        borderColor = "#f87171";
+      } else if (p === "medium") {
+        bgColor = theme === "dark" ? "#78350f" : "#fef3c7"; // tünd sarı / açıq sarı
+        borderColor = "#facc15";
+      } else if (p === "easy") {
+        bgColor = theme === "dark" ? "#166534" : "#dcfce7"; // tünd yaşıl / açıq yaşıl
+        borderColor = "#10b981";
+      }
+    }
+
+    return (
+      <TouchableOpacity
+        key={p}
+        onPress={() => setPriority(p)}
+        style={{
+          paddingHorizontal: 12,
+          paddingVertical: 6,
+          borderRadius: 9999,
+          backgroundColor: bgColor,
+          borderWidth: 1,
+          borderColor: borderColor,
+        }}
+      >
+        <Text style={{ color: Colors[theme].text }}>{p}</Text>
+      </TouchableOpacity>
+    );
+  })}
+</View>
+
+{/* Status */}
+<Text className="text-base font-semibold mt-4" style={{ color: Colors[theme].text }}>
+  Status
+</Text>
+<View className="flex-row flex-wrap mt-2 gap-2">
+  {statuses.map((s) => {
+    let bgColor = Colors[theme].card; 
+    let borderColor = Colors[theme].border;
+
+    if (status === s) {
+      if (s === "to do") {
+        bgColor = theme === "dark" ? "#1e3a8a" : "#dbeafe"; // tünd mavi / açıq mavi
+        borderColor = "#3b82f6";
+      } else if (s === "in progress") {
+        bgColor = theme === "dark" ? "#78350f" : "#fef3c7"; // tünd narıncı / açıq sarı
+        borderColor = "#facc15";
+      } else if (s === "done") {
+        bgColor = theme === "dark" ? "#166534" : "#dcfce7"; // tünd yaşıl / açıq yaşıl
+        borderColor = "#10b981";
+      }
+    }
+
+    return (
+      <TouchableOpacity
+        key={s}
+        onPress={() => setStatus(s)}
+        style={{
+          paddingHorizontal: 12,
+          paddingVertical: 6,
+          borderRadius: 9999,
+          backgroundColor: bgColor,
+          borderWidth: 1,
+          borderColor: borderColor,
+        }}
+      >
+        <Text style={{ color: Colors[theme].text }}>{s}</Text>
+      </TouchableOpacity>
+    );
+  })}
+</View>
+
 
           {/* Color */}
-          <Text className="text-base font-semibold mt-4">Color</Text>
+          <Text className="text-base font-semibold mt-4" style={{color: Colors[theme].text}}>Color</Text>
           <View className="flex-row mt-2 gap-2">
             {colors.map((c) => (
               <TouchableOpacity

@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
-
 import { useTranslation } from "react-i18next";
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
 
-export default function ProjectStateDropdown({ selectedState, onStateSelect }) {
+export default function ProjectStateDropdown() {
   const { t } = useTranslation();
-  // const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState(null);
   const [open, setOpen] = useState(false);
+  const { theme } = useTheme();
 
   const options = [
     t("project.complated"),
@@ -15,29 +17,52 @@ export default function ProjectStateDropdown({ selectedState, onStateSelect }) {
   ];
 
   return (
-    <View className="">
-      <View className="relative">
+    <View>
+      <View style={{ position: "relative" }}>
         <Pressable
           onPress={() => setOpen(!open)}
-          className="border rounded-md p-4 bg-white"
+          style={{
+            borderWidth: 1,
+            borderColor: Colors[theme].border,
+            borderRadius: 8,
+            padding: 12,
+            backgroundColor: Colors[theme].backgroundSecondary,
+          }}
         >
-          <Text className="text-gray-600">
-            {selectedState ? selectedState : "Select priority"}
+          <Text style={{ color: Colors[theme].text }}>
+            {selected ? selected : "Select priority"}
           </Text>
         </Pressable>
 
         {open && (
-          <View className="absolute top-full left-0 right-0 mt-1 border rounded-md bg-white z-10">
+          <View
+            style={{
+              position: "absolute",
+              top: "100%",
+              left: 0,
+              right: 0,
+              marginTop: 4,
+              borderWidth: 1,
+              borderColor: Colors[theme].border,
+              borderRadius: 8,
+              backgroundColor: Colors[theme].backgroundSecondary,
+              zIndex: 10,
+            }}
+          >
             {options.map((option, idx) => (
               <Pressable
                 key={idx}
                 onPress={() => {
-                  onStateSelect(option);
+                  setSelected(option);
                   setOpen(false);
                 }}
-                className="p-3 border-b last:border-b-0"
+                style={{
+                  padding: 12,
+                  borderBottomWidth: idx === options.length - 1 ? 0 : 1,
+                  borderColor: Colors[theme].border,
+                }}
               >
-                <Text className="text-gray-700">{option}</Text>
+                <Text style={{ color: Colors[theme].text }}>{option}</Text>
               </Pressable>
             ))}
           </View>
