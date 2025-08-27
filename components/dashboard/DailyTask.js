@@ -1,5 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { ScrollView, Text, View } from "react-native";
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
+
 
 const TaskCard = ({ title, time }) => (
   <View className="bg-[#ffa100] p-4 rounded-md w-[140px] mr-4">
@@ -10,10 +13,11 @@ const TaskCard = ({ title, time }) => (
 
 export default function DailyTasks() {
     const { t } = useTranslation();  
-  
+    const { theme } = useTheme();
+
   return (
-    <View className="bg-white mt-4 rounded-lg shadow-md p-3">
-      <Text className="text-xl font-semibold text-black mb-4">
+    <View className=" mt-4 rounded-lg shadow-md p-3"  style={{ backgroundColor: Colors[theme].card }}>
+      <Text className="text-xl font-semibold  mb-4"  style={{ color: Colors[theme].text }}>
         {t("dashboard.dailyTasks")}
       </Text>
  

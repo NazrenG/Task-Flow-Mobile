@@ -22,6 +22,7 @@ import {
 import CardPagination from "./cardPagination";
 import InProgressProject from "./inProgressProject";
 import RecentAvtivity from "./recentActivity";
+import { useTheme } from "../../components/ThemeContext";
 
 const width = Dimensions.get("window").width;
 const ProjectPage = () => {
@@ -32,6 +33,7 @@ const ProjectPage = () => {
   const [onGoingProjectCount, setOnGoingProjects] = useState("");
   const [pendingProjectCount, setPendingProjects] = useState("");
   console.log("is modal on: " + modalVisible);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const getDatas = async () => {
@@ -56,8 +58,8 @@ const ProjectPage = () => {
   return (
     <SafeAreaView className="flex-1 bg-background">
       <Header></Header>
-      <ScrollView contentContainerStyle={{ alignItems: "center", padding: 10 }}>
-        <View className="flex-row flex-wrap justify-between items-center  p-4 mb-3 gap-2 rounded-lg bg-white shadow-sm">
+      <ScrollView contentContainerStyle={{ alignItems: "center", padding: 10 }} style={{backgroundColor: Colors[theme].background}}>
+        <View className="flex-row flex-wrap justify-between items-center  p-4 mb-3 gap-2 rounded-lg bg-white shadow-sm" style={{backgroundColor: Colors[theme].card}}>
           <Card
             title={t("project.totalProjects")}
             count="0"
@@ -109,7 +111,7 @@ const ProjectPage = () => {
         </Pressable>
         {/** divide*/}
         <View className="w-full h-[1px] bg-gray-200 my-2" />
-        <View className="h-[30vh]">
+        <View className="h-[35vh]" style={{backgroundColor: Colors[theme].background}}>
           <CardPagination></CardPagination>
         </View>
         {/* <View className="h-[25vh] w-full my-1"> */}

@@ -161,6 +161,9 @@ import {
 import FriendCard from "../../components/friendsPageComponents/friendCard";
 import UserCard from "../../components/friendsPageComponents/userCard";
 import Header from "../../components/Header";
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
+
 import { fetchAllFriends, fetchAllUsers } from "../../utils/friendUtils";
 const width = Dimensions.get("window").width;
 
@@ -170,6 +173,8 @@ export default function Friends() {
   const [activeTab, setActiveTab] = useState(0);
   const [friends, setFriends] = useState([]);
   const [users, setUsers] = useState([]);
+    const { theme } = useTheme();
+
   const translateX = useRef(new Animated.Value(0)).current;
 
   const handleTabPress = (index) => {
@@ -195,10 +200,10 @@ export default function Friends() {
 
   return (
     <>
-      <SafeAreaView className="flex-1 items-center">
         <Header onSearch={setSearchText} />
-        <View className="  mt-4  rounded-xl p-3 mx-3 bg-white">
-          <View className="flex-row w-full border-b border-gray-300">
+      <SafeAreaView className="flex-1 items-center"    style={{backgroundColor: Colors[theme].background}}>
+        <View className="  mt-4  rounded-xl p-3 mx-3 bg-white" style={{backgroundColor: Colors[theme].card}}>
+          <View className="flex-row w-full border-b border-gray-300" >
             <TouchableOpacity
               className="flex-1 items-center py-3"
               onPress={() => handleTabPress(0)}
@@ -207,6 +212,7 @@ export default function Friends() {
                 className={
                   activeTab === 0 ? "font-bold text-black" : "text-gray-500"
                 }
+                style={{color: Colors[theme].text}}
               >
                 {t("friend.yourFriends")}
               </Text>
@@ -219,6 +225,8 @@ export default function Friends() {
                 className={
                   activeTab === 1 ? "font-bold text-black" : "text-gray-500"
                 }
+                
+                style={{color: Colors[theme].text}}
               >
                 {t("friend.allUsers")}
               </Text>
@@ -233,48 +241,49 @@ export default function Friends() {
             }}
           />
 
-          <View className="p-5">
-            {activeTab === 0 ? (
-              <View className="flex-row flex-wrap justify-between p-1 gap-4">
-                {friends.length > 0 ? (
-                  friends.map((friend, index) => (
-                    <FriendCard
-                      key={index}
-                      name={friend.friendName}
-                      email={friend.friendEmail}
-                      image={friend.friendPhoto}
-                    />
-                  ))
-                ) : (
-                  <LottieView
-                    source={require("../../assets/animations/Empty-Search.json")}
-                    autoPlay
-                    loop
-                    style={{ width: 350, height: 170 }}
-                  />
-                )}
-              </View>
-            ) : users.length > 0 ? (
-              <View className="flex-row flex-wrap justify-between p-1 gap-4">
-                {users.map((user) => (
-                  <UserCard
-                    key={user.id}
-                    id={user.id}
-                    name={user.friendName}
-                    email={user.friendEmail}
-                    image={user.friendPhoto}
-                  />
-                ))}
-              </View>
-            ) : (
-                <LottieView
-                    source={require("../../assets/animations/Empty-Search.json")}
-                    autoPlay
-                    loop
-                    style={{ width: 350, height: 170 }}
-                  />
-            )}
-          </View>
+          <View className="p-1 mt-4 mb-10" style={{height: '75vh'}}>
+  {activeTab === 0 ? (
+    <View className="flex-row flex-wrap justify-start p-1 gap-7 ml-1">
+      {friends.length > 0 ? (
+        friends.map((friend, index) => (
+          <FriendCard
+            key={index}
+            name={friend.friendName}
+            email={friend.friendEmail}
+            image={friend.friendPhoto}
+          />
+        ))
+      ) : (
+        <LottieView
+          source={require("../../assets/animations/Empty-Search.json")}
+          autoPlay
+          loop
+          style={{ width: 350, height: 170 }}
+        />
+      )}
+    </View>
+  ) : users.length > 0 ? (
+    <View className="flex-row flex-wrap justify-start p-1 gap-4 ml-1">
+      {users.map((user) => (
+        <UserCard
+          key={user.id}
+          id={user.id}
+          name={user.friendName}
+          email={user.friendEmail}
+          image={user.friendPhoto}
+        />
+      ))}
+    </View>
+  ) : (
+    <LottieView
+      source={require("../../assets/animations/Empty-Search.json")}
+      autoPlay
+      loop
+      style={{ width: 350, height: 170 }}
+    />
+  )}
+</View>
+
         </View>
       </SafeAreaView>
     </>

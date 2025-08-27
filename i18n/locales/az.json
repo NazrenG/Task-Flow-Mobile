@@ -1,6 +1,7 @@
 {
    "welcome": "Xoş gəldiniz",
   "language": "Dil",
+   "search": "Axtarış",
 
   "project": {
     "totalProjects": "Ümumi Layihələr",
@@ -79,7 +80,7 @@
   },
 
   "friend": {
-    "yourFriends": "Dostlarınız",
+    "yourFriends": "Dostlar",
     "allUsers": "Bütün istifadəçilər",
     "message": "Mesaj",
     "unfollow": "Unfollow",
@@ -128,7 +129,8 @@
     "deleteAccount": "Hesabı Sil",
     "cleanHistory": "Tarixi Təmizlə",
     "logout": "Çıxış",
-    "save": "Yeniləyin"
+    "save": "Yeniləyin",
+     "darkMode": "Tema"
   },
 
   "dashboard": {
@@ -167,7 +169,25 @@
     "all":"All",
     "priority":"Prioritet",
     "deadline":"Son tarix",
-    "project":"Layihə"
+    "project":"Layihə",
+    "createtask":"Tapşırıq Yarat",
+    "cratetedTask": {
+  "taskName": "Tapşırığın adı",
+  "enterTaskName": "Tapşırığın adını daxil edin",
+  "startDate": "Başlama tarixi",
+  "endDate": "Bitmə tarixi",
+  "description": "Təsvir",
+  "enterdescription": "Təsviri daxil edin",
+  "save": "Yadda saxla",
+  "close": "Ləğv et",
+  "priority": "Əhəmiyyət",
+  "status": "Status",
+  "color": "Rəng",
+  "high": "Yüksək",
+  "medium": "Orta",
+  "easy": "Asan"
+}
+
   },
   "kanban":{
     "name":"Layihənin Adı",
@@ -175,5 +195,30 @@
     "next":"növbəti",
     "kanban":"Kanban",
     "table":"Cədvəl"
+  },
+   "calendar":{
+    "edittask":{
+      "editTask": "Tapşırıq vaxtını redaktə edin",
+      "taskName": "Tapşırıq Adı*:",
+      "enterTaskName": "Yeni məhsullar yaratmaq üçün planlar qurun",
+      "startDate": "Başlama tarixi:",
+      "endDate": "Bitmə tarixi:",
+      "submit": "Təsdiq et",
+      "cancel": "Ləğv et"
+    }
+  },
+  "changepassword": {
+        "changePassword": "Parolun dəyişdirilməsi",
+    "currentPassword": "Cari Şifrə",
+    "newPassword": "Yeni Şifrə",
+    "confirmPassword": "Təsdiq Şifrəsi",
+    "save": "Yadda saxla",
+    "errorMessage": "Xəta",
+    "successMessage": "Uğur",
+    "error": {
+      "emptyFields": "Bütün sahələri doldurun.",
+      "passwordMismatch": "Yeni şifrə və təsdiq şifrəsi uyğun gəlmir.",
+      "updateFailed": "Şifrəni yeniləmək mümkün olmadı."
+    }
   }
 }

@@ -1,57 +1,48 @@
-import { Feather, MaterialIcons } from "@expo/vector-icons";
-import * as ImagePicker from "expo-image-picker";
+import { Feather, MaterialIcons } from '@expo/vector-icons';
 import { router } from "expo-router";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useState } from 'react';
 import {
   Alert,
   Dimensions,
   Image,
   ImageBackground,
-  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
+  SafeAreaView,
+} from 'react-native';
 import Header from "../../components/Header";
-import { fetchProfileData } from "../../utils/fetchUtils";
+import * as ImagePicker from "expo-image-picker";
+import { useTranslation } from "react-i18next";
+import { Colors } from '../../constants/Colors'; 
+import { useTheme } from "../../components/ThemeContext";
 
 const { width, height } = Dimensions.get("window");
 
-export default function ProfileScreen() {
-  const [searchText, setSearchText] = useState("");
-  const [backgroundImage] = useState(require("../../assets/images/page.jpg"));
-  const [avatar, setAvatar] = useState(
-    require("../../assets/images/default-user.png")
-  );
-  const { t } = useTranslation();
-  const [profile, setProfile] = useState({
-    fullName: "-",
-    email: "-",
-    phone: "-",
-    department: "-",
-    country: "-",
-    gender: "-",
-    birthday: "-",
-    path: require("../../assets/images/default-user.png"),
-  });
+const selectItem = {
+  avatar: require('../../assets/images/default-user.png'),
+  username: 'sevgi',
+  email: 'sevgi.elesgerova@gmail.com',
+  fullName: 'Sevgi Alasgarova',
+  phone: '0559717465',
+  department: 'Other (please specify)',
+  country: 'Azerbaijan',
+  gender: '',
+  birthday: '',
+};
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetchProfileData();
-      setProfile(response);
-      console.log(JSON.stringify(profile, null, 2));
-    };
-    fetchData();
-  }, []);
+export default function ProfileScreen() {
+  const { theme } = useTheme();
+  const [searchText, setSearchText] = useState("");
+  const [backgroundImage] = useState(require('../../assets/images/page.jpg'));
+  const [avatar, setAvatar] = useState(selectItem.avatar);
+  const { t } = useTranslation();
+
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
-      Alert.alert(
-        "Permission denied",
-        "We need permission to access your gallery."
-      );
+      Alert.alert("Permission denied", "We need permission to access your gallery.");
       return;
     }
 
@@ -65,15 +56,13 @@ export default function ProfileScreen() {
     if (!result.canceled) {
       const selectedUri = result.assets[0].uri;
       setAvatar({ uri: selectedUri });
-      console.log("Selected image URI:", selectedUri);
     }
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors[theme].background }}>
       <Header onSearch={setSearchText} />
 
-      {/* Back button */}
       <TouchableOpacity
         style={{
           position: "absolute",
@@ -85,7 +74,7 @@ export default function ProfileScreen() {
         }}
         onPress={() => router.back()}
       >
-        <MaterialIcons name="arrow-back-ios" size={25} color="black" />
+        <MaterialIcons name="arrow-back-ios" size={25} color={Colors[theme].card} />
       </TouchableOpacity>
 
       <View style={{ position: "relative" }}>
@@ -94,57 +83,59 @@ export default function ProfileScreen() {
           style={styles.backgroundImage}
           resizeMode="cover"
         >
-          {/* Settings icon */}
           <TouchableOpacity
             style={styles.settingsIcon}
             onPress={() => router.push("/settings")}
           >
-            <Feather name="settings" size={24} color="white" />
+            <Feather name="settings" size={24} color={Colors[theme].card} />
           </TouchableOpacity>
 
-          {/* Header camera icon */}
-          <TouchableOpacity style={styles.headerCamera} onPress={pickImage}>
-            <Feather name="camera" size={20} color="black" />
+          <TouchableOpacity
+            style={[styles.headerCamera, { backgroundColor: Colors[theme].card }]}
+            onPress={pickImage}
+          >
+            <Feather name="camera" size={20} color={Colors[theme].icon} />
           </TouchableOpacity>
         </ImageBackground>
 
-        {/* Profile image */}
         <View style={styles.profileImageContainer}>
-          <View style={styles.profileImageWrapper}>
-            <Image
-              source={profile.image ? profile.image : avatar}
-              style={styles.profileImage}
-              resizeMode="cover"
-            />
+          <View style={[styles.profileImageWrapper, { backgroundColor: Colors[theme].card }]}>
+            <Image source={avatar} style={styles.profileImage} resizeMode="cover" />
           </View>
 
-          {/* Profile camera */}
-          <TouchableOpacity style={styles.profileCamera} onPress={pickImage}>
-            <Feather name="camera" size={20} color="#000" />
+          <TouchableOpacity
+            style={[styles.profileCamera, { backgroundColor: Colors[theme].card }]}
+            onPress={pickImage}
+          >
+            <Feather name="camera" size={20} color={Colors[theme].icon} />
           </TouchableOpacity>
         </View>
       </View>
 
-      {/* Username and email */}
       <View style={styles.nameSection}>
-        <Text style={styles.username}>{profile.username}</Text>
-        <Text style={styles.email}>{profile.email}</Text>
+        <Text style={[styles.username, { color: Colors[theme].text }]}>
+          {selectItem.username}
+        </Text>
+        <Text style={[styles.email, { color: Colors[theme].secondaryText }]}>
+          {selectItem.email}
+        </Text>
       </View>
 
-      {/* Personal Info */}
-      <View style={styles.infoCard}>
-        <Text style={styles.infoTitle}>{t("profile.info")}</Text>
+      <View style={[styles.infoCard, { backgroundColor: Colors[theme].card }]}>
+        <Text style={[styles.infoTitle, { color: Colors[theme].text }]}>
+          {t("profile.info")}
+        </Text>
         {[
-          [t("profile.fullname"), profile.fullname],
-          [t("profile.email"), profile.email],
-          [t("profile.phone"), profile.phone || "—"],
-          [t("profile.department"), profile.occupation],
-          [t("profile.country"), profile.country || "—"],
-          [t("profile.gender"), profile.gender || "—"],
-          [t("profile.birthDate"), profile.birthday || "—"],
+          [t("profile.fullname"), selectItem.fullName],
+          [t("profile.email"), selectItem.email],
+          [t("profile.phone"), selectItem.phone],
+          [t("profile.department"), selectItem.department],
+          [t("profile.country"), selectItem.country],
+          [t("profile.gender"), selectItem.gender || "—"],
+          [t("profile.birthDate"), selectItem.birthday || "—"],
         ].map(([label, value], index) => (
-          <Text key={index} style={styles.infoItem}>
-            <Text style={styles.infoLabel}>{label}: </Text>
+          <Text key={index} style={[styles.infoItem, { color: Colors[theme].secondaryText }]}>
+            <Text style={[styles.infoLabel, { color: Colors[theme].text }]}>{label}: </Text>
             {value}
           </Text>
         ))}
@@ -172,7 +163,6 @@ const styles = StyleSheet.create({
     right: 20,
     padding: 10,
     borderRadius: 50,
-    backgroundColor: "white",
     zIndex: 10,
   },
   profileImageContainer: {
@@ -185,7 +175,6 @@ const styles = StyleSheet.create({
     width: 128,
     height: 128,
     borderRadius: 64,
-    backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
     overflow: "hidden",
@@ -200,7 +189,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     right: 0,
-    backgroundColor: "white",
     padding: 6,
     borderRadius: 999,
     elevation: 3,
@@ -212,14 +200,11 @@ const styles = StyleSheet.create({
   username: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#000",
   },
   email: {
     fontSize: 16,
-    color: "#555",
   },
   infoCard: {
-    backgroundColor: "white",
     borderRadius: 20,
     padding: 20,
     marginHorizontal: 16,
@@ -229,16 +214,13 @@ const styles = StyleSheet.create({
   infoTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#000",
     marginBottom: 10,
   },
   infoItem: {
     fontSize: 16,
-    color: "#555",
     marginBottom: 6,
   },
   infoLabel: {
     fontWeight: "bold",
-    color: "#000",
   },
 });

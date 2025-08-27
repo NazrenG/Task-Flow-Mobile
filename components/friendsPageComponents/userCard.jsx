@@ -121,12 +121,8 @@ const UserCard = ({ name, email, image }) => {
       <Text style={styles.userName}>{name}</Text>
       <View style={styles.userInfo}>
         <View style={styles.infoRow}>
-          <MaterialIcons name="call" size={15} color="black" />
-          <Text style={styles.infoText}>98283 2327 23732</Text>
-        </View>
-        <View style={styles.infoRow}>
           <Entypo name="mail" size={15} color="black" />
-          <Text>{TextShortener(email)}</Text>
+          <Text>{TextShortener(email, 12)}</Text>
         </View>
 
         <View style={styles.buttonContainer}>
@@ -140,7 +136,7 @@ const UserCard = ({ name, email, image }) => {
 
           <TouchableOpacity
             style={styles.viewProfileButton}
-            onPress={() => navigation.navigate("userdatails/index")}
+            onPress={() => navigation.navigate("userdetails/index")}
           >
             <Text style={styles.viewProfileText}>
               {t("friend.viewProfile")}

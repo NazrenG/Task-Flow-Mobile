@@ -4,7 +4,8 @@ import { useTranslation } from "react-i18next";
 import { Dimensions, Image, ScrollView, Text, View } from "react-native";
 import { fetchRecentActivitiesList } from "../../utils/fetchUtils";
 const width = Dimensions.get("window").width;
-
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
 const RecentAvtivity = () => {
   const { t } = useTranslation();
   const [recentActivityList, setRecentActivityList] = useState([]);
@@ -52,10 +53,11 @@ const RecentAvtivity = () => {
     };
     getDatas();
   }, []);
+  const { theme } = useTheme();
 
   return (
     <View
-      style={{
+      style={[{
         width: width - 40,
         maxHeight: 300,
         shadowColor: "#000",
@@ -63,10 +65,10 @@ const RecentAvtivity = () => {
         shadowOpacity: 0.1,
         shadowRadius: 6,
         elevation: 3,
-      }}
+      },{backgroundColor: Colors[theme].card}]}
       className="p-2 bg-white my-4 mb-[10vh] rounded-xl p-4"
     >
-      <Text className="text-lg font-semibold mb-3">
+      <Text className="text-lg font-semibold mb-3" style={{color: Colors[theme].text}}>
         {t("project.recentActivity")}
       </Text>
       <ScrollView nestedScrollEnabled={true}>

@@ -1,76 +1,3 @@
-// import Entypo from "@expo/vector-icons/Entypo";
-// import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-// import {
-//   Dimensions,
-//   Image,
-//   StyleSheet,
-//   Text,
-//   TouchableOpacity,
-//   View,
-// } from "react-native";
-// import TextShortener from "../../constants/TextShortener.js";
-// const width = Dimensions.get("window").width;
-
-// const FriendCard = () => {
-//   return (
-//     <View
-//       style={styles.userCard}
-//       className="bg-white p-[5vw] rounded-md border border-gray-200 shadow-sm"
-//     >
-//       <Image
-//         style={{ width: width / 9, height: width / 9 }}
-//         source={require("../../assets/images/default-user.png")}
-//       />
-//       <Text className="font-bold text-base mt-3">Nezrin</Text>
-//       <View style={styles.userInfo}>
-//         <View className="flex flex-row justify-center items-center gap-1">
-//           <MaterialIcons name="call" size={15} color="black" />
-//           <Text className="text-gray-500 mt-2">055 999 88 77</Text>
-//         </View>
-//         <View className="flex flex-row justify-center items-center gap-1">
-//           <Entypo name="mail" size={15} color="black" />
-//           {/* <TextShortener data={"quliyeva@gmail.com"} count={16} /> */}
-//         </View>
-
-//         <View className="flex flex-row gap-2">
-//           <TouchableOpacity className="bg-darkPurple" style={styles.button}>
-//             <Text className="text-white">Message</Text>
-//           </TouchableOpacity>
-//           <TouchableOpacity className="bg-bg_violet" style={styles.button}>
-//             <Text className="text-white">Unfollow</Text>
-//           </TouchableOpacity>
-//         </View>
-//       </View>
-//     </View>
-//   );
-// };
-
-// export default FriendCard;
-
-// const styles = StyleSheet.create({
-//   userCard: {
-//     // display: "flex",
-//     // flexDirection: "row",
-//     alignItems: "center",
-//     // boxShadow: "offsite",
-//     // backgroundColor: "red",
-//     width: width / 3 + 15,
-//   },
-//   userInfo: {
-//     // marginLeft: 20,
-//     width: width / 3 + 15,
-//     // marginTop: 10,
-//     alignItems: "center",
-//     // backgroundColor: "red",
-//   },
-//   button: {
-//     borderRadius: 5,
-//     marginTop: 14,
-//     paddingVertical: 5,
-//     paddingHorizontal: 6,
-//   },
-// });
-
 import Entypo from "@expo/vector-icons/Entypo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useTranslation } from "react-i18next";
@@ -82,39 +9,81 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
 import TextShortener from "../../constants/TextShortener";
 import { fetchUnfollowRequest } from "../../utils/friendUtils";
+
 const width = Dimensions.get("window").width;
 
-const FriendCard = ({ name, email, image }) => {
+const FriendCard = ({ name, email, image, isOnline = true }) => {
   const { t } = useTranslation();
+  const { theme } = useTheme();
+
   return (
-    <View style={[styles.userCard, styles.cardContainer]}>
-      <Image
-        style={styles.userImage}
-        source={
-          image
-            ? { uri: image }
-            : require("../../assets/images/default-user.png")
-        }
-      />
-      <Text style={styles.userName}>{name}</Text>
+    <View
+      style={[
+        styles.cardContainer,
+        {
+          backgroundColor: Colors[theme].card,
+          shadowColor: Colors[theme].shadow,
+        },
+      ]}
+    >
+      {/* Profile Image with Online Status */}
+      <View style={styles.imageWrapper}>
+        <Image
+          style={[styles.userImage, { borderColor: Colors[theme].primary }]}
+          source={
+            image
+              ? { uri: image }
+              : require("../../assets/images/default-user.png")
+          }
+        />
+        <View
+          style={[
+            styles.statusDot,
+            { backgroundColor: isOnline ? "green" : "gray" },
+          ]}
+        />
+      </View>
+
+      {/* User Info */}
       <View style={styles.userInfo}>
-        <View style={styles.infoRow}>
-          <MaterialIcons name="call" size={15} color="black" />
-          <Text style={styles.infoText}>88 8 8 8</Text>
-        </View>
+        <Text style={[styles.userName, { color: Colors[theme].text }]}>
+          {name}
+        </Text>
+
         <View style={styles.infoRow}>
           <Entypo name="mail" size={15} color="black" />
           <Text>{TextShortener(email)}</Text>
+          <MaterialIcons name="call" size={18} color={Colors[theme].icon} />
+          <Text style={[styles.infoText, { color: Colors[theme].text }]}>
+            +994 88 888 88
+          </Text>
         </View>
 
+        <View style={styles.infoRow}>
+          <Entypo name="mail" size={18} color={Colors[theme].icon} />
+          <Text style={[styles.infoText, { color: Colors[theme].text }]}>
+            {TextShortener(email, 20)}
+          </Text>
+        </View>
+
+        {/* Action Buttons */}
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={[styles.button, styles.messageButton]}>
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: Colors[theme].primary }]}
+          >
+            <Entypo name="message" size={18} color="white" />
             <Text style={styles.buttonText}>{t("friend.message")}</Text>
           </TouchableOpacity>
+
           <TouchableOpacity
-            style={[styles.button, styles.unfollowButton]}
+            style={[
+              styles.button,
+              { backgroundColor: Colors[theme].secondary },
+            ]}
             onPress={async () => {
               try {
                 await fetchUnfollowRequest(name);
@@ -124,6 +93,7 @@ const FriendCard = ({ name, email, image }) => {
               }
             }}
           >
+            <MaterialIcons name="person-remove" size={18} color="white" />
             <Text style={styles.buttonText}>{t("friend.unfollow")}</Text>
           </TouchableOpacity>
         </View>
@@ -136,67 +106,74 @@ export default FriendCard;
 
 const styles = StyleSheet.create({
   cardContainer: {
-    backgroundColor: "white",
-    padding: 10, // Adjust this value as needed
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "#e5e7eb",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 1,
-    elevation: 1,
-  },
-  userCard: {
+    flexDirection: "row",
     alignItems: "center",
-    width: width / 3 + 10,
+    borderRadius: 20,
+    padding: 16,
+    marginVertical: 5,
+    width: width - 50,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    elevation: 4,
+  },
+  imageWrapper: {
+    position: "relative",
   },
   userImage: {
-    width: width / 9,
-    height: width / 9,
-    borderRadius: width / 18,
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    borderWidth: 2.5,
+    marginRight: 16,
   },
-  userName: {
-    fontWeight: "bold",
-    fontSize: 16,
-    marginTop: 12,
+  statusDot: {
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: "#fff",
+    position: "absolute",
+    bottom: 0,
+    right: 15,
   },
   userInfo: {
-    width: width / 3 + 15,
-    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+  },
+  userName: {
+    fontSize: 18,
+    fontWeight: "700",
+    marginBottom: 6,
   },
   infoRow: {
     flexDirection: "row",
-    justifyContent: "center",
     alignItems: "center",
-    marginTop: 2,
+    marginBottom: 4,
   },
   infoText: {
-    color: "#6b7280",
-    marginLeft: 4,
-    marginTop: 8,
+    marginLeft: 6,
+    fontSize: 14,
   },
   buttonContainer: {
+    marginTop: 12,
     flexDirection: "row",
-    gap: 8,
-    marginTop: 14,
+    justifyContent: "flex-start",
+    gap: 8, // iOS 17+ və RN yeni versiyada dəstəklənir
   },
   button: {
-    borderRadius: 5,
-    paddingVertical: 5,
-    paddingHorizontal: 6,
-  },
-  messageButton: {
-    backgroundColor: "#6b46c1", // darkPurple color
-  },
-  unfollowButton: {
-    backgroundColor: "#7c3aed", // bg_violet color
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 25,
+    minWidth: 20,
   },
   buttonText: {
-    color: "white",
-    fontSize: 12,
+    color: "#fff",
+    fontSize: 15,
+    fontWeight: "600",
+    marginLeft: 8,
   },
 });

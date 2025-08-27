@@ -5,6 +5,8 @@ import { useTranslation } from "react-i18next";
 import { Dimensions, ScrollView, Text, View } from "react-native";
 import * as Progress from "react-native-progress";
 import { fetchOnGoingProjectsList } from "../../utils/fetchUtils";
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
 
 const width = Dimensions.get("window").width;
 const InProgressProject = () => {
@@ -19,6 +21,7 @@ const InProgressProject = () => {
   //   { name: "test 65", daysLeft: -34 },
   //   { name: "test 65", daysLeft: -78 },
   // ];
+  const { theme } = useTheme();
 
   useEffect(() => {
     const getDatas = async () => {
@@ -31,18 +34,18 @@ const InProgressProject = () => {
 
   return (
     <View
-      style={{
+      style={[{
         width: width - 40,
         maxHeight: 300,
         shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
+        shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.1,
         shadowRadius: 6,
         elevation: 3,
-      }}
+      },{backgroundColor: Colors[theme].card}]}
       className="p-4 bg-white rounded-lg m-2"
     >
-      <Text className="text-lg font-semibold mb-3">
+      <Text className="text-lg font-semibold mb-3" style={{color: Colors[theme].text}}>
         {t("project.inProcessProject")}
       </Text>
       <ScrollView nestedScrollEnabled={true}>
