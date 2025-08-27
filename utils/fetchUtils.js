@@ -430,3 +430,26 @@ export const fetchUsersProjects = async () => {
   }
 };
 /////////////////////////////////////
+////Message fetches
+
+export const fetchChatList = async () => {
+  try {
+    const token = await getToken("authToken");
+    const response = await fetch(URL + "/Chat/AllChatsWithFriends", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log("success in fetch messages: " + JSON.stringify(data));
+      return data;
+    }
+  } catch (error) {
+    console.log("error in fetch messages: " + error);
+  }
+};
+
+/////////////////////////////

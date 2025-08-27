@@ -86,7 +86,6 @@ import TextShortener from "../../constants/TextShortener";
 import { fetchUnfollowRequest } from "../../utils/friendUtils";
 const width = Dimensions.get("window").width;
 
-
 const FriendCard = ({ name, email, image }) => {
   const { t } = useTranslation();
   return (
@@ -107,23 +106,25 @@ const FriendCard = ({ name, email, image }) => {
         </View>
         <View style={styles.infoRow}>
           <Entypo name="mail" size={15} color="black" />
-          <Text>{TextShortener(email, 16)}</Text>
+          <Text>{TextShortener(email)}</Text>
         </View>
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={[styles.button, styles.messageButton]}>
             <Text style={styles.buttonText}>{t("friend.message")}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.unfollowButton]} onPress={async () => {
-            try {
-              await fetchUnfollowRequest(name);
-              console.log("Unfollowed successfully");
-            } catch (error) {
-              console.error("Error unfollowing:", error);
-            }
-          }}>
+          <TouchableOpacity
+            style={[styles.button, styles.unfollowButton]}
+            onPress={async () => {
+              try {
+                await fetchUnfollowRequest(name);
+                console.log("Unfollowed successfully");
+              } catch (error) {
+                console.error("Error unfollowing:", error);
+              }
+            }}
+          >
             <Text style={styles.buttonText}>{t("friend.unfollow")}</Text>
-
           </TouchableOpacity>
         </View>
       </View>

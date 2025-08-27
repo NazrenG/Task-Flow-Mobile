@@ -126,7 +126,7 @@ const UserCard = ({ name, email, image }) => {
         </View>
         <View style={styles.infoRow}>
           <Entypo name="mail" size={15} color="black" />
-          <Text>{TextShortener(email, 16)}</Text>
+          <Text>{TextShortener(email)}</Text>
         </View>
 
         <View style={styles.buttonContainer}>
