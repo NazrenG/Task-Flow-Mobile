@@ -2,8 +2,6 @@ import LottieView from "lottie-react-native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, Image, ScrollView, Text, View } from "react-native";
-import { useTheme } from "../../components/ThemeContext";
-import { Colors } from "../../constants/Colors";
 import { fetchRecentActivitiesList } from "../../utils/fetchUtils";
 const width = Dimensions.get("window").width;
 
@@ -65,11 +63,10 @@ const RecentAvtivity = () => {
         shadowOpacity: 0.1,
         shadowRadius: 6,
         elevation: 3,
-        backgroundColor: Colors[theme].card
       }}
       className="p-2 bg-white my-4 mb-[10vh] rounded-xl p-4"
     >
-      <Text className="text-lg font-semibold mb-3" style={{ color: Colors[theme].text }}>
+      <Text className="text-lg font-semibold mb-3">
         {t("project.recentActivity")}
       </Text>
       <ScrollView nestedScrollEnabled={true}>

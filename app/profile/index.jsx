@@ -8,7 +8,6 @@ import {
   Dimensions,
   Image,
   ImageBackground,
-  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -16,8 +15,6 @@ import {
   SafeAreaView,
 } from 'react-native';
 import Header from "../../components/Header";
-import * as ImagePicker from "expo-image-picker";
-import { useTranslation } from "react-i18next";
 import { Colors } from '../../constants/Colors'; 
 import { useTheme } from "../../components/ThemeContext";
 
