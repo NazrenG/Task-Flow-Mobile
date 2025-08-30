@@ -8,6 +8,7 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { Calendar } from "react-native-calendars";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
 import ProjectStateDropdown from "../dropdown/projectStateDropdown";
@@ -20,20 +21,25 @@ const EditProjectModal = ({ modalVisible, setModalVisible }) => {
   const { t } = useTranslation();
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-    const [selecting, setSelecting] = useState(null);
-
+  const [selecting, setSelecting] = useState(null);
+  const [title, setTitle] = useState("");
+  const [selectedState, setSelectedState] = useState("");
+  const [selectedColor, setColorSelected] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [text, setText] = useState("");
   const [selected, setSelected] = useState(null);
   const [open, setOpen] = useState(false);
 
-    const { theme } = useTheme();
+  const { theme } = useTheme();
+  const colors = Colors[theme];
 
   const options = [
     t("project.pending"),
     t("project.onGoing"),
     t("project.complated"),
   ];
+
+  const handleEdit = async () => {};
 
   console.log("in create modal");
   return (
@@ -47,33 +53,44 @@ const EditProjectModal = ({ modalVisible, setModalVisible }) => {
       <Pressable
         onPress={() => setModalVisible(false)}
         className="flex-1 bg-black/50 justify-center items-center"
-        
       >
         <Pressable
           onPress={() => {}}
           className="bg-white p-6 rounded-xl items-center gap-6"
-          style={[{ width: width - 30 } ,{ backgroundColor: Colors[theme].card }]}
-         
+          style={[
+            { width: width - 30 },
+            { backgroundColor: Colors[theme].card },
+          ]}
         >
-          <Text className="text-2xl"  style={{ color: Colors[theme].text }}>{t("project.editProject")}</Text>
+          <Text className="text-2xl" style={{ color: Colors[theme].text }}>
+            {t("project.editProject")}
+          </Text>
           <View className="flex flex-row gap-3">
             <View className="flex-1" style={{ color: Colors[theme].text }}>
-              <Text className="mb-2" style={{ color: Colors[theme].text }}>{t("project.projectName")}:</Text>
+              <Text className="mb-2" style={{ color: Colors[theme].text }}>
+                {t("project.projectName")}:
+              </Text>
               <ProjectInput
+                onChangeText={setTitle}
+                value={title}
                 placeholder={t("project.enterProjectName") + "..."}
-                
               />
             </View>
-            <View className="flex-1" >
-              <Text className="mb-2" style={{ color: Colors[theme].text }}>{t("project.projectState")}:</Text>
-              <ProjectStateDropdown></ProjectStateDropdown>
+            <View className="flex-1">
+              <Text className="mb-2" style={{ color: Colors[theme].text }}>
+                {t("project.projectState")}:
+              </Text>
+              <ProjectStateDropdown
+                selectedState={selectedState}
+                onStateSelect={setSelectedState}
+              ></ProjectStateDropdown>
               {/* <ProjectInput placeholder={"Enter project name..."} /> */}
             </View>
           </View>
           <View className="w-full flex flex-row justify-start gap-3">
             <View className="flex-1">
               <Text className="mb-2">{t("project.startDate")}:</Text>
-                <Pressable
+              <Pressable
                 onPress={() => setSelecting("start")}
                 style={{
                   borderWidth: 1,
@@ -91,7 +108,7 @@ const EditProjectModal = ({ modalVisible, setModalVisible }) => {
             </View>
             <View className="flex-1">
               <Text className="mb-2">{t("project.endDate")}:</Text>
-                 <Pressable
+              <Pressable
                 onPress={() => setSelecting("end")}
                 style={{
                   borderWidth: 1,
@@ -109,43 +126,43 @@ const EditProjectModal = ({ modalVisible, setModalVisible }) => {
             </View>
           </View>
 
-            {selecting && (
-                      <Calendar
-                        onDayPress={(day) => {
-                          if (selecting === "start") setStartDate(day.dateString);
-                          if (selecting === "end") setEndDate(day.dateString);
-                          setSelecting(null);
-                        }}
-                        markedDates={{
-                          ...(startDate && {
-                            [startDate]: {
-                              selected: true,
-                              selectedColor: "#00adf5",
-                              marked: true,
-                            },
-                          }),
-                          ...(endDate && {
-                            [endDate]: {
-                              selected: true,
-                              selectedColor: "#50cebb",
-                              marked: true,
-                            },
-                          }),
-                        }}
-                        theme={{
-                          backgroundColor: colors.card,
-                          calendarBackground: colors.card,
-                          dayTextColor: colors.text,
-                          monthTextColor: colors.text,
-                          textDisabledColor: colors.subtext,
-                          arrowColor: colors.primary,
-                          selectedDayBackgroundColor: colors.primary,
-                          todayTextColor: colors.primary,
-                        }}
-                        style={{ marginTop: 10, borderRadius: 8 }}
-                      />
-                    )}
-          
+          {selecting && (
+            <Calendar
+              onDayPress={(day) => {
+                if (selecting === "start") setStartDate(day.dateString);
+                if (selecting === "end") setEndDate(day.dateString);
+                setSelecting(null);
+              }}
+              markedDates={{
+                ...(startDate && {
+                  [startDate]: {
+                    selected: true,
+                    selectedColor: "#00adf5",
+                    marked: true,
+                  },
+                }),
+                ...(endDate && {
+                  [endDate]: {
+                    selected: true,
+                    selectedColor: "#50cebb",
+                    marked: true,
+                  },
+                }),
+              }}
+              theme={{
+                backgroundColor: colors.card,
+                calendarBackground: colors.card,
+                dayTextColor: colors.text,
+                monthTextColor: colors.text,
+                textDisabledColor: colors.subtext,
+                arrowColor: colors.primary,
+                selectedDayBackgroundColor: colors.primary,
+                todayTextColor: colors.primary,
+              }}
+              style={{ marginTop: 10, borderRadius: 8 }}
+            />
+          )}
+
           <View className="w-full justify-start">
             <Text>{t("project.description")}:</Text>
             <TextInput
@@ -166,7 +183,10 @@ const EditProjectModal = ({ modalVisible, setModalVisible }) => {
           </View>
           <View className="w-full justify-start">
             <Text>{t("project.colorPicker")}:</Text>
-            <ColorPicker></ColorPicker>
+            <ColorPicker
+              onColorSelected={setColorSelected}
+              selectedColor={selectedColor}
+            ></ColorPicker>
           </View>
           <View className="flex flex-row justify-start gap-4">
             <Pressable
@@ -174,10 +194,13 @@ const EditProjectModal = ({ modalVisible, setModalVisible }) => {
               className="bg-red-500 px-6 py-3 rounded-md"
             >
               <Text className="text-white text-center font-semibold">
-                 {t("project.cancel")}
+                {t("project.cancel")}
               </Text>
             </Pressable>
-            <Pressable className="bg-green px-6 py-3 rounded-md">
+            <Pressable
+              onPress={() => handleEdit()}
+              className="bg-green px-6 py-3 rounded-md"
+            >
               <Text className="text-white text-center font-semibold">
                 {t("project.submit")}
               </Text>

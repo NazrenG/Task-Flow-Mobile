@@ -1,7 +1,7 @@
 import { deleteToken, getToken, saveToken } from "../secureStore";
 
-// const URL = "https://e33ce7167fc7.ngrok-free.app/api";
-const URL = "https://taskflowwebapi20250802142810.azurewebsites.net/api";
+const URL = "https://09108b61df9c.ngrok-free.app/api";
+// const URL = "https://taskflowwebapi20250802142810.azurewebsites.net/api";
 
 ///// AUTH FETCHES
 export const fetchSignUp = async (email, name, surname, username, password) => {
@@ -335,6 +335,30 @@ export const fetchPendingProjectCount = async () => {
   }
 };
 
+export const fetchTotalProjectsCount = async () => {
+  try {
+    const token = await getToken("authToken");
+    const response = await fetch(URL + "/Project/UserProjectCount", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    // response.text().then((text) => {
+    //   console.log("error in total list: " + text);
+    // });
+    if (response.ok) {
+      const data = await response.json();
+      console.log("Total projects: " + JSON.stringify(data));
+      console.log("Total projects: " + response);
+      return data;
+    }
+  } catch (error) {
+    console.log("Total projects error: " + JSON.stringify(error));
+  }
+};
+
 export const fetchOnGoingProjectsList = async () => {
   try {
     const token = await getToken("authToken");
@@ -345,9 +369,9 @@ export const fetchOnGoingProjectsList = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    response.text().then((text) => {
-      console.log("error in on going projects list: " + text);
-    });
+    // response.text().then((text) => {
+    //   console.log("in on going projects list: " + text);
+    // });
     if (response.ok) {
       const data = await response.json();
       console.log("OnGoingProject: " + data);
@@ -395,10 +419,11 @@ export const fetchCreateProject = async (project) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify(project),
     });
     if (response.ok) {
       const data = await response.json();
-      console.log("create project: " + data);
+      console.log("create project: " + JSON.stringify(data));
       return true;
     } else {
       response.text().then((text) => {
@@ -429,4 +454,81 @@ export const fetchUsersProjects = async () => {
     console.log("usersprojects count error: " + error);
   }
 };
+
+export const fetchProjectDetail = async (projectId) => {
+  try {
+    const token = await getToken("authToken");
+    const response = await fetch(URL + `/Project/${projectId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log("fetch project detail: " + data);
+      return data;
+    }
+  } catch (error) {
+    console.log("fetch project detail error: " + error);
+  }
+};
+
+export const fetchDeleteProject = async (projectId) => {
+  try {
+    const token = await getToken("authToken");
+    const response = await await fetch(URL + `/Project/${projectId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) return true;
+  } catch (error) {
+    console.log("error in delete project: " + error);
+  }
+};
+
+export const fetchEditProject = async (project, projectId) => {
+  try {
+    const token = await getToken("authToken");
+    const response = await fetch(URL + `/Project/Put/${projectId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(project),
+    });
+    if (response.ok) {
+      return true;
+    }
+  } catch (error) {
+    console.log("error in edit project: " + error);
+  }
+};
+
+export const fetchFilteredProjects = async (filterKey) => {
+  try {
+    const token = await getToken("authToken");
+    const response = await fetch(URL + `/Project/${filterKey}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log("project filter data: " + JSON.stringify(data));
+      return data;
+    }
+  } catch (error) {
+    console.log("error in project filter: " + error);
+  }
+};
+
 /////////////////////////////////////

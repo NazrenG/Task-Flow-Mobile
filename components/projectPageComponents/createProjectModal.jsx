@@ -8,9 +8,11 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { Calendar } from "react-native-calendars";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
+
+import { Calendar } from "react-native-calendars";
+import { fetchCreateProject } from "../../utils/fetchUtils";
 import ProjectStateDropdown from "../dropdown/projectStateDropdown";
 import ProjectInput from "../Input/ProjectInput";
 import ColorPicker from "./colorPicker";
@@ -21,12 +23,31 @@ const CreateProjectModal = ({ modalVisible, setModalVisible }) => {
   const { t } = useTranslation();
   const { theme } = useTheme();
   const colors = Colors[theme];
-
+  const [selectedColor, setColorSelected] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-    const [selecting, setSelecting] = useState(null);
+  const [selecting, setSelecting] = useState(null);
+  const [projectName, setProjectName] = useState("");
+  const [selectedState, setSelectedState] = useState(null);
 
   const [text, setText] = useState("");
+  const handleCreate = async () => {
+    // console.log("in create handler");
+    const project = {
+      title: projectName,
+      description: text,
+      startDate: startDate ? new Date(startDate).toISOString() : null,
+      endDate: endDate ? new Date(endDate).toISOString() : null,
+      status: selectedState,
+      isCompleted: false,
+      color: selectedColor,
+    };
+    console.log(project);
+    const response = await fetchCreateProject(project);
+    if (response) {
+      console.log("peojwct created");
+    }
+  };
 
   return (
     <Modal
@@ -53,20 +74,29 @@ const CreateProjectModal = ({ modalVisible, setModalVisible }) => {
             borderRadius: 16,
             gap: 16,
             alignItems: "center", // Center all child items horizontally           <Text className="text-2xl">{t("project.createProject")}</Text>
-            
           }}
         >
           {/* Title */}
-         <Text className="text-2xl" style={{ color: Colors[theme].text }}>{t("project.createProject")}</Text>
+          <Text className="text-2xl" style={{ color: Colors[theme].text }}>
+            {t("project.createProject")}
+          </Text>
 
           {/* Project Name & State */}
-          <View style={{ flexDirection: "row", gap: 12, width: "100%", justifyContent: "center" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              gap: 12,
+              width: "100%",
+              justifyContent: "center",
+            }}
+          >
             <View style={{ flex: 1 }}>
               <Text style={{ color: Colors[theme].text, marginBottom: 4 }}>
                 {t("project.projectName")}:
               </Text>
               <ProjectInput
                 placeholder={t("project.enterProjectName") + "..."}
+                onChangeText={setProjectName}
                 style={{ color: Colors[theme].text }}
               />
             </View>
@@ -74,17 +104,27 @@ const CreateProjectModal = ({ modalVisible, setModalVisible }) => {
               <Text style={{ color: Colors[theme].text, marginBottom: 4 }}>
                 {t("project.projectState")}:
               </Text>
-              <ProjectStateDropdown />
+              <ProjectStateDropdown
+                selectedState={selectedState}
+                onStateSelect={setSelectedState}
+              />
             </View>
           </View>
 
           {/* Start & End Dates */}
-          <View style={{ flexDirection: "row", gap: 12, width: "100%", justifyContent: "center" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              gap: 12,
+              width: "100%",
+              justifyContent: "center",
+            }}
+          >
             <View style={{ flex: 1 }}>
               <Text style={{ color: Colors[theme].text, marginBottom: 4 }}>
                 {t("project.startDate")}:
               </Text>
-          <Pressable
+              <Pressable
                 onPress={() => setSelecting("start")}
                 style={{
                   borderWidth: 1,
@@ -104,7 +144,7 @@ const CreateProjectModal = ({ modalVisible, setModalVisible }) => {
               <Text style={{ color: Colors[theme].text, marginBottom: 4 }}>
                 {t("project.endDate")}:
               </Text>
-                <Pressable
+              <Pressable
                 onPress={() => setSelecting("end")}
                 style={{
                   borderWidth: 1,
@@ -122,46 +162,47 @@ const CreateProjectModal = ({ modalVisible, setModalVisible }) => {
             </View>
           </View>
 
-
           {/* Description */}
           <View style={{ marginTop: 12, width: "100%" }}>
-   {selecting && (
-            <Calendar
-              onDayPress={(day) => {
-                if (selecting === "start") setStartDate(day.dateString);
-                if (selecting === "end") setEndDate(day.dateString);
-                setSelecting(null);
-              }}
-              markedDates={{
-                ...(startDate && {
-                  [startDate]: {
-                    selected: true,
-                    selectedColor: "#00adf5",
-                    marked: true,
-                  },
-                }),
-                ...(endDate && {
-                  [endDate]: {
-                    selected: true,
-                    selectedColor: "#50cebb",
-                    marked: true,
-                  },
-                }),
-              }}
-              theme={{
-                backgroundColor: colors.card,
-                calendarBackground: colors.card,
-                dayTextColor: colors.text,
-                monthTextColor: colors.text,
-                textDisabledColor: colors.subtext,
-                arrowColor: colors.primary,
-                selectedDayBackgroundColor: colors.primary,
-                todayTextColor: colors.primary,
-              }}
-              style={{ marginTop: 10, borderRadius: 8 }}
-            />
-          )}
-            <Text style={{ color: Colors[theme].text }}>{t("project.description")}:</Text>
+            {selecting && (
+              <Calendar
+                onDayPress={(day) => {
+                  if (selecting === "start") setStartDate(day.dateString);
+                  if (selecting === "end") setEndDate(day.dateString);
+                  setSelecting(null);
+                }}
+                markedDates={{
+                  ...(startDate && {
+                    [startDate]: {
+                      selected: true,
+                      selectedColor: "#00adf5",
+                      marked: true,
+                    },
+                  }),
+                  ...(endDate && {
+                    [endDate]: {
+                      selected: true,
+                      selectedColor: "#50cebb",
+                      marked: true,
+                    },
+                  }),
+                }}
+                theme={{
+                  backgroundColor: colors.card,
+                  calendarBackground: colors.card,
+                  dayTextColor: colors.text,
+                  monthTextColor: colors.text,
+                  textDisabledColor: colors.subtext,
+                  arrowColor: colors.primary,
+                  selectedDayBackgroundColor: colors.primary,
+                  todayTextColor: colors.primary,
+                }}
+                style={{ marginTop: 10, borderRadius: 8 }}
+              />
+            )}
+            <Text style={{ color: Colors[theme].text }}>
+              {t("project.description")}:
+            </Text>
             <TextInput
               value={text}
               onChangeText={(val) => {
@@ -183,34 +224,48 @@ const CreateProjectModal = ({ modalVisible, setModalVisible }) => {
                 textAlignVertical: "top",
               }}
             />
-            <Text style={{ color: Colors[theme].secondaryText, marginTop: 4, fontSize: 12, textAlign: "center" }}>
+            <Text
+              style={{
+                color: Colors[theme].secondaryText,
+                marginTop: 4,
+                fontSize: 12,
+                textAlign: "center",
+              }}
+            >
               {text.length} / 400 {t("project.characters")}
             </Text>
           </View>
 
           {/* Color Picker */}
-          <View style={{ marginTop: 12, width: "100%"}}>
-            <Text style={{ color: Colors[theme].text, marginBottom: 4 }}>{t("project.colorPicker")}:</Text>
-            <ColorPicker />
+          <View style={{ marginTop: 12, width: "100%" }}>
+            <Text style={{ color: Colors[theme].text, marginBottom: 4 }}>
+              {t("project.colorPicker")}:
+            </Text>
+            <ColorPicker
+              onColorSelected={setColorSelected}
+              selectedColor={selectedColor}
+            />
           </View>
 
           {/* Buttons */}
-         <View className="flex flex-row justify-center gap-4 mt-4 w-full">
-  <Pressable
-    onPress={() => setModalVisible(false)}
-    className="bg-red-500 px-6 py-3 rounded-md"
-  >
-    <Text className="text-white text-center font-semibold">
-       {t("project.cancel")}
-    </Text>
-  </Pressable>
-  <Pressable className="bg-green px-6 py-3 rounded-md">
-    <Text className="text-white text-center font-semibold">
-      {t("project.submit")}
-    </Text>
-  </Pressable>
-</View>
-
+          <View className="flex flex-row justify-center gap-4 mt-4 w-full">
+            <Pressable
+              onPress={() => setModalVisible(false)}
+              className="bg-red-500 px-6 py-3 rounded-md"
+            >
+              <Text className="text-white text-center font-semibold">
+                {t("project.cancel")}
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={() => handleCreate()}
+              className="bg-green px-6 py-3 rounded-md"
+            >
+              <Text className="text-white text-center font-semibold">
+                {t("project.submit")}
+              </Text>
+            </Pressable>
+          </View>
         </Pressable>
       </Pressable>
     </Modal>
