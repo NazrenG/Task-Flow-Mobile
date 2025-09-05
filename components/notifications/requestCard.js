@@ -1,7 +1,8 @@
 import { Feather, FontAwesome } from "@expo/vector-icons";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { fetchAcceptRequestNotification,fetchRejectRequestNotification } from "../../utils/notificationUtils";
-
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
 export default function RequestCard({
   request,
   user,
@@ -17,6 +18,7 @@ export default function RequestCard({
       console.error("Error accepting request:", error);
     }
   };
+  const { theme } = useTheme();
 
   const handleReject = async () => {
     try {
@@ -28,7 +30,7 @@ export default function RequestCard({
   };
 
   return (
-    <View className="bg-white rounded-xl shadow shadow-slate-300 px-2 py-3 mb-3 flex-row items-center justify-between">
+    <View className="bg-white rounded-xl shadow shadow-slate-300 px-2 py-3 mb-3 flex-row items-center justify-between" style={{ backgroundColor: Colors[theme].card }}>
       <View className="flex-row items-start space-x-3 w-[70%] gap-1">
         <Image source={user.avatar} className="w-10 h-10 rounded-full mt-1" />
         <View className="flex-col">

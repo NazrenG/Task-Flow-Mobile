@@ -4,12 +4,14 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { useTheme } from "../components/ThemeContext";
+
 
 const CountCard = ({ icon, iconLib, count, label, bgColor, gradient }) => {
   const router = useRouter();
   const IconComponent = iconLib === "Octicons" ? Octicons : FontAwesome5;
   const { t } = useTranslation();  
-
+  const { theme } = useTheme();
   const handlePress = () => {
     switch (label) {
       case t("dashboard.kanban"):
@@ -45,7 +47,7 @@ const CountCard = ({ icon, iconLib, count, label, bgColor, gradient }) => {
         >
           <IconComponent name={icon} size={15} color="white" />
         </LinearGradient>
-        <Text className="color-white font-extrabold text-xl">{count}</Text>
+        <Text className="color-white font-extrabold text-xl" style={{ color: Colors[theme].card }}>{count}</Text>
       </View>
       <Text className="text-black font-bold">{label}</Text>
     </TouchableOpacity>
@@ -54,9 +56,10 @@ const CountCard = ({ icon, iconLib, count, label, bgColor, gradient }) => {
 
 export default function CountView() {
   const { t } = useTranslation();  
+  const { theme } = useTheme();
 
   return (
-    <View className="flex-1 flex-row items-center justify-between bg-white p-3 mt-4 rounded-lg shadow-lg gap-2">
+    <View className="flex-1 flex-row items-center justify-between  p-3 mt-4 rounded-lg shadow-lg gap-2" style={{ backgroundColor: Colors[theme].card }}>
       <CountCard
         icon="project-diagram"
         iconLib="FontAwesome5"

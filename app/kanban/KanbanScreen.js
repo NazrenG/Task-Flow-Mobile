@@ -13,7 +13,8 @@ import {
 import Header from "../../components/Header";
 import TableView from "./TableView";
 import { useTranslation } from "react-i18next";
-
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
 
 const initialColumns = {
   todo: [
@@ -88,17 +89,18 @@ export default function App() {
       };
     });
   };
+  const { theme } = useTheme();
 
   return (
     <SafeAreaView className="flex-1 bg-background">
       <Header onSearch={setSearchText} />
 
-      <View className="flex-1 justify-between bg-gray-100 pt-2">
+      <View className="flex-1 justify-between bg-gray-100 pt-2" style={{ backgroundColor: Colors[theme].background }}>
         <View className="flex-row justify-between p-4">
           <TouchableOpacity onPress={() => router.back()}>
-            <MaterialIcons name="arrow-back-ios" size={25} color="black" />
+            <MaterialIcons name="arrow-back-ios" size={25} style={{ color: Colors[theme].icon }} />
           </TouchableOpacity>
-          <View className="flex-row gap-2">
+          <View className="flex-row gap-2" >
             <TouchableOpacity
               onPress={() => {
                 setActiveView("kanban");
@@ -108,9 +110,10 @@ export default function App() {
                 activeTab === "kanban"
                   ? tabColors["kanban"].activeBg
                   : tabColors["kanban"].bg
-              }`}
+                }`}
+              
             >
-              <Text className="text-white font-semibold">{t("kanban.kanban")}</Text>
+              <Text className="text-white font-semibold" style={{ color: Colors[theme].card }}>{t("kanban.kanban")}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -122,14 +125,15 @@ export default function App() {
                 activeTab === "table"
                   ? tabColors["table"].activeBg
                   : tabColors["table"].bg
-              }`}
+                }`}
+              
             >
-              <Text className="text-white font-semibold">{t("kanban.table")}</Text>
+              <Text className="text-white font-semibold" style={{ color: Colors[theme].card }}>{t("kanban.table")}</Text>
             </TouchableOpacity>
           </View>
         </View>
         <View className="flex-row justify-center px-4 mb-2">
-          <Text className=" text-gray-500 text-2xl font-semibold mb-2">
+          <Text className=" text-gray-500 text-2xl font-semibold mb-2" style={{ color: Colors[theme].icon }}>
             Project Name
           </Text>
         </View>
@@ -149,7 +153,7 @@ export default function App() {
                   marginHorizontal: 8,
                   padding: 12,
                   borderRadius: 8,
-                  backgroundColor: "#F8F8F8",
+                  backgroundColor: Colors[theme].card,
                   shadowColor: "#000",
                   shadowOpacity: 0.1,
                   shadowRadius: 5,
@@ -163,20 +167,20 @@ export default function App() {
                   }}
                 >
                   {col === "todo" && (
-                    <FontAwesome name="list-ul" size={17} color="black" />
+                    <FontAwesome name="list-ul" size={17} style={{ color: Colors[theme].icon }} />
                   )}
                   {col === "inprogress" && (
                     <FontAwesome
                       name="hourglass-half"
                       size={17}
-                      color="black"
+                      style={{ color: Colors[theme].icon }}
                     />
                   )}
                   {col === "done" && (
-                    <FontAwesome name="check-circle" size={17} color="black" />
+                    <FontAwesome name="check-circle" size={17} style={{ color: Colors[theme].icon }} />
                   )}
                   <Text
-                    style={{ fontSize: 16, fontWeight: "bold", marginLeft: 6 }}
+                    style={[{ fontSize: 16, fontWeight: "bold", marginLeft: 6 }, { color: Colors[theme].text }]}
                   >
                     {col === "todo"
                       ? "To Do"
@@ -189,7 +193,8 @@ export default function App() {
                 {columns[col].map((item) => (
                   <View
                     key={item.id}
-                    className="bg-white rounded-lg p-3 mb-4 shadow-sm"
+                    className=" rounded-lg p-3 mb-4 shadow-sm"
+                    style={{ backgroundColor: Colors[theme].background }}
                   >
                     <View
                       style={{
@@ -210,7 +215,7 @@ export default function App() {
                       }}
                     />
 
-                    <Text className="text-gray-900 font-semibold mb-2">
+                    <Text className="text-gray-900 font-semibold mb-2" style={{ color: Colors[theme].text }}>
                       {item.title}
                     </Text>
                     <View className="flex-row justify-between items-center mb-2">
@@ -258,7 +263,7 @@ export default function App() {
                           }
                         }}
                       >
-                        <Text className="text-gray-700 text-xs font-semibold">
+                        <Text className="text-gray-700 text-xs font-semibold" >
                           {t("kanban.back")}
                         </Text>
                       </TouchableOpacity>
@@ -271,7 +276,7 @@ export default function App() {
                           }
                         }}
                       >
-                        <Text className="text-black text-xs font-semibold">
+                        <Text className="text-black text-xs font-semibold"  style={{ color: Colors[theme].text }}>
                           {t("kanban.next")}
                         </Text>
                       </TouchableOpacity>

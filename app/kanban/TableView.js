@@ -11,6 +11,9 @@ import {
 import DraggableFlatList from "react-native-draggable-flatlist";
 import { ScrollView } from "react-native-gesture-handler";
 import Modal from "react-native-modal";
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
+
 const initialData = [
   {
     id: "1",
@@ -67,23 +70,24 @@ export default function TaskBoard() {
   const renderItem = ({ item, drag, isActive, index }) => {
     const prev = index > 0 ? data[index - 1] : null;
     const showHeader = !prev || prev.status !== item.status;
+  const { theme } = useTheme();
 
     return (
       <ScrollView>
         <View>
           {showHeader && (
-            <View style={styles.headerContainer}>
-              <View className="flex-row items-center gap-1">
+            <View style={[styles.headerContainer,{ backgroundColor: Colors[theme].card }]} >
+              <View className="flex-row items-center gap-1" >
                 {item.status === "todo" && (
-                  <FontAwesome name="list-ul" size={15} />
+                  <FontAwesome name="list-ul" size={15} style={{ color: Colors[theme].icon }}/>
                 )}
                 {item.status === "inprogress" && (
-                  <FontAwesome name="hourglass-half" size={15} />
+                  <FontAwesome name="hourglass-half" size={15} style={{ color: Colors[theme].icon }}/>
                 )}
                 {item.status === "done" && (
-                  <FontAwesome name="check-circle" size={15} />
+                  <FontAwesome name="check-circle" size={15} style={{ color: Colors[theme].icon }}/>
                 )}
-                <Text style={styles.headerText}>
+                <Text style={[styles.headerText  , { color: Colors[theme].text }]} >
                   {statusLabels[item.status]}
                 </Text>
               </View>
@@ -94,7 +98,7 @@ export default function TaskBoard() {
                   setModalVisible(true);
                 }}
               >
-                <Entypo name="dots-three-vertical" size={15} />
+                <Entypo name="dots-three-vertical" size={15} style={{ color: Colors[theme].icon }}/>
               </TouchableOpacity>
             </View>
           )}
@@ -104,7 +108,7 @@ export default function TaskBoard() {
             disabled={isActive}
             style={[
               styles.card,
-              { backgroundColor: isActive ? "#e5e7eb" : "#ffffff" },
+              { backgroundColor: Colors[theme].card },
             ]}
           >
             <View
@@ -125,7 +129,7 @@ export default function TaskBoard() {
                 marginBottom: 8,
               }}
             />
-            <Text style={styles.title}>{item.title}</Text>
+            <Text style={[styles.title , {color: Colors[theme].text}]}>{item.title}</Text>
             <View
               style={{
                 width: `60%`,
@@ -246,7 +250,6 @@ const styles = StyleSheet.create({
   headerContainer: {
     paddingVertical: 6,
     paddingHorizontal: 8,
-    backgroundColor: "#f3f4f6",
     borderRadius: 4,
     marginTop: 12,
     flexDirection: "row",
@@ -254,7 +257,6 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontWeight: "bold",
-    color: "#111827",
     marginTop: 3,
   },
   card: {
@@ -270,7 +272,6 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     fontSize: 14,
     marginBottom: 6,
-    color: "#111",
   },
   row: {
     flexDirection: "row",

@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, ScrollView, Text, View } from "react-native";
 import * as Progress from "react-native-progress";
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
 import { fetchOnGoingProjectsList } from "../../utils/fetchUtils";
 
 const width = Dimensions.get("window").width;
@@ -19,30 +21,37 @@ const InProgressProject = () => {
   //   { name: "test 65", daysLeft: -34 },
   //   { name: "test 65", daysLeft: -78 },
   // ];
+  const { theme } = useTheme();
 
   useEffect(() => {
     const getDatas = async () => {
       const response = await fetchOnGoingProjectsList();
-      console.log("inprogress: " + response);
-      setProjects(response);
+      console.log("inprogress: " + JSON.stringify(response));
+      setProjects(response ? response : []);
     };
     getDatas();
   }, []);
 
   return (
     <View
-      style={{
-        width: width - 40,
-        maxHeight: 300,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 6,
-        elevation: 3,
-      }}
+      style={[
+        {
+          width: width - 40,
+          maxHeight: 300,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 1 },
+          shadowOpacity: 0.1,
+          shadowRadius: 6,
+          elevation: 3,
+        },
+        { backgroundColor: Colors[theme].card },
+      ]}
       className="p-4 bg-white rounded-lg m-2"
     >
-      <Text className="text-lg font-semibold mb-3">
+      <Text
+        className="text-lg font-semibold mb-3"
+        style={{ color: Colors[theme].text }}
+      >
         {t("project.inProcessProject")}
       </Text>
       <ScrollView nestedScrollEnabled={true}>
@@ -52,12 +61,12 @@ const InProgressProject = () => {
               <View>
                 <View className="rounded-full bg-green size-12 p-2 justify-center items-center">
                   <Text className="font-bold text-white">
-                    {project.name[0].toUpperCase()}
+                    {project.title[0].toUpperCase()}
                   </Text>
                 </View>
               </View>
               <View style={{ width: width - 150 }}>
-                <Text className="text-base mb-1">{project.name}</Text>
+                <Text className="text-base mb-1">{project.title}</Text>
                 <Progress.Bar
                   progress={0.6}
                   width={null}
@@ -70,7 +79,7 @@ const InProgressProject = () => {
                   <View className="flex-row items-center gap-1 mt-1">
                     <MaterialIcons name="watch-later" size={15} color="gray" />
                     <Text className="text-sm text-gray-600">
-                      {t("project.deadline")}:{project.daysLeft} days left
+                      {t("project.deadline")}: days left
                     </Text>
                   </View>
                 )}

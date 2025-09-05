@@ -13,11 +13,13 @@ import {
 } from "react-native";
 import Header from "../../components/Header";
 import CreateProjectModal from "../../components/projectPageComponents/createProjectModal";
+import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
 import {
   fetchComplatedProjectCount,
   fetchOnGoingProjectCount,
   fetchPendingProjectCount,
+  fetchTotalProjectsCount,
 } from "../../utils/fetchUtils";
 import CardPagination from "./cardPagination";
 import InProgressProject from "./inProgressProject";
@@ -32,6 +34,8 @@ const ProjectPage = () => {
   const [onGoingProjectCount, setOnGoingProjects] = useState("");
   const [pendingProjectCount, setPendingProjects] = useState("");
   console.log("is modal on: " + modalVisible);
+  const { theme } = useTheme();
+  const colors = Colors[theme];
 
   useEffect(() => {
     const getDatas = async () => {
@@ -39,13 +43,16 @@ const ProjectPage = () => {
         const complatedProj = await fetchComplatedProjectCount();
         const pendingProj = await fetchPendingProjectCount();
         const onGoingProj = await fetchOnGoingProjectCount();
+        const totalProj = await fetchTotalProjectsCount();
 
         console.log("complatedProj" + complatedProj);
         console.log("pendingProj" + pendingProj);
         console.log("onGoingProj" + onGoingProj);
+        console.log("totalProj" + totalProj);
         setComplatedProjects(complatedProj);
         setPendingProjects(pendingProj);
         setOnGoingProjects(onGoingProj);
+        setTotalProjects(totalProj);
       } catch (error) {
         console.log("error in getDatas: " + error);
       }
@@ -56,11 +63,17 @@ const ProjectPage = () => {
   return (
     <SafeAreaView className="flex-1 bg-background">
       <Header></Header>
-      <ScrollView contentContainerStyle={{ alignItems: "center", padding: 10 }}>
-        <View className="flex-row flex-wrap justify-between items-center  p-4 mb-3 gap-2 rounded-lg bg-white shadow-sm">
+      <ScrollView
+        contentContainerStyle={{ alignItems: "center", padding: 10 }}
+        style={{ backgroundColor: colors.background }}
+      >
+        <View
+          className="flex-row flex-wrap justify-between items-center  p-4 mb-3 gap-2 rounded-lg bg-white shadow-sm"
+          style={{ backgroundColor: colors.card }}
+        >
           <Card
             title={t("project.totalProjects")}
-            count="0"
+            count={totalProjectCount}
             color={Colors.secondary.bg_blue}
             icon={<MaterialIcons name="view-list" size={20} color="#0E7490" />}
             gradient={["#A5F3FC", "#22D3EE"]}
@@ -109,7 +122,10 @@ const ProjectPage = () => {
         </Pressable>
         {/** divide*/}
         <View className="w-full h-[1px] bg-gray-200 my-2" />
-        <View className="h-[30vh]">
+        <View
+          className="h-[35vh]"
+          style={{ backgroundColor: colors.background }}
+        >
           <CardPagination></CardPagination>
         </View>
         {/* <View className="h-[25vh] w-full my-1"> */}

@@ -1,4 +1,4 @@
-// import Entypo from "@expo/vector-icons/Entypo";
+ // import Entypo from "@expo/vector-icons/Entypo";
 // import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 // import {
 //   Dimensions,
@@ -120,13 +120,10 @@ const UserCard = ({ name, email, image }) => {
       />
       <Text style={styles.userName}>{name}</Text>
       <View style={styles.userInfo}>
-        <View style={styles.infoRow}>
-          <MaterialIcons name="call" size={15} color="black" />
-          <Text style={styles.infoText}>98283 2327 23732</Text>
-        </View>
+        
         <View style={styles.infoRow}>
           <Entypo name="mail" size={15} color="black" />
-          <Text>{TextShortener(email, 16)}</Text>
+          <Text>{TextShortener(email, 12)}</Text>
         </View>
 
         <View style={styles.buttonContainer}>
@@ -138,9 +135,9 @@ const UserCard = ({ name, email, image }) => {
             <Text style={styles.buttonText}>{t("friend.follow")}</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
+         <TouchableOpacity
             style={styles.viewProfileButton}
-            onPress={() => navigation.navigate("userdatails/index")}
+            onPress={() => navigation.navigate("userdetails/index")}
           >
             <Text style={styles.viewProfileText}>
               {t("friend.viewProfile")}
@@ -223,3 +220,4 @@ const styles = StyleSheet.create({
     fontSize: 11,
   },
 });
+
