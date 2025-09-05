@@ -95,8 +95,8 @@ const UserCard = ({ name, email, image }) => {
   const handleFollow = async () => {
     try {
       const friendData = {
-        ReceiverEmail: email, // Backend’in beklediği
-        Text: `Friend request from ${name}`, // Mesaj
+        ReceiverEmail: email,  
+        Text: `Friend request from ${name}`, 
         IsAccepted: false,
         NotificationType: "FriendRequest",
       };
