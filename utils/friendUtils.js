@@ -1,6 +1,7 @@
 import { getToken } from "../secureStore";
 
-const URL = "https://taskflowwebapi20250802142810.azurewebsites.net/api";
+//const URL = "https://taskflowwebapi20250802142810.azurewebsites.net/api";
+const URL = "https://8aea1d20fadc.ngrok-free.app/api";
 
 export const fetchAllFriends = async () => {
   try {

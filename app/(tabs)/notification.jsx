@@ -12,12 +12,12 @@ import Header from "../../components/Header";
 import OtherCard from "../../components/notifications/otherCard";
 import ReminderCard from "../../components/notifications/reminderCard";
 import RequestCard from "../../components/notifications/requestCard";
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
 import {
   fetchReminderNotifications,
   fetchRequestNotifications,
 } from "../../utils/notificationUtils";
-import { useTheme } from "../../components/ThemeContext";
-import { Colors } from "../../constants/Colors";
 
 export default function NotificationScreen() {
   const [searchText, setSearchText] = useState("");
@@ -26,7 +26,6 @@ export default function NotificationScreen() {
   const [requests, setRequests] = useState([]);
   const [reminders, setReminders] = useState([]);
   const { theme } = useTheme();
-
 
   const fetchNotifications = async () => {
     try {
@@ -91,93 +90,103 @@ export default function NotificationScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-background" style={{ backgroundColor: Colors[theme].background }}>
+    <> 
       <Header onSearch={setSearchText} />
+      <SafeAreaView
+        className="flex-1 bg-background"
+        style={{ backgroundColor: Colors[theme].background }}
+      >
+        <View className="flex-row gap-1 mt-4   px-4">
+          {["requests", "reminders", "others"].map((tab) => (
+            <TouchableOpacity
+              key={tab}
+              onPress={() => setActiveTab(tab)}
+              className={`py-2 px-4 rounded-full ${
+                activeTab === tab ? tabColors[tab].activeBg : tabColors[tab].bg
+              }`}
+            >
+              <Text
+                className={`${tabColors[tab].text} font-semibold`}
+                style={{ color: Colors[theme].card }}
+              >
+                {tab === "requests"
+                  ? t("notification.requests")
+                  : tab === "reminders"
+                  ? t("notification.reminders")
+                  : t("notification.others")}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
 
-      <View className="flex-row gap-1 mt-4   px-4">
-        {["requests", "reminders", "others"].map((tab) => (
-          <TouchableOpacity
-            key={tab}
-            onPress={() => setActiveTab(tab)}
-            className={`py-2 px-4 rounded-full ${
-              activeTab === tab ? tabColors[tab].activeBg : tabColors[tab].bg
-            }`}
-          >
-            <Text className={`${tabColors[tab].text} font-semibold`} style={{ color: Colors[theme].card }}>
-              {tab === "requests"
-                ?t("notification.requests")
-                : tab === "reminders"
-                ? t("notification.reminders")
-                :  t("notification.others")}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+        <ScrollView contentContainerStyle={{ padding: 16 }}>
+          {activeTab === "requests" && (
+            <View
+              className="bg-white rounded-xl shadow p-4"
+              style={{ backgroundColor: Colors[theme].card }}
+            >
+              {requests.length === 0 && (
+                <LottieView
+                  source={require("../../assets/animations/EmptyArray.json")}
+                  autoPlay
+                  loop
+                  style={{ width: 350, height: 170 }}
+                />
+              )}
+              {requests.length > 0 &&
+                requests.map((req, index) => (
+                  <RequestCard
+                    key={req.requestId || index}
+                    request={req}
+                    user={{
+                      name: req.senderName || "Unknown",
+                      avatar: req.image
+                        ? { uri: req.image }
+                        : require("../../assets/images/default-user.png"),
+                    }}
+                    message={req.text}
+                    onAccept={() => console.log("Accepted", req.requestId)}
+                    onReject={() => console.log("Rejected", req.requestId)}
+                  />
+                ))}
+            </View>
+          )}
 
-      <ScrollView contentContainerStyle={{ padding: 16 }}>
-        {activeTab === "requests" && (
-          <View className="bg-white rounded-xl shadow p-4" style={{ backgroundColor: Colors[theme].card }}>
-            {requests.length === 0 && (
-              <LottieView
-                source={require("../../assets/animations/EmptyArray.json")}
-                autoPlay
-                loop
-                style={{ width: 350, height: 170 }}
-              />
-            )}
-            {requests.length > 0 &&
-              requests.map((req, index) => (
-                <RequestCard
-                  key={req.requestId || index}
-                  request={req}
-                  user={{
-                    name: req.senderName || "Unknown",
-                    avatar: req.image
-                      ? { uri: req.image }
-                      : require("../../assets/images/default-user.png"),
-                  }}
-                  message={req.text}
-                  onAccept={() => console.log("Accepted", req.requestId)}
-                  onReject={() => console.log("Rejected", req.requestId)}
+          {activeTab === "reminders" && (
+            <View className="bg-white rounded-xl shadow p-4 space-y-3 gap-1">
+              {reminders.length === 0 && (
+                <LottieView
+                  source={require("../../assets/animations/EmptyArray.json")}
+                  autoPlay
+                  loop
+                  style={{ width: 350, height: 170 }}
+                />
+              )}
+              {reminders.length > 0 &&
+                reminders.map((reminder) => (
+                  <ReminderCard
+                    key={reminder.id}
+                    date={reminder.date}
+                    message={reminder.message}
+                    onDelete={() => console.log("Deleted", reminder.id)}
+                  />
+                ))}
+            </View>
+          )}
+
+          {activeTab === "others" && (
+            <View className="bg-white rounded-xl shadow p-4 space-y-3 gap-1">
+              {others.map((item) => (
+                <OtherCard
+                  key={item.id}
+                  text={item.text}
+                  onAction={() => console.log("Action taken for", item.id)}
                 />
               ))}
-          </View>
-        )}
-
-        {activeTab === "reminders" && (
-          <View className="bg-white rounded-xl shadow p-4 space-y-3 gap-1">
-            {reminders.length === 0 && (
-              <LottieView
-                source={require("../../assets/animations/EmptyArray.json")}
-                autoPlay
-                loop
-                style={{ width: 350, height: 170 }}
-              />
-            )}
-            {reminders.length > 0 &&
-              reminders.map((reminder) => (
-                <ReminderCard
-                  key={reminder.id}
-                  date={reminder.date}
-                  message={reminder.message}
-                  onDelete={() => console.log("Deleted", reminder.id)}
-                />
-              ))}
-          </View>
-        )}
-
-        {activeTab === "others" && (
-          <View className="bg-white rounded-xl shadow p-4 space-y-3 gap-1">
-            {others.map((item) => (
-              <OtherCard
-                key={item.id}
-                text={item.text}
-                onAction={() => console.log("Action taken for", item.id)}
-              />
-            ))}
-          </View>
-        )}
-      </ScrollView>
-    </SafeAreaView>
+            </View>
+          )}
+        </ScrollView>
+      </SafeAreaView>
+    </>
   );
 }

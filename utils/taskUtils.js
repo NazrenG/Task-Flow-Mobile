@@ -1,8 +1,9 @@
 import { getToken } from "../secureStore";
 
-const URL = "https://taskflowwebapi20250802142810.azurewebsites.net/api";
+//const URL = "https://taskflowwebapi20250802142810.azurewebsites.net/api";
+const URL = "https://8aea1d20fadc.ngrok-free.app/api";
+ 
 
-/////////// Task Count Fetching Functions ///////////
 export const fetchTotalTaskCount = async () => {
   try {
     const token = await getToken("authToken");
@@ -102,15 +103,13 @@ export const fetchCreateTask = async (taskData) => {
       console.error("Failed to create task:", response.status, errorText);
       return null;
     }
-
-    // Backend boş body dönerse (ör. 204 NoContent)
+ 
     const text = await response.text();
     if (!text) {
       console.log("CreateTask response: no content (task created).");
       return { success: true };
     }
-
-    // JSON varsa parse et
+ 
     const data = JSON.parse(text);
     console.log("CreateTask response: ", data);
     return data;

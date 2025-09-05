@@ -92,8 +92,8 @@ export default function App() {
   const { theme } = useTheme();
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
-      <Header onSearch={setSearchText} />
+    <>  <Header onSearch={setSearchText} /><SafeAreaView className="flex-1 bg-background">
+     
 
       <View className="flex-1 justify-between bg-gray-100 pt-2" style={{ backgroundColor: Colors[theme].background }}>
         <View className="flex-row justify-between p-4">
@@ -291,6 +291,7 @@ export default function App() {
         {/* table*/}
         {activeView === "table" && <TableView />}
       </View>
-    </SafeAreaView>
+    </SafeAreaView></>
+   
   );
 }

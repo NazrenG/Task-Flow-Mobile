@@ -163,6 +163,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 1,
     elevation: 1,
+    width: width - 235,
   },
   userCard: {
     alignItems: "center",

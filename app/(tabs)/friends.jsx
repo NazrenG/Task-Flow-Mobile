@@ -154,6 +154,7 @@ import {
   Animated,
   Dimensions,
   SafeAreaView,
+  ScrollView,
   Text,
   TouchableOpacity,
   View,
@@ -243,7 +244,8 @@ export default function Friends() {
 
           <View className="p-1 mt-4 mb-10" style={{height: '75vh'}}>
   {activeTab === 0 ? (
-    <View className="flex-row flex-wrap justify-start p-1 gap-7 ml-1">
+    <ScrollView>
+       <View className="flex-row flex-wrap justify-start p-1 gap-7 ml-1">
       {friends.length > 0 ? (
         friends.map((friend, index) => (
           <FriendCard
@@ -262,8 +264,11 @@ export default function Friends() {
         />
       )}
     </View>
+    </ScrollView>
+   
   ) : users.length > 0 ? (
-    <View className="flex-row flex-wrap justify-start p-1 gap-4 ml-1">
+    <ScrollView>
+       <View className="flex-row flex-wrap justify-start p-1 gap-4 ml-1">
       {users.map((user) => (
         <UserCard
           key={user.id}
@@ -274,6 +279,8 @@ export default function Friends() {
         />
       ))}
     </View>
+    </ScrollView>
+   
   ) : (
     <LottieView
       source={require("../../assets/animations/Empty-Search.json")}

@@ -66,138 +66,196 @@ export default function CalendarScreen() {
   const startOfSelectedWeek = startOfWeek(selectedDate, { weekStartsOn: 1 });
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
+    <> 
       <Header onSearch={setSearchText} />
-
-      {/* Header */}
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: 16,
-        }}
-      >
-        <TouchableOpacity onPress={() => setCurrentDate(subMonths(currentDate, 1))}>
-          <Ionicons name="chevron-back" size={24} color={colors.icon} />
-        </TouchableOpacity>
-        <Text style={{ fontSize: 20, fontWeight: "bold", color: colors.titleText }}>
-          {format(currentDate, "MMMM yyyy")}
-        </Text>
-        <TouchableOpacity onPress={() => setCurrentDate(addMonths(currentDate, 1))}>
-          <Ionicons name="chevron-forward" size={24} color={colors.icon} />
-        </TouchableOpacity>
-      </View>
-
-      {/* Week Selector */}
-      <View style={{ flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 8, marginBottom: 8 }}>
-        <TouchableOpacity onPress={() => setSelectedDate(addDays(startOfSelectedWeek, -7))}>
-          <Ionicons name="chevron-back" size={20} color={colors.icon} />
-        </TouchableOpacity>
-
-        <View style={{ flexDirection: "row", justifyContent: "space-around", flex: 1 }}>
-          {Array.from({ length: 7 }).map((_, i) => {
-            const day = addDays(startOfSelectedWeek, i);
-            const isToday = format(day, "yyyy-MM-dd") === format(new Date(), "yyyy-MM-dd");
-            const isSelected = format(day, "yyyy-MM-dd") === format(selectedDate, "yyyy-MM-dd");
-
-            return (
-              <TouchableOpacity key={i} onPress={() => setSelectedDate(day)} style={{ alignItems: "center" }}>
-                <Text style={{ fontSize: 12, color: colors.labelText }}>
-                  {format(day, "EEE")}
-                </Text>
-                <View
-                  style={{
-                    width: 32,
-                    height: 32,
-                    borderRadius: 16,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    backgroundColor: isSelected
-                      ? colors.primary
-                      : isToday
-                      ? colors.primaryTransparent
-                      : "transparent",
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 14,
-                      fontWeight: isSelected ? "bold" : "normal",
-                      color: isSelected ? "#fff" : colors.text,
-                    }}
-                  >
-                    {format(day, "d")}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            );
-          })}
+      <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
+        {/* Header */}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: 16,
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => setCurrentDate(subMonths(currentDate, 1))}
+          >
+            <Ionicons name="chevron-back" size={24} color={colors.icon} />
+          </TouchableOpacity>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: "bold",
+              color: colors.titleText,
+            }}
+          >
+            {format(currentDate, "MMMM yyyy")}
+          </Text>
+          <TouchableOpacity
+            onPress={() => setCurrentDate(addMonths(currentDate, 1))}
+          >
+            <Ionicons name="chevron-forward" size={24} color={colors.icon} />
+          </TouchableOpacity>
         </View>
 
-        <TouchableOpacity onPress={() => setSelectedDate(addDays(startOfSelectedWeek, 7))}>
-          <Ionicons name="chevron-forward" size={20} color={colors.icon} />
-        </TouchableOpacity>
-      </View>
+        {/* Week Selector */}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            paddingHorizontal: 8,
+            marginBottom: 8,
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => setSelectedDate(addDays(startOfSelectedWeek, -7))}
+          >
+            <Ionicons name="chevron-back" size={20} color={colors.icon} />
+          </TouchableOpacity>
 
-      {/* Divider */}
-      <View style={{ height: 1, backgroundColor: colors.border, marginBottom: 8 }} />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-around",
+              flex: 1,
+            }}
+          >
+            {Array.from({ length: 7 }).map((_, i) => {
+              const day = addDays(startOfSelectedWeek, i);
+              const isToday =
+                format(day, "yyyy-MM-dd") === format(new Date(), "yyyy-MM-dd");
+              const isSelected =
+                format(day, "yyyy-MM-dd") ===
+                format(selectedDate, "yyyy-MM-dd");
 
-      {/* Daily Schedule */}
-      <ScrollView>
-        {HOURS.map((hour) => (
-          <View key={hour} style={{ flexDirection: "row", borderBottomWidth: 1, borderBottomColor: colors.border, height: 80 }}>
-            {/* Hour label */}
-            <View style={{ width: 56, alignItems: "flex-end", paddingRight: 8, paddingTop: 8 }}>
-              <Text style={{ fontSize: 12, color: colors.labelText }}>
-                {hour.toString().padStart(2, "0")}:00
-              </Text>
-            </View>
-
-            {/* Tasks */}
-            <View style={{ flex: 1, position: "relative" }}>
-              {tasks
-                .filter((t) => t.start >= hour && t.start < hour + 1)
-                .map((task) => {
-                  const topOffset = (task.start - hour) * 80;
-                  const height = (task.end - task.start) * 80;
-                  return (
-                    <TouchableOpacity
-                      onPress={() => {
-                        setSelectedTask(task.title);
-                        setModalVisible(true);
-                      }}
-                      key={task.id}
+              return (
+                <TouchableOpacity
+                  key={i}
+                  onPress={() => setSelectedDate(day)}
+                  style={{ alignItems: "center" }}
+                >
+                  <Text style={{ fontSize: 12, color: colors.labelText }}>
+                    {format(day, "EEE")}
+                  </Text>
+                  <View
+                    style={{
+                      width: 32,
+                      height: 32,
+                      borderRadius: 16,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      backgroundColor: isSelected
+                        ? colors.primary
+                        : isToday
+                        ? colors.primaryTransparent
+                        : "transparent",
+                    }}
+                  >
+                    <Text
                       style={{
-                        position: "absolute",
-                        left: 0,
-                        right: 16,
-                        top: topOffset,
-                        height,
-                        backgroundColor: task.color,
-                        borderRadius: 8,
-                        paddingHorizontal: 8,
-                        paddingVertical: 4,
+                        fontSize: 14,
+                        fontWeight: isSelected ? "bold" : "normal",
+                        color: isSelected ? "#fff" : colors.text,
                       }}
                     >
-                      <Text style={{ fontSize: 12, fontWeight: "600", color: "#1f2937" }}>
-                        {task.title}
-                      </Text>
-                      <Text style={{ fontSize: 12, color: "#4b5563" }}>
-                        {`${task.start}:00 - ${task.end}:00`}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })}
-            </View>
+                      {format(day, "d")}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
           </View>
-        ))}
-        <EditTaskDateModal
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          selectedTask={selectedTask}
+
+          <TouchableOpacity
+            onPress={() => setSelectedDate(addDays(startOfSelectedWeek, 7))}
+          >
+            <Ionicons name="chevron-forward" size={20} color={colors.icon} />
+          </TouchableOpacity>
+        </View>
+
+        {/* Divider */}
+        <View
+          style={{ height: 1, backgroundColor: colors.border, marginBottom: 8 }}
         />
-      </ScrollView>
-    </SafeAreaView>
+
+        {/* Daily Schedule */}
+        <ScrollView>
+          {HOURS.map((hour) => (
+            <View
+              key={hour}
+              style={{
+                flexDirection: "row",
+                borderBottomWidth: 1,
+                borderBottomColor: colors.border,
+                height: 80,
+              }}
+            >
+              {/* Hour label */}
+              <View
+                style={{
+                  width: 56,
+                  alignItems: "flex-end",
+                  paddingRight: 8,
+                  paddingTop: 8,
+                }}
+              >
+                <Text style={{ fontSize: 12, color: colors.labelText }}>
+                  {hour.toString().padStart(2, "0")}:00
+                </Text>
+              </View>
+
+              {/* Tasks */}
+              <View style={{ flex: 1, position: "relative" }}>
+                {tasks
+                  .filter((t) => t.start >= hour && t.start < hour + 1)
+                  .map((task) => {
+                    const topOffset = (task.start - hour) * 80;
+                    const height = (task.end - task.start) * 80;
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          setSelectedTask(task.title);
+                          setModalVisible(true);
+                        }}
+                        key={task.id}
+                        style={{
+                          position: "absolute",
+                          left: 0,
+                          right: 16,
+                          top: topOffset,
+                          height,
+                          backgroundColor: task.color,
+                          borderRadius: 8,
+                          paddingHorizontal: 8,
+                          paddingVertical: 4,
+                        }}
+                      >
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            fontWeight: "600",
+                            color: "#1f2937",
+                          }}
+                        >
+                          {task.title}
+                        </Text>
+                        <Text style={{ fontSize: 12, color: "#4b5563" }}>
+                          {`${task.start}:00 - ${task.end}:00`}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+              </View>
+            </View>
+          ))}
+          <EditTaskDateModal
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            selectedTask={selectedTask}
+          />
+        </ScrollView>
+      </SafeAreaView>
+    </>
   );
 }
