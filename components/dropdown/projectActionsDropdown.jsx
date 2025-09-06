@@ -67,7 +67,7 @@ export default function ProjectActionsDropdown({ projectId }) {
         break;
     }
   };
-
+  console.log("project id in dropdown: " + projectId);
   return (
     <View className="relative items-end">
       {/* 3-dot menu button */}
@@ -108,10 +108,12 @@ export default function ProjectActionsDropdown({ projectId }) {
       <EditProjectModal
         modalVisible={editModalVisible}
         setModalVisible={setEditModalVisible}
+        projectId={projectId}
       ></EditProjectModal>
       <UserSelectorModal
         visible={membersModalVisible}
         onClose={setMembersModalVisible}
+        projectID={projectId}
       ></UserSelectorModal>
     </View>
   );

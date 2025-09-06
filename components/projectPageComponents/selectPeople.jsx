@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   FlatList,
@@ -9,22 +9,27 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import {
+  fetchAllUsersAndMembers,
+  fetchUpdateTeammemberList,
+} from "../../utils/fetchUtils";
 
-const fakeUsers = [
-  { id: "1", name: "Alice Smith" },
-  { id: "2", name: "Bob Johnson" },
-  { id: "3", name: "Charlie Davis" },
-  { id: "4", name: "Diana Evans" },
-  { id: "5", name: "Eliot Rogers" },
-  { id: "6", name: "Farid Salman" },
-  { id: "7", name: "Gulnar N." },
-];
+// const fakeUsers = [
+//   { id: "1", name: "Alice Smith" },
+//   { id: "2", name: "Bob Johnson" },
+//   { id: "3", name: "Charlie Davis" },
+//   { id: "4", name: "Diana Evans" },
+//   { id: "5", name: "Eliot Rogers" },
+//   { id: "6", name: "Farid Salman" },
+//   { id: "7", name: "Gulnar N." },
+// ];
 
-export default function UserSelectorModal({ visible, onClose }) {
+export default function UserSelectorModal({ visible, onClose, projectID }) {
   const [searchText, setSearchText] = useState("");
   const [selectedUserIds, setSelectedUserIds] = useState([]);
   const { t } = useTranslation();
-  const filteredUsers = fakeUsers.filter((user) =>
+  const [userList, setUserList] = useState([]);
+  const filteredUsers = userList.filter((user) =>
     user.name.toLowerCase().includes(searchText.toLowerCase())
   );
 
@@ -34,13 +39,28 @@ export default function UserSelectorModal({ visible, onClose }) {
     );
   };
 
-  const handleSubmit = () => {
-    const selectedUsers = fakeUsers.filter((u) =>
+  const handleSubmit = async () => {
+    const selectedUsers = userList.filter((u) =>
       selectedUserIds.includes(u.id)
     );
     console.log("Selected users:", selectedUsers);
-    onClose(); // close modal
+    const response = await fetchUpdateTeammemberList(projectID, selectedUsers);
+    console.log("in handlesubmit: " + JSON.stringify(response));
+    onClose(false);
   };
+
+  useEffect(() => {
+    const getData = async () => {
+      console.log("project id: " + projectID);
+      if (!projectID) return;
+      const response = await fetchAllUsersAndMembers(projectID);
+      console.log(
+        "in useeffect all users and members: " + JSON.stringify(response)
+      );
+      setUserList(response ? response : []);
+    };
+    if (visible) getData();
+  }, [visible, projectID]);
 
   return (
     <Modal animationType="fade" transparent visible={visible}>
@@ -70,17 +90,30 @@ export default function UserSelectorModal({ visible, onClose }) {
                   className="flex-row items-center mb-4"
                 >
                   <View
-                    className={`w-6 h-6 rounded-md border-2 mr-2 items-center justify-center ${
-                      isSelected
-                        ? "border-blue-500 bg-blue-500"
-                        : "border-gray-400"
-                    }`}
+                    className={`w-6 h-6 rounded-md border-2 mr-2 items-center justify-center
+    ${
+      isSelected && item.isRequested
+        ? "border-gray-400 bg-white"
+        : isSelected
+        ? "border-blue-500 bg-blue-500"
+        : item.isRequested
+        ? "border-red-500 bg-red-900"
+        : item.isSelected
+        ? "border-green-500 bg-green-500"
+        : "border-gray-400 bg-white"
+    }
+  `}
                   >
-                    {isSelected && (
-                      <Text className="text-white text-xs font-bold">✓</Text>
+                    {item.isSelected && (
+                      <Text className="text-black text-xs font-bold">✓</Text>
                     )}
                   </View>
-                  <Text className="text-base text-gray-800">{item.name}</Text>
+                  <View className="flex">
+                    <Text className="text-base text-gray-800">{item.name}</Text>
+                    <Text className="text-base text-gray-600">
+                      {item.email}
+                    </Text>
+                  </View>
                 </Pressable>
               );
             }}
@@ -88,7 +121,10 @@ export default function UserSelectorModal({ visible, onClose }) {
 
           <View className="flex-row justify-end gap-2 mt-6">
             <TouchableOpacity
-              onPress={() => onClose(false)}
+              onPress={() => {
+                setSelectedUserIds([]);
+                onClose(false);
+              }}
               className="px-4 py-2 bg-red-500 rounded-md"
             >
               <Text className="text-white font-medium">

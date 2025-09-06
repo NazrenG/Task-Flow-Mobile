@@ -53,7 +53,7 @@ const CardPagination = () => {
     const getDatas = async () => {
       const response = await fetchUsersProjects();
       setCardsData(response ? response : []);
-      // console.log("pagi proj data: " + JSON.stringify(response));
+      console.log("pagi proj data: " + JSON.stringify(response));
     };
     getDatas();
   }, []);
@@ -114,7 +114,7 @@ const CardPagination = () => {
               <View className="flex flex-row justify-between mx-9 mb-4 relative">
                 <Text className="text-2xl items-center">-</Text>
                 <ProjectActionsDropdown
-                  projectId={card.id}
+                  projectId={card.projectId}
                   isOpen={openDropdownIndex === index}
                   onToggle={() =>
                     setOpenDropdownIndex(
