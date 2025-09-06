@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Dimensions,
@@ -11,13 +11,14 @@ import {
 import { Calendar } from "react-native-calendars";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
+import { fetchEditProject, fetchProjectDetail } from "../../utils/fetchUtils";
 import ProjectStateDropdown from "../dropdown/projectStateDropdown";
 import ProjectInput from "../Input/ProjectInput";
 import ColorPicker from "./colorPicker";
 
 const width = Dimensions.get("window").width;
 
-const EditProjectModal = ({ modalVisible, setModalVisible }) => {
+const EditProjectModal = ({ modalVisible, setModalVisible, projectId }) => {
   const { t } = useTranslation();
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -39,9 +40,43 @@ const EditProjectModal = ({ modalVisible, setModalVisible }) => {
     t("project.complated"),
   ];
 
-  const handleEdit = async () => {};
+  const handleEdit = async () => {
+    const project = {
+      title,
+      color: selectedColor,
+      description: text,
+      startDate: new Date(startDate).toISOString(),
+      endDate: new Date(endDate).toISOString(),
+    };
+    const response = await fetchEditProject(project, projectId);
+    if (response) {
+      console.log("project updated");
+    } else console.log("project was not updated");
+  };
 
-  console.log("in create modal");
+  useEffect(() => {
+    console.log("project id: " + projectId);
+    if (projectId && modalVisible) {
+      console.log("in edit modal useeffect");
+      const getData = async () => {
+        const response = await fetchProjectDetail(projectId);
+        if (response) {
+          console.log("response in edit: " + JSON.stringify(response));
+          setTitle(response.projectName);
+          setText(response.description);
+          setSelectedState(response.status);
+          setEndDate(response.endDate ? response.endDate.split(" ")[0] : "");
+          setStartDate(
+            response.startDate ? response.startDate.split(" ")[0] : ""
+          );
+          setColorSelected(response.color);
+        }
+      };
+      getData();
+    }
+  }, [projectId]);
+
+  // console.log("in create modal");
   return (
     <Modal
       animationType="fade"

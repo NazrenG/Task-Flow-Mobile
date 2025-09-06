@@ -1,6 +1,6 @@
 import { deleteToken, getToken, saveToken } from "../secureStore";
 
-const URL = "https://09108b61df9c.ngrok-free.app/api";
+const URL = "https://4fb6f36c128d.ngrok-free.app/api";
 // const URL = "https://taskflowwebapi20250802142810.azurewebsites.net/api";
 
 ///// AUTH FETCHES
@@ -396,9 +396,9 @@ export const fetchRecentActivitiesList = async () => {
         },
       }
     );
-    response.text().then((text) => {
-      console.log("error in RecentActivities list: " + text);
-    });
+    // response.text().then((text) => {
+    //   console.log("error in RecentActivities list: " + text);
+    // });
     if (response.ok) {
       const data = await response.json();
       console.log("RecentActivities: " + data);
@@ -501,8 +501,11 @@ export const fetchEditProject = async (project, projectId) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(project),
+      body: JSON.stringify(projectId, project),
     });
+    console.log(
+      "in fetch edit project: " + projectId + " " + JSON.stringify(response)
+    );
     if (response.ok) {
       return true;
     }
@@ -532,3 +535,60 @@ export const fetchFilteredProjects = async (filterKey) => {
 };
 
 /////////////////////////////////////
+///TEAMMEMBERS fetches
+
+export const fetchAllUsersAndMembers = async (projectId) => {
+  try {
+    const token = await getToken("authToken");
+    const response = await fetch(
+      URL + `/TeamMember/GetUsersByProject/${projectId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (response.ok) {
+      const data = await response.json();
+      console.log("fetching users and members: " + JSON.stringify(data));
+      return data;
+    } else
+      console.log(
+        "fetching users and members response false: " + JSON.stringify(response)
+      );
+  } catch (error) {
+    console.log("Error in fetching users and members: " + error);
+  }
+};
+
+export const fetchUpdateTeammemberList = async (projectId, members) => {
+  try {
+    const token = await getToken("authToken");
+    const response = await fetch(
+      URL + `/TeamMember/UpdateTeamMemberCollections`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ projectId, members }),
+      }
+    );
+    if (response.ok) {
+      const data = await response.json();
+      console.log(
+        "fetching UpdateTeamMemberCollections: " + JSON.stringify(data)
+      );
+      return data;
+    } else
+      console.log(
+        "fetching UpdateTeamMemberCollections response false: " +
+          JSON.stringify(response)
+      );
+  } catch (error) {
+    console.log("error in fetchUpdateTeammemberList: " + error);
+  }
+};
