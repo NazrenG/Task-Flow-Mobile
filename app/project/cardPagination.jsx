@@ -12,9 +12,12 @@ import {
 import RoundedButton from "../../components/Button/RoundedButton";
 import ProjectActionsDropdown from "../../components/dropdown/projectActionsDropdown";
 import { Colors } from "../../constants/Colors";
+import { getToken } from "../../secureStore";
+import { startSignalRConnection } from "../../SignalR";
 import {
   fetchFilteredProjects,
   fetchUsersProjects,
+  URL,
 } from "../../utils/fetchUtils";
 
 const width = Dimensions.get("window").width;
@@ -49,13 +52,23 @@ const CardPagination = () => {
     // console.log("in handle project filter: " + response);
   };
 
+  const getDatas = async () => {
+    const response = await fetchUsersProjects();
+    setCardsData(response ? response : []);
+    console.log("pagi proj data: " + JSON.stringify(response));
+  };
   useEffect(() => {
-    const getDatas = async () => {
-      const response = await fetchUsersProjects();
-      setCardsData(response ? response : []);
-      console.log("pagi proj data: " + JSON.stringify(response));
-    };
     getDatas();
+  }, []);
+  useEffect(() => {
+    const hubConnection = async () => {
+      const token = getToken("authToken");
+      const conn = await startSignalRConnection(URL, token);
+      conn.on("ReceiveProjectUpdate", () => {
+        getDatas();
+      });
+    };
+    hubConnection();
   }, []);
 
   return (

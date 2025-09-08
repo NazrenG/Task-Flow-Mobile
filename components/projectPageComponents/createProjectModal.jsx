@@ -46,6 +46,7 @@ const CreateProjectModal = ({ modalVisible, setModalVisible }) => {
     const response = await fetchCreateProject(project);
     if (response) {
       console.log("peojwct created");
+      setModalVisible(false);
     }
   };
 
