@@ -6,7 +6,9 @@ import { Dimensions, ScrollView, Text, View } from "react-native";
 import * as Progress from "react-native-progress";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
-import { fetchOnGoingProjectsList } from "../../utils/fetchUtils";
+import { getToken } from "../../secureStore";
+import { startSignalRConnection } from "../../SignalR";
+import { fetchOnGoingProjectsList, URL } from "../../utils/fetchUtils";
 
 const width = Dimensions.get("window").width;
 const InProgressProject = () => {
@@ -23,13 +25,26 @@ const InProgressProject = () => {
   // ];
   const { theme } = useTheme();
 
+  const getDatas = async () => {
+    const response = await fetchOnGoingProjectsList();
+    console.log("inprogress: " + JSON.stringify(response));
+    setProjects(response ? response : []);
+  };
+
   useEffect(() => {
-    const getDatas = async () => {
-      const response = await fetchOnGoingProjectsList();
-      console.log("inprogress: " + JSON.stringify(response));
-      setProjects(response ? response : []);
-    };
     getDatas();
+  }, []);
+
+  useEffect(() => {
+    const hubConnection = async () => {
+      const token = getToken("authToken");
+      const conn = await startSignalRConnection(URL, token);
+      conn.on("RecieveInProgressUpdate", () => {
+        console.log("in RecieveInProgressUpdate");
+        getDatas();
+      });
+    };
+    hubConnection();
   }, []);
 
   return (
