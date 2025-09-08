@@ -15,11 +15,14 @@ import Header from "../../components/Header";
 import CreateProjectModal from "../../components/projectPageComponents/createProjectModal";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
+import { getToken } from "../../secureStore";
+import { startSignalRConnection } from "../../SignalR";
 import {
   fetchComplatedProjectCount,
   fetchOnGoingProjectCount,
   fetchPendingProjectCount,
   fetchTotalProjectsCount,
+  URL,
 } from "../../utils/fetchUtils";
 import CardPagination from "./cardPagination";
 import InProgressProject from "./inProgressProject";
@@ -37,32 +40,51 @@ const ProjectPage = () => {
   const { theme } = useTheme();
   const colors = Colors[theme];
 
-  useEffect(() => {
-    const getDatas = async () => {
-      try {
-        const complatedProj = await fetchComplatedProjectCount();
-        const pendingProj = await fetchPendingProjectCount();
-        const onGoingProj = await fetchOnGoingProjectCount();
-        const totalProj = await fetchTotalProjectsCount();
+  const getDatas = async () => {
+    try {
+      const complatedProj = await fetchComplatedProjectCount();
+      const pendingProj = await fetchPendingProjectCount();
+      const onGoingProj = await fetchOnGoingProjectCount();
+      const totalProj = await fetchTotalProjectsCount();
 
-        console.log("complatedProj" + complatedProj);
-        console.log("pendingProj" + pendingProj);
-        console.log("onGoingProj" + onGoingProj);
-        console.log("totalProj" + totalProj);
-        setComplatedProjects(complatedProj);
-        setPendingProjects(pendingProj);
-        setOnGoingProjects(onGoingProj);
-        setTotalProjects(totalProj);
-      } catch (error) {
-        console.log("error in getDatas: " + error);
-      }
-    };
+      // console.log("complatedProj" + complatedProj);
+      // console.log("pendingProj" + pendingProj);
+      // console.log("onGoingProj" + onGoingProj);
+      // console.log("totalProj" + totalProj);
+      setComplatedProjects(complatedProj);
+      setPendingProjects(pendingProj);
+      setOnGoingProjects(onGoingProj);
+      setTotalProjects(totalProj);
+    } catch (error) {
+      console.log("error in getDatas: " + error);
+    }
+  };
+  useEffect(() => {
     getDatas();
+  }, []);
+
+  useEffect(() => {
+    const hubConnection = async () => {
+      const token = getToken("authToken");
+      const conn = await startSignalRConnection(URL, token);
+      conn.on("UpdateTotalProjects", () => {
+        getDatas();
+      });
+      conn.on("UpdateOnGoingProjects", () => {
+        getDatas();
+      });
+      conn.on("UpdatePendingProjects", () => {
+        getDatas();
+      });
+      conn.on("UpdateCompletedProjects", () => {
+        getDatas();
+      });
+    };
+    hubConnection();
   }, []);
 
   return (
     <>
-    
       <Header></Header>
       <SafeAreaView className="flex-1 bg-background">
         <ScrollView
