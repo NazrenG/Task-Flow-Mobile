@@ -19,7 +19,7 @@
     "projectState": "Состояние проекта",
     "selectProjectState": "Выберите состояние проекта",
     "startDate": "Дата начала",
-    "endDate": "Дата окончания срока",
+    "endDate": "Дата окончания",
     "description": "Описание проекта",
     "colorPicker": "Выберите цвет",
     "descriptionData": "Введите текст (максимум 400 символов)",
@@ -54,7 +54,9 @@
     "phone": "Телефон",
     "status": "Статус",
     "priority": "Приоритет",
-    "projectOverview": "Обзор проекта"
+    "projectOverview": "Обзор проекта",
+    "online": "онлайн",
+    "offline": "офлайн"
   },
   "userDetail": {
     "info": "Основная информация",

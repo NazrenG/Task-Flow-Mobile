@@ -86,7 +86,9 @@
     "phone": "Phone",
     "status": "Status",
     "priority": "Priority",
-    "projectOverview": "Project Overview"
+    "projectOverview": "Project Overview",
+    "online": "Online",
+    "offline": "Offline"
   },
 
 

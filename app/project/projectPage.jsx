@@ -132,7 +132,7 @@ const ProjectPage = () => {
           <View className="w-full h-[1px] bg-gray-200 my-2" />
           <View
             className="h-[35vh]"
-            style={{ backgroundColor: colors.background }}
+            style={{ backgroundColor: Colors.background }}
           >
             <CardPagination></CardPagination>
           </View>

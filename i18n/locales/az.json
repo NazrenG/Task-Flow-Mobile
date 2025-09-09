@@ -55,7 +55,9 @@
     "phone": "Telefon Nömrəsi",
     "status": "Status",
     "priority": "Prioritet",
-    "projectOverview": "Layihənin icmalı"
+    "projectOverview": "Layihənin icmalı",
+    "online": "onlayn",
+    "offline": "oflayn"
   },
 
 

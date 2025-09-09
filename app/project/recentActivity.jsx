@@ -97,18 +97,18 @@ const RecentAvtivity = () => {
                 className="flex flex-row items-center justify-between"
               >
                 <View>
-                  <Text className="text-base mb-1">{item.username}</Text>
+                  <Text className="text-base mb-1" style={{ color: Colors[theme].text }}>{item.username}</Text>
                   {item.time !== null && (
                     <View className="flex-row items-center gap-1 mt-1">
                       {/* <MaterialIcons name="watch-later" size={15} color="gray" /> */}
-                      <Text className="text-sm text-gray-600">
+                      <Text className="text-sm text-gray-600" style={{ color: Colors[theme].text }}>
                         {item.createDate.split("T")[0]}
                       </Text>
                     </View>
                   )}
                 </View>
                 <View>
-                  <Text>{item.text}</Text>
+                  <Text style={{ color: Colors[theme].text }}>{item.text}</Text>
                 </View>
               </View>
             </View>
