@@ -15,36 +15,8 @@ import Header from "../../components/Header";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
 import TaskModal from "./TaskModal";
+import { fetchGetAllTasks,fetchOnHoldTaskCount,fetchRunningTaskCount,fetchTotalTaskCount,fetchCompletedTaskCount } from "../../utils/taskUtils";
 
-const mockData = [
-  {
-    id: "1",
-    title: "New task",
-    priority: "medium",
-    createdAt: "19-06-2025",
-    deadline: "07-08-2025",
-    project: "No Team",
-    status: "to do",
-  },
-  {
-    id: "2",
-    title: "Long task title example to see wrapping",
-    priority: "medium",
-    createdAt: "08-07-2025",
-    deadline: "08-07-2025",
-    project: "No Team",
-    status: "in progress",
-  },
-  {
-    id: "3",
-    title: "zazazaza",
-    priority: "easy",
-    createdAt: "08-07-2025",
-    deadline: "09-07-2025",
-    project: "No Team",
-    status: "completed",
-  },
-];
 
 const statusFilters = ["to do", "in progress", "completed", "All"];
 
@@ -72,11 +44,49 @@ export default function TaskListMobile() {
   const [isModalVisible, setModalVisible] = useState(false);
   const { t } = useTranslation();
   const { theme } = useTheme();
+  const [tasks, setTasks] = useState([]);
+  const[ totalTasks, setTotalTasks ] = useState(0);
+  const[ runningTasks, setRunningTasks ] = useState(0);
+  const[ completedTasks, setCompletedTasks ] = useState(0);
+  const[ onHoldTasks, setOnHoldTasks ] = useState(0);
+
+  // Fetch tasks when component mounts
+  
+   
+  useState(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchGetAllTasks();
+        setTasks(data);
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      }
+    };
+    fetchData();
+  }, []); 
+  useState(() => {
+    const fetchTaskCounts = async () => {
+      try {
+        const total = await fetchTotalTaskCount();
+        const running = await fetchRunningTaskCount();
+        const completed = await fetchCompletedTaskCount();
+        const onHold = await fetchOnHoldTaskCount();
+
+        setTotalTasks(total);
+        setRunningTasks(running);
+        setCompletedTasks(completed);
+        setOnHoldTasks(onHold);
+      } catch (error) {
+        console.error("Error fetching task counts:", error);
+      }
+    };
+    fetchTaskCounts();
+  }, []);
 
   const filteredData =
     filter === "All"
-      ? mockData
-      : mockData.filter((item) => item.status === filter);
+      ? tasks
+      : tasks.filter((item) => item.status === filter);
 
   const searchFilteredData = filteredData.filter((item) =>
     item.title.toLowerCase().includes(searchText.toLowerCase())
@@ -211,7 +221,7 @@ export default function TaskListMobile() {
           >
             <Card
               title={t("task.totalTasks")}
-              count="0"
+              count={totalTasks}
               color={Colors.secondary.bg_yellow}
               icon={
                 <MaterialIcons name="assignment" size={20} color="#D97706" />
@@ -220,7 +230,7 @@ export default function TaskListMobile() {
             />
             <Card
               title={t("task.runningTasks")}
-              count="2"
+              count={runningTasks}
               color={Colors.secondary.bg_green}
               icon={
                 <MaterialIcons
@@ -233,7 +243,7 @@ export default function TaskListMobile() {
             />
             <Card
               title={t("task.runningTasks")}
-              count="0"
+              count={onHoldTasks}
               color={Colors.secondary.bg_violet}
               icon={
                 <MaterialIcons
@@ -246,7 +256,7 @@ export default function TaskListMobile() {
             />
             <Card
               title={t("task.completeTasks")}
-              count="0"
+              count={completedTasks}
               color={Colors.secondary.bg_blue}
               icon={
                 <MaterialIcons
