@@ -15,6 +15,7 @@ import RequestCard from "../../components/notifications/requestCard";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
 import {
+  fetchProjectRequestNotifications,
   fetchReminderNotifications,
   fetchRequestNotifications,
 } from "../../utils/notificationUtils";
@@ -25,51 +26,31 @@ export default function NotificationScreen() {
   const { t } = useTranslation();
   const [requests, setRequests] = useState([]);
   const [reminders, setReminders] = useState([]);
+  const [others, setOthers] = useState([]);
   const { theme } = useTheme();
 
   const fetchNotifications = async () => {
     try {
       const requestData = await fetchRequestNotifications();
       const reminderData = await fetchReminderNotifications();
+      const otherData = await fetchProjectRequestNotifications();
+
+      setOthers(otherData);
       setRequests(requestData);
       setReminders(reminderData);
     } catch (error) {
       console.error("Error fetching notifications:", error);
     }
   };
+
   useEffect(() => {
     fetchNotifications();
   }, []);
-  // const requests = [
-  //   {
-  //     id: 1,
-  //     user: {
-  //       name: "Zehra Memmedzade",
-  //       avatar: "https://randomuser.me/api/portraits/women/44.jpg",
-  //     },
-  //     message:
-  //       "Hi, I am OOO OOO. I want to invite you to my project named: TERS",
-  //   },
-  //   {
-  //     id: 2,
-  //     user: {
-  //       name: "Nezrin Quliyeva",
-  //       avatar: "https://randomuser.me/api/portraits/women/44.jpg",
-  //     },
-  //     message:
-  //       "Hi, I am OOO OOO. I want to invite you to my project named: TERS",
-  //   },
-  // ];
 
-  // const reminders = [
-  //   { id: 1, date: "08-07-2025", message: "Project deadline approaching!" },
-  //   { id: 2, date: "10-07-2025", message: "Submit weekly report." },
+  // const others = [
+  //   { id: 1, text: "System maintenance scheduled." },
+  //   { id: 2, text: "Your password will expire soon." },
   // ];
-
-  const others = [
-    { id: 1, text: "System maintenance scheduled." },
-    { id: 2, text: "Your password will expire soon." },
-  ];
 
   const tabColors = {
     requests: {
@@ -90,7 +71,7 @@ export default function NotificationScreen() {
   };
 
   return (
-    <> 
+    <>
       <Header onSearch={setSearchText} />
       <SafeAreaView
         className="flex-1 bg-background"
@@ -176,13 +157,22 @@ export default function NotificationScreen() {
 
           {activeTab === "others" && (
             <View className="bg-white rounded-xl shadow p-4 space-y-3 gap-1">
-              {others.map((item) => (
-                <OtherCard
-                  key={item.id}
-                  text={item.text}
-                  onAction={() => console.log("Action taken for", item.id)}
+              {others.length === 0 && (
+                <LottieView
+                  source={require("../../assets/animations/EmptyArray.json")}
+                  autoPlay
+                  loop
+                  style={{ width: 350, height: 170 }}
                 />
-              ))}
+              )}
+              {others.length > 0 &&
+                others.map((item) => (
+                  <OtherCard
+                    key={item.id}
+                    text={item.text}
+                    onAction={() => console.log("Action taken for", item.id)}
+                  />
+                ))}
             </View>
           )}
         </ScrollView>

@@ -1,4 +1,4 @@
- // import Entypo from "@expo/vector-icons/Entypo";
+// import Entypo from "@expo/vector-icons/Entypo";
 // import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 // import {
 //   Dimensions,
@@ -71,9 +71,9 @@
 //   },
 // });
 import Entypo from "@expo/vector-icons/Entypo";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Dimensions,
@@ -91,17 +91,19 @@ const width = Dimensions.get("window").width;
 const UserCard = ({ name, email, image }) => {
   const navigation = useNavigation();
   const { t } = useTranslation();
+  const [isSendFollowRequest, setIsSendFollowRequest] = useState(false);
 
   const handleFollow = async () => {
     try {
       const friendData = {
-        ReceiverEmail: email,  
-        Text: `Friend request from ${name}`, 
+        ReceiverEmail: email,
+        Text: `Friend request received at ${Date.now()}`,
         IsAccepted: false,
         NotificationType: "FriendRequest",
       };
 
       await fetchFriendRequests(friendData);
+      setIsSendFollowRequest(true);
       console.log("Follow request sent successfully");
     } catch (error) {
       console.error("Error sending follow request:", error);
@@ -120,7 +122,6 @@ const UserCard = ({ name, email, image }) => {
       />
       <Text style={styles.userName}>{name}</Text>
       <View style={styles.userInfo}>
-        
         <View style={styles.infoRow}>
           <Entypo name="mail" size={15} color="black" />
           <Text>{TextShortener(email, 12)}</Text>
@@ -128,14 +129,17 @@ const UserCard = ({ name, email, image }) => {
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity
-            className="bg-green"
-            style={[styles.button]}
-            onPress={handleFollow} // Artık doğru fonksiyon
+            disabled={isSendFollowRequest}
+            style={[
+              styles.button,
+              { backgroundColor: isSendFollowRequest ? "gray" : "#10B981" },
+            ]}
+            onPress={handleFollow}
           >
             <Text style={styles.buttonText}>{t("friend.follow")}</Text>
           </TouchableOpacity>
 
-         <TouchableOpacity
+          <TouchableOpacity
             style={styles.viewProfileButton}
             onPress={() => navigation.navigate("userdetails/index")}
           >
@@ -221,4 +225,3 @@ const styles = StyleSheet.create({
     fontSize: 11,
   },
 });
-
