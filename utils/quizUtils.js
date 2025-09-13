@@ -1,6 +1,6 @@
 import { getToken } from "../secureStore";
 
-const URL = "https://85d4e2d27067.ngrok-free.app/api";
+const URL = "https://5e5aecc22b19.ngrok-free.app/api";
 
 export const fetchUpdateProfessionQuizzes = async (quizId, profession) => {
   try {
@@ -46,3 +46,22 @@ export const fetchUpdateOccupationQuiz = async (quizId, profession) => {
     console.error("Error updating quiz:", error);
   }
 }
+////Quiz/OccupationStatistic
+export const fetchOccupationStatistics = async () => {
+  try {
+   // const token = await getToken("authToken");
+    const response = await fetch(`${URL}/Quiz/OccupationStatistic`, {
+        method: "GET",
+        
+    });
+    if (response.ok) {
+        const data = await response.json();
+        console.log("Occupation statistics fetched successfully:", data);
+        return data;
+    } else {
+        console.error("Failed to fetch occupation statistics:", response.status);
+    }
+} catch (error) {
+    console.error("Error fetching occupation statistics:", error);
+}
+};

@@ -45,6 +45,7 @@ import { ScrollView, Text, View } from "react-native";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
 import { getToken } from "../../secureStore";
+import { fetchUserDailyTask,fetchWorkDailyTask } from "@/utils/dashboardUtils";
 const TaskCard = ({ title, time, color }) => (
   <View
     className="p-4 rounded-md w-[140px] mr-4"
@@ -64,30 +65,38 @@ export default function DailyTasks() {
     const fetchTasks = async () => {
       try {
         const token = await getToken("authToken");
-        const [projectRes, userRes] = await Promise.all([
-          fetch("https://85d4e2d27067.ngrok-free.app/api/Work/DailyTask", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }),
-          fetch("https://85d4e2d27067.ngrok-free.app/api/UserTask/DailyTask", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }),
-        ]);
+        const workDailyTask=await fetchWorkDailyTask(token);
+        const userDailyTask=await fetchUserDailyTask(token);
+        const combined = [
+          ...workDailyTask.map((task) => ({ ...task, source: "project" })),
+          ...userDailyTask.map((task) => ({ ...task, source: "user" })),
+        ];
+        setItems(combined);
+        // const [projectRes, userRes] = await Promise.all([
 
-        if (projectRes.ok && userRes.ok) {
-          const projectTasks = await projectRes.json();
-          const userTasks = await userRes.json();
+        //   fetch("https://85d4e2d27067.ngrok-free.app/api/Work/DailyTask", {
+        //     headers: {
+        //       Authorization: `Bearer ${token}`,
+        //     },
+        //   }),
+        //   fetch("https://85d4e2d27067.ngrok-free.app/api/UserTask/DailyTask", {
+        //     headers: {
+        //       Authorization: `Bearer ${token}`,
+        //     },
+        //   }),
+        // ]);
 
-          const combined = [
-            ...projectTasks.map((task) => ({ ...task, source: "project" })),
-            ...userTasks.map((task) => ({ ...task, source: "user" })),
-          ];
+        // if (projectRes.ok && userRes.ok) {
+        //   const projectTasks = await projectRes.json();
+        //   const userTasks = await userRes.json();
 
-          setItems(combined);
-        }
+        //   const combined = [
+        //     ...projectTasks.map((task) => ({ ...task, source: "project" })),
+        //     ...userTasks.map((task) => ({ ...task, source: "user" })),
+        //   ];
+
+        //   setItems(combined);
+       // }
       } catch (err) {
         console.error("Error fetching tasks:", err);
       }

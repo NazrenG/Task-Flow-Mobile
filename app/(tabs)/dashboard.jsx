@@ -17,6 +17,7 @@ import {
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
 import {fetchTotalUserCount} from "../../utils/dashboardUtils";
+import ProjectCard from "@/components/dashboard/CurrentProject";
 
 export default function Dashboard() {
   const navigation = useNavigation();
@@ -154,13 +155,15 @@ export default function Dashboard() {
           <View
             className=" mt-4 rounded-lg shadow-md p-3"
             style={{ backgroundColor: Colors[theme].card }}
-          >
-            <Text
+          > <Text
               className="text-xl font-semibold text-black"
               style={{ color: Colors[theme].text }}
             >
-              {t("dashboard.currentTasks")}
+              {t("dashboard.currentProjects")}
             </Text>
+            <ProjectCard/> 
+       
+           
           </View>
         </ScrollView>
       </SafeAreaView>
