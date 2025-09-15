@@ -9,10 +9,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import TextShortener from "../../constants/TextShortener";
-import { fetchUnfollowRequest } from "../../utils/friendUtils";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
+import TextShortener from "../../constants/TextShortener";
+import { fetchUnfollowRequest } from "../../utils/friendUtils";
 
 const width = Dimensions.get("window").width;
 
@@ -40,6 +40,7 @@ const FriendCard = ({ name, email, image, isOnline = true }) => {
               : require("../../assets/images/default-user.png")
           }
         />
+
         <View
           style={[
             styles.statusDot,
@@ -78,7 +79,10 @@ const FriendCard = ({ name, email, image, isOnline = true }) => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.button, { backgroundColor: Colors[theme].secondary }]}
+            style={[
+              styles.button,
+              { backgroundColor: Colors[theme].secondary },
+            ]}
             onPress={async () => {
               try {
                 await fetchUnfollowRequest(name);
