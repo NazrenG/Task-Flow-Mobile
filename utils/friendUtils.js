@@ -1,7 +1,7 @@
 import { getToken } from "../secureStore";
 
 //const URL = "https://taskflowwebapi20250802142810.azurewebsites.net/api";
-const URL = "https://8aea1d20fadc.ngrok-free.app/api";
+const URL = "https://88111cea5413.ngrok-free.app/api";
 
 export const fetchAllFriends = async () => {
   try {
@@ -118,7 +118,7 @@ export const fetchFriendRequests = async (friendData) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(friendData), 
+      body: JSON.stringify(friendData),
     });
 
     if (response.ok) {
@@ -133,3 +133,28 @@ export const fetchFriendRequests = async (friendData) => {
   }
 };
 
+export const fetchDeleteFriendRequest = async (userId) => {
+  try {
+    const token = await getToken("authToken");
+    const response = await fetch(URL + `/Friend/DeleteRequest/${userId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log("Friend request sent successfully:", data);
+      return data;
+    } else {
+      console.error(
+        "fetchDeleteFriendRequestrequest:",
+        JSON.stringify(response)
+      );
+    }
+  } catch (error) {
+    console.error("Error fetchDeleteFriendRequest:", error);
+  }
+};

@@ -1,4 +1,4 @@
- // import Entypo from "@expo/vector-icons/Entypo";
+// import Entypo from "@expo/vector-icons/Entypo";
 // import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 // import {
 //   Dimensions,
@@ -71,7 +71,6 @@
 //   },
 // });
 import Entypo from "@expo/vector-icons/Entypo";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
@@ -84,27 +83,50 @@ import {
   View,
 } from "react-native";
 import TextShortener from "../../constants/TextShortener";
-import { fetchFriendRequests } from "../../utils/friendUtils";
+import { getToken } from "../../secureStore";
+import { startSignalRConnection } from "../../SignalR";
+import {
+  fetchDeleteFriendRequest,
+  fetchFriendRequests,
+  fetchUnfollowRequest,
+} from "../../utils/friendUtils";
 
 const width = Dimensions.get("window").width;
 
-const UserCard = ({ name, email, image }) => {
+const UserCard = ({ user }) => {
   const navigation = useNavigation();
   const { t } = useTranslation();
 
   const handleFollow = async () => {
     try {
       const friendData = {
-        ReceiverEmail: email,  
-        Text: `Friend request from ${name}`, 
+        ReceiverEmail: user.friendEmail,
+        Text: `Friend request from ${user.friendName}`,
         IsAccepted: false,
         NotificationType: "FriendRequest",
       };
 
       await fetchFriendRequests(friendData);
       console.log("Follow request sent successfully");
+
+      const token = getToken("authToken");
+      const conn = await startSignalRConnection(URL, token);
+      conn.invoke("SendFollow");
     } catch (error) {
       console.error("Error sending follow request:", error);
+    }
+  };
+  const handleDeleteReq = async () => {
+    try {
+      console.log("userId: " + user.id);
+      const response = await fetchDeleteFriendRequest(user.id);
+      if (!response.ok) {
+        console.log("failed to delete request: " + JSON.stringify(response));
+        return;
+      }
+      console.log("Request deleted successfully!");
+    } catch (error) {
+      console.log("error in handleDeleteReq: " + error);
     }
   };
 
@@ -113,29 +135,53 @@ const UserCard = ({ name, email, image }) => {
       <Image
         style={styles.userImage}
         source={
-          image
-            ? { uri: image }
+          user.friendPhoto
+            ? { uri: user.friendPhoto }
             : require("../../assets/images/default-user.png")
         }
       />
-      <Text style={styles.userName}>{name}</Text>
+      <Text style={styles.userName}>{user.friendName}</Text>
       <View style={styles.userInfo}>
-        
         <View style={styles.infoRow}>
           <Entypo name="mail" size={15} color="black" />
-          <Text>{TextShortener(email, 12)}</Text>
+          <Text>{TextShortener(user.friendEmail, 12)}</Text>
         </View>
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            className="bg-green"
-            style={[styles.button]}
-            onPress={handleFollow} // Artık doğru fonksiyon
-          >
-            <Text style={styles.buttonText}>{t("friend.follow")}</Text>
-          </TouchableOpacity>
+          {user.isFriend ? (
+            <TouchableOpacity
+              className="bg-green"
+              style={[styles.button]}
+              onPress={async () => {
+                try {
+                  await fetchUnfollowRequest(user.friendName);
+                  console.log("Unfollowed successfully");
+                } catch (error) {
+                  console.error("Error unfollowing:", error);
+                }
+              }}
+            >
+              <Text style={styles.buttonText}>{t("friend.unfollow")}</Text>
+            </TouchableOpacity>
+          ) : user.hasRequestPending ? (
+            <TouchableOpacity
+              className="bg-green"
+              style={[styles.button]}
+              onPress={handleDeleteReq} // Artık doğru fonksiyon
+            >
+              <Text style={styles.buttonText}>requested</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              className="bg-green"
+              style={[styles.button]}
+              onPress={handleFollow} // Artık doğru fonksiyon
+            >
+              <Text style={styles.buttonText}>{t("friend.follow")}</Text>
+            </TouchableOpacity>
+          )}
 
-         <TouchableOpacity
+          <TouchableOpacity
             style={styles.viewProfileButton}
             onPress={() => navigation.navigate("userdetails/index")}
           >
@@ -221,4 +267,3 @@ const styles = StyleSheet.create({
     fontSize: 11,
   },
 });
-

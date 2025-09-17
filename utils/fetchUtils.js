@@ -1,7 +1,7 @@
 import { deleteToken, getToken, saveToken } from "../secureStore";
 import { startSignalRConnection } from "../SignalR";
 
-export const URL = "https://0c81393060c0.ngrok-free.app/api";
+export const URL = "https://88111cea5413.ngrok-free.app/api";
 //const URL = "https://09108b61df9c.ngrok-free.app/api";
 // const URL = "https://taskflowwebapi20250802142810.azurewebsites.net/api";
 
@@ -62,7 +62,7 @@ export const fetchSignIn = async (username, password) => {
       // console.log("token: " + data.token);
       saveToken("authToken", data.token);
       await startSignalRConnection({
-        hubUrl: `https://0c81393060c0.ngrok-free.app/hubs/connection`, // fix hub URL
+        hubUrl: `https://88111cea5413.ngrok-free.app/hubs/connection`, // fix hub URL
         accessToken: data.token,
       });
       return true;

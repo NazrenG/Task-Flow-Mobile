@@ -287,13 +287,7 @@ export default function Friends() {
               <ScrollView>
                 <View className="flex-row flex-wrap justify-start p-1 gap-4 ml-1">
                   {users.map((user) => (
-                    <UserCard
-                      key={user.id}
-                      id={user.id}
-                      name={user.friendName}
-                      email={user.friendEmail}
-                      image={user.friendPhoto}
-                    />
+                    <UserCard key={user.id} id={user.id} user={user} />
                   ))}
                 </View>
               </ScrollView>
