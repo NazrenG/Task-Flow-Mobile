@@ -1,78 +1,7 @@
-// import Entypo from "@expo/vector-icons/Entypo";
-// import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-// import {
-//   Dimensions,
-//   Image,
-//   StyleSheet,
-//   Text,
-//   TouchableOpacity,
-//   View,
-// } from "react-native";
-// import TextShortener from "../../constants/TextShortener.js";
-// const width = Dimensions.get("window").width;
-
-// const FriendCard = () => {
-//   return (
-//     <View
-//       style={styles.userCard}
-//       className="bg-white p-[5vw] rounded-md border border-gray-200 shadow-sm"
-//     >
-//       <Image
-//         style={{ width: width / 9, height: width / 9 }}
-//         source={require("../../assets/images/default-user.png")}
-//       />
-//       <Text className="font-bold text-base mt-3">Nezrin</Text>
-//       <View style={styles.userInfo}>
-//         <View className="flex flex-row justify-center items-center gap-1">
-//           <MaterialIcons name="call" size={15} color="black" />
-//           <Text className="text-gray-500 mt-2">055 999 88 77</Text>
-//         </View>
-//         <View className="flex flex-row justify-center items-center gap-1">
-//           <Entypo name="mail" size={15} color="black" />
-//           {/* <TextShortener data={"quliyeva@gmail.com"} count={16} /> */}
-//         </View>
-
-//         <View className="flex flex-row gap-2">
-//           <TouchableOpacity className="bg-darkPurple" style={styles.button}>
-//             <Text className="text-white">Message</Text>
-//           </TouchableOpacity>
-//           <TouchableOpacity className="bg-bg_violet" style={styles.button}>
-//             <Text className="text-white">Unfollow</Text>
-//           </TouchableOpacity>
-//         </View>
-//       </View>
-//     </View>
-//   );
-// };
-
-// export default FriendCard;
-
-// const styles = StyleSheet.create({
-//   userCard: {
-//     // display: "flex",
-//     // flexDirection: "row",
-//     alignItems: "center",
-//     // boxShadow: "offsite",
-//     // backgroundColor: "red",
-//     width: width / 3 + 15,
-//   },
-//   userInfo: {
-//     // marginLeft: 20,
-//     width: width / 3 + 15,
-//     // marginTop: 10,
-//     alignItems: "center",
-//     // backgroundColor: "red",
-//   },
-//   button: {
-//     borderRadius: 5,
-//     marginTop: 14,
-//     paddingVertical: 5,
-//     paddingHorizontal: 6,
-//   },
-// });
 import Entypo from "@expo/vector-icons/Entypo";
 
 import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Dimensions,
@@ -96,17 +25,19 @@ const width = Dimensions.get("window").width;
 const UserCard = ({ user }) => {
   const navigation = useNavigation();
   const { t } = useTranslation();
+  const [isSendFollowRequest, setIsSendFollowRequest] = useState(false);
 
   const handleFollow = async () => {
     try {
       const friendData = {
         ReceiverEmail: user.friendEmail,
-        Text: `Friend request from ${user.friendName}`,
+        Text: `Friend request received at ${Date.now()}`,
         IsAccepted: false,
         NotificationType: "FriendRequest",
       };
 
       await fetchFriendRequests(friendData);
+      setIsSendFollowRequest(true);
       console.log("Follow request sent successfully");
 
       const token = getToken("authToken");

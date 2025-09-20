@@ -2,12 +2,33 @@ import { useRouter } from "expo-router";
 import LottieView from "lottie-react-native";
 import { useState } from "react";
 import { Dimensions, Text, TouchableOpacity, View } from "react-native";
+import { 
+  fetchUpdateOccupationQuiz,
+  fetchUpdateProfessionQuizzes,
+} from "../../utils/quizUtils";
 
 export default function Quiz() {
   const width = Dimensions.get("window").width;
   const height = Dimensions.get("window").height;
   const router = useRouter();
   const [index, setIndex] = useState(1);
+
+  const fetchData = async (selectedAnswer) => {
+    try {
+      await fetchUpdateOccupationQuiz(selectedAnswer); 
+    } catch (error) {
+      console.error("Error fetching quiz data:", error);
+    }
+  };
+
+  const fetchProfessionData = async (selectedAnswer) => {
+    try {
+      await fetchUpdateProfessionQuizzes(selectedAnswer); 
+    } catch (error) {
+      console.error("Error fetching quiz data:", error);
+    }
+  };
+
   const files = [
     {
       id: "1",
@@ -83,8 +104,10 @@ export default function Quiz() {
             className="w-full h-12 bg-[#403955] justify-center items-center rounded-lg mt-5"
             onPress={() => {
               if (index === 2) {
+                fetchProfessionData(answer.text);
                 router.replace("/auth/login");
               } else {
+                fetchData(answer.text);
                 increaseIndex();
               }
             }}

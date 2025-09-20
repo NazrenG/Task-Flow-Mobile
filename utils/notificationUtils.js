@@ -25,6 +25,31 @@ export const fetchRequestNotifications = async () => {
   }
 };
 
+export const fetchProjectRequestNotifications = async () => {
+  try {
+    const token = await getToken("authToken");
+    const response = await fetch(
+      `${URL}/Notification/ProjectRequestNotification`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (response.ok) {
+      const data = await response.json();
+      console.log(` project requests fetched successfully`, data);
+      return data;
+    } else {
+      console.error(`Failed to fetch project requests`, response.status);
+    }
+  } catch (error) {
+    console.error(`Error fetching project requests`, error);
+  }
+};
+
 export const fetchReminderNotifications = async () => {
   try {
     const token = await getToken("authToken");

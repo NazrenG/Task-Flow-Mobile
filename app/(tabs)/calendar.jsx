@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { addDays, addMonths, format, startOfWeek, subMonths } from "date-fns";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -12,6 +12,7 @@ import EditTaskDateModal from "../../components/calendarPage/editTaskDateModal";
 import Header from "../../components/Header";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
+import { fetchWorkUserTasks,fetchUserTasks } from "../../utils/calendarUtils";
 
 const HOURS = Array.from({ length: 12 }, (_, i) => 8 + i);
 
@@ -21,52 +22,59 @@ export default function CalendarScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedTask, setSelectedTask] = useState("");
   const [searchText, setSearchText] = useState("");
+  const [tasks, setTasks] = useState([]);
 
   const { theme } = useTheme();
   const colors = Colors[theme];
 
-  const tasks = [
-    {
-      id: 1,
-      title: "Marketing team meeting",
-      start: 8,
-      end: 8.66,
-      color: "#FDE68A",
-    },
-    {
-      id: 2,
-      title: "Make plans to create new products",
-      start: 9,
-      end: 10,
-      color: "#C4B5FD",
-    },
-    {
-      id: 3,
-      title: "Coffee breaks and snacks",
-      start: 10,
-      end: 10.5,
-      color: "#A5F3FC",
-    },
-    {
-      id: 4,
-      title: "Company policy meeting",
-      start: 10.66,
-      end: 12.25,
-      color: "#FBCFE8",
-    },
-    {
-      id: 5,
-      title: "Have lunch",
-      start: 12.5,
-      end: 13.5,
-      color: "#FDE68A",
-    },
-  ];
+ 
+const fetchTasks = async () => {
+  try {
+    const workTasks = await fetchWorkUserTasks();
+    const userTasks = await fetchUserTasks();
+
+  const mapTask = (task, source) => {
+ const parseHour = (dateString) => {
+  if (!dateString) return null;
+  const d = new Date(dateString);
+  const hour = d.getHours() + d.getMinutes() / 60;
+  return hour === 0 ? 8 : hour; 
+};
+
+
+  return {
+    id: task.id,
+    title: task.title,
+    startDate: new Date(task.startDate),
+    endDate: new Date(task.deadline),
+    start: parseHour(task.startDate),
+    end: parseHour(task.deadline),
+    color: task.color || (source === "project" ? "#007bff" : "#28a745"),
+    extendedProps: { source },
+  };
+};
+
+
+    const combinedTasks = [
+      ...workTasks.map((t) => mapTask(t, "project")),
+      ...userTasks.map((t) => mapTask(t, "user")),
+    ];
+
+    setTasks(combinedTasks);
+  } catch (error) {
+    console.log("Error fetching tasks:", error);
+  }
+};
+
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
 
   const startOfSelectedWeek = startOfWeek(selectedDate, { weekStartsOn: 1 });
 
   return (
-    <> 
+    <>
       <Header onSearch={setSearchText} />
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
         {/* Header */}
@@ -208,44 +216,43 @@ export default function CalendarScreen() {
               {/* Tasks */}
               <View style={{ flex: 1, position: "relative" }}>
                 {tasks
-                  .filter((t) => t.start >= hour && t.start < hour + 1)
-                  .map((task) => {
-                    const topOffset = (task.start - hour) * 80;
-                    const height = (task.end - task.start) * 80;
-                    return (
-                      <TouchableOpacity
-                        onPress={() => {
-                          setSelectedTask(task.title);
-                          setModalVisible(true);
-                        }}
-                        key={task.id}
-                        style={{
-                          position: "absolute",
-                          left: 0,
-                          right: 16,
-                          top: topOffset,
-                          height,
-                          backgroundColor: task.color,
-                          borderRadius: 8,
-                          paddingHorizontal: 8,
-                          paddingVertical: 4,
-                        }}
-                      >
-                        <Text
-                          style={{
-                            fontSize: 12,
-                            fontWeight: "600",
-                            color: "#1f2937",
-                          }}
-                        >
-                          {task.title}
-                        </Text>
-                        <Text style={{ fontSize: 12, color: "#4b5563" }}>
-                          {`${task.start}:00 - ${task.end}:00`}
-                        </Text>
-                      </TouchableOpacity>
-                    );
-                  })}
+  .filter((t) => {
+   
+    return format(t.startDate, "yyyy-MM-dd") === format(selectedDate, "yyyy-MM-dd");
+  })
+  .filter((t) => Math.floor(t.start) >= hour && Math.floor(t.start) < hour + 1)
+  .map((task) => {
+    const topOffset = (task.start - hour) * 80;
+    const height = (task.end - task.start) * 80 || 40; 
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          setSelectedTask(task.title);
+          setModalVisible(true);
+        }}
+        key={task.id}
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 16,
+          top: topOffset,
+          height,
+          backgroundColor: task.color,
+          borderRadius: 8,
+          paddingHorizontal: 8,
+          paddingVertical: 4,
+        }}
+      >
+        <Text style={{ fontSize: 12, fontWeight: "600", color: "#1f2937" }}>
+          {task.title}
+        </Text>
+        <Text style={{ fontSize: 12, color: "#4b5563" }}>
+          {format(task.startDate, "HH:mm")} - {format(task.endDate, "HH:mm")}
+        </Text>
+      </TouchableOpacity>
+    );
+  })}
+
               </View>
             </View>
           ))}

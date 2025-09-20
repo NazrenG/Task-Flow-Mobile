@@ -55,7 +55,9 @@
     "phone": "Telefon Nömrəsi",
     "status": "Status",
     "priority": "Prioritet",
-    "projectOverview": "Layihənin icmalı"
+    "projectOverview": "Layihənin icmalı",
+    "online": "onlayn",
+    "offline": "oflayn"
   },
 
 
@@ -147,7 +149,7 @@
     "statisticsAccording":"Bütün iştirakçıların peşə profillərinə görə statistika",
     "dailyTasks": "Gündəlik Tapşırıqlar",
     "noTask":"Bu saat üçün tapşırıq yoxdur",
-    "currentTasks": "Cari Tapşırıqlar"
+    "currentProjects": "Cari Proyektlər"
   },
 
  "chat":{

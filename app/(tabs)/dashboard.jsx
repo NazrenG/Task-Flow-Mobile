@@ -4,7 +4,7 @@ import DailyTasks from "@/components/dashboard/DailyTask";
 import Header from "@/components/Header";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   ImageBackground,
@@ -16,6 +16,8 @@ import {
 
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
+import {fetchTotalUserCount} from "../../utils/dashboardUtils";
+import ProjectCard from "@/components/dashboard/CurrentProject";
 
 export default function Dashboard() {
   const navigation = useNavigation();
@@ -25,11 +27,25 @@ export default function Dashboard() {
   };
   const { t } = useTranslation();
   const { theme } = useTheme();
+  const [totalUsers, setTotalUsers] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userCount = await fetchTotalUserCount();
+        setTotalUsers(userCount);
+      } catch (error) {
+        console.error("Error fetching user count:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const cardData = [
     {
       label: t("dashboard.totalClients"),
-      value: "3",
+      value: totalUsers,
       icon: "people-group",
     },
     {
@@ -139,13 +155,15 @@ export default function Dashboard() {
           <View
             className=" mt-4 rounded-lg shadow-md p-3"
             style={{ backgroundColor: Colors[theme].card }}
-          >
-            <Text
+          > <Text
               className="text-xl font-semibold text-black"
               style={{ color: Colors[theme].text }}
             >
-              {t("dashboard.currentTasks")}
+              {t("dashboard.currentProjects")}
             </Text>
+            <ProjectCard/> 
+       
+           
           </View>
         </ScrollView>
       </SafeAreaView>
