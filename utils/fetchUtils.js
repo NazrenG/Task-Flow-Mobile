@@ -58,7 +58,7 @@ export const fetchSignIn = async (username, password) => {
       // console.log("token: " + data.token);
       saveToken("authToken", data.token);
       await startSignalRConnection({
-        hubUrl: `https://108fbb644ca1.ngrok-free.app/hubs/connection`, // fix hub URL
+        hubUrl: URL.replace(/\/api$/, "") + "/hubs/connection",
         accessToken: data.token,
       });
       return true;
