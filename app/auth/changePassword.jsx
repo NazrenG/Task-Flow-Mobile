@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
-import { fetchResetPassword } from "../../utils/fetchUtils";
+import { fetchResetPassword } from "../../utils/profileUtils";
 
 const { width, height } = Dimensions.get("window");
 

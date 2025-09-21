@@ -13,7 +13,7 @@ import CodeVerification from "../../components/codeverification/codeVerification
 import {
   fetchEmailConfirmation,
   fetchVerifyCode,
-} from "../../utils/fetchUtils";
+} from "../../utils/profileUtils";
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const OtpVerificationScreen = () => {

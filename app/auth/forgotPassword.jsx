@@ -13,7 +13,7 @@ import {
 import Button from "../../components/Button/Button";
 import CodeVerification from "../../components/codeverification/codeVerification";
 import Input from "../../components/Input/Input";
-import { fetchEmailConfirmation } from "../../utils/fetchUtils";
+import { fetchEmailConfirmation } from "../../utils/profileUtils";
 
 const ForgetPasswordScreen = () => {
   const [email, setEmail] = useState("");
