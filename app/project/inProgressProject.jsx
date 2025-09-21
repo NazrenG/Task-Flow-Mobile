@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, ScrollView, Text, View } from "react-native";
 import * as Progress from "react-native-progress";
-import { fetchOnGoingProjectsList } from "../../utils/fetchUtils";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
+import { getToken, URL } from "../../secureStore";
+import { startSignalRConnection } from "../../SignalR";
+import { fetchOnGoingProjectsList } from "../../utils/projectUtils";
 
 const width = Dimensions.get("window").width;
 const InProgressProject = () => {
@@ -23,29 +25,48 @@ const InProgressProject = () => {
   // ];
   const { theme } = useTheme();
 
+  const getDatas = async () => {
+    const response = await fetchOnGoingProjectsList();
+    console.log("inprogress: " + JSON.stringify(response));
+    setProjects(response ? response : []);
+  };
+
   useEffect(() => {
-    const getDatas = async () => {
-      const response = await fetchOnGoingProjectsList();
-      console.log("inprogress: " + response);
-      setProjects(response);
-    };
     getDatas();
+  }, []);
+
+  useEffect(() => {
+    const hubConnection = async () => {
+      const token = getToken("authToken");
+      const conn = await startSignalRConnection(URL, token);
+      conn.on("RecieveInProgressUpdate", () => {
+        console.log("in RecieveInProgressUpdate");
+        getDatas();
+      });
+    };
+    hubConnection();
   }, []);
 
   return (
     <View
-      style={[{
-        width: width - 40,
-        maxHeight: 300,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.1,
-        shadowRadius: 6,
-        elevation: 3,
-      },{backgroundColor: Colors[theme].card}]}
+      style={[
+        {
+          width: width - 40,
+          maxHeight: 300,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 1 },
+          shadowOpacity: 0.1,
+          shadowRadius: 6,
+          elevation: 3,
+        },
+        { backgroundColor: Colors[theme].card },
+      ]}
       className="p-4 bg-white rounded-lg m-2"
     >
-      <Text className="text-lg font-semibold mb-3" style={{color: Colors[theme].text}}>
+      <Text
+        className="text-lg font-semibold mb-3"
+        style={{ color: Colors[theme].text }}
+      >
         {t("project.inProcessProject")}
       </Text>
       <ScrollView nestedScrollEnabled={true}>
@@ -55,12 +76,12 @@ const InProgressProject = () => {
               <View>
                 <View className="rounded-full bg-green size-12 p-2 justify-center items-center">
                   <Text className="font-bold text-white">
-                    {project.name[0].toUpperCase()}
+                    {project.title[0].toUpperCase()}
                   </Text>
                 </View>
               </View>
               <View style={{ width: width - 150 }}>
-                <Text className="text-base mb-1">{project.name}</Text>
+                <Text className="text-base mb-1">{project.title}</Text>
                 <Progress.Bar
                   progress={0.6}
                   width={null}
@@ -73,7 +94,7 @@ const InProgressProject = () => {
                   <View className="flex-row items-center gap-1 mt-1">
                     <MaterialIcons name="watch-later" size={15} color="gray" />
                     <Text className="text-sm text-gray-600">
-                      {t("project.deadline")}:{project.daysLeft} days left
+                      {t("project.deadline")}: days left
                     </Text>
                   </View>
                 )}

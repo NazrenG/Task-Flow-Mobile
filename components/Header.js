@@ -12,10 +12,12 @@ import CalendarDropdown from "../hooks/DropDown";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "../components/ThemeContext";
 import { Colors } from "../constants/Colors";
+import { useTranslation } from "react-i18next";
 
 export default function Header({ onSearch }) {
   const navigation = useNavigation();
   const { theme, toggleTheme } = useTheme(); // dark / light və dəyişdirmə funksiyası
+  const { t } = useTranslation();
 
   const languages = [
     {
@@ -65,7 +67,7 @@ export default function Header({ onSearch }) {
           <TextInput
             className="flex-1 p-2"
             style={{ color: Colors[theme].text }}
-            placeholder="Search..."
+            placeholder={t("search")}
             placeholderTextColor={Colors[theme].placeholder}
             onChangeText={onSearch}
           />

@@ -1,6 +1,7 @@
-import { getToken } from "../secureStore";
+import { getToken, URL } from "../secureStore";
 
-const URL = "https://taskflowwebapi20250802142810.azurewebsites.net/api";
+// const URL = "https://108fbb644ca1.ngrok-free.app/api";
+//const URL = "https://taskflowwebapi20250802142810.azurewebsites.net/api";
 
 export const fetchRequestNotifications = async () => {
   try {
@@ -21,6 +22,31 @@ export const fetchRequestNotifications = async () => {
     }
   } catch (error) {
     console.error(`Error fetching   notifications`, error);
+  }
+};
+
+export const fetchProjectRequestNotifications = async () => {
+  try {
+    const token = await getToken("authToken");
+    const response = await fetch(
+      `${URL}/Notification/ProjectRequestNotification`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (response.ok) {
+      const data = await response.json();
+      console.log(` project requests fetched successfully`, data);
+      return data;
+    } else {
+      console.error(`Failed to fetch project requests`, response.status);
+    }
+  } catch (error) {
+    console.error(`Error fetching project requests`, error);
   }
 };
 

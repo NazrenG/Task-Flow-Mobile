@@ -40,6 +40,7 @@ const FriendCard = ({ name, email, image, isOnline = true }) => {
               : require("../../assets/images/default-user.png")
           }
         />
+
         <View
           style={[
             styles.statusDot,

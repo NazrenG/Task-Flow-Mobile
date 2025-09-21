@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import Svg, { Circle, G, Path } from "react-native-svg";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
+import {fetchOccupationStatistics} from "../../utils/quizUtils";
 
 const DonutSlice = ({ startAngle, endAngle, color }) => {
   const radius = 80;
@@ -28,26 +29,49 @@ const DonutSlice = ({ startAngle, endAngle, color }) => {
 };
 
 export default function  DonutChart() {
-  const data = [
-    { name: "IT", value: 10, color: "#ef7f5a" },
-    { name: "Design", value: 20, color: "#00BC8B" },
-    { name: "HR", value: 30, color: "#FFB800" },
-    { name: "Frontend", value: 25, color: "#5D45FB" },
-    { name: "Other", value: 15, color: "#6C757D" },
-  ];
 
+  const { theme } = useTheme();
+ const [data, setData] = React.useState([]);  
+
+  const fetchData = async () => {
+    try {
+      const response = await fetchOccupationStatistics();  
+      const chartData = response.map((item, index) => ({
+        name: item.occupationName,
+        value: item.percentage,
+        color: colors[index % colors.length],
+      }));
+      setData(chartData);
+    } catch (error) {
+      console.error("Error fetching occupation statistics:", error);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchData();
+  }, []);  
+  
   const total = data.reduce((sum, d) => sum + d.value, 0); 
   let cumulativeAngle = 0;
 
-    const { theme } = useTheme();
+  const colors = [
+    "#3C21F7",
+    "#00BC8B",
+    "#FFB800",
+    "#00ECCC",
+    "#EF7F5A",
+    "#5D45FB",
+    "#6c757d",
+  ];
 
+  if (data.length === 0) return <Text>Loading chart...</Text>;
 
-  return (
+ 
+return (
     <View style={styles.container}>
-      {/* Chart */}
       <View>
         <Svg width={190} height={240}>
-          <G rotation="-90" origin="120, 120">
+          <G rotation="-90" origin="110, 120">
             {data.map((slice, index) => {
               const angle = (slice.value / total) * 360;
               const startAngle = cumulativeAngle;
@@ -64,53 +88,44 @@ export default function  DonutChart() {
               );
             })}
           </G>
-          {/* İç boşluq */}
-          <Circle cx="90" cy="120" r="40" fill="white" />
-        </Svg> 
+          <Circle cx="80" cy="110" r="40" fill={Colors[theme].card} />
+        </Svg>
       </View>
 
-      {/* Legend sağda */}
       <View style={styles.legendContainer}>
-        {data.map((item, index) => {
-          const percent = ((item.value / total) * 100).toFixed(1);
-          return (
-            <View key={index} style={styles.legendItem}>
-              <View
-                style={[styles.colorBox, { backgroundColor: item.color }]}
-              />
-              <Text style={[ styles.legendText ,{ color: Colors[theme].text }]}>
-                {item.name} — {percent}%
-              </Text>
-            </View>
-          );
-        })}
+        {data.map((item, index) => (
+          <View key={index} style={styles.legendItem}>
+            <View style={[styles.colorBox, { backgroundColor: item.color }]} />
+            <Text style={[styles.legendText, { color: Colors[theme].text }]}>
+              {item.name} — {item.value.toFixed(1)}%
+            </Text>
+          </View>
+        ))}
       </View>
     </View>
   );
 }
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",  
-    justifyContent:"flex-start", 
-    gap: 2, 
+    flexDirection: "row"
   },
  
   legendContainer: {
     justifyContent: "center",
-    gap: 5,
+    gap: 6,
   },
   legendItem: {
     flexDirection: "row",
     alignItems: "center",
   },
   colorBox: {
-    width: 14,
+    width: 13,
     height: 14,
     borderRadius: 3,
     marginRight: 8,
   },
   legendText: {
-    fontSize: 14,
+    fontSize: 13,
    
   },
 });

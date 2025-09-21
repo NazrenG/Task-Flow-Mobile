@@ -11,8 +11,14 @@ import {
 } from "react-native";
 import RoundedButton from "../../components/Button/RoundedButton";
 import ProjectActionsDropdown from "../../components/dropdown/projectActionsDropdown";
+import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
-import { fetchUsersProjects } from "../../utils/fetchUtils";
+import { getToken, URL } from "../../secureStore";
+import { startSignalRConnection } from "../../SignalR";
+import {
+  fetchFilteredProjects,
+  fetchUsersProjects,
+} from "../../utils/projectUtils";
 
 const width = Dimensions.get("window").width;
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
@@ -23,22 +29,9 @@ const CardPagination = () => {
   const { t } = useTranslation();
   const scrollRef = useRef(null);
   const [cardsData, setCardsData] = useState([]);
-  // const cardsData = [
-  //   {
-  //     title: "Featured Event",
-  //     content: "Join our annual conference with industry leaders",
-  //   },
-  //   {
-  //     title: "Special Offer",
-  //     content: "Get 20% off all bookings made this week",
-  //   },
-  //   {
-  //     title: "New Feature",
-  //     content: "Try our new event planning toolkit",
-  //   },
-  // ];
-  // console.log(cardsData);
+
   const [currentIndex, setCurrentIndex] = useState(0);
+  const { theme } = useTheme();
 
   const handleScroll = (event) => {
     const contentOffset = event.nativeEvent.contentOffset.x;
@@ -53,12 +46,30 @@ const CardPagination = () => {
     });
   };
 
+  const handleProjectFilter = async (filterKey) => {
+    // console.log("in project filter");
+    const response = await fetchFilteredProjects(filterKey);
+    setCardsData(response ? response : []);
+    // console.log("in handle project filter: " + response);
+  };
+
+  const getDatas = async () => {
+    const response = await fetchUsersProjects();
+    setCardsData(response ? response : []);
+    console.log("pagi proj data: " + JSON.stringify(response));
+  };
   useEffect(() => {
-    const getDatas = async () => {
-      const response = await fetchUsersProjects();
-      setCardsData(response);
-    };
     getDatas();
+  }, []);
+  useEffect(() => {
+    const hubConnection = async () => {
+      const token = getToken("authToken");
+      const conn = await startSignalRConnection(URL, token);
+      conn.on("ReceiveProjectUpdate", () => {
+        getDatas();
+      });
+    };
+    hubConnection();
   }, []);
 
   return (
@@ -73,21 +84,27 @@ const CardPagination = () => {
             data={t("project.pending")}
             styleData="bg-bg_blue"
             textStyle="text-sm"
+            customPress={() => handleProjectFilter("PendingProject")}
           ></RoundedButton>
           <RoundedButton
             data={t("project.onGoing")}
             styleData="bg-bg_yellow"
             textStyle="text-sm"
+            customPress={() => handleProjectFilter("OnGoingProject")}
           ></RoundedButton>
           <RoundedButton
             data={t("project.complated")}
             styleData="bg-light_green"
             textStyle="text-sm"
+            customPress={() => handleProjectFilter("CompletedProject")}
           ></RoundedButton>
         </View>
       </View>
       {/* Horizontal Scroll Cards */}
-      <View className="py-2">
+      <View
+        className="py-2"
+        style={{ backgroundColor: Colors[theme].background }}
+      >
         <ScrollView
           ref={scrollRef}
           horizontal
@@ -96,22 +113,33 @@ const CardPagination = () => {
           onMomentumScrollEnd={handleScroll}
           snapToInterval={SCREEN_WIDTH}
           decelerationRate="fast"
+          className="py-2"
         >
           {cardsData.map((card, index) => (
-            <View key={index} style={styles.card}>
-              <View className="flex flex-row flex-left mt-6">
+            <View
+              key={index}
+              style={[styles.card, { backgroundColor: Colors[theme].card }]}
+            >
+              <View
+                className="flex flex-row flex-left mt-6"
+                style={{ color: Colors[theme].text }}
+              >
                 <View className="bg-navyBlue h-[3vh] w-[1vw] mr-4"></View>
-                <Text style={styles.cardTitle}>{card.title}</Text>
+                <Text style={[styles.cardTitle, { color: Colors[theme].text }]}>
+                  {card.title}
+                </Text>
               </View>
               <View className="px-6 py-4">
                 <Text style={styles.cardContent}>Owned by you</Text>
                 <Text className="text-[#6C757D] text-sm font-light mt-2">
-                  {t("project.deadline")}: yyyy-mm-dd
+                  {t("project.deadline")}:{" "}
+                  {card.endDate ? card.endDate.split("T")[0] : "-"}
                 </Text>
               </View>
               <View className="flex flex-row justify-between mx-9 mb-4 relative">
                 <Text className="text-2xl items-center">-</Text>
                 <ProjectActionsDropdown
+                  projectId={card.projectId}
                   isOpen={openDropdownIndex === index}
                   onToggle={() =>
                     setOpenDropdownIndex(
