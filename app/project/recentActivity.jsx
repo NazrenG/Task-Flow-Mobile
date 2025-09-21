@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Dimensions, Image, ScrollView, Text, View } from "react-native";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
-import { fetchRecentActivitiesList } from "../../utils/fetchUtils";
+import { fetchRecentActivitiesList } from "../../utils/projectUtils";
 const width = Dimensions.get("window").width;
 const RecentAvtivity = () => {
   const { t } = useTranslation();
@@ -97,11 +97,19 @@ const RecentAvtivity = () => {
                 className="flex flex-row items-center justify-between"
               >
                 <View>
-                  <Text className="text-base mb-1" style={{ color: Colors[theme].text }}>{item.username}</Text>
+                  <Text
+                    className="text-base mb-1"
+                    style={{ color: Colors[theme].text }}
+                  >
+                    {item.username}
+                  </Text>
                   {item.time !== null && (
                     <View className="flex-row items-center gap-1 mt-1">
                       {/* <MaterialIcons name="watch-later" size={15} color="gray" /> */}
-                      <Text className="text-sm text-gray-600" style={{ color: Colors[theme].text }}>
+                      <Text
+                        className="text-sm text-gray-600"
+                        style={{ color: Colors[theme].text }}
+                      >
                         {item.createDate.split("T")[0]}
                       </Text>
                     </View>

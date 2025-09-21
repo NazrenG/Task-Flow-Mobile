@@ -13,13 +13,12 @@ import RoundedButton from "../../components/Button/RoundedButton";
 import ProjectActionsDropdown from "../../components/dropdown/projectActionsDropdown";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
-import { getToken } from "../../secureStore";
+import { getToken, URL } from "../../secureStore";
 import { startSignalRConnection } from "../../SignalR";
 import {
   fetchFilteredProjects,
   fetchUsersProjects,
-  URL,
-} from "../../utils/fetchUtils";
+} from "../../utils/projectUtils";
 
 const width = Dimensions.get("window").width;
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
@@ -75,12 +74,12 @@ const CardPagination = () => {
 
   return (
     <View style={styles.container}>
-      <View className="flex flex-row items-center justify-end my-2" >
+      <View className="flex flex-row items-center justify-end my-2">
         {/* <Text className="text-base font-semibold my-2 ml-2">
           {t("project.recentProjectUpdates")}
         </Text> */}
 
-        <View className="flex flex-row gap-1 " >
+        <View className="flex flex-row gap-1 ">
           <RoundedButton
             data={t("project.pending")}
             styleData="bg-bg_blue"
@@ -102,7 +101,10 @@ const CardPagination = () => {
         </View>
       </View>
       {/* Horizontal Scroll Cards */}
-      <View className="py-2" style={{backgroundColor: Colors[theme].background}}>
+      <View
+        className="py-2"
+        style={{ backgroundColor: Colors[theme].background }}
+      >
         <ScrollView
           ref={scrollRef}
           horizontal
@@ -114,10 +116,18 @@ const CardPagination = () => {
           className="py-2"
         >
           {cardsData.map((card, index) => (
-            <View key={index} style={[styles.card , { backgroundColor: Colors[theme].card }]}>
-              <View className="flex flex-row flex-left mt-6" style={{color: Colors[theme].text}}>
+            <View
+              key={index}
+              style={[styles.card, { backgroundColor: Colors[theme].card }]}
+            >
+              <View
+                className="flex flex-row flex-left mt-6"
+                style={{ color: Colors[theme].text }}
+              >
                 <View className="bg-navyBlue h-[3vh] w-[1vw] mr-4"></View>
-                <Text style={[styles.cardTitle, { color: Colors[theme].text }]} >{card.title}</Text>
+                <Text style={[styles.cardTitle, { color: Colors[theme].text }]}>
+                  {card.title}
+                </Text>
               </View>
               <View className="px-6 py-4">
                 <Text style={styles.cardContent}>Owned by you</Text>

@@ -11,7 +11,7 @@ import {
 import { Calendar } from "react-native-calendars";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
-import { fetchEditProject, fetchProjectDetail } from "../../utils/fetchUtils";
+import { fetchEditProject, fetchProjectDetail } from "../../utils/projectUtils";
 import ProjectStateDropdown from "../dropdown/projectStateDropdown";
 import ProjectInput from "../Input/ProjectInput";
 import ColorPicker from "./colorPicker";

@@ -6,9 +6,9 @@ import { Dimensions, ScrollView, Text, View } from "react-native";
 import * as Progress from "react-native-progress";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
-import { getToken } from "../../secureStore";
+import { getToken, URL } from "../../secureStore";
 import { startSignalRConnection } from "../../SignalR";
-import { fetchOnGoingProjectsList, URL } from "../../utils/fetchUtils";
+import { fetchOnGoingProjectsList } from "../../utils/projectUtils";
 
 const width = Dimensions.get("window").width;
 const InProgressProject = () => {

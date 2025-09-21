@@ -9,12 +9,12 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useTheme } from "../../components/ThemeContext";
+import { Colors } from "../../constants/Colors";
 import {
   fetchAllUsersAndMembers,
   fetchUpdateTeammemberList,
-} from "../../utils/fetchUtils";
-import { Colors } from "../../constants/Colors";
-import { useTheme } from "../../components/ThemeContext";
+} from "../../utils/projectUtils";
 
 // const fakeUsers = [
 //   { id: "1", name: "Alice Smith" },
@@ -66,18 +66,22 @@ export default function UserSelectorModal({ visible, onClose, projectID }) {
   }, [visible, projectID]);
 
   return (
-    <Modal animationType="fade" transparent visible={visible} >
+    <Modal animationType="fade" transparent visible={visible}>
       <View className="flex-1 bg-black/50 justify-center items-center">
-        <View className="bg-white rounded-xl w-11/12 p-6 max-h-[80%]" style={{backgroundColor: Colors[theme].card
-        } }>
-          <Text className="text-lg font-semibold mb-4" style={{color: Colors[theme].text}}>
+        <View
+          className="bg-white rounded-xl w-11/12 p-6 max-h-[80%]"
+          style={{ backgroundColor: Colors[theme].card }}
+        >
+          <Text
+            className="text-lg font-semibold mb-4"
+            style={{ color: Colors[theme].text }}
+          >
             {t("project.selectUsers")}
           </Text>
 
           <TextInput
             placeholder="Search users..."
             placeholderTextColor={{ color: Colors[theme].text }} // 🔹 Əsas dəyişiklik
-
             value={searchText}
             onChangeText={setSearchText}
             className="border border-gray-300 rounded-md px-4 py-2 mb-4"

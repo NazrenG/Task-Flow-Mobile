@@ -15,15 +15,14 @@ import Header from "../../components/Header";
 import CreateProjectModal from "../../components/projectPageComponents/createProjectModal";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
-import { getToken } from "../../secureStore";
+import { getToken, URL } from "../../secureStore";
 import { startSignalRConnection } from "../../SignalR";
 import {
   fetchComplatedProjectCount,
   fetchOnGoingProjectCount,
   fetchPendingProjectCount,
   fetchTotalProjectsCount,
-  URL,
-} from "../../utils/fetchUtils";
+} from "../../utils/projectUtils";
 import CardPagination from "./cardPagination";
 import InProgressProject from "./inProgressProject";
 import RecentAvtivity from "./recentActivity";

@@ -12,7 +12,7 @@ import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
 
 import { Calendar } from "react-native-calendars";
-import { fetchCreateProject } from "../../utils/fetchUtils";
+import { fetchCreateProject } from "../../utils/projectUtils";
 import ProjectStateDropdown from "../dropdown/projectStateDropdown";
 import ProjectInput from "../Input/ProjectInput";
 import ColorPicker from "./colorPicker";

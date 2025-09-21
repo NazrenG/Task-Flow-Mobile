@@ -6,7 +6,7 @@ import { Pressable, Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
-import { fetchDeleteProject } from "../../utils/fetchUtils";
+import { fetchDeleteProject } from "../../utils/projectUtils";
 import EditProjectModal from "../projectPageComponents/editProjectModal";
 import UserSelectorModal from "../projectPageComponents/selectPeople";
 

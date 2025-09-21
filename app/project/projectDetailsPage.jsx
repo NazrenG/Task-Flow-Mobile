@@ -11,7 +11,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { fetchProjectDetail } from "../../utils/fetchUtils";
+import { fetchProjectDetail } from "../../utils/projectUtils";
 import RecentAvtivity from "./recentActivity";
 import { Colors } from "../../constants/Colors";
 import { useTheme } from "../../components/ThemeContext";
@@ -55,8 +55,7 @@ const ViewDetails = () => {
   }, []);
 
   return (
-    <View style={[ {backgroundColor: Colors[theme].background
-} ]}>
+    <View style={[{ backgroundColor: Colors[theme].background }]}>
       <Header />
       <ScrollView
         contentContainerStyle={styles.container}
@@ -64,15 +63,26 @@ const ViewDetails = () => {
       >
         <View style={styles.container}>
           {/* Profile Card */}
-          <View style={[styles.profileCard, { backgroundColor: Colors[theme].card }]}>
+          <View
+            style={[
+              styles.profileCard,
+              { backgroundColor: Colors[theme].card },
+            ]}
+          >
             <Image source={profile.avatar} style={styles.avatar} />
-            <Text style={[styles.name,{ color: Colors[theme].text}]}>{projectDetails.ownerName}</Text>
+            <Text style={[styles.name, { color: Colors[theme].text }]}>
+              {projectDetails.ownerName}
+            </Text>
             <Text style={styles.email}>{projectDetails.ownerEmail}</Text>
           </View>
 
           {/* Info Card */}
-          <View style={[styles.infoCard, { backgroundColor: Colors[theme].card }]}>
-            <Text style={[styles.infoHeader,{ color: Colors[theme].text}]}>{t("userDetail.info")}</Text>
+          <View
+            style={[styles.infoCard, { backgroundColor: Colors[theme].card }]}
+          >
+            <Text style={[styles.infoHeader, { color: Colors[theme].text }]}>
+              {t("userDetail.info")}
+            </Text>
             <InfoRow
               label={t("projectDetails.country")}
               value={projectDetails.country ? projectDetails.country : "--"}
@@ -105,15 +115,19 @@ const ViewDetails = () => {
                     <MaterialIcons name="circle" size={12} color="#c52222" />
                   )}
 
-                  <Text style={styles.statusText}>{t("projectDetails.online")}</Text>
+                  <Text style={styles.statusText}>
+                    {t("projectDetails.online")}
+                  </Text>
                 </View>
               }
             />
           </View>
 
           {/* Project Overview Card */}
-          <View style={[styles.infoCard, { backgroundColor: Colors[theme].card }]}>
-            <Text style={[styles.infoHeader, { color: Colors[theme].text }]} >
+          <View
+            style={[styles.infoCard, { backgroundColor: Colors[theme].card }]}
+          >
+            <Text style={[styles.infoHeader, { color: Colors[theme].text }]}>
               {t("projectDetails.projectOverview")}
             </Text>
             <InfoRow
@@ -150,16 +164,19 @@ const InfoRow = ({ label, value }) => {
   const { theme } = useTheme();
   return (
     <View style={[styles.infoRow, { borderBottomColor: Colors[theme].border }]}>
-      <Text style={[styles.infoLabel, { color: Colors[theme].textSecondary }]}>{label}</Text>
+      <Text style={[styles.infoLabel, { color: Colors[theme].textSecondary }]}>
+        {label}
+      </Text>
       {typeof value === "string" ? (
-        <Text style={[styles.infoValue, { color: Colors[theme].text }]}>{value}</Text>
+        <Text style={[styles.infoValue, { color: Colors[theme].text }]}>
+          {value}
+        </Text>
       ) : (
         value
       )}
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
