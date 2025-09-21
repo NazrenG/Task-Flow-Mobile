@@ -18,7 +18,10 @@ import {
 import Header from "../../components/Header";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
-import { fetchAllFriendsWithChats } from "../../utils/chatUtils";
+import {
+  fetchAllFriendsWithChats,
+  fetchFriendContact,
+} from "../../utils/chatUtils";
 
 export default function Message() {
   const navigation = useNavigation();
@@ -27,11 +30,17 @@ export default function Message() {
   const { t } = useTranslation();
   const [searchText, setSearchText] = useState("");
   const [chatList, setChatList] = useState([]);
-  const [selectedChat, setSelectedChat] = useState(null);
+  const [friendContact, setFriendContact] = useState({});
   const { theme } = useTheme();
 
   const goToChat = () => {
     navigation.navigate("chat/chatDetails");
+  };
+
+  const handleModal = async (friendId) => {
+    const response = await fetchFriendContact(friendId);
+    setFriendContact(response);
+    setModalVisible(true);
   };
 
   useEffect(() => {
@@ -95,8 +104,7 @@ export default function Message() {
                   <View className="flex flex-row justify-between">
                     <Pressable
                       onPress={() => {
-                        setSelectedChat(chat);
-                        setModalVisible(true);
+                        handleModal(chat.friendId);
                       }}
                     >
                       <Image
@@ -180,19 +188,23 @@ export default function Message() {
                   height: width / 2,
                 }}
                 source={
-                  selectedChat?.friendImg
-                    ? selectedChat.friendImg
+                  friendContact?.profileImage
+                    ? friendContact.profileImage
                     : require("../../assets/images/default-user.png")
                 }
               />
               <View className="flex flex-row justify-around w-full ">
-                <Pressable
-                  onPress={() => Linking.openURL("mailto:example@email.com")}
-                >
+                <Pressable onPress={() => Linking.openURL(friendContact.email)}>
                   <Entypo name="mail" size={24} color="black" />
                 </Pressable>
                 <View className="w-px h-7 bg-black" />
-                <Pressable onPress={() => Linking.openURL("tel:+123456789")}>
+                <Pressable
+                  onPress={() => {
+                    friendContact.phoneNumber
+                      ? Linking.openURL(friendContact.phoneNumber)
+                      : console.log("phone is null");
+                  }}
+                >
                   <MaterialIcons name="call" size={24} color="black" />
                 </Pressable>
                 <View className="w-px h-7 bg-black" />
