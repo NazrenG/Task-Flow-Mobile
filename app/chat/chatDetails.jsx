@@ -1,30 +1,42 @@
+import { useTheme } from "@/components/ThemeContext";
+import { Colors } from "@/constants/Colors";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import LottieView from "lottie-react-native";
+import { useEffect, useState } from "react";
 import {
   Dimensions,
   Image,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
   Pressable,
   ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { useTheme } from "@/components/ThemeContext";
-import { Colors } from "@/constants/Colors";
+import { fetchAllMessages } from "../../utils/chatUtils";
 
 const ChatDetail = () => {
   const navigation = useNavigation();
   const width = Dimensions.get("window").width;
   const [text, setText] = useState("");
+  const route = useRoute();
+  const { email } = route.params;
   const { theme } = useTheme();
+  const [messageList, setMessageList] = useState([]);
+  const [friend, setFriend] = useState([]);
 
+  const handleSendBtn = async () => {};
+
+  useEffect(() => {
+    const getDatas = async () => {
+      const response = await fetchAllMessages(email);
+      setMessageList(response.list);
+      setFriend(response.friend);
+    };
+    getDatas();
+  }, []);
   return (
     <View style={{ flex: 1, backgroundColor: Colors[theme].background }}>
       {/* Header */}
@@ -37,17 +49,21 @@ const ChatDetail = () => {
         </Pressable>
         <Image
           style={{ width: width / 9, height: width / 9 }}
-          source={require("../../assets/images/default-user.png")}
+          source={
+            friend.image
+              ? friend.image
+              : require("../../assets/images/default-user.png")
+          }
         />
         <View>
           <Text
             className="text-lg font-bold"
             style={{ color: Colors[theme].text }}
           >
-            Sevgi
+            {friend.fullname}
           </Text>
           <Text style={{ color: Colors[theme].placeholder, marginTop: 4 }}>
-            online
+            {friend.inOnline ? "Online" : "Offline"}
           </Text>
         </View>
       </View>
@@ -55,45 +71,75 @@ const ChatDetail = () => {
       {/* Messages */}
       <ScrollView
         style={{ flex: 1 }}
-        keyboardShouldPersistTaps="handled"  // buranı əlavə etdim
+        keyboardShouldPersistTaps="handled" // buranı əlavə etdim
       >
-        {/* Receiver message */}
-        <View style={{ width: width, padding: 10, alignItems: "flex-start" }}>
-          <View className="flex flex-row gap-3">
-            <Image
-              style={{ width: width / 9, height: width / 9 }}
-              source={require("../../assets/images/default-user.png")}
+        {messageList.length > 0 ? (
+          messageList.map((msg, index) =>
+            msg.isSender ? (
+              <View
+                key={index}
+                style={{ width: width, padding: 10, alignItems: "flex-end" }}
+              >
+                <View className="flex flex-row-reverse gap-3">
+                  <Image
+                    style={{ width: width / 10, height: width / 10 }}
+                    source={
+                      msg.image
+                        ? msg.image
+                        : require("../../assets/images/default-user.png")
+                    }
+                  />
+                  <View
+                    style={{
+                      backgroundColor: Colors.secondary.bg_violet,
+                      borderRadius: 10,
+                      padding: 12,
+                    }}
+                  >
+                    <Text style={{ color: Colors.light.text }}>{msg.text}</Text>
+                  </View>
+                </View>
+              </View>
+            ) : (
+              <View
+                key={index}
+                style={{ width: width, padding: 10, alignItems: "flex-start" }}
+              >
+                <View className="flex flex-row gap-3">
+                  <Image
+                    style={{ width: width / 9, height: width / 9 }}
+                    source={
+                      msg.image
+                        ? msg.image
+                        : require("../../assets/images/default-user.png")
+                    }
+                  />
+                  <View
+                    style={{
+                      backgroundColor: Colors.secondary.bg_violet,
+                      borderRadius: 10,
+                      padding: 12,
+                    }}
+                  >
+                    <Text style={{ color: Colors.light.text }}>{msg.text}</Text>
+                  </View>
+                </View>
+              </View>
+            )
+          )
+        ) : (
+          <View style={{ alignItems: "center", marginTop: 40 }}>
+            <LottieView
+              source={require("../../assets/animations/Hello.json")}
+              autoPlay
+              loop
+              style={{ width: 300, height: 300 }}
             />
-            <View
-              style={{
-                backgroundColor: Colors.secondary.bg_violet,
-                borderRadius: 10,
-                padding: 12,
-              }}
-            >
-              <Text style={{ color: Colors.light.text }}>Hi!</Text>
-            </View>
+            <Text style={{ fontSize: 18, marginTop: 10, fontWeight: "500" }}>
+              Say Hi!
+            </Text>
           </View>
-        </View>
-
-        {/* Sender message */}
-        <View style={{ width: width, padding: 10, alignItems: "flex-end" }}>
-          <View className="flex flex-row-reverse gap-3">
-            <Image
-              style={{ width: width / 10, height: width / 10 }}
-              source={require("../../assets/images/default-user.png")}
-            />
-            <View
-              style={{
-                backgroundColor: Colors.secondary.bg_violet,
-                borderRadius: 10,
-                padding: 12,
-              }}
-            >
-              <Text style={{ color: Colors.light.text }}>hello!</Text>
-            </View>
-          </View>
-        </View>
+        )}
       </ScrollView>
 
       {/* Footer */}

@@ -18,6 +18,8 @@ import {
 import Header from "../../components/Header";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
+import { getToken, URL } from "../../secureStore";
+import { startSignalRConnection } from "../../SignalR";
 import {
   fetchAllFriendsWithChats,
   fetchFriendContact,
@@ -33,8 +35,10 @@ export default function Message() {
   const [friendContact, setFriendContact] = useState({});
   const { theme } = useTheme();
 
-  const goToChat = () => {
-    navigation.navigate("chat/chatDetails");
+  const goToChat = (email) => {
+    navigation.navigate("chat/chatDetails", {
+      email: email,
+    });
   };
 
   const handleModal = async (friendId) => {
@@ -43,15 +47,26 @@ export default function Message() {
     setModalVisible(true);
   };
 
-  useEffect(() => {
-    const getData = async () => {
-      console.log("in useeffect message");
-      const response = await fetchAllFriendsWithChats();
-      console.log("response chat: " + JSON.stringify(response));
+  const getData = async () => {
+    console.log("in useeffect message");
+    const response = await fetchAllFriendsWithChats();
+    console.log("response chat: " + JSON.stringify(response));
 
-      setChatList(response);
-    };
+    setChatList(response);
+  };
+  useEffect(() => {
     getData();
+  }, []);
+
+  useEffect(() => {
+    const hubConnection = async () => {
+      const token = getToken("authToken");
+      const conn = await startSignalRConnection(URL, token);
+      conn.on("UpdateMessageFriendList", () => {
+        getData();
+      });
+    };
+    hubConnection();
   }, []);
 
   return (
@@ -112,11 +127,15 @@ export default function Message() {
                           width: width / 9,
                           height: width / 9,
                         }}
-                        source={require("../../assets/images/default-user.png")}
+                        source={
+                          chat.friendImg
+                            ? chat.friendImg
+                            : require("../../assets/images/default-user.png")
+                        }
                       />
                     </Pressable>
                     <Pressable
-                      onPress={goToChat}
+                      onPress={() => goToChat(chat.friendEmail)}
                       className="ml-3"
                       style={{
                         width: width / 2 - 17,
@@ -140,7 +159,9 @@ export default function Message() {
                           color="black"
                         />
                       </Pressable>
-                      <Text className="text-gray-400">6/12/2025</Text>
+                      <Text className="text-gray-400">
+                        {chat.recentMessageDate}
+                      </Text>
                     </View>
                   </View>
                   <View
@@ -210,7 +231,9 @@ export default function Message() {
                 <View className="w-px h-7 bg-black" />
                 <Pressable
                   onPress={() => {
-                    navigation.navigate("chat/chatDetails");
+                    navigation.navigate("chat/chatDetails", {
+                      email: friendContact.email,
+                    });
                     setModalVisible(false);
                   }}
                 >
