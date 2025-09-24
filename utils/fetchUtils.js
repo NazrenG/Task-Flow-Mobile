@@ -1,4 +1,4 @@
-import { deleteToken, getToken, saveToken, URL } from "../secureStore";
+import { saveToken, URL } from "../secureStore";
 import { startSignalRConnection } from "../SignalR";
 
 ///// AUTH FETCHES
@@ -58,7 +58,6 @@ export const fetchSignIn = async (username, password) => {
       // console.log("token: " + data.token);
       saveToken("authToken", data.token);
       await startSignalRConnection({
-        hubUrl: URL.replace(/\/api$/, "") + "/hubs/connection",
         accessToken: data.token,
       });
       return true;

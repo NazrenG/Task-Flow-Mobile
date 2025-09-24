@@ -15,7 +15,7 @@ import Header from "../../components/Header";
 import CreateProjectModal from "../../components/projectPageComponents/createProjectModal";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
-import { getToken, URL } from "../../secureStore";
+import { getToken } from "../../secureStore";
 import { startSignalRConnection } from "../../SignalR";
 import {
   fetchComplatedProjectCount,
@@ -65,7 +65,7 @@ const ProjectPage = () => {
   useEffect(() => {
     const hubConnection = async () => {
       const token = getToken("authToken");
-      const conn = await startSignalRConnection(URL, token);
+      const conn = await startSignalRConnection(token);
       conn.on("UpdateTotalProjects", () => {
         getDatas();
       });

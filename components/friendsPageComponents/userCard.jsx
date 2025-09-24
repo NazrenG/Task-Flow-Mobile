@@ -41,7 +41,7 @@ const UserCard = ({ user }) => {
       console.log("Follow request sent successfully");
 
       const token = getToken("authToken");
-      const conn = await startSignalRConnection(URL, token);
+      const conn = await startSignalRConnection(token);
       conn.invoke("SendFollow");
     } catch (error) {
       console.error("Error sending follow request:", error);

@@ -1,9 +1,10 @@
 // signalRService.js
 import * as signalR from "@microsoft/signalr";
-
+import { URL } from "./secureStore";
 let connection = null;
 
-export async function startSignalRConnection({ hubUrl, accessToken }) {
+export async function startSignalRConnection({ accessToken }) {
+  const hubUrl = URL.replace(/\/api$/, "") + "/hubs/connection";
   if (connection && connection.state === "Connected") return connection;
 
   connection = new signalR.HubConnectionBuilder()

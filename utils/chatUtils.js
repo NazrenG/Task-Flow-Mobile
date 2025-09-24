@@ -90,12 +90,16 @@ export const fetchSendMessage = async (friendEmail, isImage, text) => {
       body: JSON.stringify({ friendEmail, isImage, text }),
     });
 
+    let result;
     if (response.ok) {
       const data = await response.json();
       console.log("all messages: " + JSON.stringify(data));
-      return data;
+      result = { ok: true, data: data };
+      return result;
     } else {
+      result = { ok: false };
       console.log("response not ok: " + JSON.stringify(response));
+      return result;
     }
   } catch (error) {
     console.log("error in fetchAllMessages: " + error);

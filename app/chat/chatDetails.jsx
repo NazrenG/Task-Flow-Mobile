@@ -4,7 +4,7 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import LottieView from "lottie-react-native";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Dimensions,
   Image,
@@ -15,7 +15,9 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { fetchAllMessages } from "../../utils/chatUtils";
+import { startSignalRConnection } from "../../SignalR";
+import { getToken } from "../../secureStore";
+import { fetchAllMessages, fetchSendMessage } from "../../utils/chatUtils";
 
 const ChatDetail = () => {
   const navigation = useNavigation();
@@ -26,8 +28,67 @@ const ChatDetail = () => {
   const { theme } = useTheme();
   const [messageList, setMessageList] = useState([]);
   const [friend, setFriend] = useState([]);
+  const connectionRef = useRef(null);
 
-  const handleSendBtn = async () => {};
+  const handleSendBtn = async () => {
+    const response = await fetchSendMessage(email, false, text);
+    console.log("handle message send: " + JSON.stringify(response));
+    if (response.ok) {
+      console.log("in resp ok");
+      GetMessageCall(response.data.friendId, response.data.senderId);
+    }
+  };
+
+  const GetMessageCall = async (receiverId, senderId) => {
+    const conn = connectionRef.current;
+    if (conn && conn.state === "Connected") {
+      try {
+        await conn.invoke("GetMessages", receiverId, senderId);
+        console.log("GetMessages invoked successfully.");
+      } catch (err) {
+        console.error("Error invoking GetMessages:", err);
+      }
+    } else {
+      console.error("No active SignalR connection.");
+    }
+  };
+
+  useEffect(() => {
+    const setupSignalR = async () => {
+      try {
+        const token = await getToken("authToken");
+        const conn = await startSignalRConnection(token);
+
+        connectionRef.current = conn; // store for reuse
+
+        if (connectionRef.current.state === "Connected") {
+          connectionRef.current.on("ReceiveMessages2", async (mail) => {
+            console.log("Received via SignalR:", mail);
+            const response = await fetchAllMessages(mail);
+            setMessageList(response.list);
+            setFriend(response.friend);
+          });
+          console.log("SignalR connected & listener added.");
+        } else {
+          console.error(" SignalR connection not in Connected state.");
+        }
+      } catch (err) {
+        console.error(" Error setting up SignalR:", err);
+      }
+    };
+
+    setupSignalR();
+
+    // Cleanup on unmount
+    return () => {
+      if (connectionRef.current) {
+        connectionRef.current.off("ReceiveMessages2");
+        connectionRef.current.stop();
+        connectionRef.current = null;
+        console.log(" SignalR connection stopped.");
+      }
+    };
+  }, [email]);
 
   useEffect(() => {
     const getDatas = async () => {
@@ -96,7 +157,9 @@ const ChatDetail = () => {
                       padding: 12,
                     }}
                   >
-                    <Text style={{ color: Colors.light.text }}>{msg.text}</Text>
+                    <Text style={{ color: Colors.light.text }}>
+                      {msg.message}
+                    </Text>
                   </View>
                 </View>
               </View>
@@ -121,7 +184,9 @@ const ChatDetail = () => {
                       padding: 12,
                     }}
                   >
-                    <Text style={{ color: Colors.light.text }}>{msg.text}</Text>
+                    <Text style={{ color: Colors.light.text }}>
+                      {msg.message}
+                    </Text>
                   </View>
                 </View>
               </View>
@@ -183,6 +248,7 @@ const ChatDetail = () => {
 
         <View>
           <TouchableOpacity
+            onPress={handleSendBtn}
             className="p-3 flex justify-center items-center"
             style={{
               borderRadius: 100,

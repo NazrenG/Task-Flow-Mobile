@@ -13,7 +13,7 @@ import RoundedButton from "../../components/Button/RoundedButton";
 import ProjectActionsDropdown from "../../components/dropdown/projectActionsDropdown";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
-import { getToken, URL } from "../../secureStore";
+import { getToken } from "../../secureStore";
 import { startSignalRConnection } from "../../SignalR";
 import {
   fetchFilteredProjects,
@@ -64,7 +64,7 @@ const CardPagination = () => {
   useEffect(() => {
     const hubConnection = async () => {
       const token = getToken("authToken");
-      const conn = await startSignalRConnection(URL, token);
+      const conn = await startSignalRConnection(token);
       conn.on("ReceiveProjectUpdate", () => {
         getDatas();
       });

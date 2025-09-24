@@ -6,7 +6,7 @@ import { Dimensions, ScrollView, Text, View } from "react-native";
 import * as Progress from "react-native-progress";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
-import { getToken, URL } from "../../secureStore";
+import { getToken } from "../../secureStore";
 import { startSignalRConnection } from "../../SignalR";
 import { fetchOnGoingProjectsList } from "../../utils/projectUtils";
 
@@ -38,7 +38,7 @@ const InProgressProject = () => {
   useEffect(() => {
     const hubConnection = async () => {
       const token = getToken("authToken");
-      const conn = await startSignalRConnection(URL, token);
+      const conn = await startSignalRConnection(token);
       conn.on("RecieveInProgressUpdate", () => {
         console.log("in RecieveInProgressUpdate");
         getDatas();

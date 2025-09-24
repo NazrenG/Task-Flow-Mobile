@@ -1,6 +1,6 @@
 import * as SecureStore from "expo-secure-store";
 
-export const URL = "https://ce087ab095c2.ngrok-free.app/api";
+export const URL = "https://ced49689383e.ngrok-free.app/api";
 
 export async function saveToken(key, value) {
   try {

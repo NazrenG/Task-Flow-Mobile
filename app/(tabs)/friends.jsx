@@ -203,7 +203,7 @@ export default function Friends() {
   useEffect(() => {
     const hubConnection = async () => {
       const token = getToken("authToken");
-      const conn = await startSignalRConnection(URL, token);
+      const conn = await startSignalRConnection(token);
       conn.on("UpdateUserActivity", () => {
         fetchData();
       });
