@@ -1,7 +1,7 @@
 import Card from "@/components/Card/Card";
 import { MaterialIcons } from "@expo/vector-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Dimensions,
@@ -24,6 +24,10 @@ import {
 import CardPagination from "./cardPagination";
 import InProgressProject from "./inProgressProject";
 import RecentAvtivity from "./recentActivity";
+import TeamMembers from "../../components/teammember/TeamMember";  // import elə
+import { Animated } from "react-native"; 
+import { useRouter } from "expo-router";
+
 
 const width = Dimensions.get("window").width;
 const ProjectPage = () => {
@@ -36,6 +40,28 @@ const ProjectPage = () => {
   console.log("is modal on: " + modalVisible);
   const { theme } = useTheme();
   const colors = Colors[theme];
+const router = useRouter();
+
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  const handlePressIn = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 0.9,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handlePressOut = () => {
+  Animated.spring(scaleAnim, {
+    toValue: 1,
+    friction: 3,
+    tension: 40,
+    useNativeDriver: true,
+  }).start();
+  
+  router.push("/kanban/KanbanScreen"); // burda yönləndirməni edirik
+};
+  
 
   useEffect(() => {
     const getDatas = async () => {
@@ -127,7 +153,11 @@ const ProjectPage = () => {
             <Text className="text-white font-bold text-base">
               {t("project.createProject")}
             </Text>
+            
           </Pressable>
+
+          
+
           {/** divide*/}
           <View className="w-full h-[1px] bg-gray-200 my-2" />
           <View
@@ -136,6 +166,7 @@ const ProjectPage = () => {
           >
             <CardPagination></CardPagination>
           </View>
+          <TeamMembers></TeamMembers>
           {/* <View className="h-[25vh] w-full my-1"> */}
           <InProgressProject></InProgressProject>
           {/* </View> */}
@@ -143,6 +174,29 @@ const ProjectPage = () => {
           <RecentAvtivity></RecentAvtivity>
           {/* </View> */}
         </ScrollView>
+<Animated.View
+  style={{
+    position: "absolute",
+    bottom: 30,
+    right: 20,
+    transform: [{ scale: scaleAnim }],
+  }}
+>
+  <Pressable
+    className="bg-navyBlue p-4 rounded-full items-center justify-center"
+    style={{
+      width: 60,
+      height: 60,
+      borderRadius: 30,
+    }}
+    onPressIn={handlePressIn}
+    onPressOut={handlePressOut}
+  >
+    <MaterialIcons name="dashboard" size={28} color="white" />
+  </Pressable>
+</Animated.View>
+
+
         {modalVisible ? (
           <CreateProjectModal
             modalVisible={modalVisible}

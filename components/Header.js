@@ -83,13 +83,13 @@ export default function Header({ onSearch }) {
         </View>
 
         {/* 🌙/☀️ Toggle */}
-        <TouchableOpacity onPress={toggleTheme}>
+        {/* <TouchableOpacity onPress={toggleTheme}>
           <Ionicons
             name={theme === "dark" ? "moon" : "sunny"}
             size={24}
             color={Colors[theme].icon}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </SafeAreaView>
   );

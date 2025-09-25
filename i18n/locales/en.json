@@ -226,4 +226,110 @@
     "errorMessage": "Error",
     "successMessage": "Success"
   }
+
+  ,
+  "error":{
+    "usernotFound":"User not found.",
+    "noworkfound":"No works found for the current user.",
+    "userNotAuth":"User not authenticated.",
+    "errortext":"Error",
+
+
+    "auth":{
+      "userCreationFailed":"User creation failed.",
+      "failedToDelete":"Failed to delete user account."
+    
+    },
+    "chat":{
+          "userNotAuth":"User not authenticated.",
+      "invalidToken":"Invalid token or user not found"
+    },
+    "friend":{
+      "friendNotFound":"Friend not found.",
+      "alreadyFriends":"You are already friends with this user.",
+      "acceptRequestFailed":"Failed to accept friend request."
+    },
+    "notification":{
+      "receiverNotFound":"Notification receiver not found.",
+      "deleteMessageFailed":"Failed to delete notification message.",
+      "requestNotFaund":"Request not found.",
+      "notFoundMessage":"not found message"
+
+    },
+    "profile":{
+      "thismaildosenotexist":"This email does not exist.",
+      "verificationcodesent":"Verification code sent to your email.",
+      "passwordreset":"Password reset successfully.",
+      "invalidcode":"Invalid verification code.",
+      "invaliddata":"Invalid data provided.",
+      "userNotAuth":"User not authenticated."
+    },
+    "project":{
+      "projectNotFound":"Project not found.",
+      "notProjectMember":"You are not a member of this project.",
+      "failedToCreateProject":"Failed to create project.",
+      "failedToUpdateProject":"Failed to update project.",
+      "failedToDeleteProject":"Failed to delete project.",
+      "titleRequired":"Title is required.",
+      "anErrorOccured":"An error occurred.",
+      "youDoNotHavePermission":"You do not have permission to update tasks in this project.",
+      "invalidToken":"Invalid token or user not found"
+
+
+
+    },
+    "task":{
+      "taskNotFound":"Task not found.",
+      "notTaskAssignee":"You are not the assignee of this task.",
+    "youDoNotTaskProject":"You do not have permission to update tasks in this project.",
+      "thisTitleAlready" :"this title already has."
+    },
+    "work":{
+      "workNotFound":"Work not found.",
+      "notWorkAssignee":"You are not the assignee of this work.",
+      "youDoNotHavePermission":"You do not have permission to update works in this task."
+    }
+
+
+  }
+  ,
+  "succesfuly":{
+    "updatesuccesfuly":"update succesfuly",
+    "deletesuccesfuly":"delete succesfuly",
+    "auth":{
+      "userCreated":"User created successfully.",
+      "accountDeleted":"Account deleted successfully"
+    },
+    "friend":{
+      "acceptRequestSuccesfuly":"accept request succesfuly",
+      "friendrequestnotfound":"Friend request not found or not deletable.",
+      "friendrequestdelete":"Friend request deleted successfully."
+    },
+    "profile":{
+      "codeverified":"code verified succesfuly",
+      "editsuccesfuly":"edit succesfuly",
+      "addoccupation":"add occupation succesfuly",
+      "logoutsuccesfuly":"logout succesfuly",
+      "changepassword":"Change password succesfuly",
+      "thismaildosenotexist":"This Mail Does Not Exist!",
+      "verificationcodesent":"Verification code sent"
+    },
+    "teammember":{
+      "nomember":"No member",
+      "addmember":"Team members added successfully!"
+
+    },
+    "notification":{
+
+      "deletemessage":"delete message succesfuly",
+      "notificationsetting":"notification setting",
+      "newnotification":"new notification service",
+      "activityAdded":"Activity added succesfuly",
+      "deleteRequest":"Delete request notification succesfully",
+      "acceptRequest":"Accept request succesfuly "
+
+    }
+    
+
+  }
 }

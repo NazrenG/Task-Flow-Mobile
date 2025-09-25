@@ -14,6 +14,7 @@ import {
   View,
 } from "react-native";
 
+import { useRouter } from "expo-router";
 import { useTheme } from "../../components/ThemeContext";
 import { Colors } from "../../constants/Colors";
 
@@ -25,6 +26,7 @@ export default function Dashboard() {
   };
   const { t } = useTranslation();
   const { theme } = useTheme();
+const router = useRouter();
 
   const cardData = [
     {
@@ -68,8 +70,8 @@ export default function Dashboard() {
                   {t("dashboard.organizeTasks")}
                 </Text>
               </View>
-              <View className="bg-white rounded-lg shadow-lg px-3 py-2 ml-2">
-                <Text className="text-navyBlue font-medium text-sm">
+              <View className="bg-white rounded-lg shadow-lg px-3 py-2 ml-2" >
+                <Text className="text-navyBlue font-medium text-sm" onPress={() => router.push("/project/projectPage")}>
                   {t("dashboard.tryNow")}
                 </Text>
               </View>
@@ -108,7 +110,7 @@ export default function Dashboard() {
             ))}
 
             <View className="bg-navyBlue flex-[0.48] items-center justify-center p-3 rounded-xl shadow-md">
-              <Text className="text-white font-extrabold text-xl mb-1">
+              <Text className="text-white font-extrabold text-xl mb-1" onPress={() => router.push("/tasks/TaskScreen")}>
                 {t("dashboard.createtask")}
               </Text>
               <FontAwesome6 name="plus" size={15} color="white" />
